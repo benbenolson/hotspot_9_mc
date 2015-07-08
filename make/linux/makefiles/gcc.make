@@ -337,7 +337,7 @@ ifeq ($(USE_CLANG), true)
 endif
 
 # Allow no optimizations.
-DEBUG_CFLAGS=-O0
+DEBUG_CFLAGS=-O0 -ggdb3
 
 # DEBUG_BINARIES uses full -g debug information for all configs
 ifeq ($(DEBUG_BINARIES), true)

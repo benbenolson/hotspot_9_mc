@@ -4336,6 +4336,17 @@ void MacroAssembler::testptr(Register dst, Register src) {
   LP64_ONLY(testq(dst, src)) NOT_LP64(testl(dst, src));
 }
 
+#ifdef COLORED_TLABS
+// Defines obj, preserves var_size_in_bytes, okay for t2 == var_size_in_bytes.
+void MacroAssembler::tlab_allocate(Register obj,
+                                   Register var_size_in_bytes,
+                                   int con_size_in_bytes,
+                                   Register t1,
+                                   Register t2,
+                                   Label& slow_case) {
+  ShouldNotReachHere();
+}
+#else
 // Defines obj, preserves var_size_in_bytes, okay for t2 == var_size_in_bytes.
 void MacroAssembler::tlab_allocate(Register obj,
                                    Register var_size_in_bytes,
@@ -4370,7 +4381,15 @@ void MacroAssembler::tlab_allocate(Register obj,
   }
   verify_tlab();
 }
+#endif
 
+#ifdef COLORED_TLABS
+Register MacroAssembler::tlab_refill(Label& retry,
+                                     Label& try_eden,
+                                     Label& slow_case) {
+  ShouldNotReachHere();
+}
+#else
 // Preserves rbx, and rdx.
 Register MacroAssembler::tlab_refill(Label& retry,
                                      Label& try_eden,
@@ -4477,6 +4496,7 @@ Register MacroAssembler::tlab_refill(Label& retry,
 
   return thread_reg; // for use by caller
 }
+#endif
 
 void MacroAssembler::incr_allocated_bytes(Register thread,
                                           Register var_size_in_bytes,
@@ -5230,6 +5250,7 @@ void MacroAssembler::verify_oop_addr(Address addr, const char* s) {
 
 void MacroAssembler::verify_tlab() {
 #ifdef ASSERT
+#ifndef COLORED_TLABS
   if (UseTLAB && VerifyOops) {
     Label next, ok;
     Register t1 = rsi;
@@ -5256,6 +5277,7 @@ void MacroAssembler::verify_tlab() {
     NOT_LP64(pop(thread_reg));
     pop(t1);
   }
+#endif
 #endif
 }
 
@@ -5656,7 +5678,7 @@ void MacroAssembler::store_klass(Register dst, Register src) {
 }
 
 void MacroAssembler::load_heap_oop(Register dst, Address src) {
-#ifdef _LP64
+  /* MRJ -- increment load count */
   // FIXME: Must change all places where we try to load the klass.
   if (UseCompressedOops) {
     movl(dst, src);
@@ -5668,13 +5690,12 @@ void MacroAssembler::load_heap_oop(Register dst, Address src) {
 
 // Doesn't do verfication, generates fixed size code
 void MacroAssembler::load_heap_oop_not_null(Register dst, Address src) {
-#ifdef _LP64
   if (UseCompressedOops) {
     movl(dst, src);
     decode_heap_oop_not_null(dst);
-  } else
-#endif
+  } else {
     movptr(dst, src);
+  }
 }
 
 void MacroAssembler::store_heap_oop(Address dst, Register src) {
@@ -5683,9 +5704,10 @@ void MacroAssembler::store_heap_oop(Address dst, Register src) {
     assert(!dst.uses(src), "not enough registers");
     encode_heap_oop(src);
     movl(dst, src);
-  } else
+  } else {
 #endif
     movptr(dst, src);
+  }
 }
 
 void MacroAssembler::cmp_heap_oop(Register src1, Address src2, Register tmp) {

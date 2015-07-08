@@ -120,7 +120,7 @@ SIMPLE_DIRS	= \
 	$(PLATFORM_DIR)/generated/jvmtifiles \
 	$(PLATFORM_DIR)/generated/tracefiles
 
-TARGETS      = debug fastdebug optimized product
+TARGETS      = debug fastdebug jvmg optimized product profiled objprofile objprofile2 colorededen coloredtlabs objaddr
 SUBMAKE_DIRS = $(addprefix $(PLATFORM_DIR)/,$(TARGETS))
 
 # For dependencies and recursive makes.

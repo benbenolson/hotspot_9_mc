@@ -59,8 +59,10 @@ VPATH += $(Src_Dirs_V:%=%:)
 
 # set INCLUDES for C preprocessor.
 Src_Dirs_I += $(GENERATED)
-# The order is important for the precompiled headers to work.
+#The order is important for the precompiled headers to work.
+#RaplDir_I = /opt/power_gov
 INCLUDES += $(PRECOMPILED_HEADER_DIR:%=-I%) $(Src_Dirs_I:%=-I%)
+#INCLUDES += $(PRECOMPILED_HEADER_DIR:%=-I%) $(Src_Dirs_I:%=-I%) $(RaplDir_I:%=-I%)
 
 # SYMFLAG is used by {jsig,saproc}.make
 ifeq ($(ENABLE_FULL_DEBUG_SYMBOLS),1)
@@ -123,6 +125,8 @@ LFLAGS += $(EXTRA_CFLAGS)
 LFLAGS += -Xlinker -z -Xlinker noexecstack
 
 LIBS += -lm -ldl -lpthread
+#LIBS += -lm -ldl -lpthread -lrapl
+#LIBS += -lm -ldl -lpthread -ljantz
 
 # By default, link the *.o into the library, not the executable.
 LINK_INTO$(LINK_INTO) = LIBJVM
