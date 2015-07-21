@@ -52,6 +52,10 @@ void PSPromotionLAB::initialize(MemRegion lab) {
   if (free() > 0) {
     if (ZapUnusedHeapArea) {
       debug_only(Copy::fill_to_words(top(), free()/HeapWordSize, badHeapWord));
+#ifdef PROFILE_OBJECT_INFO
+    } else if (ProfileObjectInfo) {
+      Copy::fill_to_words(top(), free()/HeapWordSize, badHeapWord);
+#endif
     }
 
     // NOTE! We need to allow space for a filler object.
@@ -93,6 +97,23 @@ void PSPromotionLAB::flush() {
   // Note that we actually DO NOT want to use the aligned header size!
   HeapWord* elt_words = ((HeapWord*)filler_oop) + typeArrayOopDesc::header_size(T_INT);
   Copy::fill_to_words(elt_words, array_length, 0xDEAABABE);
+#else
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    HeapWord* elt_words = ((HeapWord*)filler_oop) + typeArrayOopDesc::header_size(T_INT);
+    Copy::fill_to_words(elt_words, array_length, 0xDEAABABE);
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
+    //alt_oait->mark_known_free(filler_oop);
+    alt_oait->insert(filler_oop, filler_oop->size(), FILLER_KLASS, FILLER_OBJECT);
+    alt_oait->mark_filler(filler_oop, filler_oop->size());
+    //tty->print_cr("marked filler oop %p %d bytes",
+    //  filler_oop, (filler_oop->size()*HeapWordSize));
+  }
 #endif
 
   set_bottom(NULL);
@@ -135,6 +156,19 @@ void PSOldPromotionLAB::flush() {
 }
 
 #ifdef ASSERT
+
+bool PSColoredSpacePromotionLAB::lab_is_valid(MemRegion lab) {
+  ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+  assert(heap->kind() == CollectedHeap::ParallelScavengeHeap, "Sanity");
+  assert(_colored_space != NULL, "null colored space");
+
+  MemRegion used = _colored_space->used_region();
+  if (used.contains(lab)) {
+    return true;
+  }
+
+  return false;
+}
 
 bool PSYoungPromotionLAB::lab_is_valid(MemRegion lab) {
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();

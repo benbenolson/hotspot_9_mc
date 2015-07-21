@@ -724,6 +724,12 @@ HeapWord* G1CollectedHeap::humongous_obj_allocate(size_t word_size, AllocationCo
   return result;
 }
 
+#ifdef COLORED_TLABS
+HeapWord* G1CollectedHeap::allocate_new_tlab(size_t word_size, HeapColor color) {
+    ShouldNotReachHere();
+      return NULL;
+}
+#endif
 HeapWord* G1CollectedHeap::allocate_new_tlab(size_t word_size) {
   assert_heap_not_locked_and_not_at_safepoint();
   assert(!is_humongous(word_size), "we do not allow humongous TLABs");
@@ -788,6 +794,15 @@ G1CollectedHeap::mem_allocate(size_t word_size,
 
   ShouldNotReachHere();
   return NULL;
+}
+
+HeapWord*
+G1CollectedHeap::mem_allocate(size_t word_size,
+                              bool   is_noref,
+                              bool   is_tlab,
+                              bool*  gc_overhead_limit_was_exceeded,
+                              HeapColor color) {
+  return mem_allocate(word_size, is_noref, is_tlab, gc_overhead_limit_was_exceeded);
 }
 
 HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,

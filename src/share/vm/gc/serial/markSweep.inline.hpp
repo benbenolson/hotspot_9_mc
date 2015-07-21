@@ -38,6 +38,8 @@
 #if INCLUDE_ALL_GCS
 #include "gc/g1/g1StringDedup.hpp"
 #endif // INCLUDE_ALL_GCS
+#include "memory/heapInspection.hpp"
+
 
 inline void MarkSweep::mark_object(oop obj) {
 #if INCLUDE_ALL_GCS
@@ -120,6 +122,23 @@ template <class T> inline void MarkSweep::adjust_pointer(T* p) {
       assert(Universe::heap()->is_in_reserved(new_obj),
              "should be in object space");
       oopDesc::encode_store_heap_oop_not_null(p, new_obj);
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+      if (ProfileObjectAddressInfo) {
+        ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+        ObjectAddressInfo *oai;
+        if ((oai = oait->lookup(obj))) {
+          ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
+          //tty->print_cr("ay: %p", oai->klass_record()->klass());
+          klassOop klass = ProfileObjectFieldInfo ?
+                           oai->klass_record()->klass() : NULL;
+          ObjectAddressInfo *alt_oai = alt_oait->insert(new_obj, oai->size(),
+                                                        klass, oai->type());
+          if (alt_oai) {
+            alt_oai->set_type(oai->type());
+          }
+        }
+      }
+#endif
     }
   }
 }

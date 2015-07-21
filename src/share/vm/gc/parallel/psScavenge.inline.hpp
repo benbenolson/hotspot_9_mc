@@ -31,20 +31,121 @@
 #include "gc/parallel/psScavenge.hpp"
 #include "memory/iterator.hpp"
 #include "utilities/globalDefinitions.hpp"
+#include "gc_implementation/shared/mutableColoredSpace.hpp"
+#include <string.h>
 
 inline void PSScavenge::save_to_space_top_before_gc() {
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
   _to_space_top_before_gc = heap->young_gen()->to_space()->top();
 }
 
-template <class T> inline bool PSScavenge::should_scavenge(T* p) {
+#if 0
+#ifdef COLORED_EDEN_SPACE
+inline void PSScavenge::save_eden_colored_space_bounds() {
+  assert(UseColoredSpaces, "only used with colors");
+  ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+
+  _eden_colored_space_top[HC_RED]  = 
+    ((MutableColoredSpace*)heap->young_gen()->eden_space())->
+     colored_spaces()->at(HC_RED)->space()->top();
+  _eden_colored_space_top[HC_BLUE] =
+    ((MutableColoredSpace*)heap->young_gen()->eden_space())->
+     colored_spaces()->at(HC_BLUE)->space()->top();
+  _eden_colored_space_bottom[HC_RED]  =
+    ((MutableColoredSpace*)heap->young_gen()->eden_space())->
+     colored_spaces()->at(HC_RED)->space()->bottom();
+  _eden_colored_space_bottom[HC_BLUE] =
+    ((MutableColoredSpace*)heap->young_gen()->eden_space())->
+     colored_spaces()->at(HC_BLUE)->space()->bottom();
+}
+#else
+inline void PSScavenge::save_eden_space_bounds() {
+  assert(UseColoredSpaces, "only used with colors");
+  ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+
+  _eden_space_top = heap->young_gen()->eden_space()->top();
+  _eden_space_bottom = heap->young_gen()->eden_space()->bottom();
+}
+#endif
+#else
+inline void PSScavenge::save_eden_colored_space_bounds() {
+  assert(UseColoredSpaces, "only used with colors");
+  ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+
+  _eden_colored_space_top[HC_RED]  =
+    ((MutableColoredSpace*)heap->young_gen()->eden_space())->
+     colored_spaces()->at(HC_RED)->space()->top();
+  _eden_colored_space_top[HC_BLUE] =
+    ((MutableColoredSpace*)heap->young_gen()->eden_space())->
+     colored_spaces()->at(HC_BLUE)->space()->top();
+  _eden_colored_space_bottom[HC_RED]  =
+    ((MutableColoredSpace*)heap->young_gen()->eden_space())->
+     colored_spaces()->at(HC_RED)->space()->bottom();
+  _eden_colored_space_bottom[HC_BLUE] =
+    ((MutableColoredSpace*)heap->young_gen()->eden_space())->
+     colored_spaces()->at(HC_BLUE)->space()->bottom();
+}
+#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
+
+inline void PSScavenge::save_from_colored_space_bounds() {
+  assert(UseColoredSpaces, "only used with colors");
+  ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+
+  _from_colored_space_top[HC_RED]  =
+    ((MutableColoredSpace*)heap->young_gen()->from_space())->
+     colored_spaces()->at(HC_RED)->space()->top();
+  _from_colored_space_top[HC_BLUE] =
+    ((MutableColoredSpace*)heap->young_gen()->from_space())->
+     colored_spaces()->at(HC_BLUE)->space()->top();
+  _from_colored_space_bottom[HC_RED]  =
+    ((MutableColoredSpace*)heap->young_gen()->from_space())->
+     colored_spaces()->at(HC_RED)->space()->bottom();
+  _from_colored_space_bottom[HC_BLUE] =
+    ((MutableColoredSpace*)heap->young_gen()->from_space())->
+     colored_spaces()->at(HC_BLUE)->space()->bottom();
+}
+
+#if 0
+inline void PSScavenge::save_to_colored_space_bounds() {
+  assert(UseColoredSpaces, "only used with colors");
+  ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+
+  _to_colored_space_top[HC_RED]  =
+    ((MutableColoredSpace*)heap->young_gen()->to_space())->
+     colored_spaces()->at(HC_RED)->space()->top();
+  _to_colored_space_top[HC_BLUE] =
+    ((MutableColoredSpace*)heap->young_gen()->to_space())->
+     colored_spaces()->at(HC_BLUE)->space()->top();
+  _to_colored_space_bottom[HC_RED]  =
+    ((MutableColoredSpace*)heap->young_gen()->to_space())->
+     colored_spaces()->at(HC_RED)->space()->bottom();
+  _to_colored_space_bottom[HC_BLUE] =
+    ((MutableColoredSpace*)heap->young_gen()->to_space())->
+     colored_spaces()->at(HC_BLUE)->space()->bottom();
+}
+#endif
+
+template <class T> inline bool PSScavenge::should_scavenge(T* p, bool safe) {
   T heap_oop = oopDesc::load_heap_oop(p);
-  return PSScavenge::is_obj_in_young(heap_oop);
+  if (oopDesc::is_null(heap_oop)) return false;
+  oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
+#if 1
+  if (safe && !(obj->is_oop())) {
+    tty->print_cr("should_scavenge: bad oop: %p\n", obj);
+    return false;
+  }
+#else
+  if (!(obj->is_oop())) {
+    tty->print_cr("should_scavenge: bad oop: %p\n", obj);
+    return false;
+  }
+#endif
+  return PSScavenge::is_obj_in_young((HeapWord*)obj);
 }
 
 template <class T>
-inline bool PSScavenge::should_scavenge(T* p, MutableSpace* to_space) {
-  if (should_scavenge(p)) {
+inline bool PSScavenge::should_scavenge(T* p, bool safe, MutableSpace* to_space) {
+  if (should_scavenge(p, safe)) {
     oop obj = oopDesc::load_decode_heap_oop_not_null(p);
     // Skip objects copied to to_space since the scavenge started.
     HeapWord* const addr = (HeapWord*)obj;
@@ -54,13 +155,206 @@ inline bool PSScavenge::should_scavenge(T* p, MutableSpace* to_space) {
 }
 
 template <class T>
-inline bool PSScavenge::should_scavenge(T* p, bool check_to_space) {
+inline bool PSScavenge::should_scavenge(T* p, bool safe, bool check_to_space) {
   if (check_to_space) {
-    ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
-    return should_scavenge(p, heap->young_gen()->to_space());
+    ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+    return should_scavenge(p, safe, heap->young_gen()->to_space());
   }
-  return should_scavenge(p);
+  return should_scavenge(p, safe);
 }
+
+inline HeapColor PSScavenge::get_current_color(HeapWord *obj)
+{
+  ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+#if 0
+  guarantee(is_obj_in_young(obj), "object not in young space!");
+  guarantee(!(obj <= to_space_top_before_gc() &&
+              obj > heap->young_gen()->to_space()->bottom()),
+            "object should not be in to_space");
+#endif
+
+#if 0
+#ifdef COLORED_EDEN_SPACE
+  if (eden_colored_space_contains(HC_RED, obj) ||
+      from_colored_space_contains(HC_RED, obj))
+    return HC_RED;
+#else
+  if (eden_space_contains(obj) ||
+      from_colored_space_contains(HC_RED, obj))
+    return HC_RED;
+#endif
+#else
+  if (eden_colored_space_contains(HC_RED, obj) ||
+      from_colored_space_contains(HC_RED, obj))
+    return HC_RED;
+#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
+#ifdef COLORED_EDEN_SPACE
+#if 0
+  guarantee((eden_colored_space_contains(HC_BLUE, obj) ||
+             from_colored_space_contains(HC_BLUE, obj)),
+            "where is this object?");
+  if (!(eden_colored_space_contains(HC_BLUE, obj)  ||
+        from_colored_space_contains(HC_BLUE, obj))) {
+    save_eden_colored_space_bounds();
+    save_from_colored_space_bounds();
+    tty->print("object out of bounds: obj: %p, \n"
+               "young_gen_boundary: %p\n"
+               "eden_red: {%p, %p}, eden_blue: {%p, %p}\n"
+               "from_red: {%p, %p}, from_blue: {%p, %p}\n",
+               obj, PSScavenge::my_young_gen_boundary(),
+               _eden_colored_space_bottom[HC_RED],
+               _eden_colored_space_top[HC_RED],
+               _eden_colored_space_bottom[HC_BLUE],
+               _eden_colored_space_top[HC_BLUE],
+               _from_colored_space_bottom[HC_RED],
+               _from_colored_space_top[HC_RED],
+               _from_colored_space_bottom[HC_BLUE],
+               _from_colored_space_top[HC_BLUE]
+    );
+  }
+#endif
+#else
+#if 0
+  guarantee(from_colored_space_contains(HC_BLUE, obj),
+            "where is this object?");
+#endif
+#endif
+
+  return HC_BLUE;
+#if 0
+  oop o = (oop)obj;
+  markOop test_mark = o->mark();
+  int age = (test_mark->has_displaced_mark_helper() /* o->has_displaced_mark() */) ?
+    test_mark->displaced_mark_helper()->age() : test_mark->age();
+  if (age<1)
+    tty->print("current color's blue!\n");
+#endif
+}
+
+inline HeapColor PSScavenge::get_survivor_color(PSPromotionManager *pm, HeapWord *obj) {
+  if (SurvivorsAlwaysBlue) return HC_BLUE;
+  if (SurvivorsAlwaysRed)  return HC_RED;
+
+  oop o = (oop)obj;
+  if (ColorObjectAllocations || MethodSampleColors) {
+    if (HotKlassOrganize) {
+      return ( o->klass()->klass_part()->is_hot() ? HC_RED : HC_BLUE );
+    }
+    return get_current_color(obj);
+  }
+
+  if (MemBenchOrganize) {
+    if (o->blueprint()->name() != NULL) {
+      if (strstr(o->blueprint()->external_name(), "ColdObject")) {
+        return HC_BLUE;
+      }
+    }
+  }
+
+#ifdef PROFILE_OBJECT_INFO
+  if (pm->object_organize()) {
+    markOop test_mark = o->mark();
+    int age = (test_mark->has_displaced_mark_helper() /* o->has_displaced_mark() */) ?
+      test_mark->displaced_mark_helper()->age() : test_mark->age();
+
+    jint refcnt = -1;
+    PersistentObjectInfo *poi = obj_poi(o);
+    if (poi && obj_is_initialized(o)) {
+      refcnt = (poi->val_load_cnt() + poi->val_store_cnt());
+    }
+
+    if (MemBenchOrganize) {
+      if (o->blueprint()->name() != NULL) {
+        if (strstr(o->blueprint()->external_name(), "ColdObject")) {
+          return HC_BLUE;
+        }
+      }
+    }
+
+#if 0
+    objinfo_log->print("gsc: %p, cur_color=%2d, age=%4d, refs=%10d\n",
+                        obj, get_current_color(obj), age, refcnt);
+#endif
+
+    if (age > ColorAgeThreshold) {
+      return refcnt > ColorRefThreshold ? HC_RED : HC_BLUE;
+    }
+    return get_current_color(obj);
+#if 0
+    if (BlueCount < 0)
+      return HC_RED;
+    else if (BlueCount == 0)
+      return HC_BLUE;
+  
+    return _blue_cnt < BlueCount ? HC_BLUE : HC_RED;
+#endif
+  }
+#endif
+
+  /* regular GC -- object is assumed to be in the young space */
+  return get_current_color(obj);
+}
+
+#ifdef PROFILE_OBJECT_INFO
+inline void PSScavenge::profile_object_copy(oop obj, HeapColor to_color,
+  bool tenured) {
+
+  unsigned long refs, size;
+
+  if (!obj_is_initialized(obj)) {
+    return;
+  }
+
+  HeapColor from_color = get_current_color((HeapWord*)obj);
+  PSGenType gen = tenured ? OLD_GEN : YOUNG_GEN;
+
+  refs = obj_refs(obj);
+  size = (unsigned long) obj->size();
+
+  if (from_color == HC_RED) {
+    if (to_color == HC_RED) {
+      _live_objects[gen][RED_TO_RED]    += 1;
+      _live_size[gen][RED_TO_RED]       += size;
+      _live_refs[gen][RED_TO_RED]       += refs;
+      if (obj_is_hot(obj)) {
+        _hot_objects[gen][RED_TO_RED]   += 1;
+        _hot_size[gen][RED_TO_RED]      += size;
+        _hot_refs[gen][RED_TO_RED]      += refs;
+      }
+    } else { // to_color == HC_BLUE
+      _live_objects[gen][RED_TO_BLUE]   += 1;
+      _live_size[gen][RED_TO_BLUE]      += size;
+      _live_refs[gen][RED_TO_BLUE]      += refs;
+      if (obj_is_hot(obj)) {
+        _hot_objects[gen][RED_TO_BLUE]  += 1;
+        _hot_size[gen][RED_TO_BLUE]     += size;
+        _hot_refs[gen][RED_TO_BLUE]     += refs;
+      }
+    }
+  } else { // from_color == HC_BLUE
+    if (to_color == HC_RED) {
+      _live_objects[gen][BLUE_TO_RED]   += 1;
+      _live_size[gen][BLUE_TO_RED]      += size;
+      _live_refs[gen][BLUE_TO_RED]      += refs;
+      if (obj_is_hot(obj)) {
+        _hot_objects[gen][BLUE_TO_RED]  += 1;
+        _hot_size[gen][BLUE_TO_RED]     += size;
+        _hot_refs[gen][BLUE_TO_RED]     += refs;
+      }
+    } else { // to_color == HC_BLUE
+      _live_objects[gen][BLUE_TO_BLUE]  += 1;
+      _live_size[gen][BLUE_TO_BLUE]     += size;
+      _live_refs[gen][BLUE_TO_BLUE]     += refs;
+      if (obj_is_hot(obj)) {
+        _hot_objects[gen][BLUE_TO_BLUE] += 1;
+        _hot_size[gen][BLUE_TO_BLUE]    += size;
+        _hot_refs[gen][BLUE_TO_BLUE]    += refs;
+      }
+    }
+  }
+}
+#endif
+
 
 template<bool promote_immediately>
 class PSRootsClosure: public OopClosure {
@@ -69,8 +363,9 @@ class PSRootsClosure: public OopClosure {
 
  protected:
   template <class T> void do_oop_work(T *p) {
-    if (PSScavenge::should_scavenge(p)) {
-      // We never card mark roots, maybe call a func without test?
+    // We never card mark roots, maybe call a func without test?
+    //if (PSScavenge::should_scavenge(p, _promotion_manager->safe_scavenge())) {
+    if (PSScavenge::should_scavenge(p, false)) {
       _promotion_manager->copy_and_push_safe_barrier<T, promote_immediately>(p);
     }
   }

@@ -490,10 +490,19 @@ protected:
   //   humongous allocation requests should go to mem_allocate() which
   //   will satisfy them with a special path.
 
+#ifdef COLORED_TLABS
+  virtual HeapWord* allocate_new_tlab(size_t word_size, HeapColor color);
+#endif
   virtual HeapWord* allocate_new_tlab(size_t word_size);
 
   virtual HeapWord* mem_allocate(size_t word_size,
                                  bool*  gc_overhead_limit_was_exceeded);
+
+  virtual HeapWord* mem_allocate(size_t word_size,
+                                 bool   is_noref,
+                                 bool   is_tlab, /* expected to be false */
+                                 bool*  gc_overhead_limit_was_exceeded,
+                                 HeapColor color);
 
   // The following three methods take a gc_count_before_ret
   // parameter which is used to return the GC count if the method

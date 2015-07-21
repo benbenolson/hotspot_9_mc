@@ -975,7 +975,10 @@ void PSParallelCompact::pre_compact(PreGCValues* pre_gc_values)
 
   // We need to track unique mark sweep invocations as well.
   _total_invocations++;
-
+  
+  if (TimeStampGC) {
+    tty->print_cr("major PC-GC start: %ld", os::javaTimeMillis());
+  }
   heap->print_heap_before_gc();
   heap->trace_heap_before_gc(&_gc_tracer);
 
@@ -2209,6 +2212,9 @@ bool PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
 
   collection_exit.update();
 
+  if (TimeStampGC) {
+    tty->print_cr("major PC-GC stop:  %ld", os::javaTimeMillis());
+  }
   heap->print_heap_after_gc();
   heap->trace_heap_after_gc(&_gc_tracer);
 

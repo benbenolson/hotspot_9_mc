@@ -44,6 +44,8 @@
 #include "runtime/vmThread.hpp"
 #include "services/memTracker.hpp"
 #include "utilities/vmError.hpp"
+// PersistentObjectInfoTable
+#include "memory/heapInspection.hpp"
 
 PSYoungGen*  ParallelScavengeHeap::_young_gen = NULL;
 PSOldGen*    ParallelScavengeHeap::_old_gen = NULL;
@@ -110,6 +112,31 @@ jint ParallelScavengeHeap::initialize() {
   if (UseParallelOldGC && !PSParallelCompact::initialize()) {
     return JNI_ENOMEM;
   }
+
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    PersistentObjectInfoTable *poit = new PersistentObjectInfoTable(
+      PersistentObjectInfoTable::oit_size,
+      _perm_gen->object_space()->used_region().start());
+    guarantee(!poit->allocation_failed(), "poit allocation failed");
+    Universe::set_persistent_object_info_table(poit);
+
+    AllocPointInfoTable *apit = new AllocPointInfoTable(AllocPointInfoTable::apit_size);
+    guarantee(!apit->allocation_failed(), "apm allocation failed");
+    Universe::set_alloc_point_info_table(apit);
+  }
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+    unsigned int oait_size = OAIT_SIZE;
+    unsigned int kt_size = KLASS_TABLE_SIZE;
+
+    ObjectAddressInfoTable *oait = new ObjectAddressInfoTable(oait_size, kt_size);
+    guarantee(!oait->allocation_failed(), "oait allocation failed");
+    Universe::set_object_address_info_table(oait);
+    ObjectAddressInfoTable *alt_oait = new ObjectAddressInfoTable(oait_size, kt_size);
+    guarantee(!oait->allocation_failed(), "oait allocation failed");
+    Universe::set_alt_oait(alt_oait);
+#endif
 
   return JNI_OK;
 }
@@ -334,6 +361,174 @@ HeapWord* ParallelScavengeHeap::mem_allocate(
   return result;
 }
 
+HeapWord* ParallelScavengeHeap::mem_allocate(
+                                     size_t size,
+                                     bool is_noref,
+                                     bool is_tlab,
+                                     bool* gc_overhead_limit_was_exceeded,
+                                     HeapColor color) {
+  assert(!SafepointSynchronize::is_at_safepoint(), "should not be at safepoint");
+  assert(Thread::current() != (Thread*)VMThread::vm_thread(), "should not be in vm thread");
+  assert(!Heap_lock->owned_by_self(), "this thread should not own the Heap_lock");
+
+  // In general gc_overhead_limit_was_exceeded should be false so
+  // set it so here and reset it to true only if the gc time
+  // limit is being exceeded as checked below.
+  *gc_overhead_limit_was_exceeded = false;
+
+#if 0
+#ifdef COLORED_EDEN_SPACE
+  HeapWord* result = young_gen()->allocate(size, is_tlab, color);
+#else
+  HeapWord* result = young_gen()->allocate(size, is_tlab);
+#endif
+#else
+  HeapWord* result = young_gen()->allocate(size, is_tlab, color);
+#endif
+
+  uint loop_count = 0;
+  uint gc_count = 0;
+
+  while (result == NULL) {
+    // We don't want to have multiple collections for a single filled generation.
+    // To prevent this, each thread tracks the total_collections() value, and if
+    // the count has changed, does not do a new collection.
+    //
+    // The collection count must be read only while holding the heap lock. VM
+    // operations also hold the heap lock during collections. There is a lock
+    // contention case where thread A blocks waiting on the Heap_lock, while
+    // thread B is holding it doing a collection. When thread A gets the lock,
+    // the collection count has already changed. To prevent duplicate collections,
+    // The policy MUST attempt allocations during the same period it reads the
+    // total_collections() value!
+    {
+      MutexLocker ml(Heap_lock);
+      gc_count = Universe::heap()->total_collections();
+
+#if 0
+#ifdef COLORED_EDEN_SPACE
+      result = young_gen()->allocate(size, is_tlab, color);
+#else
+      result = young_gen()->allocate(size, is_tlab);
+#endif
+#else
+      result = young_gen()->allocate(size, is_tlab, color);
+#endif
+
+      // (1) If the requested object is too large to easily fit in the
+      //     young_gen, or
+      // (2) If GC is locked out via GCLocker, young gen is full and
+      //     the need for a GC already signalled to GCLocker (done
+      //     at a safepoint),
+      // ... then, rather than force a safepoint and (a potentially futile)
+      // collection (attempt) for each allocation, try allocation directly
+      // in old_gen. For case (2) above, we may in the future allow
+      // TLAB allocation directly in the old gen.
+      if (result != NULL) {
+        return result;
+      }
+      if (!is_tlab &&
+          size >= (young_gen()->eden_space()->capacity_in_words(Thread::current()) / 2)) {
+        result = old_gen()->allocate(size, is_tlab, color);
+        if (result != NULL) {
+          return result;
+        }
+      }
+      if (GC_locker::is_active_and_needs_gc()) {
+        // GC is locked out. If this is a TLAB allocation,
+        // return NULL; the requestor will retry allocation
+        // of an idividual object at a time.
+        if (is_tlab) {
+          return NULL;
+        }
+
+        // If this thread is not in a jni critical section, we stall
+        // the requestor until the critical section has cleared and
+        // GC allowed. When the critical section clears, a GC is
+        // initiated by the last thread exiting the critical section; so
+        // we retry the allocation sequence from the beginning of the loop,
+        // rather than causing more, now probably unnecessary, GC attempts.
+        JavaThread* jthr = JavaThread::current();
+        if (!jthr->in_critical()) {
+          MutexUnlocker mul(Heap_lock);
+          GC_locker::stall_until_clear();
+          continue;
+        } else {
+          if (CheckJNICalls) {
+            fatal("Possible deadlock due to allocating while"
+                  " in jni critical section");
+          }
+          return NULL;
+        }
+      }
+    }
+
+    if (result == NULL) {
+
+      // Generate a VM operation
+      VM_ParallelGCFailedAllocation op(size, is_tlab, gc_count);
+      VMThread::execute(&op);
+
+      // Did the VM operation execute? If so, return the result directly.
+      // This prevents us from looping until time out on requests that can
+      // not be satisfied.
+      if (op.prologue_succeeded()) {
+        assert(Universe::heap()->is_in_or_null(op.result()),
+          "result not in heap");
+
+        // If GC was locked out during VM operation then retry allocation
+        // and/or stall as necessary.
+        if (op.gc_locked()) {
+          assert(op.result() == NULL, "must be NULL if gc_locked() is true");
+          continue;  // retry and/or stall as necessary
+        }
+
+        // Exit the loop if the gc time limit has been exceeded.
+        // The allocation must have failed above ("result" guarding
+        // this path is NULL) and the most recent collection has exceeded the
+        // gc overhead limit (although enough may have been collected to
+        // satisfy the allocation).  Exit the loop so that an out-of-memory
+        // will be thrown (return a NULL ignoring the contents of
+        // op.result()),
+        // but clear gc_overhead_limit_exceeded so that the next collection
+        // starts with a clean slate (i.e., forgets about previous overhead
+        // starts with a clean slate (i.e., forgets about previous overhead
+        // excesses).  Fill op.result() with a filler object so that the
+        // heap remains parsable.
+        const bool limit_exceeded = size_policy()->gc_overhead_limit_exceeded();
+        const bool softrefs_clear = collector_policy()->all_soft_refs_clear();
+        assert(!limit_exceeded || softrefs_clear, "Should have been cleared");
+        if (limit_exceeded && softrefs_clear) {
+          *gc_overhead_limit_was_exceeded = true;
+          size_policy()->set_gc_overhead_limit_exceeded(false);
+          if (PrintGCDetails && Verbose) {
+            gclog_or_tty->print_cr("ParallelScavengeHeap::mem_allocate: "
+              "return NULL because gc_overhead_limit_exceeded is set");
+          }
+          if (op.result() != NULL) {
+            CollectedHeap::fill_with_object(op.result(), size);
+          }
+          return NULL;
+        }
+
+        return op.result();
+      }
+    }
+
+    // The policy object will prevent us from looping forever. If the
+    // time spent in gc crosses a threshold, we will bail out.
+    loop_count++;
+    if ((result == NULL) && (QueuedAllocationWarningCount > 0) &&
+        (loop_count % QueuedAllocationWarningCount == 0)) {
+      warning("ParallelScavengeHeap::mem_allocate retries %d times \n\t"
+              " size=%d %s", loop_count, size, is_tlab ? "(TLAB)" : "");
+    }
+  }
+
+  return result;
+}
+
+
 // A "death march" is a series of ultra-slow allocations in which a full gc is
 // done before each allocation, and after the full gc the allocation still
 // cannot be satisfied from the young gen.  This routine detects that condition;
@@ -436,6 +631,9 @@ HeapWord* ParallelScavengeHeap::failed_mem_allocate(size_t size) {
 void ParallelScavengeHeap::ensure_parsability(bool retire_tlabs) {
   CollectedHeap::ensure_parsability(retire_tlabs);
   young_gen()->eden_space()->ensure_parsability();
+  young_gen()->from_space()->ensure_parsability();
+  young_gen()->to_space()->ensure_parsability();
+  old_gen()->object_space()->ensure_parsability();
 }
 
 size_t ParallelScavengeHeap::tlab_capacity(Thread* thr) const {
@@ -450,6 +648,11 @@ size_t ParallelScavengeHeap::unsafe_max_tlab_alloc(Thread* thr) const {
   return young_gen()->eden_space()->unsafe_max_tlab_alloc(thr);
 }
 
+#ifdef COLORED_TLABS
+HeapWord* ParallelScavengeHeap::allocate_new_tlab(size_t size, HeapColor color) {
+  return young_gen()->allocate(size, true, color);
+}
+#endif
 HeapWord* ParallelScavengeHeap::allocate_new_tlab(size_t size) {
   return young_gen()->allocate(size);
 }
@@ -487,11 +690,38 @@ void ParallelScavengeHeap::collect(GCCause::Cause cause) {
   VMThread::execute(&op);
 }
 
+void ParallelScavengeHeap::young_collect_as_vm_thread(GCCause::Cause cause) {
+  HandleMark hm;
+
+  assert(Thread::current()->is_VM_thread(), "Precondition#1");
+  assert(Heap_lock->is_locked(), "Precondition#2");
+
+  GCCauseSetter gcs(this, cause);
+  invoke_scavenge();
+}
+
 void ParallelScavengeHeap::object_iterate(ObjectClosure* cl) {
   young_gen()->object_iterate(cl);
   old_gen()->object_iterate(cl);
 }
 
+void ParallelScavengeHeap::tenured_object_iterate(ObjectClosure* cl) {
+  old_gen()->object_iterate(cl);
+  perm_gen()->object_iterate(cl);
+}
+
+void ParallelScavengeHeap::colored_object_iterate(ObjectClosure* cl,
+  HeapColor color) {
+  young_gen()->colored_object_iterate(cl, color);
+  old_gen()->colored_object_iterate(cl, color);
+  //perm_gen()->colored_object_iterate(cl, color);
+}
+
+void ParallelScavengeHeap::colored_tenured_object_iterate(ObjectClosure* cl,
+  HeapColor color) {
+  old_gen()->colored_object_iterate(cl, color);
+  //perm_gen()->object_iterate(cl, color);
+}
 
 HeapWord* ParallelScavengeHeap::block_start(const void* addr) const {
   if (young_gen()->is_in_reserved(addr)) {
@@ -686,3 +916,62 @@ void ParallelScavengeHeap::gen_mangle_unused_area() {
   }
 }
 #endif
+
+HeapColor ParallelScavengeHeap::get_current_color(oop obj)
+{
+  guarantee(UseColoredSpaces, "not using colored spaces!");
+  guarantee(is_in(obj), "obj not in a colored space!");
+  if (is_in_permanent(obj))
+    return HC_NOT_COLORED;
+
+  if (is_in_young(obj)) {
+    if (young_gen()->eden_space()->contains(obj)) {
+#if 0
+#ifdef COLORED_EDEN_SPACE
+      if (((MutableColoredSpace*)young_gen()->eden_space())->
+          colored_spaces()->at(HC_RED)->space()->contains(obj)) {
+        return HC_RED;
+      }
+      guarantee(((MutableColoredSpace*)young_gen()->eden_space())->
+                colored_spaces()->at(HC_BLUE)->space()->contains(obj), "wtf");
+      return HC_BLUE;
+#else
+      return HC_RED;
+#endif
+#else
+      if (((MutableColoredSpace*)young_gen()->eden_space())->
+          colored_spaces()->at(HC_RED)->space()->contains(obj)) {
+        return HC_RED;
+      }
+      guarantee(((MutableColoredSpace*)young_gen()->eden_space())->
+                colored_spaces()->at(HC_BLUE)->space()->contains(obj), "wtf");
+      return HC_BLUE;
+#endif
+    } else if (young_gen()->from_space()->contains(obj)) {
+      if (((MutableColoredSpace*)young_gen()->from_space())->
+          colored_spaces()->at(HC_RED)->space()->contains(obj)) {
+        return HC_RED;
+      }
+      guarantee(((MutableColoredSpace*)young_gen()->from_space())->
+                colored_spaces()->at(HC_BLUE)->space()->contains(obj), "wtf");
+      return HC_BLUE;
+    } else {
+      if (((MutableColoredSpace*)young_gen()->to_space())->
+          colored_spaces()->at(HC_RED)->space()->contains(obj)) {
+        return HC_RED;
+      }
+      guarantee(((MutableColoredSpace*)young_gen()->to_space())->
+                colored_spaces()->at(HC_BLUE)->space()->contains(obj), "wtf");
+      return HC_BLUE;
+    }
+  } else {
+      if (((MutableColoredSpace*)old_gen()->object_space())->
+          colored_spaces()->at(HC_RED)->space()->contains(obj)) {
+        return HC_RED;
+      }
+      guarantee(((MutableColoredSpace*)old_gen()->object_space())->
+                colored_spaces()->at(HC_BLUE)->space()->contains(obj), "wtf");
+      return HC_BLUE;
+  }
+}
+

@@ -37,17 +37,35 @@
 #include "oops/instanceMirrorKlass.inline.hpp"
 #include "oops/objArrayKlass.inline.hpp"
 #include "oops/oop.inline.hpp"
+#include "gc_implementation/shared/mutableColoredSpace.hpp"
 
 PaddedEnd<PSPromotionManager>* PSPromotionManager::_manager_array = NULL;
 OopStarTaskQueueSet*           PSPromotionManager::_stack_array_depth = NULL;
 PSOldGen*                      PSPromotionManager::_old_gen = NULL;
 MutableSpace*                  PSPromotionManager::_young_space = NULL;
+MutableSpace*                  PSPromotionManager::_young_colored_space[] = {NULL,NULL};
+MutableSpace*                  PSPromotionManager::_old_colored_space[]   = {NULL,NULL};
+bool                           PSPromotionManager::_object_organize = false;
+//jint                         PSPromotionManager::_cnt = 0;
+
 
 void PSPromotionManager::initialize() {
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
 
   _old_gen = heap->old_gen();
   _young_space = heap->young_gen()->to_space();
+
+  if (UseColoredSpaces) {
+    _young_colored_space[HC_RED]  = ((MutableColoredSpace*)_young_space)->
+                                     colored_spaces()->at(HC_RED)->space();
+    _young_colored_space[HC_BLUE] = ((MutableColoredSpace*)_young_space)->
+                                     colored_spaces()->at(HC_BLUE)->space();
+
+    _old_colored_space[HC_RED]  = ((MutableColoredSpace*)_old_gen->object_space())->
+                                   colored_spaces()->at(HC_RED)->space();
+    _old_colored_space[HC_BLUE] = ((MutableColoredSpace*)_old_gen->object_space())->
+                                   colored_spaces()->at(HC_BLUE)->space();
+  }
 
   // To prevent false sharing, we pad the PSPromotionManagers
   // and make sure that the first instance starts at a cache line.
@@ -90,6 +108,18 @@ void PSPromotionManager::pre_scavenge() {
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
 
   _young_space = heap->young_gen()->to_space();
+
+  if (UseColoredSpaces) {
+    _young_colored_space[HC_RED]  = ((MutableColoredSpace*)_young_space)->
+                                     colored_spaces()->at(HC_RED)->space();
+    _young_colored_space[HC_BLUE] = ((MutableColoredSpace*)_young_space)->
+                                     colored_spaces()->at(HC_BLUE)->space();
+
+    _old_colored_space[HC_RED]    = ((MutableColoredSpace*)_old_gen->object_space())->
+                                     colored_spaces()->at(HC_RED)->space();
+    _old_colored_space[HC_BLUE]   = ((MutableColoredSpace*)_old_gen->object_space())->
+                                     colored_spaces()->at(HC_BLUE)->space();
+  }
 
   for(uint i=0; i<ParallelGCThreads+1; i++) {
     manager_array(i)->reset();
@@ -180,6 +210,8 @@ PSPromotionManager::PSPromotionManager() {
   // let's choose 1.5x the chunk size
   _min_array_size_for_chunking = 3 * _array_chunk_size / 2;
 
+  _safe_scavenge = false;
+
   reset();
 }
 
@@ -190,14 +222,39 @@ void PSPromotionManager::reset() {
 
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
 
+  HeapWord *lab_base;
   // Do not prefill the LAB's, save heap wastage!
-  HeapWord* lab_base = young_space()->top();
-  _young_lab.initialize(MemRegion(lab_base, (size_t)0));
-  _young_gen_is_full = false;
+  if (UseColoredSpaces) {
+    lab_base = young_colored_space(HC_RED)->top();
+    _young_colored_lab[HC_RED].initialize(young_colored_space(HC_RED),
+                                    MemRegion(lab_base, (size_t)0));
+    _young_colored_space_is_full[HC_RED] = false;
 
-  lab_base = old_gen()->object_space()->top();
-  _old_lab.initialize(MemRegion(lab_base, (size_t)0));
-  _old_gen_is_full = false;
+    lab_base = young_colored_space(HC_BLUE)->top();
+    _young_colored_lab[HC_BLUE].initialize(young_colored_space(HC_BLUE),
+                                     MemRegion(lab_base, (size_t)0));
+    _young_colored_space_is_full[HC_BLUE] = false;
+
+    lab_base = old_colored_space(HC_RED)->top();
+    _old_colored_lab[HC_RED].initialize(old_colored_space(HC_RED),
+                                    MemRegion(lab_base, (size_t)0));
+    _old_colored_space_is_full[HC_RED] = false;
+
+    lab_base = old_colored_space(HC_BLUE)->top();
+    _old_colored_lab[HC_BLUE].initialize(old_colored_space(HC_BLUE),
+                                     MemRegion(lab_base, (size_t)0));
+    _old_colored_space_is_full[HC_BLUE] = false;
+  } else {
+    lab_base = young_space()->top();
+    //tty->print_cr("young_space: %p, hmmm: %p\n", young_space(), lab_base);
+    _young_lab.initialize(MemRegion(lab_base, (size_t)0));
+    _young_gen_is_full = false;
+
+    lab_base = old_gen()->object_space()->top();
+    _old_lab.initialize(MemRegion(lab_base, (size_t)0));
+    _old_gen_is_full = false;
+  }
+  //_cnt = 0
 
   _promotion_failed_info.reset();
 
@@ -245,18 +302,48 @@ void PSPromotionManager::flush_labs() {
 
   // If either promotion lab fills up, we can flush the
   // lab but not refill it, so check first.
-  assert(!_young_lab.is_flushed() || _young_gen_is_full, "Sanity");
-  if (!_young_lab.is_flushed())
-    _young_lab.flush();
+  if (UseColoredSpaces) {
 
-  assert(!_old_lab.is_flushed() || _old_gen_is_full, "Sanity");
-  if (!_old_lab.is_flushed())
-    _old_lab.flush();
+    assert(!_young_colored_lab[HC_RED].is_flushed() ||
+            _young_colored_space_is_full[HC_RED], "Sanity");
+    if (!_young_colored_lab[HC_RED].is_flushed())
+      _young_colored_lab[HC_RED].flush();
+
+    assert(!_young_colored_lab[HC_BLUE].is_flushed() ||
+            _young_colored_space_is_full[HC_BLUE], "Sanity");
+    if (!_young_colored_lab[HC_BLUE].is_flushed())
+      _young_colored_lab[HC_BLUE].flush();
+
+    assert(!_old_colored_lab[HC_RED].is_flushed() ||
+            _old_colored_space_is_full[HC_RED], "Sanity");
+    if (!_old_colored_lab[HC_RED].is_flushed())
+      _old_colored_lab[HC_RED].flush();
+
+    assert(!_old_colored_lab[HC_BLUE].is_flushed() ||
+            _old_colored_space_is_full[HC_BLUE], "Sanity");
+    if (!_old_colored_lab[HC_BLUE].is_flushed())
+      _old_colored_lab[HC_BLUE].flush();
+
+  } else {
+    assert(!_young_lab.is_flushed() || _young_gen_is_full, "Sanity");
+    if (!_young_lab.is_flushed())
+      _young_lab.flush();
+
+    assert(!_old_lab.is_flushed() || _old_gen_is_full, "Sanity");
+    if (!_old_lab.is_flushed())
+      _old_lab.flush();
+  }
 
   // Let PSScavenge know if we overflowed
-  if (_young_gen_is_full) {
-    PSScavenge::set_survivor_overflow(true);
+  if (UseColoredSpaces) {
+    if (_young_colored_space_is_full[HC_RED] ||
+        _young_colored_space_is_full[HC_BLUE])
+      PSScavenge::set_survivor_overflow(true);
+  } else {
+    if (_young_gen_is_full)
+      PSScavenge::set_survivor_overflow(true);
   }
+
 }
 
 template <class T> void PSPromotionManager::process_array_chunk_work(
@@ -267,7 +354,7 @@ template <class T> void PSPromotionManager::process_array_chunk_work(
   T* p               = base + start;
   T* const chunk_end = base + end;
   while (p < chunk_end) {
-    if (PSScavenge::should_scavenge(p)) {
+    if (PSScavenge::should_scavenge(p, false, true)) {
       claim_or_forward_depth(p);
     }
     ++p;
@@ -405,9 +492,11 @@ void TypeArrayKlass::oop_ps_push_contents(oop obj, PSPromotionManager* pm) {
 }
 
 oop PSPromotionManager::oop_promotion_failed(oop obj, markOop obj_mark) {
-  assert(_old_gen_is_full || PromotionFailureALot, "Sanity");
-
-  // Attempt to CAS in the header.
+  assert(_old_gen_is_full ||
+         _old_colored_space_is_full[HC_RED]  ||
+         _old_colored_space_is_full[HC_BLUE] ||
+         PromotionFailureALot, "Sanity");
+// Attempt to CAS in the header.
   // This tests if the header is still the same as when
   // this started.  If it is the same (i.e., no forwarding
   // pointer has been installed), then this thread owns

@@ -165,6 +165,140 @@ void VM_GC_HeapInspection::doit() {
   inspect.heap_inspection(_out);
 }
 
+#ifdef PROFILE_OBJECT_INFO
+bool VM_GC_ObjectInfoCollection::doit_prologue() {
+  if (Universe::heap()->supports_heap_inspection()) {
+    return VM_GC_Operation::doit_prologue();
+  } else {
+    return false;
+  }
+}
+
+bool VM_GC_ObjectInfoCollection::skip_operation() const {
+  assert(Universe::heap()->supports_heap_inspection(), "huh?");
+  return false;
+}
+
+void VM_GC_ObjectInfoCollection::doit() {
+  HandleMark hm;
+  CollectedHeap* ch = Universe::heap();
+  ch->ensure_parsability(false); // must happen, even if collection does
+                                 // not happen (e.g. due to GC_locker)
+
+  ObjectInfoCollection::collect_object_info(_objinfo_log, _apinfo_log, _reason);
+
+  if (CrashOnObjectInfoDump) {
+    guarantee(false, "requested crash after object info dump");
+  }
+}
+
+bool VM_GC_PersistentObjectInfoCollection::doit_prologue() {
+  if (Universe::heap()->supports_heap_inspection()) {
+    return VM_GC_Operation::doit_prologue();
+  } else {
+    return false;
+  }
+}
+
+bool VM_GC_PersistentObjectInfoCollection::skip_operation() const {
+  assert(Universe::heap()->supports_heap_inspection(), "huh?");
+  return false;
+}
+void VM_GC_PersistentObjectInfoCollection::doit() {
+  HandleMark hm;
+  CollectedHeap* ch = Universe::heap();
+  ch->ensure_parsability(false); // must happen, even if collection does
+                                 // not happen (e.g. due to GC_locker)
+  if (_full_gc) {
+    // The collection attempt below would be skipped anyway if
+    // the gc locker is held. The following dump may then be a tad
+    // misleading to someone expecting only live objects to show
+    // up in the dump (see CR 6944195). Just issue a suitable warning
+    // in that case and do not attempt to do a collection.
+    // The latter is a subtle point, because even a failed attempt
+    // to GC will, in fact, induce one in the future, which we
+    // probably want to avoid in this case because the GC that we may
+    // be about to attempt holds value for us only
+    // if it happens now and not if it happens in the eventual
+    // future.
+    if (GC_locker::is_active()) {
+      warning("GC locker is held; pre-dump GC was skipped");
+    } else {
+      ch->collect_as_vm_thread(GCCause::_object_info_collection);
+    }
+  }
+  ObjectInfoCollection::print_persistent_object_info(_out);
+
+  if (CrashOnObjectInfoDump) {
+    guarantee(false, "requested crash after object info dump");
+  }
+}
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+bool VM_GC_ObjectAddressInfoCollection::doit_prologue() {
+  if (Universe::heap()->supports_heap_inspection()) {
+    return VM_GC_Operation::doit_prologue();
+  } else {
+    return false;
+  }
+}
+
+bool VM_GC_ObjectAddressInfoCollection::skip_operation() const {
+  assert(Universe::heap()->supports_heap_inspection(), "huh?");
+  return false;
+}
+void VM_GC_ObjectAddressInfoCollection::doit() {
+  HandleMark hm;
+  CollectedHeap* ch = Universe::heap();
+  ch->ensure_parsability(false); // must happen, even if collection does
+                                 // not happen (e.g. due to GC_locker)
+
+  ObjectAddressInfoCollection::collect_object_address_info(_addrinfo_log,
+    _fieldinfo_log, _reason);
+}
+#endif
+
+bool VM_GC_ObjectLayout::doit_prologue() {
+  if (Universe::heap()->supports_heap_inspection()) {
+    return VM_GC_Operation::doit_prologue();
+  } else {
+    return false;
+  }
+}
+
+bool VM_GC_ObjectLayout::skip_operation() const {
+  assert(Universe::heap()->supports_heap_inspection(), "huh?");
+  return false;
+}
+
+void VM_GC_ObjectLayout::doit() {
+  HandleMark hm;
+#if 0
+  CollectedHeap* ch = Universe::heap();
+  ch->ensure_parsability(false); // must happen, even if collection does
+                                 // not happen (e.g. due to GC_locker)
+  if (_full_gc) {
+    // The collection attempt below would be skipped anyway if
+    // the gc locker is held. The following dump may then be a tad
+    // misleading to someone expecting only live objects to show
+    // up in the dump (see CR 6944195). Just issue a suitable warning
+    // in that case and do not attempt to do a collection.
+    // The latter is a subtle point, because even a failed attempt
+    // to GC will, in fact, induce one in the future, which we
+    // probably want to avoid in this case because the GC that we may
+    // be about to attempt holds value for us only
+    // if it happens now and not if it happens in the eventual
+    // future.
+    if (GC_locker::is_active()) {
+      warning("GC locker is held; pre-dump GC was skipped");
+    } else {
+      ch->collect_as_vm_thread(GCCause::_object_organize);
+    }
+  }
+#endif
+  ObjectLayout::organize_objects(_out, _reason);
+}
+
 
 void VM_GenCollectForAllocation::doit() {
   SvcGCMarker sgcm(SvcGCMarker::MINOR);
@@ -291,3 +425,21 @@ void VM_CollectForMetadataAllocation::doit() {
     set_gc_locked();
   }
 }
+
+bool VM_GC_RegularScavenge::doit_prologue() {
+  return true;
+}
+
+bool VM_GC_RegularScavenge::skip_operation() const {
+  return false;
+}
+
+
+void VM_GC_RegularScavenge::doit() {
+  HandleMark hm;
+  ParallelScavengeHeap* psh = (ParallelScavengeHeap*)Universe::heap();
+  psh->ensure_parsability(false); // must happen, even if collection does
+                                 // not happen (e.g. due to GC_locker)
+  psh->young_collect_as_vm_thread(GCCause::_regular_scavenge);
+}
+

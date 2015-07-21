@@ -189,6 +189,8 @@ class Linux {
   static void libpthread_init();
   static bool libnuma_init();
   static void* libnuma_dlsym(void* handle, const char* name);
+  static bool librapl_init();
+
   // Minimum stack size a thread can be created with (allowing
   // the VM to completely create the thread and enter user code)
   static size_t min_stack_allowed;
@@ -245,6 +247,9 @@ class Linux {
   typedef int (*numa_tonode_memory_func_t)(void *start, size_t size, int node);
   typedef void (*numa_interleave_memory_func_t)(void *start, size_t size, unsigned long *nodemask);
   typedef void (*numa_set_bind_policy_func_t)(int policy);
+  typedef int (*init_rapl_func_t)(void);
+  typedef int (*get_dram_total_energy_consumed_func_t)(unsigned int node, double *total_energy_consumed);
+  typedef int (*get_num_rapl_nodes_pkg_func_t)(void);
 
   static sched_getcpu_func_t _sched_getcpu;
   static numa_node_to_cpus_func_t _numa_node_to_cpus;
@@ -254,6 +259,9 @@ class Linux {
   static numa_interleave_memory_func_t _numa_interleave_memory;
   static numa_set_bind_policy_func_t _numa_set_bind_policy;
   static unsigned long* _numa_all_nodes;
+  static init_rapl_func_t _init_rapl;
+  static get_dram_total_energy_consumed_func_t _get_dram_total_energy_consumed;
+  static get_num_rapl_nodes_pkg_func_t _get_num_rapl_nodes_pkg;
 
   static void set_sched_getcpu(sched_getcpu_func_t func) { _sched_getcpu = func; }
   static void set_numa_node_to_cpus(numa_node_to_cpus_func_t func) { _numa_node_to_cpus = func; }
@@ -263,6 +271,11 @@ class Linux {
   static void set_numa_interleave_memory(numa_interleave_memory_func_t func) { _numa_interleave_memory = func; }
   static void set_numa_set_bind_policy(numa_set_bind_policy_func_t func) { _numa_set_bind_policy = func; }
   static void set_numa_all_nodes(unsigned long* ptr) { _numa_all_nodes = ptr; }
+  static void set_init_rapl(init_rapl_func_t func) { _init_rapl = func; }
+  static void set_get_dram_total_energy_consumed(get_dram_total_energy_consumed_func_t func) { _get_dram_total_energy_consumed = func; }
+  static void set_get_num_rapl_nodes_pkg(get_num_rapl_nodes_pkg_func_t func) { _get_num_rapl_nodes_pkg = func; }
+
+
   static int sched_getcpu_syscall(void);
  public:
   static int sched_getcpu()  { return _sched_getcpu != NULL ? _sched_getcpu() : -1; }
@@ -285,6 +298,11 @@ class Linux {
     }
   }
   static int get_node_by_cpu(int cpu_id);
+  static int init_rapl() { return _init_rapl != NULL ? _init_rapl() : -1; }
+  static int get_dram_total_energy_consumed(unsigned int node, double *total_energy_consumed) {
+    return _get_dram_total_energy_consumed != NULL ? _get_dram_total_energy_consumed(node, total_energy_consumed) : -1;
+  }
+  static int get_num_rapl_nodes_pkg() { return _get_num_rapl_nodes_pkg != NULL ? _get_num_rapl_nodes_pkg() : -1; }
 };
 
 

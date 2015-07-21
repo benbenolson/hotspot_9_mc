@@ -338,6 +338,16 @@ class ciMethod : public ciMetadata {
   void print_name(outputStream* st = tty);
   void print_short_name(outputStream* st = tty);
 
+  GrowableArray<klassOop>* klass_access_list () {
+    methodOop m = get_methodOop();
+    return m->klass_access_list();
+  }
+
+  void set_klass_access_list(GrowableArray<klassOop>* kal) {
+    methodOop m = get_methodOop();
+    m->set_klass_access_list(kal);
+  }
+
 #if INCLUDE_TRACE
   TraceStructCiMethod to_trace_struct() const;
 #endif

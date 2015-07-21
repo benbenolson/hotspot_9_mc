@@ -77,11 +77,10 @@ class AdaptiveSizePolicy : public CHeapObj<mtGC> {
   // threads run
   const double _throughput_goal;
 
-  // Last calculated sizes, in bytes, and aligned
   size_t _eden_size;        // calculated eden free space in bytes
-  size_t _promo_size;       // calculated cms gen free space in bytes
-
   size_t _survivor_size;    // calculated survivor size in bytes
+
+  size_t _promo_size;       // calculated cms gen free space in bytes
 
   // This is a hint for the heap:  we've detected that GC times
   // are taking longer than GCTimeLimit allows.

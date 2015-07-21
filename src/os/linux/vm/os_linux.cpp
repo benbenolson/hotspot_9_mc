@@ -105,6 +105,40 @@
 # include <inttypes.h>
 # include <sys/ioctl.h>
 
+#define __NR_mcolor 312
+#define __NR_get_address_mcolor 313
+#define __NR_set_task_mcolor 314
+#define __NR_set_mcolor_attr 315
+#define __NR_get_mcolor_attr 316
+
+typedef uint64_t traymask_t;
+
+enum mcolor {
+  MCOLOR_UNCOLORED,
+  MCOLOR_RED,
+  MCOLOR_BLUE,
+  MCOLOR_GREEN,
+  MCOLOR_WHITE,
+  MCOLOR_BLACK,
+  NR_MCOLORS
+};
+
+enum mc_policy {
+  MC_POLICY_DEFAULT,
+  MC_POLICY_PREFER,
+  MC_POLICY_BIND,
+  MC_POLICY_INTERLEAVE,
+  MC_POLICY_UNMAP,
+  NR_MC_POLICIES
+};
+
+struct mcolor_attr {
+  enum mc_policy policy;
+  traymask_t tray_mask;
+  int pos;
+};
+
+
 PRAGMA_FORMAT_MUTE_WARNINGS_FOR_GCC
 
 // if RUSAGE_THREAD for getrusage() has not been defined, do it here. The code calling
@@ -164,6 +198,61 @@ static void unpackTime(timespec* absTime, bool isAbsolute, jlong time);
 // utility functions
 
 static int SR_initialize();
+
+mcolor heapColor2mcolor(HeapColor color) {
+  switch(color) {
+    case HC_NOT_COLORED: return MCOLOR_UNCOLORED;
+    case HC_RED: return MCOLOR_RED;
+    case HC_BLUE: return MCOLOR_BLUE;
+    default: ShouldNotReachHere();
+  }
+}
+
+void get_mcolor_attr(mcolor color, mcolor_attr *attr) {
+  attr->pos = 0;
+  switch(color) {
+    case MCOLOR_UNCOLORED:
+      attr->policy = MC_POLICY_DEFAULT;
+      attr->tray_mask = (uint64_t)0x0;
+      break;
+    case MCOLOR_RED:
+      if (RedMemoryInterleave) {
+        attr->policy = MC_POLICY_INTERLEAVE;
+        //attr->tray_mask = (uint64_t)0x0300;
+        attr->tray_mask = *(Arguments::red_memory_tray_mask());
+      } else {
+        attr->policy = MC_POLICY_BIND;
+        //attr->tray_mask = (uint64_t)0x0300;
+        attr->tray_mask = *(Arguments::red_memory_tray_mask());
+      }
+      break;
+    case MCOLOR_BLUE:
+      if (BlueMemoryInterleave) {
+        attr->policy = MC_POLICY_INTERLEAVE;
+        //attr->tray_mask = (uint64_t)0xfc00;
+        attr->tray_mask = *(Arguments::blue_memory_tray_mask());
+      } else {
+        attr->policy = MC_POLICY_BIND;
+        //attr->tray_mask = (uint64_t)0xfc00;
+        attr->tray_mask = *(Arguments::blue_memory_tray_mask());
+      }
+      break;
+    default: ShouldNotReachHere();
+  }
+  return;
+}
+
+const char * mcolor2str(mcolor color) {
+  switch (color){
+    case MCOLOR_UNCOLORED: return "uncolored";
+    case MCOLOR_RED:       return "red";
+    case MCOLOR_BLUE:      return "blue";
+    case MCOLOR_GREEN:     return "green";
+    case MCOLOR_WHITE:     return "white";
+    case MCOLOR_BLACK:     return "black";
+  }
+  return "invalid mcolor";
+}
 
 julong os::available_memory() {
   return Linux::available_memory();
@@ -2643,9 +2732,17 @@ static void warn_fail_commit_memory(char* addr, size_t size,
 //       left at the time of mmap(). This could be a potential
 //       problem.
 int os::Linux::commit_memory_impl(char* addr, size_t size, bool exec) {
+#if 0
+  /* MRJ - preserve memory color across the mmap */
+  MemColor mcolor = (MemColor) syscall(__NR_get_address_mcolor, addr);
+#endif
   int prot = exec ? PROT_READ|PROT_WRITE|PROT_EXEC : PROT_READ|PROT_WRITE;
   uintptr_t res = (uintptr_t) ::mmap(addr, size, prot,
                                      MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0);
+#if 0
+  if (mcolor)
+    syscall(__NR_mcolor, addr, size, mcolor);
+#endif
   if (res != (uintptr_t) MAP_FAILED) {
     if (UseNUMAInterleaving) {
       numa_make_global(addr, size);
@@ -2733,8 +2830,30 @@ void os::pd_free_memory(char *addr, size_t bytes, size_t alignment_hint) {
   }
 }
 
+void os::color_memory(char *addr, size_t bytes, HeapColor hcolor) {
+  struct mcolor_attr attr;
+  enum mcolor color;
+
+  color = heapColor2mcolor(hcolor);
+  get_mcolor_attr(color, &attr);
+
+  tty->print_cr("mcolor(%p, %llu, %s)", addr, (unsigned long long)bytes,
+                 mcolor2str(color));
+  if (MColorColoredSpacePages) {
+    syscall(__NR_mcolor, addr, bytes, color);
+  }
+
+  tty->print_cr("set_mcolor_attr(%s,{%d,0x%lx})", mcolor2str(color),
+                attr.policy, attr.tray_mask);
+  if (MColorColoredSpacePages) {
+    syscall(__NR_set_mcolor_attr, color, &attr);
+  }
+}
+
 void os::numa_make_global(char *addr, size_t bytes) {
-  Linux::numa_interleave_memory(addr, bytes);
+  if(UseNUMAInterleave) {
+    Linux::numa_interleave_memory(addr, bytes);
+  }
 }
 
 // Define for numa_set_bind_policy(int). Setting the argument to 0 will set the
@@ -2750,8 +2869,55 @@ void os::numa_make_local(char *addr, size_t bytes, int lgrp_hint) {
   // getting SIGBUS when trying to allocate large pages on NUMA nodes with no
   // free large pages.
   Linux::numa_set_bind_policy(USE_MPOL_PREFERRED);
-  Linux::numa_tonode_memory(addr, bytes, lgrp_hint);
+if(MColorNUMA) {
+#if 0
+    struct mcinfo mcinfo;
+    mcinfo.policy = MC_POLICY_BIND;
+#endif
+    /* mrj - modified for new system call - never been tested */
+    struct mcolor_attr attr;
+    enum mcolor color;
+
+    color = lgrp_hint ? MCOLOR_RED : MCOLOR_BLUE;
+
+    attr.policy = MC_POLICY_BIND;
+    attr.tray_mask = lgrp_hint ? 0x1 : 0x2;
+
+    tty->print_cr("mcolor(%p, %s)", addr, mcolor2str(color));
+    syscall(__NR_mcolor, addr, color);
+
+    tty->print_cr("set_mcolor_attr(%s,{%d,0x%lx)", mcolor2str(color),
+                  attr.policy, attr.tray_mask);
+    syscall(__NR_set_mcolor_attr, color, &attr);
+
+  } else {
+    Linux::numa_tonode_memory(addr, bytes, lgrp_hint);
+  }
 }
+
+#if 0
+int os::tray_bind_addr(char *addr, size_t bytes, traymask_t *tray_mask) {
+  struct mcinfo mcinfo;
+  char *align_addr;
+  unsigned long align_bytes;
+
+  assert(tray_mask, "null traymask");
+
+  align_addr  = (char *) align_size_down((intptr_t)addr, os::Linux::page_size());
+  align_bytes = (unsigned long) align_size_up(bytes, os::Linux::page_size());
+
+  if (align_bytes == 0) {
+    tty->print("ignoring tray_bind_addr with zero size: tray_bind_addr(base=%p, len=%d, mask=0x%x)\n", align_addr, align_bytes, *(tray_mask));
+    return -1;
+  }
+
+  mcinfo.policy    = MC_POLICY_BIND;
+  mcinfo.tray_mask = *tray_mask;
+
+  tty->print("tray_bind_addr(base=%p, len=%lu, mask=0x%x)\n", align_addr, align_bytes, *(tray_mask));
+  return syscall(__NR_mcolor, align_addr, align_bytes, &mcinfo);
+}
+#endif
 
 bool os::numa_topology_changed() { return false; }
 
@@ -2787,6 +2953,13 @@ char *os::scan_pages(char *start, char* end, page_info* page_expected,
   return end;
 }
 
+bool os::get_colored_page_info(char *start, colored_page_info* info) {
+  return false;
+}
+
+char *os::scan_colored_pages(char *start, char* end, colored_page_info* page_expected, colored_page_info* page_found) {
+  return end;
+}
 
 int os::Linux::sched_getcpu_syscall(void) {
   unsigned int cpu;
@@ -2870,6 +3043,20 @@ bool os::Linux::libnuma_init() {
   return false;
 }
 
+bool os::Linux::librapl_init() {
+  void *handle = dlopen("librapl.so", RTLD_LAZY);
+  if (handle != NULL) {
+    set_init_rapl(CAST_TO_FN_PTR(init_rapl_func_t,
+                                         dlsym(handle, "init_rapl")));
+    set_get_dram_total_energy_consumed(CAST_TO_FN_PTR(get_dram_total_energy_consumed_func_t,
+                                         dlsym(handle, "get_dram_total_energy_consumed")));
+    set_get_num_rapl_nodes_pkg(CAST_TO_FN_PTR(get_num_rapl_nodes_pkg_func_t,
+                                         dlsym(handle, "get_num_rapl_nodes_pkg")));
+    return true;
+  }
+  return false;
+}
+
 // rebuild_cpu_to_node_map() constructs a table mapping cpud id to node id.
 // The table is later used in get_node_by_cpu().
 void os::Linux::rebuild_cpu_to_node_map() {
@@ -2924,6 +3111,9 @@ os::Linux::numa_tonode_memory_func_t os::Linux::_numa_tonode_memory;
 os::Linux::numa_interleave_memory_func_t os::Linux::_numa_interleave_memory;
 os::Linux::numa_set_bind_policy_func_t os::Linux::_numa_set_bind_policy;
 unsigned long* os::Linux::_numa_all_nodes;
+os::Linux::init_rapl_func_t os::Linux::_init_rapl;
+os::Linux::get_dram_total_energy_consumed_func_t os::Linux::_get_dram_total_energy_consumed;
+os::Linux::get_num_rapl_nodes_pkg_func_t os::Linux::_get_num_rapl_nodes_pkg;
 
 bool os::pd_uncommit_memory(char* addr, size_t size) {
   uintptr_t res = (uintptr_t) ::mmap(addr, size, PROT_NONE,

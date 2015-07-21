@@ -51,6 +51,8 @@
 
 #ifndef CC_INTERP
 
+#define DO_LOADS 1
+
 const int method_offset = frame::interpreter_frame_method_offset * wordSize;
 const int bcp_offset    = frame::interpreter_frame_bcp_offset    * wordSize;
 const int locals_offset = frame::interpreter_frame_locals_offset * wordSize;
@@ -317,6 +319,9 @@ void InterpreterGenerator::generate_counter_incr(
     const Address invocation_counter(rax,
                   MethodCounters::invocation_counter_offset() +
                   InvocationCounter::counter_offset());
+    const Address our_invocation_counter(rbx,
+                                         methodOopsDesc::our_invocation_counter_offset() +
+                                         InvocationCounter::counter_offset());
     __ get_method_counters(rbx, rax, done);
     const Address mask(rax, in_bytes(MethodCounters::invoke_mask_offset()));
     __ increment_mask_and_jump(invocation_counter, increment, mask, rcx,
@@ -336,6 +341,12 @@ void InterpreterGenerator::generate_counter_incr(
       __ incrementl(Address(rax,
               MethodCounters::interpreter_invocation_counter_offset()));
     }
+
+    // PK: Update our invocation counter
+    __ movl(rax, our_invocation_counter);         // load our_invocation count
+    __ increment(rax, InvocationCounter::count_increment);
+    __ movl(our_invocation_counter, rax);         // save our_invocation count
+
     // Update standard invocation counters
     __ movl(rcx, invocation_counter);
     __ incrementl(rcx, InvocationCounter::count_increment);
@@ -809,7 +820,7 @@ address InterpreterGenerator::generate_CRC32_updateBytes_entry(AbstractInterpret
 // native method than the typical interpreter frame setup.
 address InterpreterGenerator::generate_native_entry(bool synchronized) {
   // determine code generation flags
-  bool inc_counter  = UseCompiler || CountCompiledCalls;
+  bool inc_counter  = UseCompiler || CountCompiledCalls || AlwaysCountInvocations;
 
   // rbx: Method*
   // r13: sender sp
@@ -1256,7 +1267,7 @@ address InterpreterGenerator::generate_native_entry(bool synchronized) {
 //
 address InterpreterGenerator::generate_normal_entry(bool synchronized) {
   // determine code generation flags
-  bool inc_counter  = UseCompiler || CountCompiledCalls;
+  bool inc_counter  = UseCompiler || CountCompiledCalls || AlwaysCountInvocations;
 
   // ebx: Method*
   // r13: sender sp

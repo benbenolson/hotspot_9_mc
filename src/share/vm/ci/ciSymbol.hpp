@@ -30,6 +30,8 @@
 #include "ci/ciObjectFactory.hpp"
 #include "classfile/vmSymbols.hpp"
 #include "oops/symbol.hpp"
+#include "runtime/jrMethodInfo.hpp"
+
 
 // ciSymbol
 //
@@ -46,6 +48,8 @@ class ciSymbol : public ciBaseObject {
   friend class ciMethod;
   friend class ciField;
   friend class ciObjArrayKlass;
+  friend class JRMethodInfoManager; // JR Custom Content - this friend
+
 
 private:
   const vmSymbols::SID _sid;

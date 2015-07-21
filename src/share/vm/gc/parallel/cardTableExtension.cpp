@@ -137,6 +137,9 @@ void CardTableExtension::scavenge_contents_parallel(ObjectStartArray* start_arra
   int ssize = 128; // Naked constant!  Work unit = 64k.
   int dirty_card_count = 0;
 
+  pm->set_safe_scavenge(true);
+
+
   // It is a waste to get here if empty.
   assert(sp->bottom() < sp->top(), "Should not be called if empty");
   oop* sp_top = (oop*)space_top;
@@ -317,6 +320,7 @@ void CardTableExtension::scavenge_contents_parallel(ObjectStartArray* start_arra
       current_card++;
     }
   }
+  pm->set_safe_scavenge(false);
 }
 
 // This should be called before a scavenge.

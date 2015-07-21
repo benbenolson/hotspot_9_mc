@@ -160,20 +160,27 @@ class StealTask : public GCTask {
 
 class OldToYoungRootsTask : public GCTask {
  private:
-  PSOldGen* _gen;
-  HeapWord* _gen_top;
+  PSOldGen *_gen;
+  HeapWord *_gen_top;
+  HeapWord *_colored_gen_top[HC_TOTAL];
   uint _stripe_number;
   uint _stripe_total;
 
  public:
-  OldToYoungRootsTask(PSOldGen *gen,
-                      HeapWord* gen_top,
-                      uint stripe_number,
-                      uint stripe_total) :
-    _gen(gen),
-    _gen_top(gen_top),
-    _stripe_number(stripe_number),
-    _stripe_total(stripe_total) { }
+  OldToYoungRootsTask(PSOldGen *gen, HeapWord* gen_top, 
+                      uint stripe_number, uint stripe_total) :
+    _gen(gen), _gen_top(gen_top), _stripe_number(stripe_number), _stripe_total(stripe_total) {
+      _colored_gen_top[HC_RED]  = NULL;
+      _colored_gen_top[HC_BLUE] = NULL;
+    }
+
+  OldToYoungRootsTask(PSOldGen *gen, HeapWord* gen_top, HeapWord* red_top,
+    HeapWord* blue_top, uint stripe_number, uint stripe_total) :
+    _gen(gen), _gen_top(gen_top), _stripe_number(stripe_number), _stripe_total(stripe_total) {
+      _colored_gen_top[HC_RED]  = red_top;
+      _colored_gen_top[HC_BLUE] = blue_top;
+    }
+
 
   char* name() { return (char *)"old-to-young-roots-task"; }
 

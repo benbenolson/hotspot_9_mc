@@ -100,6 +100,42 @@ class PSYoungPromotionLAB : public PSPromotionLAB {
   debug_only(virtual bool lab_is_valid(MemRegion lab);)
 };
 
+class PSColoredSpacePromotionLAB : public PSPromotionLAB {
+ private:
+  MutableSpace *_colored_space;
+
+ public:
+  using PSPromotionLAB::initialize;
+
+  PSColoredSpacePromotionLAB() { }
+
+  void initialize(MutableSpace *cs, MemRegion mr) {
+    _colored_space = cs;
+    initialize(mr);
+  }
+
+  // Not MT safe
+  HeapWord* allocate(size_t size) {
+    // Can't assert this, when young fills, we keep the LAB around, but flushed.
+    // assert(_state != flushed, "Sanity");
+    HeapWord* obj = top();
+    HeapWord* new_top = obj + size;
+    // The 'new_top>obj' check is needed to detect overflow of obj+size.
+    if (new_top > obj && new_top <= end()) {
+      set_top(new_top);
+      assert(is_object_aligned((intptr_t)obj) && is_object_aligned((intptr_t)new_top),
+             "checking alignment");
+      return obj;
+    }
+
+    //objinfo_log->print("too_much ... \n");
+    return NULL;
+  }
+
+  debug_only(virtual bool lab_is_valid(MemRegion lab));
+};
+
+
 class PSOldPromotionLAB : public PSPromotionLAB {
  private:
   ObjectStartArray* _start_array;

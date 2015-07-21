@@ -58,6 +58,11 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
   static PSOldGen*                      _old_gen;
   static MutableSpace*                  _young_space;
 
+  /* MRJ -- for colored space collection */
+  static MutableSpace*                _young_colored_space[HC_TOTAL];
+  static MutableSpace*                _old_colored_space[HC_TOTAL];
+
+
 #if TASKQUEUE_STATS
   size_t                              _masked_pushes;
   size_t                              _masked_steals;
@@ -72,8 +77,12 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
 
   PSYoungPromotionLAB                 _young_lab;
   PSOldPromotionLAB                   _old_lab;
+  PSColoredSpacePromotionLAB          _young_colored_lab[HC_TOTAL];
+  PSColoredSpacePromotionLAB          _old_colored_lab[HC_TOTAL];
   bool                                _young_gen_is_full;
   bool                                _old_gen_is_full;
+  bool                                _young_colored_space_is_full[HC_TOTAL];
+  bool                                _old_colored_space_is_full[HC_TOTAL];
 
   OopStarTaskQueue                    _claimed_stack_depth;
   OverflowTaskQueue<oop, mtGC>        _claimed_stack_breadth;
@@ -84,11 +93,23 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
   uint                                _array_chunk_size;
   uint                                _min_array_size_for_chunking;
 
+  static bool                         _object_organize;
+  //static jint                         _cnt;
+
+  bool                                _safe_scavenge;
+
   PromotionFailedInfo                 _promotion_failed_info;
 
   // Accessors
   static PSOldGen* old_gen()         { return _old_gen; }
   static MutableSpace* young_space() { return _young_space; }
+  static MutableSpace* young_colored_space(HeapColor color) {
+    return _young_colored_space[color];
+  }
+  static MutableSpace* old_colored_space(HeapColor color) {
+    return _old_colored_space[color];
+  }
+
 
   inline static PSPromotionManager* manager_array(int index);
   template <class T> inline void claim_or_forward_internal_depth(T* p);
@@ -153,6 +174,8 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
 
   static void pre_scavenge();
   static bool post_scavenge(YoungGCTracer& gc_tracer);
+  static void set_object_organize(bool org) { _object_organize = org;  }
+  static bool object_organize()             { return _object_organize; }
 
   static PSPromotionManager* gc_thread_promotion_manager(int index);
   static PSPromotionManager* vm_thread_promotion_manager();
@@ -171,8 +194,20 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
   bool old_gen_is_full()               { return _old_gen_is_full; }
   void set_old_gen_is_full(bool state) { _old_gen_is_full = state; }
 
+  bool colored_space_is_full(HeapColor color) {
+    return _young_colored_space_is_full[color];
+  }
+
+  bool old_colored_space_is_full(HeapColor color) {
+    return _old_colored_space_is_full[color];
+  }
+
+  bool safe_scavenge()                { return _safe_scavenge; }
+  void set_safe_scavenge(bool s)      { _safe_scavenge = s; }
+
   // Promotion methods
   template<bool promote_immediately> oop copy_to_survivor_space(oop o);
+  oop copy_to_colored_space(oop o, HeapColor color);
   oop oop_promotion_failed(oop obj, markOop obj_mark);
 
   void reset();

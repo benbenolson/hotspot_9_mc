@@ -30,6 +30,7 @@
 #include "gc/shared/cardTableModRefBS.hpp"
 #include "gc/shared/gcLocker.inline.hpp"
 #include "gc/shared/spaceDecorator.hpp"
+#include "gc_implementation/shared/mutableColoredSpace.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/java.hpp"
 
@@ -128,8 +129,17 @@ void PSOldGen::initialize_work(const char* perf_data_name, int level) {
   //
   // ObjectSpace stuff
   //
-
+  // do not use colored space for the permanent generation
+#if 1
+  if (UseColoredSpaces && (strcmp(perf_data_name, "perm") != 0)) {
+  //if (UseColoredSpaces) {
+    _object_space = new MutableColoredSpace(virtual_space()->alignment());
+  } else {
+    _object_space = new MutableSpace(virtual_space()->alignment());
+  }
+#else
   _object_space = new MutableSpace(virtual_space()->alignment());
+#endif
 
   if (_object_space == NULL)
     vm_exit_during_initialization("Could not allocate an old gen space");
@@ -203,6 +213,41 @@ HeapWord* PSOldGen::allocate(size_t word_size) {
   }
 
   return res;
+}
+
+// Allocation. We report all successful allocations to the size policy
+// Note that the perm gen does not use this method, and should not!
+HeapWord* PSOldGen::allocate(size_t word_size, HeapColor color) {
+  assert_locked_or_safepoint(Heap_lock);
+  HeapWord* res = allocate_noexpand(word_size, color);
+
+  if (res == NULL) {
+    res = expand_and_allocate(word_size, color);
+  }
+
+  // Allocations in the old generation need to be reported
+  if (res != NULL) {
+    ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+    heap->size_policy()->tenured_allocation(word_size);
+  }
+
+  return res;
+}
+
+HeapWord* PSOldGen::expand_and_allocate(size_t word_size, HeapColor color) {
+  expand(word_size*HeapWordSize);
+  if (GCExpandToAllocateDelayMillis > 0) {
+    os::sleep(Thread::current(), GCExpandToAllocateDelayMillis, false);
+  }
+  return allocate_noexpand(word_size, color);
+}
+
+HeapWord* PSOldGen::expand_and_cas_allocate(size_t word_size, HeapColor color) {
+  expand(word_size*HeapWordSize);
+  if (GCExpandToAllocateDelayMillis > 0) {
+    os::sleep(Thread::current(), GCExpandToAllocateDelayMillis, false);
+  }
+  return cas_allocate_noexpand(word_size, color);
 }
 
 HeapWord* PSOldGen::expand_and_allocate(size_t word_size) {
@@ -341,6 +386,19 @@ void PSOldGen::resize(size_t desired_free_space) {
   const size_t alignment = virtual_space()->alignment();
   const size_t size_before = virtual_space()->committed_size();
   size_t new_size = used_in_bytes() + desired_free_space;
+
+#if 1
+  // make sure any one colored space can hold all of the committed data
+  if (UseColoredSpaces && (strcmp(name(), "PSPermGen") != 0)) {
+  //if (UseColoredSpaces) {
+    size_t tmp_size = new_size;
+    new_size *= ((MutableColoredSpace*)object_space())->colored_spaces()->length();
+    tty->print("\nnew_size: %8d, adjusted_new_size: %8d\n", tmp_size/K, new_size/K);
+    //tty->flush();
+  }
+#endif
+
+
   if (new_size < used_in_bytes()) {
     // Overflowed the addition.
     new_size = gen_size_limit();
@@ -399,10 +457,21 @@ void PSOldGen::post_resize() {
   start_array()->set_covered_region(new_memregion);
   ParallelScavengeHeap::heap()->barrier_set()->resize_covered_region(new_memregion);
 
+#if 1
+  if (UseColoredSpaces && (strcmp(name(), "PSPermGen") != 0)) {
+  //if (UseColoredSpaces) {
+    ((MutableColoredSpace*)object_space())->resize_colored_space(new_memregion);
+  } else {
+    object_space()->initialize(new_memregion,
+                               SpaceDecorator::DontClear,
+                               SpaceDecorator::DontMangle);
+  }
+#else
   // ALWAYS do this last!!
   object_space()->initialize(new_memregion,
                              SpaceDecorator::DontClear,
                              SpaceDecorator::DontMangle);
+#endif
 
   assert(new_word_size == heap_word_size(object_space()->capacity_in_bytes()),
     "Sanity");
@@ -437,10 +506,16 @@ void PSOldGen::print_on(outputStream* st) const {
     st->print(" total " SIZE_FORMAT "K, used " SIZE_FORMAT "K",
                 capacity_in_bytes()/K, used_in_bytes()/K);
   }
-  st->print_cr(" [" INTPTR_FORMAT ", " INTPTR_FORMAT ", " INTPTR_FORMAT ")",
-                p2i(virtual_space()->low_boundary()),
-                p2i(virtual_space()->high()),
-                p2i(virtual_space()->high_boundary()));
+
+  if (PrintExtraGCDetails) {
+    st->print_cr(" [" INTPTR_FORMAT ", " INTPTR_FORMAT ", " INTPTR_FORMAT ")",
+                  virtual_space()->low_boundary(),
+                  virtual_space()->high(),
+                  virtual_space()->high_boundary());
+  } else {
+    st->print_cr("");
+  }
+
 
   st->print("  object"); object_space()->print_on(st);
 }

@@ -44,6 +44,7 @@
 #include "gc/shared/referencePolicy.hpp"
 #include "gc/shared/referenceProcessor.hpp"
 #include "gc/shared/spaceDecorator.hpp"
+#include "gc/shared/vmGCOperations.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/biasedLocking.hpp"
 #include "runtime/fprofiler.hpp"
@@ -109,6 +110,12 @@ bool PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
   if (GC_locker::check_active_before_gc()) {
     return false;
   }
+  /* MRJ: we control our heap sizes so this never happens -- but some of the
+   * benchmarks invoke full GC explicitly -- just ignore it when it does
+   * happen
+   */
+  if (DisableMajorGC)
+    return;
 
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
   GCCause::Cause gc_cause = heap->gc_cause();
@@ -136,8 +143,36 @@ bool PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
 
   AdaptiveSizePolicyOutput(size_policy, heap->total_collections());
 
+  jlong start_time, stop_time;
+  double start_dram_total_energy_consumed, stop_dram_total_energy_consumed,
+         energy_delta, power, elapsed_time;
+  if (TimeStampGC || PowerSampleGC) {
+    start_time = os::javaTimeMillis();
+    if (PowerSampleGC) {
+      os::Linux::get_dram_total_energy_consumed(1,&start_dram_total_energy_consumed);
+    }
+  }
+
+
   heap->print_heap_before_gc();
   heap->trace_heap_before_gc(_gc_tracer);
+
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (PrintObjectAddressInfoAtGC) {
+    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "pre-major-gc");
+
+    VMThread::execute(&op1);
+  }
+#endif
+#if 0
+#ifdef PROFILE_OBJECT_INFO
+  if (PrintObjectInfoBeforeFullGC) {
+    VM_GC_ObjectInfoCollection collector(objinfo_log, false /* ! full gc */,
+                                         false /* ! prologue */, "before-GC");
+    collector.doit();
+  }
+#endif
+#endif
 
   // Fill in TLABs
   heap->accumulate_statistics_all_tlabs();
@@ -195,6 +230,21 @@ bool PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
     ref_processor()->setup_policy(clear_all_softrefs);
 
     mark_sweep_phase1(clear_all_softrefs);
+
+#ifdef PROFILE_OBJECT_INFO
+    if (ProfileObjectInfo) {
+      if (Universe::persistent_object_info_table() != NULL) {
+        deadobj_log->print_cr("major-GC -- dumping deads: val = %d",
+          Universe::persistent_object_info_table()->cur_val());
+        MajorDeadInstanceClosure dic;
+        if (!OnlyTenuredObjectInfo)
+          young_gen->object_iterate(&dic);
+        old_gen->object_iterate(&dic);
+        perm_gen->object_iterate(&dic);
+        deadobj_log->print_cr("done dumping deads");
+      }
+    }
+#endif
 
     mark_sweep_phase2();
 
@@ -381,8 +431,31 @@ bool PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
 
   NOT_PRODUCT(ref_processor()->verify_no_references_recorded());
 
+  if (TimeStampGC || PowerSampleGC) {
+    stop_time = os::javaTimeMillis();
+    elapsed_time = ((double) (stop_time - start_time) / 1000.0);
+    if (TimeStampGC) {
+      tty->print_cr("major PS (MS):     %2.4lf", elapsed_time);
+    }
+    if (PowerSampleGC) {
+      os::Linux::get_dram_total_energy_consumed(1,&stop_dram_total_energy_consumed);
+      energy_delta = stop_dram_total_energy_consumed - start_dram_total_energy_consumed;
+      power = energy_delta / elapsed_time;
+      tty->print_cr("elapsed (major) GC time: %2.4lf     delta: %2.4lf     watts: %6.2lf",
+                    elapsed_time, energy_delta, power);
+    }
+  }
+
   heap->print_heap_after_gc();
   heap->trace_heap_after_gc(_gc_tracer);
+
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (PrintObjectAddressInfoAtGC) {
+    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "post-major-gc");
+
+    VMThread::execute(&op1);
+  }
+#endif
 
   heap->post_full_gc_dump(_gc_timer);
 

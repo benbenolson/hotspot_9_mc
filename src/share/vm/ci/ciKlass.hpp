@@ -129,6 +129,13 @@ public:
   void print_name_on(outputStream* st);
 
   const char* external_name() const;
+
+  klassOop mj_get_klassOop() const {
+    klassOop k = (klassOop)get_oop();
+    assert(k != NULL, "illegal use of unloaded klass");
+    return k;
+  }
+
 };
 
 #endif // SHARE_VM_CI_CIKLASS_HPP

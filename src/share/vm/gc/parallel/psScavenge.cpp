@@ -44,7 +44,9 @@
 #include "gc/shared/referencePolicy.hpp"
 #include "gc/shared/referenceProcessor.hpp"
 #include "gc/shared/spaceDecorator.hpp"
+#include "gc_implementation/shared/vmGCOperations.hpp"
 #include "memory/resourceArea.hpp"
+#include "memory/heapInspection.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/biasedLocking.hpp"
 #include "runtime/fprofiler.hpp"
@@ -56,6 +58,24 @@
 #include "utilities/stack.inline.hpp"
 
 HeapWord*                  PSScavenge::_to_space_top_before_gc = NULL;
+#if 0
+#ifdef COLORED_EDEN_SPACE
+HeapWord*                  PSScavenge::_eden_colored_space_top[]    = {NULL,NULL};
+HeapWord*                  PSScavenge::_eden_colored_space_bottom[] = {NULL,NULL};
+#else
+HeapWord*                  PSScavenge::_eden_space_top    = NULL;
+HeapWord*                  PSScavenge::_eden_space_bottom = NULL;
+#endif
+#else
+HeapWord*                  PSScavenge::_eden_colored_space_top[]    = {NULL,NULL};
+HeapWord*                  PSScavenge::_eden_colored_space_bottom[] = {NULL,NULL};
+#endif
+HeapWord*                  PSScavenge::_from_colored_space_top[]    = {NULL,NULL};
+HeapWord*                  PSScavenge::_from_colored_space_bottom[] = {NULL,NULL};
+#if 0
+HeapWord*                  PSScavenge::_to_colored_space_top[]      = {NULL,NULL};
+HeapWord*                  PSScavenge::_to_colored_space_bottom[]   = {NULL,NULL};
+#endif
 int                        PSScavenge::_consecutive_skipped_scavenges = 0;
 ReferenceProcessor*        PSScavenge::_ref_processor = NULL;
 CardTableExtension*        PSScavenge::_card_table = NULL;
@@ -69,6 +89,15 @@ ParallelScavengeTracer     PSScavenge::_gc_tracer;
 Stack<markOop, mtGC>       PSScavenge::_preserved_mark_stack;
 Stack<oop, mtGC>           PSScavenge::_preserved_oop_stack;
 CollectorCounters*         PSScavenge::_counters = NULL;
+#ifdef PROFILE_OBJECT_INFO
+unsigned long              PSScavenge::_live_objects[][HC_ENUM_TOTAL] = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSScavenge::_live_size[][HC_ENUM_TOTAL]    = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSScavenge::_live_refs[][HC_ENUM_TOTAL]    = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSScavenge::_hot_objects[][HC_ENUM_TOTAL]  = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSScavenge::_hot_size[][HC_ENUM_TOTAL]     = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSScavenge::_hot_refs[][HC_ENUM_TOTAL]     = {{0,0,0,0},{0,0,0,0}};
+#endif
+
 
 // Define before use
 class PSIsAliveClosure: public BoolObjectClosure {
@@ -99,7 +128,7 @@ public:
             "expected an oop while scanning weak refs");
 
     // Weak refs may be visited more than once.
-    if (PSScavenge::should_scavenge(p, _to_space)) {
+    if (PSScavenge::should_scavenge(p, false, _to_space)) {
       _promotion_manager->copy_and_push_safe_barrier<T, /*promote_immediately=*/false>(p);
     }
   }
@@ -219,6 +248,10 @@ bool PSScavenge::invoke() {
   assert(Thread::current() == (Thread*)VMThread::vm_thread(), "should be in vm thread");
   assert(!ParallelScavengeHeap::heap()->is_gc_active(), "not reentrant");
 
+  if (ScavengeAtRegularIntervals) {
+    RegularScavenge::set_collecting(true);
+  }
+
   ParallelScavengeHeap* const heap = ParallelScavengeHeap::heap();
   PSAdaptiveSizePolicy* policy = heap->size_policy();
   IsGCActiveMark mark;
@@ -301,8 +334,37 @@ bool PSScavenge::invoke_no_policy() {
     heap->record_gen_tops_before_GC();
   }
 
+  jlong start_time, stop_time;
+  double start_dram_total_energy_consumed, stop_dram_total_energy_consumed,
+         energy_delta, power, elapsed_time;
+  if (TimeStampGC || PowerSampleGC) {
+    start_time = os::javaTimeMillis();
+    if (PowerSampleGC) {
+      os::Linux::get_dram_total_energy_consumed(1,&start_dram_total_energy_consumed);
+    }
+  }
+
   heap->print_heap_before_gc();
   heap->trace_heap_before_gc(&_gc_tracer);
+
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (PrintObjectAddressInfoAtGC) {
+    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "pre-minor-gc");
+
+    VMThread::execute(&op1);
+  }
+#endif
+
+#if 1
+#ifdef PROFILE_OBJECT_INFO
+  if (PrintObjectInfoBeforeFullGC) {
+    if (gc_cause != GCCause::_object_info_collection) {
+      VM_GC_ObjectInfoCollection collector(objinfo_log, apinfo_log, "before-GC");
+      collector.doit();
+    }
+  }
+#endif
+#endif
 
   assert(!NeverTenure || _tenuring_threshold == markOopDesc::max_age + 1, "Sanity");
   assert(!AlwaysTenure || _tenuring_threshold == 0, "Sanity");
@@ -351,6 +413,11 @@ bool PSScavenge::invoke_no_policy() {
       young_gen->to_space()->mangle_unused_area();
     }
     save_to_space_top_before_gc();
+    if (UseColoredSpaces) {
+      save_eden_colored_space_bounds();
+      save_from_colored_space_bounds();
+    }
+
 
     COMPILER2_PRESENT(DerivedPointerTable::clear());
 
@@ -373,8 +440,20 @@ bool PSScavenge::invoke_no_policy() {
     // straying into the promotion labs.
     HeapWord* old_top = old_gen->object_space()->top();
 
+    HeapWord* colored_old_top[HC_TOTAL];
+    colored_old_top[HC_RED] = colored_old_top[HC_BLUE] = NULL;
+    if (UseColoredSpaces) {
+      MutableColoredSpace *obj_space = ((MutableColoredSpace*)old_gen->object_space());
+      colored_old_top[HC_RED]  = obj_space->colored_spaces()->at(HC_RED)->space()->top();
+      colored_old_top[HC_BLUE] = obj_space->colored_spaces()->at(HC_BLUE)->space()->top();
+    }
+
     // Release all previously held resources
     gc_task_manager()->release_all_resources();
+
+    (gc_cause == GCCause::_object_organize) ?
+      PSPromotionManager::set_object_organize(true) :
+      PSPromotionManager::set_object_organize(false);
 
     // Set the number of GC threads to be used in this collection
     gc_task_manager()->set_active_gang();
@@ -398,7 +477,12 @@ bool PSScavenge::invoke_no_policy() {
         // in the old gen.
         uint stripe_total = active_workers;
         for(uint i=0; i < stripe_total; i++) {
-          q->enqueue(new OldToYoungRootsTask(old_gen, old_top, i, stripe_total));
+          if (UseColoredSpaces) {
+            q->enqueue(new OldToYoungRootsTask(old_gen, old_top,
+              colored_old_top[HC_RED], colored_old_top[HC_BLUE], i));
+          } else {
+            q->enqueue(new OldToYoungRootsTask(old_gen, old_top, i));
+          }
         }
       }
 
@@ -480,7 +564,21 @@ bool PSScavenge::invoke_no_policy() {
     size_policy->minor_collection_end(gc_cause);
 
     if (!promotion_failure_occurred) {
-      // Swap the survivor spaces.
+#ifdef PROFILE_OBJECT_INFO
+      /* MRJ - print out yer deads */
+      if (ProfileObjectInfo && !OnlyTenuredObjectInfo) {
+        if (Universe::persistent_object_info_table() != NULL) {
+          deadobj_log->print_cr("minor-GC -- dumping deads: val = %d",
+            Universe::persistent_object_info_table()->cur_val());
+          MinorDeadInstanceClosure dic(young_gen->to_space(),
+                                       old_gen->object_space());
+          young_gen->eden_space()->object_iterate(&dic);
+          young_gen->from_space()->object_iterate(&dic);
+          deadobj_log->print_cr("done dumping deads");
+        }
+      }
+#endif
+
       young_gen->eden_space()->clear(SpaceDecorator::Mangle);
       young_gen->from_space()->clear(SpaceDecorator::Mangle);
       young_gen->swap_spaces();
@@ -673,9 +771,42 @@ bool PSScavenge::invoke_no_policy() {
     Universe::verify(" VerifyAfterGC:");
   }
 
+  if (TimeStampGC || PowerSampleGC) {
+    stop_time = os::javaTimeMillis();
+    elapsed_time = ((double) (stop_time - start_time) / 1000.0);
+    if (TimeStampGC) {
+      tty->print_cr("minor PS (none):   %2.4lf", elapsed_time);
+    }
+    if (PowerSampleGC) {
+      os::Linux::get_dram_total_energy_consumed(1,&stop_dram_total_energy_consumed);
+      energy_delta = stop_dram_total_energy_consumed - start_dram_total_energy_consumed;
+      power = energy_delta / elapsed_time;
+      tty->print_cr("elapsed (minor) GC time: %2.4lf     delta: %2.4lf     watts: %6.2lf",
+                    elapsed_time, energy_delta, power);
+    }
+  }
+
   heap->print_heap_after_gc();
   heap->trace_heap_after_gc(&_gc_tracer);
   _gc_tracer.report_tenuring_threshold(tenuring_threshold());
+
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (PrintObjectAddressInfoAtGC) {
+    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "post-minor-gc");
+
+    VMThread::execute(&op1);
+  }
+#endif
+#if 1
+#ifdef PROFILE_OBJECT_INFO
+  if (PrintObjectInfoAfterFullGC) {
+    if (gc_cause != GCCause::_object_info_collection) {
+      VM_GC_ObjectInfoCollection collector(objinfo_log, apinfo_log, "after-GC");
+      collector.doit();
+    }
+  }
+#endif
+#endif
 
   if (ZapUnusedHeapArea) {
     young_gen->eden_space()->check_mangled_unused_area_complete();
@@ -756,6 +887,29 @@ void PSScavenge::oop_promotion_failed(oop obj, markOop obj_mark) {
 bool PSScavenge::should_attempt_scavenge() {
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
   PSGCAdaptivePolicyCounters* counters = heap->gc_policy_counters();
+
+  if (OnlyIntervalGC) {
+    GCCause::Cause gc_cause = heap->gc_cause();
+    if (gc_cause == GCCause::_allocation_failure) {
+      tty->print_cr("doing GC for allocation failure");
+      Universe::print_heap_before_gc();
+    }
+    if (gc_cause != GCCause::_object_info_collection &&
+        gc_cause != GCCause::_allocation_failure) {
+      tty->print("rejected GC for cause: %s\n", GCCause::to_string(gc_cause));
+      return false;
+    }
+  }
+
+  if (OnlyOrganizeGC) {
+    GCCause::Cause gc_cause = heap->gc_cause();
+    if (gc_cause != GCCause::_object_organize &&
+        gc_cause != GCCause::_allocation_failure) {
+      tty->print("rejected GC for cause: %s\n", GCCause::to_string(gc_cause));
+      return false;
+    }
+  }
+
 
   if (UsePerfData) {
     counters->update_scavenge_skipped(not_skipped);

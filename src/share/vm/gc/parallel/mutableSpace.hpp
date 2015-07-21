@@ -89,6 +89,8 @@ class MutableSpace: public ImmutableSpace {
                           bool mangle_space,
                           bool setup_pages = SetupPages);
 
+  void color_region(MemRegion mr, HeapColor color);
+
   virtual void clear(bool mangle_space);
   // Does the usual initialization but optionally resets top to bottom.
 #if 0  // MANGLE_SPACE
@@ -135,8 +137,12 @@ class MutableSpace: public ImmutableSpace {
 
   // Iteration.
   void oop_iterate(ExtendedOopClosure* cl);
+  void oop_iterate(OopClosure* cl, HeapWord *start, HeapWord *end);
   void oop_iterate_no_header(OopClosure* cl);
   void object_iterate(ObjectClosure* cl);
+
+  int object_cnt();
+  int object_size();
 
   // Debugging
   virtual void print() const;

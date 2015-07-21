@@ -69,7 +69,7 @@ void MutableSpace::initialize(MemRegion mr,
   assert(Universe::on_page_boundary(mr.start()) && Universe::on_page_boundary(mr.end()),
          "invalid space boundaries");
 
-  if (setup_pages && (UseNUMA || AlwaysPreTouch)) {
+  if (setup_pages && (UseNUMA || AlwaysPreTouch || UseColoredSpaces)) {
     // The space may move left and right or expand/shrink.
     // We'd like to enforce the desired page placement.
     MemRegion head, tail;
@@ -92,19 +92,31 @@ void MutableSpace::initialize(MemRegion mr,
         tail_size = pointer_delta(mr.end(), intersection.end());
       }
       // Limit the amount of page manipulation if necessary.
-      if (NUMASpaceResizeRate > 0 && !AlwaysPreTouch) {
-        const size_t change_size = head_size + tail_size;
-        const float setup_rate_words = NUMASpaceResizeRate >> LogBytesPerWord;
-        head_size = MIN2((size_t)(setup_rate_words * head_size / change_size),
-                         head_size);
-        tail_size = MIN2((size_t)(setup_rate_words * tail_size / change_size),
-                         tail_size);
+      if (UseColoredSpaces) {
+        if (ColoredSpaceResizeRate > 0 && !AlwaysPreTouch) {
+          const size_t change_size = head_size + tail_size;
+          const float setup_rate_words = ColoredSpaceResizeRate >> LogBytesPerWord;
+          head_size = MIN2((size_t)(setup_rate_words * head_size / change_size),
+                           head_size);
+          tail_size = MIN2((size_t)(setup_rate_words * tail_size / change_size),
+                           tail_size);
+        }
+      } else {
+        if (NUMASpaceResizeRate > 0 && !AlwaysPreTouch) {
+          const size_t change_size = head_size + tail_size;
+          const float setup_rate_words = NUMASpaceResizeRate >> LogBytesPerWord;
+          head_size = MIN2((size_t)(setup_rate_words * head_size / change_size),
+                           head_size);
+          tail_size = MIN2((size_t)(setup_rate_words * tail_size / change_size),
+                           tail_size);
+        }
       }
       head = MemRegion(intersection.start() - head_size, intersection.start());
       tail = MemRegion(intersection.end(), intersection.end() + tail_size);
     }
     assert(mr.contains(head) && mr.contains(tail), "Sanity");
 
+    /* this numa interleaves the pages */
     if (UseNUMA) {
       numa_setup_pages(head, clear_space);
       numa_setup_pages(tail, clear_space);
@@ -121,6 +133,19 @@ void MutableSpace::initialize(MemRegion mr,
 
   set_bottom(mr.start());
   set_end(mr.end());
+
+  //static int cnt = 0;
+  if (RedHeap && clear_space) {
+  //if (RedHeap) {
+#if 0
+    if (cnt < 10) {
+      color_region(mr, HC_RED);
+    }
+#endif
+    color_region(mr, HC_RED);
+    //cnt++;
+  }
+
 
   if (clear_space) {
     clear(mangle_space);
@@ -167,6 +192,27 @@ void MutableSpace::set_top_for_allocations() {
 }
 #endif
 
+void MutableSpace::color_region(MemRegion mr, HeapColor color) {
+  size_t page_size = UseLargePages ? alignment() : os::vm_page_size();
+  HeapWord *start = (HeapWord*)round_to((intptr_t)mr.start(), page_size);
+  HeapWord *end = (HeapWord*)round_down((intptr_t)mr.end(), page_size);
+  if (end > start) {
+    MemRegion aligned_region(start, end);
+    assert((intptr_t)aligned_region.start()     % page_size == 0 &&
+           (intptr_t)aligned_region.byte_size() % page_size == 0, "Bad alignment");
+    assert(region().contains(aligned_region), "Sanity");
+    // First we tell the OS which page size we want in the given range. The underlying
+    // large page can be broken down if we require small pages.
+    os::realign_memory((char*)aligned_region.start(), aligned_region.byte_size(), page_size);
+    // Then we uncommit the pages in the range.
+    if (FreeColoredSpacePages) {
+      os::free_memory((char*)aligned_region.start(), aligned_region.byte_size());
+    }
+    // And make them local/first-touch biased.
+    os::color_memory((char*)aligned_region.start(), aligned_region.byte_size(), color);
+  }
+}
+
 // This version requires locking. */
 HeapWord* MutableSpace::allocate(size_t size) {
   assert(Heap_lock->owned_by_self() ||
@@ -179,6 +225,16 @@ HeapWord* MutableSpace::allocate(size_t size) {
     set_top(new_top);
     assert(is_object_aligned((intptr_t)obj) && is_object_aligned((intptr_t)new_top),
            "checking alignment");
+#if 1
+    ParallelScavengeHeap* psh = ((ParallelScavengeHeap*)Universe::heap());
+    if ((psh->young_gen()->from_space() == this) ||
+        (psh->young_gen()->to_space()   == this)) {
+    if (mjcnt<1000) {
+      //tty->print("old_top: %p new_top: %p size: %d\n", obj, new_top, size);
+      mjcnt++;
+    }
+    }
+#endif
     return obj;
   } else {
     return NULL;
@@ -200,6 +256,16 @@ HeapWord* MutableSpace::cas_allocate(size_t size) {
       }
       assert(is_object_aligned((intptr_t)obj) && is_object_aligned((intptr_t)new_top),
              "checking alignment");
+#if 1
+      ParallelScavengeHeap* psh = ((ParallelScavengeHeap*)Universe::heap());
+      if ((psh->young_gen()->from_space() == this) ||
+          (psh->young_gen()->to_space()   == this)) {
+      if (mjcnt<1000) {
+        //tty->print("old_top: %p new_top: %p size: %d\n", obj, new_top, size);
+        mjcnt++;
+      }
+      }
+#endif
       return obj;
     } else {
       return NULL;
@@ -211,6 +277,18 @@ HeapWord* MutableSpace::cas_allocate(size_t size) {
 bool MutableSpace::cas_deallocate(HeapWord *obj, size_t size) {
   HeapWord* expected_top = obj + size;
   return (HeapWord*)Atomic::cmpxchg_ptr(obj, top_addr(), expected_top) == expected_top;
+}
+
+void MutableSpace::oop_iterate(OopClosure* cl, HeapWord *start, HeapWord *end) {
+  assert(bottom() <= start, "oop_iterate: bad bottom");
+  assert(top() >= end, "oop_iterate: bad top");
+
+  HeapWord* obj_addr = start;
+  HeapWord* t = end;
+  // Could call objects iterate, but this is easier.
+  while (obj_addr < t) {
+    obj_addr += oop(obj_addr)->oop_iterate(cl);
+  }
 }
 
 void MutableSpace::oop_iterate(ExtendedOopClosure* cl) {
@@ -239,6 +317,28 @@ void MutableSpace::object_iterate(ObjectClosure* cl) {
   }
 }
 
+int MutableSpace::object_cnt() {
+  int cnt = 0;
+  HeapWord* p = bottom();
+  while (p < top()) {
+    p += oop(p)->size();
+    cnt += 1;
+    //cl->do_object(oop(p));
+  }
+  return cnt;
+}
+
+int MutableSpace::object_size() {
+  int size = 0;
+  HeapWord* p = bottom();
+  while (p < top()) {
+    p += oop(p)->size();
+    size += oop(p)->size();
+    //cl->do_object(oop(p));
+  }
+  return size;
+}
+
 void MutableSpace::print_short() const { print_short_on(tty); }
 void MutableSpace::print_short_on( outputStream* st) const {
   st->print(" space " SIZE_FORMAT "K, %d%% used", capacity_in_bytes() / K,
@@ -248,8 +348,15 @@ void MutableSpace::print_short_on( outputStream* st) const {
 void MutableSpace::print() const { print_on(tty); }
 void MutableSpace::print_on(outputStream* st) const {
   MutableSpace::print_short_on(st);
-  st->print_cr(" [" INTPTR_FORMAT "," INTPTR_FORMAT "," INTPTR_FORMAT ")",
-                 p2i(bottom()), p2i(top()), p2i(end()));
+  st->print_cr(" (" SIZE_FORMAT "K)", used_in_bytes() / K);
+#if 0
+  if (UseColoredSpaces) {
+    st->print_cr(" (" SIZE_FORMAT "K)", used_in_bytes() / K);
+  } else {
+    st->print_cr(" [" INTPTR_FORMAT "," INTPTR_FORMAT "," INTPTR_FORMAT "]",
+                   bottom(), top(), end());
+  }
+#endif
 }
 
 void MutableSpace::verify() {

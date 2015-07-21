@@ -80,6 +80,18 @@ class MethodMatcher : public CHeapObj<mtCompiler> {
     return NULL;
   }
 
+  MethodMatcher* find(Symbol* class_name, Symbol* method_name,
+                      Symbol* signature) {
+    for (MethodMatcher* current = this; current != NULL; current = current->_next) {
+      if (match(class_name, current->class_name(), current->_class_mode) &&
+          match(method_name, current->method_name(), current->_method_mode) &&
+          (current->signature() == NULL || current->signature() == signature)) {
+        return current;
+      }
+    }
+    return NULL;
+  }
+
   bool match(methodHandle method) {
     return find(method) != NULL;
   }
@@ -265,6 +277,36 @@ public:
   }
 };
 
+class AllocPointMatcher: public MethodMatcher {
+  GrowableArray<MethodAllocPointInfo*>* _aps;
+ public:
+  AllocPointMatcher(Symbol* class_name, Mode class_mode,
+                    Symbol* method_name, Mode method_mode,
+                    Symbol* signature, MethodMatcher* next):
+    MethodMatcher(class_name, class_mode, method_name, method_mode, signature, next) {
+    _aps = new (ResourceObj::C_HEAP) GrowableArray<MethodAllocPointInfo*>(8,true);
+  }
+
+  GrowableArray<MethodAllocPointInfo*>* aps() { return _aps; }
+
+  bool add_method_alloc_point(int bci, HeapColor color) {
+    MethodAllocPointInfo *api = new MethodAllocPointInfo(bci, color);
+    aps()->append(api);
+  }
+
+  virtual void print() {
+#if 0
+    print_base();
+    tty->cr();
+    for(int i=0; i < _aps->length(); i++) {
+      tty->print("  %d: %s\n", _aps->at(i)->bci(),
+                            heapColor2Str(_aps->at(i)->color()));
+    }
+    tty->cr();
+#endif
+  }
+};
+
 template<>
 void TypedMethodOptionMatcher<intx>::print() {
   ttyLocker ttyl;
@@ -324,6 +366,7 @@ enum OracleCommand {
   OptionCommand,
   QuietCommand,
   HelpCommand,
+  AllocPointColorCommand,
   OracleCommandCount
 };
 
@@ -338,7 +381,8 @@ static const char * command_names[] = {
   "log",
   "option",
   "quiet",
-  "help"
+  "help",
+  "apcolor"
 };
 
 class MethodMatcher;
@@ -372,6 +416,30 @@ static MethodMatcher* add_option_string(Symbol* class_name, MethodMatcher::Mode 
   lists[OptionCommand] = new TypedMethodOptionMatcher<T>(class_name, c_mode, method_name, m_mode,
                                                          signature, option, value, lists[OptionCommand]);
   return lists[OptionCommand];
+}
+
+static MethodMatcher* add_alloc_point(Symbol* class_name, MethodMatcher::Mode c_mode,
+                               Symbol* method_name, MethodMatcher::Mode m_mode,
+                               Symbol* signature, int bci, HeapColor color) {
+  AllocPointMatcher *cur = (AllocPointMatcher*)lists[AllocPointColorCommand]
+                            ->find(class_name,method_name, signature);
+  if (cur == NULL) {
+    cur = new AllocPointMatcher(class_name, c_mode, method_name, m_mode,
+                                signature, lists[AllocPointColorCommand]);
+    lists[AllocPointColorCommand] = cur;
+  }
+  cur->add_method_alloc_point(bci, color);
+  return (MethodMatcher*) cur;
+}
+
+void CompilerOracle::initialize_alloc_point_colors(methodHandle method) {
+  if (lists[AllocPointColorCommand] != NULL) {
+    AllocPointMatcher *cur = (AllocPointMatcher*)lists[AllocPointColorCommand]
+                              ->find(method);
+    if (cur != NULL) {
+      method->initialize_aps(cur->aps());
+    }
+  }
 }
 
 template<typename T>
@@ -792,7 +860,7 @@ void CompilerOracle::parse_from_line(char* line) {
         if (match != NULL && !_quiet) {
           // Print out the last match added
           ttyLocker ttyl;
-          tty->print("CompileCommand: %s ", command_names[command]);
+          tty->print("CompileCommand: %s\n", command_names[command]);
           match->print();
         }
         line += bytes_read;
@@ -820,6 +888,14 @@ void CompilerOracle::parse_from_line(char* line) {
         }
         line += skip_whitespace(line);
       } // while(
+    } else if (command == AllocPointColorCommand) {
+      int bci, color, nmatch;
+
+      nmatch = sscanf(line, "%*[ \t]%d%*[ \t]%d%n", &bci, &color, &bytes_read);
+      if ( nmatch == 2 ) {
+        match = add_alloc_point(c_name, c_match, m_name, m_match,
+                                signature, bci, (HeapColor)color);
+      }
     } else {
       match = add_predicate(command, c_name, c_match, m_name, m_match, signature);
     }
@@ -845,7 +921,7 @@ void CompilerOracle::parse_from_line(char* line) {
       tty->print_cr("  Unrecognized text %s after command ", line);
       CompilerOracle::print_tip();
     } else if (match != NULL && !_quiet) {
-      tty->print("CompileCommand: %s ", command_names[command]);
+      tty->print("CompileCommand: %s\n", command_names[command]);
       match->print();
     }
   }

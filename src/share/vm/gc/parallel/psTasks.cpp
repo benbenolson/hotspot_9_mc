@@ -182,13 +182,29 @@ void OldToYoungRootsTask::do_it(GCTaskManager* manager, uint which) {
     PSPromotionManager* pm = PSPromotionManager::gc_thread_promotion_manager(which);
     CardTableExtension* card_table =
       barrier_set_cast<CardTableExtension>(ParallelScavengeHeap::heap()->barrier_set());
+    ParallelScavengeHeap *heap = ((ParallelScavengeHeap*)Universe::heap());
+    if (UseColoredSpaces) {
+      assert(_colored_gen_top[HC_RED]  != NULL &&
+             _colored_gen_top[HC_BLUE] != NULL,
+             "null red and/or blue top");
+      assert(_gen == heap->old_gen(), "bad old gen");
+      MutableColoredSpace *obj_space = ((MutableColoredSpace*)_gen->object_space());
+      MutableSpace *red_space = obj_space->colored_spaces()->at(HC_RED)->space();
+      MutableSpace *blue_space = obj_space->colored_spaces()->at(HC_BLUE)->space();
 
-    card_table->scavenge_contents_parallel(_gen->start_array(),
-                                           _gen->object_space(),
-                                           _gen_top,
-                                           pm,
-                                           _stripe_number,
-                                           _stripe_total);
+      card_table->scavenge_contents_parallel(_gen->start_array(),
+        red_space, _colored_gen_top[HC_RED], pm, _stripe_number);
+
+      card_table->scavenge_contents_parallel(_gen->start_array(),
+        blue_space, _colored_gen_top[HC_BLUE], pm, _stripe_number);
+
+    } else {
+      card_table->scavenge_contents_parallel(_gen->start_array(),
+                                             _gen->object_space(),
+                                             _gen_top,
+                                             pm,
+                                             _stripe_number);
+    }
 
     // Do the real work
     pm->drain_stacks(false);

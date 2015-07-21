@@ -58,6 +58,24 @@ class PSScavenge: AllStatic {
   // Saved value of to_space->top(), used to prevent objects in to_space from
   // being rescanned.
   static HeapWord* _to_space_top_before_gc;
+#if 0
+#ifdef COLORED_EDEN_SPACE
+  static HeapWord* _eden_colored_space_top[HC_TOTAL];
+  static HeapWord* _eden_colored_space_bottom[HC_TOTAL];
+#else
+  static HeapWord* _eden_space_top;
+  static HeapWord* _eden_space_bottom;
+#endif
+#else
+  static HeapWord* _eden_colored_space_top[HC_TOTAL];
+  static HeapWord* _eden_colored_space_bottom[HC_TOTAL];
+#endif
+  static HeapWord* _from_colored_space_top[HC_TOTAL];
+  static HeapWord* _from_colored_space_bottom[HC_TOTAL];
+#if 0
+  static HeapWord* _to_colored_space_top[HC_TOTAL];
+  static HeapWord* _to_colored_space_bottom[HC_TOTAL];
+#endif
 
   // Number of consecutive attempts to scavenge that were skipped
   static int                _consecutive_skipped_scavenges;
@@ -89,9 +107,32 @@ class PSScavenge: AllStatic {
 
   static HeapWord* to_space_top_before_gc() { return _to_space_top_before_gc; }
   static inline void save_to_space_top_before_gc();
+  static inline void save_from_colored_space_bounds();
+#if 0
+  static inline void save_to_colored_space_bounds();
+#endif
+#if 0
+#ifdef COLORED_EDEN_SPACE
+  static inline void save_eden_colored_space_bounds();
+#else
+  static inline void save_eden_space_bounds();
+#endif
+#else
+  static inline void save_eden_colored_space_bounds();
+#endif
 
   // Private accessors
   static CardTableExtension* const card_table()       { assert(_card_table != NULL, "Sanity"); return _card_table; }
+
+#ifdef PROFILE_OBJECT_INFO
+  static unsigned long _live_objects[2][HC_ENUM_TOTAL];
+  static unsigned long _live_size[2][HC_ENUM_TOTAL];
+  static unsigned long _live_refs[2][HC_ENUM_TOTAL];
+  static unsigned long _hot_objects[2][HC_ENUM_TOTAL];
+  static unsigned long _hot_size[2][HC_ENUM_TOTAL];
+  static unsigned long _hot_refs[2][HC_ENUM_TOTAL];
+#endif
+
   static const ParallelScavengeTracer* gc_tracer() { return &_gc_tracer; }
 
  public:
@@ -100,6 +141,9 @@ class PSScavenge: AllStatic {
   static elapsedTimer*    accumulated_time()    { return &_accumulated_time; }
   static int              consecutive_skipped_scavenges()
     { return _consecutive_skipped_scavenges; }
+
+  static HeapWord* my_young_gen_boundary()     { return _young_generation_boundary; }
+  static HeapWord* my_to_space_top_before_gc() { return _to_space_top_before_gc; }
 
   // Performance Counters
   static CollectorCounters* counters()           { return _counters; }
@@ -135,16 +179,19 @@ class PSScavenge: AllStatic {
   // If an attempt to promote fails, this method is invoked
   static void oop_promotion_failed(oop obj, markOop obj_mark);
 
-  template <class T> static inline bool should_scavenge(T* p);
+  template <class T> static inline bool should_scavenge(T* p, bool safe);
 
   // These call should_scavenge() above and, if it returns true, also check that
   // the object was not newly copied into to_space.  The version with the bool
   // argument is a convenience wrapper that fetches the to_space pointer from
   // the heap and calls the other version (if the arg is true).
-  template <class T> static inline bool should_scavenge(T* p, MutableSpace* to_space);
-  template <class T> static inline bool should_scavenge(T* p, bool check_to_space);
+  template <class T> static inline bool should_scavenge(T* p, bool safe, MutableSpace* to_space);
+  template <class T> static inline bool should_scavenge(T* p, bool safe, bool check_to_space);
 
   static void copy_and_push_safe_barrier_from_klass(PSPromotionManager* pm, oop* p);
+
+  static inline HeapColor get_survivor_color(PSPromotionManager* pm, HeapWord* obj);
+  static inline HeapColor get_current_color(HeapWord* obj);
 
   // Is an object in the young generation
   // This assumes that the 'o' is in the heap,
@@ -161,6 +208,113 @@ class PSScavenge: AllStatic {
   inline static bool is_obj_in_young(HeapWord* o) {
     return o >= _young_generation_boundary;
   }
+
+#ifdef PROFILE_OBJECT_INFO
+  inline static PersistentObjectInfo *obj_poi(oop obj) {
+    PersistentObjectInfo *poi = NULL;
+    if (obj->blueprint()->oop_is_instance()) {
+      poi = ((instanceOop)obj)->poi();
+    } else if (obj->blueprint()->oop_is_array()) {
+      poi = ((arrayOop)obj)->poi();
+    }
+    return poi;
+  }
+
+  inline static void obj_set_poi(oop obj, PersistentObjectInfo *poi) {
+    if (obj->blueprint()->oop_is_instance()) {
+      ((instanceOop)obj)->set_poi(poi);
+    } else if (obj->blueprint()->oop_is_array()) {
+      ((arrayOop)obj)->set_poi(poi);
+    }
+  }
+
+  inline static bool obj_is_initialized(oop obj) {
+    if (obj->blueprint()->oop_is_instance()) {
+      return ((instanceOop)obj)->is_initialized();
+    } else if (obj->blueprint()->oop_is_array()) {
+      return ((arrayOop)obj)->is_initialized();
+    }
+    return false;
+  }
+
+  static inline jint obj_refs(oop obj) {
+    return (obj_poi(obj)->val_load_cnt() + obj_poi(obj)->val_store_cnt());
+  }
+
+  inline static bool obj_is_hot(oop obj) {
+    jint refcnt = obj_refs(obj);
+    return (refcnt > HotObjectThreshold);
+  }
+
+  inline static jint obj_id(oop obj) {
+    jint id = 0;
+    if (obj->blueprint()->oop_is_instance()) {
+      id = ((instanceOop)obj)->id();
+    } else if (obj->blueprint()->oop_is_array()) {
+      id = ((arrayOop)obj)->id();
+    }
+    return id;
+  }
+#endif
+#if 0
+#ifdef COLORED_EDEN_SPACE
+  inline static bool eden_colored_space_contains(HeapColor color, HeapWord* o) {
+    return (_eden_colored_space_bottom[color] <= o &&
+            _eden_colored_space_top[color] > o);
+  }
+#else
+  inline static bool eden_space_contains(HeapWord* o) {
+    return (_eden_space_bottom <= o && _eden_space_top > o);
+  }
+#endif
+#else
+  inline static bool eden_colored_space_contains(HeapColor color, HeapWord* o) {
+    return (_eden_colored_space_bottom[color] <= o &&
+            _eden_colored_space_top[color] > o);
+  }
+#endif
+  inline static bool from_colored_space_contains(HeapColor color, HeapWord* o) {
+    return (_from_colored_space_bottom[color] <= o &&
+            _from_colored_space_top[color] > o);
+  }
+
+#ifdef PROFILE_OBJECT_INFO
+  inline static void profile_object_copy(oop obj, HeapColor to_color, bool forwarded);
+
+  inline static void reset_object_copy_profile() {
+    int g,i;
+    //objinfo_log->print_cr("resetting object copy profile");
+    for (g=0; g < PERM_GEN; g++) {
+      for (i=0; i < HC_ENUM_TOTAL; i++) {
+        _live_objects[g][i] = 0;
+        _live_size[g][i]    = 0;
+        _live_refs[g][i]    = 0;
+        _hot_objects[g][i]  = 0;
+        _hot_size[g][i]     = 0;
+        _hot_refs[g][i]     = 0;
+      }
+    }
+  }
+
+  inline static unsigned long live_objects(PSGenType gen, HeapColorEnum hce) {
+    return _live_objects[gen][hce];
+  }
+  inline static unsigned long live_size(PSGenType gen, HeapColorEnum hce) {
+    return _live_size[gen][hce];
+  }
+  inline static unsigned long live_refs(PSGenType gen, HeapColorEnum hce) {
+    return _live_refs[gen][hce];
+  }
+  inline static unsigned long hot_objects(PSGenType gen, HeapColorEnum hce) {
+    return _hot_objects[gen][hce];
+  }
+  inline static unsigned long hot_size(PSGenType gen, HeapColorEnum hce) {
+    return _hot_size[gen][hce];
+  }
+  inline static unsigned long hot_refs(PSGenType gen, HeapColorEnum hce) {
+    return _hot_refs[gen][hce];
+  }
+#endif
 };
 
 #endif // SHARE_VM_GC_PARALLEL_PSSCAVENGE_HPP

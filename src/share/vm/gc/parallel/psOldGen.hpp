@@ -29,6 +29,7 @@
 #include "gc/parallel/objectStartArray.hpp"
 #include "gc/parallel/psGenerationCounters.hpp"
 #include "gc/parallel/psVirtualspace.hpp"
+#include "gc_implementation/shared/mutableColoredSpace.hpp"
 #include "gc/parallel/spaceCounters.hpp"
 #include "runtime/safepoint.hpp"
 
@@ -59,6 +60,49 @@ class PSOldGen : public CHeapObj<mtGC> {
 
   // Used when initializing the _name field.
   static inline const char* select_name();
+
+    /* MRJ -- support for colored allocation during GC */
+  HeapWord* allocate_noexpand(size_t word_size, bool is_tlab, HeapColor color) {
+    // We assume the heap lock is held here.
+    assert(!is_tlab, "Does not support TLAB allocation");
+    assert(UseColoredSpaces, "colored allocation without colored spaces");
+    assert_locked_or_safepoint(Heap_lock);
+
+    HeapWord* res = ((MutableColoredSpace*)object_space())->
+                     allocate(word_size, color);
+
+    if (res != NULL) {
+      _start_array.allocate_block(res);
+    }
+    return res;
+  }
+
+  // Support for MT garbage collection. CAS allocation is lower overhead than grabbing
+  // and releasing the heap lock, which is held during gc's anyway. This method is not
+  // safe for use at the same time as allocate_noexpand()!
+  HeapWord* cas_allocate_noexpand(size_t word_size, HeapColor color) {
+    assert(SafepointSynchronize::is_at_safepoint(), "Must only be called at safepoint");
+    assert(UseColoredSpaces, "colored allocation without colored spaces");
+    HeapWord* res = ((MutableColoredSpace*)object_space())->
+                     cas_allocate(word_size, color);
+    if (res != NULL) {
+      _start_array.allocate_block(res);
+    }
+    return res;
+  }
+
+  // Support for MT garbage collection. See above comment.
+  HeapWord* cas_allocate(size_t word_size, HeapColor color) {
+    HeapWord* res = cas_allocate_noexpand(word_size, color);
+    return (res == NULL) ? expand_and_cas_allocate(word_size, color) : res;
+  }
+
+  HeapWord* expand_and_allocate(size_t word_size, bool is_tlab, HeapColor color);
+  HeapWord* expand_and_cas_allocate(size_t word_size, HeapColor color);
+
+  /* MRJ -- default allocation -- if using colored spaces, this will allocate
+   * from the red space
+   */
 
 #ifdef ASSERT
   void assert_block_in_covered_region(MemRegion new_memregion) {
@@ -184,10 +228,20 @@ class PSOldGen : public CHeapObj<mtGC> {
   // Allocation. We report all successful allocations to the size policy
   // Note that the perm gen does not use this method, and should not!
   HeapWord* allocate(size_t word_size);
+  HeapWord* allocate(size_t word_size, HeapColor color);
 
   // Iteration.
   void oop_iterate_no_header(OopClosure* cl) { object_space()->oop_iterate_no_header(cl); }
   void object_iterate(ObjectClosure* cl) { object_space()->object_iterate(cl); }
+  void colored_object_iterate(ObjectClosure* cl, HeapColor color) {
+    assert (strcmp(name(), "PSPermGen") != 0, "cannot color iterate perm space");
+    MutableSpace *space = ((MutableColoredSpace*)object_space())->
+                          colored_spaces()->at(color)->space();
+    // objinfo_log->print_cr("\ndumping old: top: %p, bottom: %p",
+    // space->top(), space->bottom());
+    space->object_iterate(cl);
+  }
+
 
   // Debugging - do not use for time critical operations
   virtual void print() const;

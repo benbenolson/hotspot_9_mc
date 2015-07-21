@@ -157,6 +157,21 @@ class PSYoungGen : public CHeapObj<mtGC> {
   }
 
   // Allocation
+#if 0
+#if COLORED_EDEN_SPACE
+  HeapWord* allocate(size_t word_size, bool is_tlab, HeapColor color) {
+    assert(UseColoredSpaces, "colored allocation without colored spaces");
+    HeapWord *result = ((MutableColoredSpace*)eden_space())->cas_allocate(word_size, color);
+    return result;
+  }
+#endif
+#else
+  HeapWord* allocate(size_t word_size, bool is_tlab, HeapColor color) {
+    assert(UseColoredSpaces, "colored allocation without colored spaces");
+    HeapWord *result = ((MutableColoredSpace*)eden_space())->cas_allocate(word_size, color);
+    return result;
+  }
+#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
   HeapWord* allocate(size_t word_size) {
     HeapWord* result = eden_space()->cas_allocate(word_size);
     return result;
@@ -168,6 +183,7 @@ class PSYoungGen : public CHeapObj<mtGC> {
   // Iteration.
   void oop_iterate(ExtendedOopClosure* cl);
   void object_iterate(ObjectClosure* cl);
+  void colored_object_iterate(ObjectClosure* cl, HeapColor color);
 
   virtual void reset_after_change();
   virtual void reset_survivors_after_shrink();

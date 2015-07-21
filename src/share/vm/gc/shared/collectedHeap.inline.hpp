@@ -85,6 +85,21 @@ inline void post_allocation_notify(KlassHandle klass, oop obj, int size) {
   }
 }
 
+inline void post_allocation_notify(KlassHandle klass, oop obj, HeapColor color) {
+  // support low memory notifications (no-op if not enabled)
+  LowMemoryDetector::detect_low_memory_for_collected_pools();
+
+  // support for JVMTI VMObjectAlloc event (no-op if not enabled)
+  JvmtiExport::vm_object_alloc_event_collector(obj);
+
+  if (DTraceAllocProbes) {
+    // support for Dtrace object alloc event (no-op most of the time)
+    if (klass() != NULL && klass()->klass_part()->name() != NULL) {
+      SharedRuntime::dtrace_object_alloc(obj);
+    }
+  }
+}
+
 void CollectedHeap::post_allocation_setup_obj(KlassHandle klass,
                                               HeapWord* obj,
                                               int size) {
@@ -93,6 +108,18 @@ void CollectedHeap::post_allocation_setup_obj(KlassHandle klass,
          !((oop)obj)->is_array(), "must not be an array");
   // notify jvmti and dtrace
   post_allocation_notify(klass, (oop)obj, size);
+}
+
+void CollectedHeap::post_allocation_setup_obj(KlassHandle klass,
+                                              HeapWord* obj,
+                                              size_t size,
+                                              HeapColor color) {
+  post_allocation_setup_common(klass, obj, size);
+  assert(Universe::is_bootstrapping() ||
+         !((oop)obj)->blueprint()->oop_is_array(), "must not be an array");
+
+  // notify jvmti and dtrace
+  post_allocation_notify(klass, (oop)obj, color);
 }
 
 void CollectedHeap::post_allocation_setup_array(KlassHandle klass,
@@ -110,6 +137,22 @@ void CollectedHeap::post_allocation_setup_array(KlassHandle klass,
   post_allocation_notify(klass, new_obj, new_obj->size());
 }
 
+void CollectedHeap::post_allocation_setup_array(KlassHandle klass,
+                                                HeapWord* obj,
+                                                size_t size,
+                                                int length,
+                                                HeapColor color) {
+  // Set array length before setting the _klass field
+  // in post_allocation_setup_common() because the klass field
+  // indicates that the object is parsable by concurrent GC.
+  assert(length >= 0, "length should be non-negative");
+  ((arrayOop)obj)->set_length(length);
+  post_allocation_setup_common(klass, obj, size);
+  assert(((oop)obj)->blueprint()->oop_is_array(), "must be an array");
+  // notify jvmti and dtrace (must be after length is set for dtrace)
+  post_allocation_notify(klass, (oop)obj, color);
+}
+
 HeapWord* CollectedHeap::common_mem_allocate_noinit(KlassHandle klass, size_t size, TRAPS) {
 
   // Clear unhandled oops for memory allocation.  Memory allocation might
@@ -123,7 +166,15 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(KlassHandle klass, size_t si
 
   HeapWord* result = NULL;
   if (UseTLAB) {
+#ifdef COLORED_TLABS
+    if (UseColoredSpaces) {
+      result = CollectedHeap::allocate_from_tlab(THREAD, size, UnknownObjectHeapColor);
+    } else {
+      result = CollectedHeap::allocate_from_tlab(THREAD, size);
+    }
+#else
     result = allocate_from_tlab(klass, THREAD, size);
+#endif
     if (result != NULL) {
       assert(!HAS_PENDING_EXCEPTION,
              "Unexpected exception, will result in uninitialized storage");

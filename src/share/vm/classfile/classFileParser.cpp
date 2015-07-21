@@ -58,6 +58,7 @@
 #include "runtime/timer.hpp"
 #include "services/classLoadingService.hpp"
 #include "services/threadService.hpp"
+#include "runtime/mutexLocker.hpp"
 #include "utilities/array.hpp"
 #include "utilities/exceptions.hpp"
 #include "utilities/globalDefinitions.hpp"
@@ -2512,6 +2513,19 @@ methodHandle ClassFileParser::parse_method(bool is_interface,
   }
 
   NOT_PRODUCT(m->verify());
+
+  if (MethodSampleColors) {
+    JRMethodInfoManager_lock->lock_without_safepoint_check();
+    JRMethodInfoManager::add_method(m_oop);
+    JRMethodInfoManager_lock->unlock();
+    m_oop->set_temperature(0);
+  }
+
+  if (HotKlassOrganize) {
+      GrowableArray<klassOop>* kal = new (ResourceObj::C_HEAP) GrowableArray<klassOop>(10, true);
+      m_oop->set_klass_access_list(kal);
+  }
+
   return m;
 }
 
@@ -4266,6 +4280,16 @@ instanceKlassHandle ClassFileParser::parseClassFile(Symbol* name,
   // Extended Class Redefinition)
   instanceKlassHandle this_klass (THREAD, preserve_this_klass);
   debug_only(this_klass->verify();)
+
+  if (ColorObjectAllocations) {
+    for (int index = 0; index < this_klass->methods()->length(); index++) {
+      methodOop m_oop = (methodOopDesc*)this_klass->methods()->obj_at(index);
+      methodHandle method(THREAD,m_oop);
+      method->set_aps(NULL);
+      CompilerOracle::initialize_alloc_point_colors(method);
+    }
+  }
+
 
   // Clear class if no error has occurred so destructor doesn't deallocate it
   _klass = NULL;

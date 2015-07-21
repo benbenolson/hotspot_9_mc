@@ -96,6 +96,9 @@ class CollectedHeap : public CHeapObj<mtInternal> {
   // Used in support of ReduceInitialCardMarks; only consulted if COMPILER2 is being used
   bool _defer_initial_card_mark;
 
+  /* MRJ -- id for each object */
+  static int _top_oop_id;
+
   MemRegion _reserved;
 
  protected:
@@ -124,7 +127,10 @@ class CollectedHeap : public CHeapObj<mtInternal> {
   // pure virtual.
   void pre_initialize();
 
+#ifdef COLORED_TLABS
   // Create a new tlab. All TLAB allocations must go through this.
+  virtual HeapWord* allocate_new_tlab(size_t size, HeapColor color);
+#endif
   virtual HeapWord* allocate_new_tlab(size_t size);
 
   // Accumulate statistics on all tlabs.
@@ -134,16 +140,28 @@ class CollectedHeap : public CHeapObj<mtInternal> {
   virtual void resize_all_tlabs();
 
   // Allocate from the current thread's TLAB, with broken-out slow path.
+#ifdef COLORED_TLABS
+  inline static HeapWord* allocate_from_tlab(Thread* thread, size_t size,
+                                             HeapColor color);
+  static HeapWord* allocate_from_tlab_slow(Thread* thread, size_t size,
+                                           HeapColor color);
+#endif
   inline static HeapWord* allocate_from_tlab(KlassHandle klass, Thread* thread, size_t size);
   static HeapWord* allocate_from_tlab_slow(KlassHandle klass, Thread* thread, size_t size);
 
   // Allocate an uninitialized block of the given size, or returns NULL if
   // this is impossible.
   inline static HeapWord* common_mem_allocate_noinit(KlassHandle klass, size_t size, TRAPS);
+  inline static HeapWord* common_mem_allocate_noinit(size_t size, bool is_noref,
+                                                     HeapColor color, TRAPS);
+
 
   // Like allocate_init, but the block returned by a successful allocation
   // is guaranteed initialized to zeros.
   inline static HeapWord* common_mem_allocate_init(KlassHandle klass, size_t size, TRAPS);
+  inline static HeapWord* common_mem_allocate_init(size_t size, bool is_noref,
+                                                   HeapColor color, TRAPS);
+
 
   // Helper functions for (VM) allocation.
   inline static void post_allocation_setup_common(KlassHandle klass, HeapWord* obj);
@@ -152,8 +170,17 @@ class CollectedHeap : public CHeapObj<mtInternal> {
 
   inline static void post_allocation_setup_obj(KlassHandle klass, HeapWord* obj, int size);
 
+  inline static void post_allocation_setup_obj(KlassHandle klass,
+                                               HeapWord* obj, size_t size,
+                                               HeapColor color);
+
   inline static void post_allocation_setup_array(KlassHandle klass,
                                                  HeapWord* obj, int length);
+
+  inline static void post_allocation_setup_array(KlassHandle klass,
+                                                 HeapWord* obj, size_t size,
+                                                 int length, HeapColor color);
+
 
   // Clears an allocated object.
   inline static void init_obj(HeapWord* obj, size_t size);
@@ -292,11 +319,18 @@ class CollectedHeap : public CHeapObj<mtInternal> {
 
   // General obj/array allocation facilities.
   inline static oop obj_allocate(KlassHandle klass, int size, TRAPS);
+  inline static oop obj_allocate(KlassHandle klass, int size, HeapColor color, TRAPS);
   inline static oop array_allocate(KlassHandle klass, int size, int length, TRAPS);
   inline static oop array_allocate_nozero(KlassHandle klass, int size, int length, TRAPS);
 
   inline static void post_allocation_install_obj_klass(KlassHandle klass,
                                                        oop obj);
+  inline static oop array_allocate(KlassHandle klass, int size, int length,
+                                   HeapColor color, TRAPS);
+  inline static oop large_typearray_allocate(KlassHandle klass, int size,
+                                             int length, TRAPS);
+  inline static oop large_typearray_allocate(KlassHandle klass, int size,
+                                             int length, HeapColor color, TRAPS);
 
   // Raw memory allocation facilities
   // The obj and array allocate methods are covers for these methods.
@@ -304,6 +338,11 @@ class CollectedHeap : public CHeapObj<mtInternal> {
   // called to allocate TLABs, only individual objects.
   virtual HeapWord* mem_allocate(size_t size,
                                  bool* gc_overhead_limit_was_exceeded) = 0;
+  virtual HeapWord* mem_allocate(size_t size,
+                                 bool is_noref,
+                                 bool is_tlab,
+                                 bool* gc_overhead_limit_was_exceeded,
+                                 HeapColor color) = 0;
 
   // Utilities for turning raw memory into filler objects.
   //
@@ -591,6 +630,17 @@ class CollectedHeap : public CHeapObj<mtInternal> {
 #endif
 
  public:
+  static int fresh_oop_id() {
+    _top_oop_id++;
+    return _top_oop_id;
+  }
+  static bool valid_id(int id) {
+    return ((id > BOTTOM_OOP_ID) && (id <= _top_oop_id));
+  }
+
+  static int bottom_oop_id() { return BOTTOM_OOP_ID; }
+  static int top_oop_id()    { return _top_oop_id; }
+
   // Copy the current allocation context statistics for the specified contexts.
   // For each context in contexts, set the corresponding entries in the totals
   // and accuracy arrays to the current values held by the statistics.  Each

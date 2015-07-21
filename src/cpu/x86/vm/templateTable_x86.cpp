@@ -42,6 +42,9 @@
 
 #define __ _masm->
 
+#define DO_LOADS 1
+#define DO_STORES 1
+
 // Global Register Names
 Register rbcp     = LP64_ONLY(r13) NOT_LP64(rsi);
 Register rlocals  = LP64_ONLY(r14) NOT_LP64(rdi);
@@ -700,6 +703,24 @@ void TemplateTable::index_check_without_pop(Register array, Register index) {
 
 void TemplateTable::iaload() {
   transition(itos, itos);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
@@ -710,6 +731,24 @@ void TemplateTable::iaload() {
 
 void TemplateTable::laload() {
   transition(itos, ltos);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
@@ -723,6 +762,24 @@ void TemplateTable::laload() {
 
 void TemplateTable::faload() {
   transition(itos, ftos);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
@@ -734,6 +791,24 @@ void TemplateTable::faload() {
 
 void TemplateTable::daload() {
   transition(itos, dtos);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
@@ -745,6 +820,24 @@ void TemplateTable::daload() {
 
 void TemplateTable::aaload() {
   transition(itos, atos);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
@@ -755,6 +848,24 @@ void TemplateTable::aaload() {
 
 void TemplateTable::baload() {
   transition(itos, itos);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
@@ -763,6 +874,24 @@ void TemplateTable::baload() {
 
 void TemplateTable::caload() {
   transition(itos, itos);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
@@ -778,6 +907,24 @@ void TemplateTable::fast_icaload() {
 
   // rax: index
   // rdx: array
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   index_check(rdx, rax); // kills rbx
   __ load_unsigned_short(rax,
                          Address(rdx, rax,
@@ -788,6 +935,24 @@ void TemplateTable::fast_icaload() {
 
 void TemplateTable::saload() {
   transition(itos, itos);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
@@ -988,6 +1153,24 @@ void TemplateTable::iastore() {
   // rax: value
   // rbx: index
   // rdx: array
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   index_check(rdx, rbx); // prefer index in rbx
   __ movl(Address(rdx, rbx,
                   Address::times_4,
@@ -998,6 +1181,24 @@ void TemplateTable::iastore() {
 void TemplateTable::lastore() {
   transition(ltos, vtos);
   __ pop_i(rbx);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax,: low(value)
   // rcx: array
   // rdx: high(value)
@@ -1011,6 +1212,24 @@ void TemplateTable::lastore() {
 void TemplateTable::fastore() {
   transition(ftos, vtos);
   __ pop_i(rbx);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // xmm0: value
   // rbx:  index
   // rdx:  array
@@ -1025,6 +1244,24 @@ void TemplateTable::fastore() {
 void TemplateTable::dastore() {
   transition(dtos, vtos);
   __ pop_i(rbx);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // xmm0: value
   // rbx:  index
   // rdx:  array
@@ -1043,6 +1280,24 @@ void TemplateTable::aastore() {
   __ movptr(rax, at_tos());    // value
   __ movl(rcx, at_tos_p1()); // index
   __ movptr(rdx, at_tos_p2()); // array
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
 
   Address element_address(rdx, rcx,
                           UseCompressedOops? Address::times_4 : Address::times_ptr,
@@ -1076,6 +1331,9 @@ void TemplateTable::aastore() {
   __ movptr(rax, at_tos());
   // Now store using the appropriate barrier
   do_oop_store(_masm, Address(rdx, 0), rax, _bs->kind(), true);
+  /* MRJ -- increment store counter -- all other store counters are before the
+   * store is done. If we move this code up, HotSpot crashes
+   */
   __ jmp(done);
 
   // Have a NULL in rax, rdx=array, ecx=index.  Store NULL at ary[idx]
@@ -1093,6 +1351,24 @@ void TemplateTable::aastore() {
 void TemplateTable::bastore() {
   transition(itos, vtos);
   __ pop_i(rbx);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   // rax: value
   // rbx: index
   // rdx: array
@@ -1109,6 +1385,24 @@ void TemplateTable::castore() {
   // rax: value
   // rbx: index
   // rdx: array
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (ProfileObjectInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (ProfileObjectAddressInfo) {
+    __ push_IU_state();
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), rdx);
+    __ pop_IU_state();
+  }
+#endif
+#endif
   index_check(rdx, rbx);  // prefer index in rbx
   __ movw(Address(rdx, rbx,
                   Address::times_2,
@@ -1948,6 +2242,8 @@ void TemplateTable::branch(bool is_jsr, bool is_wide) {
                              InvocationCounter::counter_offset();
   const ByteSize inv_offset = MethodCounters::invocation_counter_offset() +
                               InvocationCounter::counter_offset();
+  const ByteSize our_be_offset = methodOopDesc::our_backedge_counter_offset() +
+                                 InvocationCounter::counter_offset();
 
   // Load up edx with the branch displacement
   if (is_wide) {
@@ -2040,6 +2336,11 @@ void TemplateTable::branch(bool is_jsr, bool is_wide) {
       __ increment_mask_and_jump(Address(rcx, be_offset), increment, mask,
                                  rax, false, Assembler::zero, &backedge_counter_overflow);
     } else { // not TieredCompilation
+      // PK: increment our backedge counter
+      __ movl(rax, Address(rcx, our_be_offset));    // load backedge counter
+      __ incrementl(rax, InvocationCounter::count_increment); // increment counter
+      __ movl(Address(rcx, our_be_offset), rax);    // store counter
+
       // increment counter
       __ movptr(rcx, Address(rcx, Method::method_counters_offset()));
       __ movl(rax, Address(rcx, be_offset));        // load backedge counter
@@ -2650,7 +2951,30 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   jvmti_post_field_access(cache, index, is_static, false);
   load_field_cp_cache_entry(obj, cache, index, off, flags, is_static);
 
-  if (!is_static) pop_and_check_object(obj);
+  if (!is_static) {
+    pop_and_check_object(obj);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_LOADS
+    if (ProfileObjectInfo) {
+      __ push_IU_state();
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_load_cnt), obj);
+      __ pop_IU_state();
+    }
+#endif
+#endif
+#if 0
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_LOADS
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_load_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt), obj, off);
+      __ pop_IU_state();
+    }
+#endif
+#endif
+#endif
+  }
 
   const Address field(obj, off, Address::times_1, 0*wordSize);
   NOT_LP64(const Address hi(obj, off, Address::times_1, 1*wordSize));
@@ -2664,6 +2988,21 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ andl(flags, ConstantPoolCacheEntry::tos_state_mask);
 
   __ jcc(Assembler::notZero, notByte);
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_BYTE_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
   // btos
   __ load_signed_byte(rax, field);
   __ push(btos);
@@ -2677,6 +3016,21 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ cmpl(flags, atos);
   __ jcc(Assembler::notEqual, notObj);
   // atos
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_LONG_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
   __ load_heap_oop(rax, field);
   __ push(atos);
   if (!is_static && rc == may_rewrite) {
@@ -2688,6 +3042,21 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ cmpl(flags, itos);
   __ jcc(Assembler::notEqual, notInt);
   // itos
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_LONG_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
   __ movl(rax, field);
   __ push(itos);
   // Rewrite bytecode to be faster
@@ -2700,6 +3069,21 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ cmpl(flags, ctos);
   __ jcc(Assembler::notEqual, notChar);
   // ctos
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_SHORT_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
   __ load_unsigned_short(rax, field);
   __ push(ctos);
   // Rewrite bytecode to be faster
@@ -2712,6 +3096,21 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ cmpl(flags, stos);
   __ jcc(Assembler::notEqual, notShort);
   // stos
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_SHORT_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
   __ load_signed_short(rax, field);
   __ push(stos);
   // Rewrite bytecode to be faster
@@ -2724,6 +3123,21 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ cmpl(flags, ltos);
   __ jcc(Assembler::notEqual, notLong);
   // ltos
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_QUAD_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
 
 #ifndef _LP64
   // Generate code as if volatile.  There just aren't enough registers to
@@ -2746,7 +3160,21 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ cmpl(flags, ftos);
   __ jcc(Assembler::notEqual, notFloat);
   // ftos
-
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_FLOAT_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
   LP64_ONLY(__ movflt(xmm0, field));
   NOT_LP64(__ fld_s(field));
   __ push(ftos);
@@ -2762,6 +3190,21 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ jcc(Assembler::notEqual, notDouble);
 #endif
   // dtos
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_DOUBLE_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
   LP64_ONLY(__ movdbl(xmm0, field));
   NOT_LP64(__ fld_d(field));
   __ push(dtos);
@@ -2832,9 +3275,9 @@ void TemplateTable::jvmti_post_field_mod(Register cache, Register index, bool is
       Label two_word, valsize_known;
 #endif
       __ movl(RCX, Address(robj, RDX,
-                           Address::times_ptr,
-                           in_bytes(cp_base_offset +
-                                     ConstantPoolCacheEntry::flags_offset())));
+             Address::times_ptr,
+             in_bytes(cp_base_offset +
+                       ConstantPoolCacheEntry::flags_offset())));
       NOT_LP64(__ mov(rbx, rsp));
       __ shrl(RCX, ConstantPoolCacheEntry::tos_state_shift);
 
@@ -2922,6 +3365,32 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
   {
     __ pop(btos);
     if (!is_static) pop_and_check_object(obj);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectInfo) {
+      __ push_IU_state();
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), obj);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_BYTE_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
     __ movb(field, rax);
     if (!is_static && rc == may_rewrite) {
       patch_bytecode(Bytecodes::_fast_bputfield, bc, rbx, true, byte_no);
@@ -2937,6 +3406,33 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
   {
     __ pop(atos);
     if (!is_static) pop_and_check_object(obj);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectInfo) {
+      __ push_IU_state();
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), obj);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_LONG_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+
     // Store into the field
     do_oop_store(_masm, field, rax, _bs->kind(), false);
     if (!is_static && rc == may_rewrite) {
@@ -2953,6 +3449,33 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
   {
     __ pop(itos);
     if (!is_static) pop_and_check_object(obj);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectInfo) {
+      __ push_IU_state();
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), obj);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_LONG_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+
     __ movl(field, rax);
     if (!is_static && rc == may_rewrite) {
       patch_bytecode(Bytecodes::_fast_iputfield, bc, rbx, true, byte_no);
@@ -2968,6 +3491,33 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
   {
     __ pop(ctos);
     if (!is_static) pop_and_check_object(obj);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectInfo) {
+      __ push_IU_state();
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), obj);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_WORD_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+
     __ movw(field, rax);
     if (!is_static && rc == may_rewrite) {
       patch_bytecode(Bytecodes::_fast_cputfield, bc, rbx, true, byte_no);
@@ -2983,6 +3533,33 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
   {
     __ pop(stos);
     if (!is_static) pop_and_check_object(obj);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectInfo) {
+      __ push_IU_state();
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), obj);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_WORD_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+
     __ movw(field, rax);
     if (!is_static && rc == may_rewrite) {
       patch_bytecode(Bytecodes::_fast_sputfield, bc, rbx, true, byte_no);
@@ -2999,6 +3576,33 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
   {
     __ pop(ltos);
     if (!is_static) pop_and_check_object(obj);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectInfo) {
+      __ push_IU_state();
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), obj);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_QUAD_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+
     __ movq(field, rax);
     if (!is_static && rc == may_rewrite) {
       patch_bytecode(Bytecodes::_fast_lputfield, bc, rbx, true, byte_no);
@@ -3045,6 +3649,33 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
   {
     __ pop(ftos);
     if (!is_static) pop_and_check_object(obj);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectInfo) {
+      __ push_IU_state();
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), obj);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_FLOAT_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+
     NOT_LP64( __ fstp_s(field);)
     LP64_ONLY( __ movflt(field, xmm0);)
     if (!is_static && rc == may_rewrite) {
@@ -3063,6 +3694,33 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
   {
     __ pop(dtos);
     if (!is_static) pop_and_check_object(obj);
+#ifdef PROFILE_OBJECT_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectInfo) {
+      __ push_IU_state();
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), obj);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if DO_STORES
+  if (!is_static) {
+    if (ProfileObjectAddressInfo) {
+      __ push_IU_state();
+      __ leaq(rax, field);
+      __ movl(rbx, (int)X86_DOUBLE_SIZE);
+      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
+      __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
+         obj, rax, rbx);
+      __ pop_IU_state();
+    }
+  }
+#endif
+#endif
+
     NOT_LP64( __ fstp_d(field);)
     LP64_ONLY( __ movdbl(field, xmm0);)
     if (!is_static && rc == may_rewrite) {
@@ -3697,6 +4355,18 @@ void TemplateTable::_new() {
   Label initialize_object;  // including clearing the fields
   Label allocate_shared;
 
+  /* TODO: MRJ: call SharedRuntime::get_alloc_point_color to get the color for
+   * this allocation and pass it down to the allocator
+   *
+   * We don't actually have a colored Eden space right now -- also most
+   * allocations are in the TLAB. I don't think I ever had correctly colored
+   * TLAB's
+   *
+   * First try -- just attach a color attribute to each object and use this
+   * during GC
+   */
+
+
   __ get_cpool_and_tags(rcx, rax);
 
   // Make sure the class we're about to instantiate has been resolved.
@@ -3738,7 +4408,8 @@ void TemplateTable::_new() {
   }
 #endif // _LP64
 
-  if (UseTLAB) {
+#ifndef COLORED_TLABS /* COLORED_TLABS always uses the slow path */
+  if (UseTLAB && !SlowAllocations) {
     __ movptr(rax, Address(thread, in_bytes(JavaThread::tlab_top_offset())));
     __ lea(rbx, Address(rax, rdx, Address::times_1));
     __ cmpptr(rbx, Address(thread, in_bytes(JavaThread::tlab_end_offset())));
@@ -3756,7 +4427,7 @@ void TemplateTable::_new() {
   // Allocation in the shared Eden, if allowed.
   //
   // rdx: instance size in bytes
-  if (allow_shared_alloc) {
+  if (allow_shared_alloc && !SlowAllocations) {
     __ bind(allocate_shared);
 
     ExternalAddress heap_top((address)Universe::heap()->top_addr());
@@ -3784,7 +4455,7 @@ void TemplateTable::_new() {
     __ incr_allocated_bytes(thread, rdx, 0);
   }
 
-  if (UseTLAB || Universe::heap()->supports_inline_contig_alloc()) {
+  if ((UseTLAB || Universe::heap()->supports_inline_contig_alloc()) && !SlowAllocations) {
     // The object is initialized before the header.  If the object size is
     // zero, go directly to the header initialization.
     __ bind(initialize_object);
@@ -3842,8 +4513,53 @@ void TemplateTable::_new() {
       __ pop(atos);
     }
 
+#if 0
+    if (ProfileObjectInfo) {
+        __ push(atos); // save the return value
+        __ call_VM_leaf(
+             CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_alloc), rax);
+        __ pop(atos); // restore the return value
+    }
+#endif
+#ifdef PROFILE_OBJECT_INFO
+    if (ProfileObjectInfo) {
+      __ push(atos); // save the return value
+      __ get_method(rcx);
+      __ call_VM_leaf(
+           CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+                            rax,  // oopDesc*
+                            rcx,  // methodOopDesc*
+                            r13); // bytecode address
+      __ pop(atos); // restore the return value
+    }
+
+#if 0
+    if (ColorObjectAllocations) {
+      __ push(atos); // save the return value
+      __ get_method(rcx);
+      __ call_VM_leaf(
+           CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
+                            rax,  // oopDesc*
+                            rcx,  // methodOopDesc*
+                            r13); // bytecode address
+      __ pop(atos); // restore the return value
+    }
+#endif
+#endif /* PROFILE_OBJECT_INFO */
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+    if (ProfileObjectAddressInfo) {
+      __ push(atos); // save the return value
+      __ call_VM_leaf(
+           CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
+           rax // oopDesc*
+         );
+      __ pop(atos); // restore the return value
+    }
+#endif /* PROFILE_OBJECT_ADDRESS_INFO */
+
     __ jmp(done);
   }
+#endif /* COLORED_TLABS */
 
   // slow case
   __ bind(slow_case);
@@ -3855,8 +4571,50 @@ void TemplateTable::_new() {
 
   __ get_constant_pool(rarg1);
   __ get_unsigned_2_byte_index_at_bcp(rarg2, 1);
-  call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::_new), rarg1, rarg2);
+  if (ColorObjectAllocations) {
+    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::_colored_new),
+            c_rarg1, c_rarg2);
+  } else {
+    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::_new), c_rarg1, c_rarg2);
+  }
    __ verify_oop(rax);
+
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    __ push(atos); // save the return value
+    __ get_method(rcx);
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+                          rax,  // oopDesc*
+                          rcx,  // methodOopDesc*
+                          r13); // bytecode address
+    __ pop(atos); // restore the return value
+  }
+
+#if 0
+  if (ColorObjectAllocations) {
+    __ push(atos); // save the return value
+    __ get_method(rcx);
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
+                          rax,  // oopDesc*
+                          rcx,  // methodOopDesc*
+                          r13); // bytecode address
+    __ pop(atos); // restore the return value
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    __ push(atos); // save the return value
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
+         rax // oopDesc*
+       );
+    __ pop(atos); // restore the return value
+  }
+#endif
+
 
   // continue
   __ bind(done);
@@ -3866,8 +4624,50 @@ void TemplateTable::newarray() {
   transition(itos, atos);
   Register rarg1 = LP64_ONLY(c_rarg1) NOT_LP64(rdx);
   __ load_unsigned_byte(rarg1, at_bcp(1));
-  call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::newarray),
-          rarg1, rax);
+  if (ColorObjectAllocations) {
+    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::colored_newarray),
+            c_rarg1, c_rarg2);
+  } else {
+    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::newarray),
+            c_rarg1, c_rarg2);
+  }
+
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    __ push(atos); // save the return value
+    __ get_method(rcx);
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+                          rax,  // oopDesc*
+                          rcx,  // methodOopDesc*
+                          r13); // bytecode address
+    __ pop(atos); // restore the return value
+  }
+
+#if 0
+  if (ColorObjectAllocations) {
+    __ push(atos); // save the return value
+    __ get_method(rcx);
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
+                          rax,  // oopDesc*
+                          rcx,  // methodOopDesc*
+                          r13); // bytecode address
+    __ pop(atos); // restore the return value
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    __ push(atos); // save the return value
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
+         rax // oopDesc*
+       );
+    __ pop(atos); // restore the return value
+  }
+#endif
+
 }
 
 void TemplateTable::anewarray() {
@@ -3878,8 +4678,50 @@ void TemplateTable::anewarray() {
 
   __ get_unsigned_2_byte_index_at_bcp(rarg2, 1);
   __ get_constant_pool(rarg1);
-  call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::anewarray),
-          rarg1, rarg2, rax);
+  if (ColorObjectAllocations) {
+    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::colored_anewarray),
+            c_rarg1, c_rarg2, c_rarg3);
+  } else {
+    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::anewarray),
+            c_rarg1, c_rarg2, c_rarg3);
+  }
+
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    __ push(atos); // save the return value
+    __ get_method(rcx);
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+                          rax,  // oopDesc*
+                          rcx,  // methodOopDesc*
+                          r13); // bytecode address
+    __ pop(atos); // restore the return value
+  }
+
+#if 0
+  if (ColorObjectAllocations) {
+    __ push(atos); // save the return value
+    __ get_method(rcx);
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
+                          rax,  // oopDesc*
+                          rcx,  // methodOopDesc*
+                          r13); // bytecode address
+    __ pop(atos); // restore the return value
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    __ push(atos); // save the return value
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
+         rax // oopDesc*
+       );
+    __ pop(atos); // restore the return value
+  }
+#endif
+
 }
 
 void TemplateTable::arraylength() {
@@ -4242,9 +5084,52 @@ void TemplateTable::multianewarray() {
   // first_addr = last_addr + (ndims - 1) * stackElementSize - 1*wordsize
   // the latter wordSize to point to the beginning of the array.
   __ lea(rarg, Address(rsp, rax, Interpreter::stackElementScale(), -wordSize));
-  call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::multianewarray), rarg);
+  if (ColorObjectAllocations) {
+    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::colored_multianewarray),
+            c_rarg1);
+  } else {
+    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::multianewarray),
+            c_rarg1);
+  }
+
   __ load_unsigned_byte(rbx, at_bcp(3));
   __ lea(rsp, Address(rsp, rbx, Interpreter::stackElementScale()));  // get rid of counts
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    __ push(atos); // save the return value
+    __ get_method(rcx);
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+                          rax,  // oopDesc*
+                          rcx,  // methodOopDesc*
+                          r13); // bytecode address
+    __ pop(atos); // restore the return value
+  }
+
+#if 0
+  if (ColorObjectAllocations) {
+    __ push(atos); // save the return value
+    __ get_method(rcx);
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
+                          rax,  // oopDesc*
+                          rcx,  // methodOopDesc*
+                          r13); // bytecode address
+    __ pop(atos); // restore the return value
+  }
+#endif
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    __ push(atos); // save the return value
+    __ call_VM_leaf(
+         CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
+         rax // oopDesc*
+       );
+    __ pop(atos); // restore the return value
+  }
+#endif
+
 }
 #endif /* !CC_INTERP */
 

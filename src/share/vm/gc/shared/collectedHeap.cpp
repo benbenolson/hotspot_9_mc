@@ -46,6 +46,7 @@ int CollectedHeap::_fire_out_of_memory_count = 0;
 #endif
 
 size_t CollectedHeap::_filler_array_max_size = 0;
+int CollectedHeap::_top_oop_id = BOTTOM_OOP_ID;
 
 template <>
 void EventLogBase<GCMessage>::print(outputStream* st, GCMessage& m) {
@@ -274,6 +275,48 @@ void CollectedHeap::check_for_valid_allocation_state() {
 }
 #endif
 
+#ifdef COLORED_TLABS
+HeapWord* CollectedHeap::allocate_from_tlab_slow(Thread* thread, size_t size,
+  HeapColor color) {
+
+  if (color==HC_NOT_COLORED) {
+    color = UnknownObjectHeapColor;
+  }
+
+  // Retain tlab and allocate object in shared space if
+  // the amount free in the tlab is too large to discard.
+  if (thread->tlab(color).free() > thread->tlab(color).refill_waste_limit()) {
+    thread->tlab(color).record_slow_allocation(size);
+    return NULL;
+  }
+
+  // Discard tlab and allocate a new one.
+  // To minimize fragmentation, the last TLAB may be smaller than the rest.
+  size_t new_tlab_size = thread->tlab(color).compute_size(size);
+
+  thread->tlab(color).clear_before_allocation();
+
+  if (new_tlab_size == 0) {
+    return NULL;
+  }
+
+  // Allocate a new TLAB...
+  HeapWord* obj = Universe::heap()->allocate_new_tlab(new_tlab_size, color);
+  if (obj == NULL) {
+    return NULL;
+  }
+  if (ZeroTLAB) {
+    // ..and clear it.
+    Copy::zero_to_words(obj, new_tlab_size);
+  } else {
+    // ...and clear just the allocated object.
+    Copy::zero_to_words(obj, size);
+  }
+  thread->tlab(color).fill(obj, obj + size, new_tlab_size);
+  return obj;
+}
+#endif
+
 HeapWord* CollectedHeap::allocate_from_tlab_slow(KlassHandle klass, Thread* thread, size_t size) {
 
   // Retain tlab and allocate object in shared space if
@@ -461,6 +504,22 @@ CollectedHeap::fill_with_array(HeapWord* start, size_t words, bool zap)
   ((arrayOop)start)->set_length((int)len);
   post_allocation_setup_common(Universe::intArrayKlassObj(), start);
   DEBUG_ONLY(zap_filler_array(start, words, zap);)
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    Copy::fill_to_words(start + filler_array_hdr_size(),
+                        words - filler_array_hdr_size(), 0XDEAFBABE);
+  }
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->insert((oop)start, words, FILLER_KLASS, FILLER_OBJECT);
+    oait->mark_filler((oop)start, words);
+    //oait->mark_known_free(((oop)start));
+    //tty->print_cr("marked uninitialized space: %p, %d bytes",
+    //  start, (words*HeapWordSize));
+  }
+#endif
 }
 
 void
@@ -473,6 +532,16 @@ CollectedHeap::fill_with_object_impl(HeapWord* start, size_t words, bool zap)
   } else if (words > 0) {
     assert(words == min_fill_size(), "unaligned size");
     post_allocation_setup_common(SystemDictionary::Object_klass(), start);
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+    if (ProfileObjectAddressInfo) {
+      ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+      oait->insert((oop)start, words, FILLER_KLASS, FILLER_OBJECT);
+      oait->mark_filler((oop)start, words);
+      //oait->mark_known_free(((oop)start));
+      //tty->print_cr("marked uninitialized space: %p, %d bytes",
+      //  start, (words*HeapWordSize));
+    }
+#endif
   }
 }
 
@@ -509,6 +578,12 @@ void CollectedHeap::post_initialize() {
   collector_policy()->post_heap_initialize();
 }
 
+#ifdef COLORED_TLABS
+HeapWord* CollectedHeap::allocate_new_tlab(size_t size, HeapColor color) {
+  guarantee(false, "thread-local allocation buffers not supported");
+  return NULL;
+}
+#endif
 HeapWord* CollectedHeap::allocate_new_tlab(size_t size) {
   guarantee(false, "thread-local allocation buffers not supported");
   return NULL;
@@ -536,7 +611,18 @@ void CollectedHeap::ensure_parsability(bool retire_tlabs) {
          "Attempt to fill tlabs before main thread has been added"
          " to threads list is doomed to failure!");
   for (JavaThread *thread = Threads::first(); thread; thread = thread->next()) {
+#ifdef COLORED_TLABS
+     if (use_tlab) {
+       if (UseColoredSpaces) {
+         thread->tlab(HC_RED).make_parsable(retire_tlabs);
+         thread->tlab(HC_BLUE).make_parsable(retire_tlabs);
+       } else {
+         thread->tlab().make_parsable(retire_tlabs);
+       }
+     }
+#else
      if (use_tlab) thread->tlab().make_parsable(retire_tlabs);
+#endif
 #ifdef COMPILER2
      // The deferred store barriers must all have been flushed to the
      // card-table (or other remembered set structure) before GC starts

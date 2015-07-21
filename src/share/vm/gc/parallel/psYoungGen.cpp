@@ -30,6 +30,7 @@
 #include "gc/parallel/psYoungGen.hpp"
 #include "gc/shared/gcUtil.hpp"
 #include "gc/shared/spaceDecorator.hpp"
+#include "gc/shared/mutableColoredSpace.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/java.hpp"
 
@@ -71,13 +72,52 @@ void PSYoungGen::initialize_work() {
     SpaceMangler::mangle_region(cmr);
   }
 
-  if (UseNUMA) {
-    _eden_space = new MutableNUMASpace(virtual_space()->alignment());
+#if 0
+#ifdef COLORED_EDEN_SPACE
+  if (UseColoredSpaces) {
+    _eden_space = new MutableColoredSpace(virtual_space()->alignment(), true);
+    _from_space = new MutableColoredSpace(virtual_space()->alignment());
+    _to_space   = new MutableColoredSpace(virtual_space()->alignment());
   } else {
-    _eden_space = new MutableSpace(virtual_space()->alignment());
+    if (UseNUMA) {
+      _eden_space = new MutableNUMASpace(virtual_space()->alignment());
+    } else {
+      _eden_space = new MutableSpace(virtual_space()->alignment());
+    }
+    _from_space = new MutableSpace(virtual_space()->alignment());
+    _to_space   = new MutableSpace(virtual_space()->alignment());
   }
-  _from_space = new MutableSpace(virtual_space()->alignment());
-  _to_space   = new MutableSpace(virtual_space()->alignment());
+#else
+  if (UseColoredSpaces) {
+    _eden_space = new MutableSpace(virtual_space()->alignment());
+    _from_space = new MutableColoredSpace(virtual_space()->alignment());
+    _to_space   = new MutableColoredSpace(virtual_space()->alignment());
+  } else {
+    if (UseNUMA) {
+      _eden_space = new MutableNUMASpace(virtual_space()->alignment());
+    } else {
+      _eden_space = new MutableSpace(virtual_space()->alignment());
+    }
+    _from_space = new MutableSpace(virtual_space()->alignment());
+    _to_space   = new MutableSpace(virtual_space()->alignment());
+  }
+#endif
+#else
+  if (UseColoredSpaces) {
+    _eden_space = new MutableColoredSpace(virtual_space()->alignment(), true);
+    _from_space = new MutableColoredSpace(virtual_space()->alignment());
+    _to_space   = new MutableColoredSpace(virtual_space()->alignment());
+  } else {
+    if (UseNUMA) {
+      _eden_space = new MutableNUMASpace(virtual_space()->alignment());
+    } else {
+      _eden_space = new MutableSpace(virtual_space()->alignment());
+    }
+    _from_space = new MutableSpace(virtual_space()->alignment());
+    _to_space   = new MutableSpace(virtual_space()->alignment());
+
+  }
+#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
 
   if (_eden_space == NULL || _from_space == NULL || _to_space == NULL) {
     vm_exit_during_initialization("Could not allocate a young gen space");
@@ -105,8 +145,8 @@ void PSYoungGen::initialize_work() {
   // Compute maximum space sizes for performance counters
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
   size_t alignment = heap->space_alignment();
-  size_t size = virtual_space()->reserved_size();
 
+  size_t size = virtual_space()->reserved_size();
   size_t max_survivor_size;
   size_t max_eden_size;
 
@@ -201,9 +241,22 @@ void PSYoungGen::set_space_boundaries(size_t eden_size, size_t survivor_size) {
   MemRegion from_mr((HeapWord*)from_start, (HeapWord*)from_end);
 
   eden_space()->initialize(eden_mr, true, ZapUnusedHeapArea);
+#ifndef COLORED_EDEN_SPACE
+  if (UseColoredSpaces) {
+    eden_space()->color_region(eden_mr, HC_RED);
+  }
+#endif
     to_space()->initialize(to_mr  , true, ZapUnusedHeapArea);
   from_space()->initialize(from_mr, true, ZapUnusedHeapArea);
 }
+#if 0
+  if (UseColoredSpaces) {
+    eden_space()->color_region(eden_mr, HC_RED);
+  }
+    to_space()->initialize(to_mr  , true, ZapUnusedHeapArea);
+  from_space()->initialize(from_mr, true, ZapUnusedHeapArea);
+}
+#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
 
 #ifndef PRODUCT
 void PSYoungGen::space_invariants() {
@@ -257,9 +310,26 @@ void PSYoungGen::space_invariants() {
 
   virtual_space()->verify();
 }
-#endif
+#endif /* ifndef PRODUCT */
 
 void PSYoungGen::resize(size_t eden_size, size_t survivor_size) {
+
+  if (UseColoredSpaces) {
+#if 0
+    int nspaces = ((MutableColoredSpace*)eden_space())->colored_spaces()->length();
+    //size_t min_eden = eden_space()->used_in_bytes() * nspaces;
+    size_t min_survivor = from_space()->used_in_bytes() * nspaces;
+    //eden_size = MAX2(min_eden, eden_size);
+    survivor_size = align_size_up(MAX2(min_survivor, survivor_size),
+                                  virtual_space()->alignment());
+    tty->print("\ndesired_eden: "SIZE_FORMAT"\tdesired_survivor: "
+               SIZE_FORMAT"\nactual_eden:  "SIZE_FORMAT"\tactual_survivor:  "
+               SIZE_FORMAT"\n", eden_size, survivor_size,
+               eden_space()->capacity_in_bytes(), to_space()->capacity_in_bytes());
+#endif
+    return;
+  }
+
   // Resize the generation if needed. If the generation resize
   // reports false, do not attempt to resize the spaces.
   if (resize_generation(eden_size, survivor_size)) {
@@ -299,6 +369,11 @@ bool PSYoungGen::resize_generation(size_t eden_size, size_t survivor_size) {
   size_t desired_size = MAX2(MIN2(eden_plus_survivors, max_size()),
                              min_gen_size());
   assert(desired_size <= max_size(), "just checking");
+
+  if (UseColoredSpaces) {
+    guarantee(desired_size == orig_size, "cannot resize colored spaces!");
+    return true;
+  }
 
   if (desired_size > orig_size) {
     // Grow the generation
@@ -486,6 +561,8 @@ void PSYoungGen::resize_spaces(size_t requested_eden_size,
     return;
   }
 
+  if (UseColoredSpaces) guarantee(false, "cannot resize colored spaces!");
+
   char* eden_start = (char*)eden_space()->bottom();
   char* eden_end   = (char*)eden_space()->end();
   char* from_start = (char*)from_space()->bottom();
@@ -547,6 +624,18 @@ void PSYoungGen::resize_spaces(size_t requested_eden_size,
     if (to_start < (char*)from_space()->end()) {
       // Calculate the minimum offset possible for from_end
       size_t from_size = pointer_delta(from_space()->top(), from_start, sizeof(char));
+      if (UseColoredSpaces) {
+#if 0
+#ifdef COLORED_EDEN_SPACE
+        int nspaces = ((MutableColoredSpace*)eden_space())->colored_spaces()->length();
+#else
+        int nspaces = ((MutableColoredSpace*)from_space())->colored_spaces()->length();
+#endif
+#else
+        int nspaces = ((MutableColoredSpace*)eden_space())->colored_spaces()->length();
+#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
+        from_size = MAX2((from_space()->used_in_bytes() * nspaces), from_size);
+      }
 
       // Should we be in this method if from_space is empty? Why not the set_space method? FIX ME!
       if (from_size == 0) {
@@ -695,13 +784,18 @@ void PSYoungGen::resize_spaces(size_t requested_eden_size,
   eden_space()->initialize(edenMR,
                            SpaceDecorator::Clear,
                            SpaceDecorator::DontMangle);
-    to_space()->initialize(toMR,
+  to_space()->initialize(toMR,
                            SpaceDecorator::Clear,
                            SpaceDecorator::DontMangle);
-  from_space()->initialize(fromMR,
-                           SpaceDecorator::DontClear,
-                           SpaceDecorator::DontMangle);
+  if (UseColoredSpaces) {
+    ((MutableColoredSpace*)from_space())->resize_colored_space(fromMR);
+  } else {
+    from_space()->initialize(fromMR,
+                             SpaceDecorator::DontClear,
+                             SpaceDecorator::DontMangle);
+  }
 
+  if (!UseColoredSpaces)
   assert(from_space()->top() == old_from_top, "from top changed!");
 
   if (PrintAdaptiveSizePolicy) {
@@ -766,10 +860,50 @@ size_t PSYoungGen::free_in_words() const {
        + from_space()->free_in_words();      // to_space() is only used during scavenge
 }
 
+void PSYoungGen::oop_iterate(OopClosure* blk) {
+  eden_space()->oop_iterate(blk);
+  from_space()->oop_iterate(blk);
+  to_space()->oop_iterate(blk);
+}
+
 void PSYoungGen::object_iterate(ObjectClosure* blk) {
   eden_space()->object_iterate(blk);
   from_space()->object_iterate(blk);
   to_space()->object_iterate(blk);
+}
+
+void PSYoungGen::colored_object_iterate(ObjectClosure* blk, HeapColor color) {
+#if 0
+#ifdef COLORED_EDEN_SPACE
+  MutableSpace *colored_eden_space = ((MutableColoredSpace*)eden_space())->
+                                      colored_spaces()->at(color)->space();
+#endif
+#else
+  MutableSpace *colored_eden_space = ((MutableColoredSpace*)eden_space())->
+                                      colored_spaces()->at(color)->space();
+#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
+  MutableSpace *colored_from_space = ((MutableColoredSpace*)from_space())->
+                                      colored_spaces()->at(color)->space();
+  MutableSpace *colored_to_space   = ((MutableColoredSpace*)to_space())->
+                                      colored_spaces()->at(color)->space();
+#if 0
+#ifdef COLORED_EDEN_SPACE
+  //objinfo_log->print_cr("\ndumping eden: top: %p, bottom: %p",
+  //  colored_eden_space->top(), colored_eden_space->bottom());
+  colored_eden_space->object_iterate(blk);
+#endif
+#else
+  colored_eden_space->object_iterate(blk);
+#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
+
+  //objinfo_log->print_cr("\ndumping from: top: %p, bottom: %p",
+  //  colored_from_space->top(), colored_from_space->bottom());
+  colored_from_space->object_iterate(blk);
+
+  /* MRJ -- I just need to account for the old objects */
+  //objinfo_log->print_cr("\ndumping to: top: %p, bottom: %p",
+  //  colored_to_space->top(), colored_to_space->bottom());
+  colored_to_space->object_iterate(blk);
 }
 
 void PSYoungGen::precompact() {
@@ -801,7 +935,11 @@ void PSYoungGen::print_on(outputStream* st) const {
     st->print(" total " SIZE_FORMAT "K, used " SIZE_FORMAT "K",
                capacity_in_bytes()/K, used_in_bytes()/K);
   }
-  virtual_space()->print_space_boundaries_on(st);
+  if (PrintExtraGCDetails) {
+    virtual_space()->print_space_boundaries_on(st);
+  } else {
+    st->print_cr("");
+  }
   st->print("  eden"); eden_space()->print_on(st);
   st->print("  from"); from_space()->print_on(st);
   st->print("  to  "); to_space()->print_on(st);
@@ -862,9 +1000,16 @@ size_t PSYoungGen::available_to_live() {
       "Space is too small");
     delta_in_survivor = space_shrinking->capacity_in_bytes() - space_alignment;
   } else {
-    delta_in_survivor = pointer_delta(space_shrinking->end(),
-                                      space_shrinking->top(),
-                                      sizeof(char));
+    if (UseColoredSpaces) {
+      delta_in_survivor = pointer_delta(space_shrinking->end(),
+                                        space_shrinking->top() +
+                                        from_space()->used_in_words(),
+                                        sizeof(char));
+    } else {
+      delta_in_survivor = pointer_delta(space_shrinking->end(),
+                                        space_shrinking->top(),
+                                        sizeof(char));
+    }
   }
 
   size_t delta_in_bytes = unused_committed + delta_in_survivor;
@@ -905,9 +1050,19 @@ void PSYoungGen::reset_survivors_after_shrink() {
   // Was there a shrink of the survivor space?
   if (new_end < space_shrinking->end()) {
     MemRegion mr(space_shrinking->bottom(), new_end);
-    space_shrinking->initialize(mr,
-                                SpaceDecorator::DontClear,
-                                SpaceDecorator::Mangle);
+    if (UseColoredSpaces) {
+      if (space_shrinking == from_space()) {
+        ((MutableColoredSpace*)space_shrinking)->resize_colored_space(mr);
+      } else { /* space_shrinking == to_space() */
+        space_shrinking->initialize(mr,
+                                    SpaceDecorator::Clear,
+                                    SpaceDecorator::Mangle);
+      }
+    } else {
+      space_shrinking->initialize(mr,
+                                  SpaceDecorator::DontClear,
+                                  SpaceDecorator::Mangle);
+    }
   }
 }
 

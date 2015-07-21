@@ -67,6 +67,9 @@ class ParallelScavengeHeap : public CollectedHeap {
 
  protected:
   static inline size_t total_invocations();
+#ifdef COLORED_TLABS
+  HeapWord* allocate_new_tlab(size_t size, HeapColor color);
+#endif
   HeapWord* allocate_new_tlab(size_t size);
 
   inline bool should_alloc_in_eden(size_t size) const;
@@ -146,6 +149,9 @@ class ParallelScavengeHeap : public CollectedHeap {
   // an excessive amount of time is being spent doing collections
   // and caused a NULL to be returned.  If a NULL is not returned,
   // "gc_time_limit_was_exceeded" has an undefined meaning.
+  HeapWord* mem_allocate(size_t size,
+                         bool* gc_overhead_limit_was_exceeded,
+                         HeapColor color);
   HeapWord* mem_allocate(size_t size, bool* gc_overhead_limit_was_exceeded);
 
   // Allocation attempt(s) during a safepoint. It should never be called
@@ -155,6 +161,9 @@ class ParallelScavengeHeap : public CollectedHeap {
 
   // Support for System.gc()
   void collect(GCCause::Cause cause);
+
+  /* MRJ */
+  void young_collect_as_vm_thread(GCCause::Cause cause);
 
   // These also should be called by the vm thread at a safepoint (e.g., from a
   // VM operation).
@@ -168,10 +177,14 @@ class ParallelScavengeHeap : public CollectedHeap {
   // Perform a full collection
   virtual void do_full_collection(bool clear_all_soft_refs);
 
-  bool supports_inline_contig_alloc() const { return !UseNUMA; }
+  bool supports_inline_contig_alloc() const { return !(UseNUMA || UseColoredSpaces); }
 
-  HeapWord** top_addr() const { return !UseNUMA ? young_gen()->top_addr() : (HeapWord**)-1; }
-  HeapWord** end_addr() const { return !UseNUMA ? young_gen()->end_addr() : (HeapWord**)-1; }
+  HeapWord** top_addr() const { 
+    return !(UseNUMA || UseColoredSpaces) ? 
+            young_gen()->top_addr() : (HeapWord**)-1; }
+  HeapWord** end_addr() const { 
+    return !(UseNUMA || UseColoredSpaces) ? 
+            young_gen()->end_addr() : (HeapWord**)-1; }
 
   void ensure_parsability(bool retire_tlabs);
   void accumulate_statistics_all_tlabs();
@@ -200,6 +213,10 @@ class ParallelScavengeHeap : public CollectedHeap {
 
   void object_iterate(ObjectClosure* cl);
   void safe_object_iterate(ObjectClosure* cl) { object_iterate(cl); }
+  void tenured_object_iterate(ObjectClosure* cl);
+  void colored_object_iterate(ObjectClosure* cl, HeapColor color);
+  void colored_tenured_object_iterate(ObjectClosure* cl, HeapColor color);
+
 
   HeapWord* block_start(const void* addr) const;
   size_t block_size(const HeapWord* addr) const;
@@ -239,6 +256,8 @@ class ParallelScavengeHeap : public CollectedHeap {
     ParStrongRootsScope();
     ~ParStrongRootsScope();
   };
+
+  HeapColor get_current_color(oop obj);
 };
 
 #endif // SHARE_VM_GC_PARALLEL_PARALLELSCAVENGEHEAP_HPP

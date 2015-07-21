@@ -73,6 +73,9 @@ class CompilerOracle : AllStatic {
   // Reads from string instead of file
   static void parse_from_string(const char* command_string, void (*parser)(char*));
 
+  // Store colors from the compiler oracle file onto the methodOop
+  static void initialize_alloc_point_colors(methodHandle method);
+
   static void parse_from_line(char* line);
   static void parse_compile_only(char * line);
 

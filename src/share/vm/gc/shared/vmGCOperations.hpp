@@ -173,6 +173,22 @@ class VM_CollectForAllocation : public VM_GC_Operation {
   }
 };
 
+class VM_GC_RegularScavenge: public VM_GC_Operation {
+ public:
+  VM_GC_RegularScavenge(bool full_gc) :
+    VM_GC_Operation(0 /* total collections,      dummy, ignored */,
+                    GCCause::_regular_scavenge /* GC Cause */,
+                    0 /* total full collections, dummy, ignored */,
+                    full_gc /* request_full_gc */) {
+  }
+
+  ~VM_GC_RegularScavenge() {}
+  virtual VMOp_Type type() const { return VMOp_GC_RegularScavenge; }
+  virtual bool skip_operation() const;
+  virtual bool doit_prologue();
+  virtual void doit();
+};
+
 class VM_GenCollectForAllocation : public VM_CollectForAllocation {
  private:
   bool        _tlab;                       // alloc is of a tlab.
@@ -241,6 +257,99 @@ class SvcGCMarker : public StackObj {
   ~SvcGCMarker() {
     VM_GC_Operation::notify_gc_end();
   }
+};
+
+#ifdef PROFILE_OBJECT_INFO
+class VM_GC_ObjectInfoCollection: public VM_GC_Operation {
+ private:
+  outputStream* _objinfo_log;
+  outputStream* _apinfo_log;
+  const char *_reason;
+ public:
+  VM_GC_ObjectInfoCollection(outputStream* objlog, outputStream* aplog,
+    const char *reason) :
+
+    VM_GC_Operation(0 /* total collections,      dummy, ignored */,
+                    GCCause::_heap_inspection /* GC Cause */,
+                    0 /* total full collections, dummy, ignored */,
+                    false /* request full GC */) {
+    _objinfo_log  = objlog;
+    _apinfo_log   = aplog;
+    _reason = reason;
+  }
+
+  ~VM_GC_ObjectInfoCollection() {}
+  virtual VMOp_Type type() const { return VMOp_GC_ObjectInfoCollection; }
+  virtual bool skip_operation() const;
+  virtual bool doit_prologue();
+  virtual void doit();
+};
+
+class VM_GC_PersistentObjectInfoCollection: public VM_GC_Operation {
+ private:
+  outputStream* _out;
+  bool _full_gc;
+ public:
+  VM_GC_PersistentObjectInfoCollection(outputStream* out, bool request_full_gc) :
+    VM_GC_Operation(0 /* total collections,      dummy, ignored */,
+                    GCCause::_heap_inspection /* GC Cause */,
+                    0 /* total full collections, dummy, ignored */,
+                    request_full_gc) {
+    _out = out;
+    _full_gc = request_full_gc;
+  }
+
+  ~VM_GC_PersistentObjectInfoCollection() {}
+  virtual VMOp_Type type() const { return VMOp_GC_ObjectInfoCollection; }
+  virtual bool skip_operation() const;
+  virtual bool doit_prologue();
+  virtual void doit();
+};
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+class VM_GC_ObjectAddressInfoCollection: public VM_GC_Operation {
+ private:
+  outputStream* _addrinfo_log, *_fieldinfo_log;
+  const char *_reason;
+ public:
+  VM_GC_ObjectAddressInfoCollection(outputStream* addrlog,
+    outputStream* fieldlog, const char *reason) :
+    VM_GC_Operation(0 /* total collections,      dummy, ignored */,
+                    GCCause::_heap_inspection /* GC Cause */,
+                    0 /* total full collections, dummy, ignored */,
+                    false /* request full GC */) {
+    _addrinfo_log  = addrlog;
+    _fieldinfo_log = fieldlog;
+    _reason = reason;
+  }
+
+  ~VM_GC_ObjectAddressInfoCollection() {}
+  virtual VMOp_Type type() const { return VMOp_GC_ObjectAddressInfoCollection; }
+  virtual bool skip_operation() const;
+  virtual bool doit_prologue();
+  virtual void doit();
+};
+#endif
+
+class VM_GC_ObjectLayout: public VM_GC_Operation {
+ private:
+  outputStream* _out;
+  const char *_reason;
+ public:
+  VM_GC_ObjectLayout(outputStream* out, const char *reason) :
+    VM_GC_Operation(0 /* total collections,      dummy, ignored */,
+                    GCCause::_heap_inspection /* GC Cause */,
+                    0 /* total full collections, dummy, ignored */,
+                    false /* request full gc */) {
+    _out = out;
+    _reason = reason;
+  }
+
+  ~VM_GC_ObjectLayout() {}
+  virtual VMOp_Type type() const { return VMOp_GC_ObjectLayout; }
+  virtual bool skip_operation() const;
+  virtual bool doit_prologue();
+  virtual void doit();
 };
 
 #endif // SHARE_VM_GC_SHARED_VMGCOPERATIONS_HPP

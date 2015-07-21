@@ -189,6 +189,12 @@ Handle java_lang_String::basic_create(int length, TRAPS) {
 //set_offset(obj, 0);
   set_count(obj, length);
 
+#if 0
+  if (((obj->size()*HeapWordSize)>>10) > 512) {
+    addrinfo_log->print_cr("big string: %p %d", obj, (obj->size()*HeapWordSize));
+  }
+#endif
+
   return h_obj;
 }
 
