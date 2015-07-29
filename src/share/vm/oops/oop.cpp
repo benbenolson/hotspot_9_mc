@@ -46,9 +46,15 @@ void oopDesc::print_on(outputStream* st) const {
 }
 
 void oopDesc::print_address_on(outputStream* st) const {
+#if 0
+  /* MRJ -- I don't know why this is only if PrintOopAddress is true. I need
+   * this, so I'm removing it.
+   */
   if (PrintOopAddress) {
     st->print("{"INTPTR_FORMAT"}", this);
   }
+#endif
+  st-print("{"INTPTR_FORMAT"}", this);
 }
 
 void oopDesc::print()         { print_on(tty);         }
@@ -58,6 +64,13 @@ void oopDesc::print_address() { print_address_on(tty); }
 char* oopDesc::print_string() {
   stringStream st;
   print_on(&st);
+  return st.as_string();
+}
+
+char* oopDesc::print_address_string() {
+  char buf[21];
+  stringStream st(buf, sizeof(buf));
+  print_address_on(&st);
   return st.as_string();
 }
 

@@ -134,12 +134,18 @@ class OptoRuntime : public AllStatic {
 
   // References to generated stubs
   static address _new_instance_Java;
+  static address _new_colored_instance_Java;
   static address _new_array_Java;
+  static address _new_colored_array_Java;
   static address _new_array_nozero_Java;
   static address _multianewarray2_Java;
+  static address _colored_multianewarray2_Java;
   static address _multianewarray3_Java;
+  static address _colored_multianewarray3_Java;
   static address _multianewarray4_Java;
+  static address _colored_multianewarray4_Java;
   static address _multianewarray5_Java;
+  static address _colored_multianewarray5_Java;
   static address _multianewarrayN_Java;
   static address _g1_wb_pre_Java;
   static address _g1_wb_post_Java;
@@ -162,10 +168,15 @@ class OptoRuntime : public AllStatic {
 
   // Allocate storage for a Java instance.
   static void new_instance_C(Klass* instance_klass, JavaThread *thread);
+  static void new_colored_instance_C(klassOopDesc* instance_klass,
+                                     methodOop method, int bci,
+                                     JavaThread *thread);
 
   // Allocate storage for a objArray or typeArray
   static void new_array_C(Klass* array_klass, int len, JavaThread *thread);
   static void new_array_nozero_C(Klass* array_klass, int len, JavaThread *thread);
+  static void new_colored_array_C(klassOopDesc* array_klass, int len,
+                                  methodOop method, int bci, JavaThread *thread);
 
   // Post-slow-path-allocation, pre-initializing-stores step for
   // implementing ReduceInitialCardMarks
@@ -173,10 +184,37 @@ class OptoRuntime : public AllStatic {
 
   // Allocate storage for a multi-dimensional arrays
   // Note: needs to be fixed for arbitrary number of dimensions
-  static void multianewarray2_C(Klass* klass, int len1, int len2, JavaThread *thread);
-  static void multianewarray3_C(Klass* klass, int len1, int len2, int len3, JavaThread *thread);
-  static void multianewarray4_C(Klass* klass, int len1, int len2, int len3, int len4, JavaThread *thread);
-  static void multianewarray5_C(Klass* klass, int len1, int len2, int len3, int len4, int len5, JavaThread *thread);
+  static void multianewarray2_C         (Klass* klass,
+                                         int len1, int len2,
+                                         JavaThread *thread);
+  static void colored_multianewarray2_C (Klass* klass,
+                                         int len1, int len2,
+                                         methodOop method, int bci,
+                                         JavaThread *thread);
+
+  static void multianewarray3_C         (Klass* klass,
+                                         int len1, int len2, int len3,
+                                         JavaThread *thread);
+  static void colored_multianewarray3_C (Klass* klass,
+                                         int len1, int len2, int len3,
+                                         methodOop method, int bci,
+                                         JavaThread *thread);
+
+  static void multianewarray4_C         (Klass* klass,
+                                         int len1, int len2, int len3, int len4,
+                                         JavaThread *thread);
+  static void colored_multianewarray4_C (Klass* klass,
+                                         int len1, int len2, int len3, int len4,
+                                         methodOop method, int bci,
+                                         JavaThread *thread);
+
+  static void multianewarray5_C         (Klass* klass,
+                                         int len1, int len2, int len3, int len4, int len5,
+                                         JavaThread *thread);
+  static void colored_multianewarray5_C (Klass* klass,
+                                         int len1, int len2, int len3, int len4, int len5,
+                                         methodOop method, int bci,
+                                         JavaThread *thread);
   static void multianewarrayN_C(Klass* klass, arrayOopDesc* dims, JavaThread *thread);
   static void g1_wb_pre_C(oopDesc* orig, JavaThread* thread);
   static void g1_wb_post_C(void* card_addr, JavaThread* thread);
@@ -234,12 +272,18 @@ private:
 
   // access to runtime stubs entry points for java code
   static address new_instance_Java()                     { return _new_instance_Java; }
+  static address new_colored_instance_Java()             { return _new_colored_instance_Java; }
   static address new_array_Java()                        { return _new_array_Java; }
+  static address new_colored_array_Java()                { return _new_colored_array_Java; }
   static address new_array_nozero_Java()                 { return _new_array_nozero_Java; }
   static address multianewarray2_Java()                  { return _multianewarray2_Java; }
+  static address colored_multianewarray2_Java()          { return _colored_multianewarray2_Java; }
   static address multianewarray3_Java()                  { return _multianewarray3_Java; }
+  static address colored_multianewarray3_Java()          { return _colored_multianewarray3_Java; }
   static address multianewarray4_Java()                  { return _multianewarray4_Java; }
+  static address colored_multianewarray4_Java()          { return _colored_multianewarray4_Java; }
   static address multianewarray5_Java()                  { return _multianewarray5_Java; }
+  static address colored_multianewarray5_Java()          { return _colored_multianewarray5_Java; }
   static address multianewarrayN_Java()                  { return _multianewarrayN_Java; }
   static address g1_wb_pre_Java()                        { return _g1_wb_pre_Java; }
   static address g1_wb_post_Java()                       { return _g1_wb_post_Java; }
@@ -274,13 +318,20 @@ private:
   // ======================================================
 
   static const TypeFunc* new_instance_Type(); // object allocation (slow case)
+  static const TypeFunc* new_colored_instance_Type(); // object allocation (slow case)
   static const TypeFunc* new_array_Type ();   // [a]newarray (slow case)
-  static const TypeFunc* multianewarray_Type(int ndim); // multianewarray
-  static const TypeFunc* multianewarray2_Type(); // multianewarray
-  static const TypeFunc* multianewarray3_Type(); // multianewarray
-  static const TypeFunc* multianewarray4_Type(); // multianewarray
-  static const TypeFunc* multianewarray5_Type(); // multianewarray
   static const TypeFunc* multianewarrayN_Type(); // multianewarray
+  static const TypeFunc* new_colored_array_Type ();   // [a]newarray (slow case)
+  static const TypeFunc* multianewarray_Type(int ndim);         // multianewarray
+  static const TypeFunc* colored_multianewarray_Type(int ndim); // colored_multianewarray
+  static const TypeFunc* multianewarray2_Type();                // multianewarray
+  static const TypeFunc* colored_multianewarray2_Type();        // colored_multianewarray
+  static const TypeFunc* multianewarray3_Type();                // multianewarray
+  static const TypeFunc* colored_multianewarray3_Type();        // colored_multianewarray
+  static const TypeFunc* multianewarray4_Type();                // multianewarray
+  static const TypeFunc* colored_multianewarray4_Type();        // colored_multianewarray
+  static const TypeFunc* multianewarray5_Type();                // multianewarray
+  static const TypeFunc* colored_multianewarray5_Type();        // colored_multianewarray
   static const TypeFunc* g1_wb_pre_Type();
   static const TypeFunc* g1_wb_post_Type();
   static const TypeFunc* complete_monitor_enter_Type();

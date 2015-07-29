@@ -85,7 +85,16 @@ inline void Thread::clear_critical_native_unlock() {
 inline jlong Thread::cooked_allocated_bytes() {
   jlong allocated_bytes = OrderAccess::load_acquire(&_allocated_bytes);
   if (UseTLAB) {
+#ifdef COLORED_TLABS
+      size_t used_bytes;
+      if (UseColoredSpaces) {
+        used_bytes = tlab(HC_RED).used_bytes() + tlab(HC_BLUE).used_bytes();
+      } else {
+        used_bytes = tlab().used_bytes();
+      }
+#else
     size_t used_bytes = tlab().used_bytes();
+#endif
     if ((ssize_t)used_bytes > 0) {
       // More-or-less valid tlab. The load_acquire above should ensure
       // that the result of the add is <= the instantaneous value.

@@ -74,6 +74,17 @@ int    Arguments::_num_jvm_args                 = 0;
 char*  Arguments::_java_command                 = NULL;
 SystemProperty* Arguments::_system_properties   = NULL;
 const char*  Arguments::_gc_log_filename        = NULL;
+const char*  Arguments::_objinfo_log_filename   = NULL;
+const char*  Arguments::_objalloc_log_filename  = NULL;
+const char*  Arguments::_apmap_log_filename     = NULL;
+const char*  Arguments::_apinfo_log_filename    = NULL;
+const char*  Arguments::_deadobj_log_filename   = NULL;
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+const char*  Arguments::_addrinfo_log_filename  = NULL;
+const char*  Arguments::_addrtable_log_filename = NULL;
+//const char*  Arguments::_addrups_log_filename   = NULL;
+const char*  Arguments::_fieldinfo_log_filename = NULL;
+#endif
 bool   Arguments::_has_profile                  = false;
 size_t Arguments::_conservative_max_heap_alignment = 0;
 size_t Arguments::_min_heap_size                = 0;
@@ -112,6 +123,14 @@ SystemProperty *Arguments::_java_class_path = NULL;
 SystemProperty *Arguments::_sun_boot_class_path = NULL;
 
 char* Arguments::_ext_dirs = NULL;
+
+#if 0
+traymask_t*  Arguments::_tenured_gen_tray_mask = NULL;
+traymask_t*  Arguments::_perm_gen_tray_mask = NULL;
+traymask_t*  Arguments::_code_cache_tray_mask = NULL;
+#endif
+traymask_t*  Arguments::_red_memory_tray_mask  = NULL;
+traymask_t*  Arguments::_blue_memory_tray_mask = NULL;
 
 // Check if head of 'option' matches 'name', and sets 'tail' to the remaining
 // part of the option string.
@@ -1042,7 +1061,7 @@ void Arguments::set_mode_flags(Mode mode) {
     break;
   case _int:
     UseCompiler              = false;
-    UseLoopCounter           = false;
+    UseLoopCounter           = AlwaysCountInvocations ? true : false;
     AlwaysCompileLoopMethods = false;
     UseOnStackReplacement    = false;
     break;
@@ -1864,6 +1883,154 @@ void Arguments::set_heap_size() {
       }
     }
   }
+}
+
+#if 0
+void Arguments::set_heap_mem_color() {
+
+    set_heap_mem_color(MCOLOR_NONE);
+    if (HeapMemoryColor != NULL) {
+        if ((strcasecmp (HeapMemoryColor, "white")) == 0) {
+            set_heap_mem_color(MCOLOR_WHITE);
+        } else if ((strcasecmp(HeapMemoryColor, "black")) == 0) {
+            set_heap_mem_color(MCOLOR_BLACK);
+        } else {
+            tty->print("invalid HeapMemoryColor: \"%s\", no color set for heap\n", HeapMemoryColor);
+        }
+    }
+}
+#endif
+
+#if 0
+void Arguments::setup_gen_tray_masks() {
+  set_perm_gen_tray_mask(parse_traystring(PermGenTrays));
+  set_tenured_gen_tray_mask(parse_traystring(TenuredGenTrays));
+}
+
+void Arguments::setup_code_cache_tray_mask() {
+  set_code_cache_tray_mask(parse_traystring(CodeCacheTrays));
+}
+#endif
+
+void Arguments::setup_colored_memory_tray_masks() {
+  set_red_memory_tray_mask(parse_traystring(RedMemoryTrays));
+  set_blue_memory_tray_mask(parse_traystring(BlueMemoryTrays));
+}
+
+/*
+ * Extract a node or processor number from the given string.
+ * Allow a relative node / processor specification within the allowed
+ * set if "relative" is nonzero
+ */
+unsigned long Arguments::get_nr(const char *s, char **end,
+  traymask_t *traymask, int relative)
+{
+	long i, nr;
+
+	if (!relative)
+		return strtoul(s, end, 0);
+
+	nr = strtoul(s, end, 0);
+	if (s == *end)
+		return nr;
+	/* Find the nth set bit */
+	for (i = 0; nr >= 0 && i <= NR_TRAYS; i++)
+		if (os::traymask_isbitset(traymask, i))
+			nr--;
+	return i-1;
+}
+
+/*
+ * parse_traystring() is called to create a tray mask, given
+ * an ascii string such as 25 or 12-15 or 1,3,5-7 or +6-10.
+ * (the + indicates that the numbers are cpuset-relative)
+ *
+ * The nodes may be specified as absolute, or relative to the current cpuset.
+ * The list of available nodes is in a map pointed to by "numa_all_nodes_ptr",
+ * which may represent all nodes or the nodes in the current cpuset.
+ *
+ * The caller must free the returned bitmask.
+ */
+traymask_t * Arguments::parse_traystring(const char *s)
+{
+	int invert = 0, relative = 0;
+	char *end;
+	traymask_t *mask;
+
+  if (s == NULL)
+    return os::default_traymask();
+
+	mask = (traymask_t *) os::malloc(sizeof(traymask_t));
+	os::copy_traymask_from_traymask(mask, os::traymask_no_trays());
+
+	if (s[0] == 0){
+		return mask; /* return freeable mask */
+	}
+	if (*s == '!') {
+		invert = 1;
+		s++;
+	}
+	if (*s == '+') {
+		relative++;
+		s++;
+	}
+	do {
+		int i;
+		unsigned long arg;
+		if (!strcmp(s,"all")) {
+			os::copy_traymask_from_traymask(mask, os::traymask_all_trays());
+			s+=4;
+			break;
+		}
+		arg = get_nr(s, &end, os::traymask_all_trays(), relative);
+		if (end == s) {
+			fprintf(stderr, "unparseable tray description `%s'\n", s);
+			goto err;
+		}
+		if (!os::traymask_isbitset(os::traymask_all_trays(), arg)) {
+			fprintf(stderr, "tray argument %lu is out of range\n", arg);
+			goto err;
+		}
+		i = arg;
+		os::traymask_setbit(mask, i);
+		s = end;
+		if (*s == '-') {
+			char *end2;
+			unsigned long arg2;
+			arg2 = get_nr(++s, &end2, os::traymask_all_trays(), relative);
+			if (end2 == s) {
+				fprintf(stderr, "missing tray argument %s\n", s);
+				goto err;
+			}
+			if (!os::traymask_isbitset(os::traymask_all_trays(), arg2)) {
+				fprintf(stderr, "tray argument %lu is out of range\n", arg2);
+				goto err;
+			}
+			while (arg <= arg2) {
+				i = arg;
+				if (os::traymask_isbitset(os::traymask_all_trays(),i))
+					os::traymask_setbit(mask, i);
+				arg++;
+			}
+			s = end2;
+		}
+	} while (*s++ == ',');
+	if (s[-1] != '\0')
+		goto err;
+	if (invert) {
+		int i;
+		for (i = 0; i < NR_TRAYS; i++) {
+			if (os::traymask_isbitset(mask, i))
+				os::traymask_clearbit(mask, i);
+			else
+				os::traymask_setbit(mask, i);
+		}
+	}
+	return mask;
+
+err:
+  os::free(mask);
+	return NULL;
 }
 
 // This must be called after ergonomics.
@@ -3916,6 +4083,62 @@ jint Arguments::apply_ergo() {
 
   // Set heap size based on available physical memory
   set_heap_size();
+  os::set_traymask_constraints();
+  setup_colored_memory_tray_masks();
+
+#if 0
+  set_heap_mem_color();
+
+  // traymask options
+  os::set_traymask_constraints();
+  setup_gen_tray_masks();
+  setup_code_cache_tray_mask();
+#endif
+
+  if (PowerSampleGC) {
+    unsigned int num_nodes = 0;
+    os::Linux::librapl_init();
+    if (0 != os::Linux::init_rapl()) {
+      tty->print("init_rapl() failed!\n");
+      return JNI_ERR;
+    }
+    tty->print("init_rapl done\n");
+    tty->print("num_nodes = %d\n", os::Linux::get_num_rapl_nodes_pkg());
+  }
+ 
+  _objinfo_log_filename   = ObjectInfoLog         != NULL ?
+                            ObjectInfoLog         : "objinfo.log";
+  _objalloc_log_filename  = ObjectAllocationLog   != NULL ?
+                            ObjectAllocationLog   : "objalloc.log";
+  _apmap_log_filename     = AllocPointMapLog      != NULL ?
+                            AllocPointMapLog      : "apmap.log";
+  _apinfo_log_filename    = AllocPointInfoLog     != NULL ?
+                            AllocPointInfoLog     : "apinfo.log";
+  _deadobj_log_filename   = DeadObjectLog         != NULL ?
+                            DeadObjectLog         : "deadobj.log";
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  _addrinfo_log_filename  = ObjectAddressInfoLog  != NULL ?
+                            ObjectAddressInfoLog  : "addrinfo.log";
+  _addrtable_log_filename = ObjectAddressTableLog != NULL ?
+                            ObjectAddressTableLog : "addrtable.log";
+                            /*
+  _addrups_log_filename   = UnknownPagesLog       != NULL ?
+                            UnknownPagesLog       : "addrups.log";
+                            */
+  _fieldinfo_log_filename = ObjectFieldInfoLog    != NULL ?
+                            ObjectFieldInfoLog    : "fieldinfo.log";
+#endif
+
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    guarantee(!UseCompressedOops,
+              "cannot use compressed oops when profiling object info");
+  }
+#endif
+  UnknownObjectHeapColor = (HeapColor)UnknownObjectColor;
+  UnknownAPHeapColor = (HeapColor)UnknownAPColor;
+
+  if (InterpretModeLoopCounts) UseLoopCounter = true;
 
   ArgumentsExt::set_gc_specific_flags();
 
@@ -4009,7 +4232,7 @@ jint Arguments::apply_ergo() {
 }
 
 jint Arguments::adjust_after_os() {
-  if (UseNUMA) {
+  if (UseNUMA || UseColoredSpaces) {
     if (UseParallelGC || UseParallelOldGC) {
       if (FLAG_IS_DEFAULT(MinHeapDeltaBytes)) {
          FLAG_SET_DEFAULT(MinHeapDeltaBytes, 64*M);

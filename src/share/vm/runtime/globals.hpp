@@ -662,6 +662,29 @@ class CommandLineFlags {
   product(uintx, NUMAPageScanRate, 256,                                     \
           "Maximum number of pages to include in the page scan procedure")  \
                                                                             \
+  product(bool, UseColoredSpaces, false,                                    \
+          "Use colored memory if available")                                \
+                                                                            \
+  develop(bool, ApplyColorToSpaces, true,                                   \
+          "actually apply colors (with mcolor) when using colored spaces")  \
+                                                                            \
+  product(intx, ColoredSpaceChunkResizeWeight, 20,                          \
+          "Percentage (0-100) used to weight the current sample when "      \
+          "computing exponentially decaying average for "                   \
+          "AdaptiveColoredChunkSizing")                                     \
+                                                                            \
+  product(intx, ColoredSpaceResizeRate, 1*G,                                \
+          "Do not reallocate more that this amount per collection")         \
+                                                                            \
+  product(bool, ColoredUseAdaptiveChunkSizing, true,                        \
+          "Enable adaptive chunk sizing for colored spaces")                \
+                                                                            \
+  product(bool, ColoredSpaceStats, false,                                   \
+          "Print memcolor stats in detailed heap information")              \
+                                                                            \
+  product(intx, ColoredSpacePageScanRate, 256,                              \
+          "Maximum number of pages to include in the page scan procedure")  \
+                                                                            \
   product_pd(bool, NeedsDeoptSuspend,                                       \
           "True for register window machines (sparc/ia64)")                 \
                                                                             \
@@ -3939,7 +3962,261 @@ class CommandLineFlags {
                                                                             \
   product_pd(bool, PreserveFramePointer,                                    \
              "Use the FP register for holding the frame pointer "           \
-             "and not as a general purpose register.")
+             "and not as a general purpose register.")                      \
+                                                                            \
+  /* MRJ args */                                                            \
+  develop(ccstr, HeapMemoryColor,  NULL,                                    \
+          "Heap memory color - default is no color")                        \
+                                                                            \
+  develop(bool, UseNUMAInterleave, true,                                    \
+          "use NUMA interleave when NUMA is enabled")                       \
+                                                                            \
+  develop(bool, MColorNUMA, false,                                          \
+          "use NUMA interleave when NUMA is enabled")                       \
+                                                                            \
+  develop(bool, FreeNUMASpacePages, true,                                   \
+          "madvise for DONTNEED when NUMA is enabled")                      \
+                                                                            \
+  develop(bool, MakeNUMASpaceLocal, true,                                   \
+          "set NUMA space pages to local node when NUMA is enabled")        \
+                                                                            \
+  develop(bool, FreeColoredSpacePages, true,                                \
+          "madvise for DONTNEED when memory coloring is enabled")           \
+                                                                            \
+  develop(bool, MColorColoredSpacePages, true,                              \
+          "actually apply colors (with mcolor) when using colored spaces")  \
+                                                                            \
+  develop(ccstr, TenuredGenTrays, NULL,                                     \
+          "bind tenured generation to a set of trays")                      \
+                                                                            \
+  develop(ccstr, PermGenTrays, NULL,                                        \
+          "bind permanent generation to a set of trays")                    \
+                                                                            \
+  develop(ccstr, CodeCacheTrays, NULL,                                      \
+          "bind code cache to a set of trays")                              \
+                                                                            \
+  develop(bool, TimeStampGC, false,                                         \
+          "timestamp GC")                                                   \
+                                                                            \
+  develop(bool, PowerSampleGC, false,                                       \
+          "power sample GC")                                                \
+                                                                            \
+  develop(bool, OnlyTenuredObjectInfo, false,                               \
+          "print only tenured objects in the class histogram")              \
+                                                                            \
+  develop(bool, ProfileObjectInfo, false,                                   \
+          "collect profiles of object reference patterns")                  \
+                                                                            \
+  develop(bool, ProfileObjectAddressInfo, false,                            \
+          "collect profiles of object reference patterns")                  \
+                                                                            \
+  develop(bool, ProfileObjectFieldInfo, false,                              \
+          "collect profiles of object field reference patterns")            \
+                                                                            \
+  develop(bool, PrintTextOAT, false,                                        \
+          "print text version of object address table")                     \
+                                                                            \
+  develop(bool, PrintObjectInfoBeforeFullGC, false,                         \
+          "collect profiles of object reference patterns")                  \
+                                                                            \
+  develop(bool, PrintObjectInfoAfterFullGC, false,                          \
+          "collect profiles of object reference patterns")                  \
+                                                                            \
+  develop(bool, PrintObjectInfoAtInterval, false,                           \
+          "collect profiles of object reference patterns")                  \
+                                                                            \
+  develop(bool, PrintAPInfoAtInterval, false,                               \
+          "print alloc point info at intervals")                            \
+                                                                            \
+  develop(bool, PrintObjectAddressInfoAtInterval, false,                    \
+          "collect profiles of object reference patterns")                  \
+                                                                            \
+  develop(bool, PrintObjectAddressInfoAtGC, false,                          \
+          "collect profiles of object reference patterns")                  \
+                                                                            \
+  develop(ccstr, ObjectInfoLog, NULL,                                       \
+          "filename to log object reference data")                          \
+                                                                            \
+  develop(ccstr, ObjectAllocationLog, NULL,                                 \
+          "filename to log object allocations")                             \
+                                                                            \
+  develop(ccstr, DeadObjectLog, NULL,                                       \
+          "filename to log dead objects")                                   \
+                                                                            \
+  develop(ccstr, AllocPointMapLog, NULL,                                    \
+          "filename to log allocation point map")                           \
+                                                                            \
+  develop(ccstr, AllocPointInfoLog, NULL,                                   \
+          "filename to log allocation point info")                          \
+                                                                            \
+  develop(ccstr, ObjectAddressInfoLog, NULL,                                \
+          "filename to log object address data")                            \
+                                                                            \
+  develop(ccstr, ObjectAddressTableLog, NULL,                               \
+          "filename to log object address table")                           \
+                                                                            \
+  develop(ccstr, ObjectFieldInfoLog, NULL,                                  \
+          "filename to log field info for objects")                         \
+                                                                            \
+  develop(bool, PrintOpsAtSIGBREAK, false,                                  \
+          "print some additional information at SIGBREAK")                  \
+                                                                            \
+  develop(uintx, ObjectInfoInterval, 10000,                                 \
+          "interval to print object info")                                  \
+                                                                            \
+  develop(uintx, ObjectAddressInfoInterval, 10000,                          \
+          "interval to print object addresses")                             \
+                                                                            \
+  develop(bool, TimeObjectInfoPrinting, false,                              \
+          "print object info elapsed time")                                 \
+                                                                            \
+  develop(bool, TotalRefCounts, false,                                      \
+          "count loads and stores together towards a single total "         \
+          "reference count")                                                \
+                                                                            \
+  develop(bool, CrashOnObjectInfoDump, false,                               \
+          "crash the jvm after printing the object info dump once")         \
+                                                                            \
+  develop(bool, TrimObjectInfo, false,                                      \
+          "print a summarized version of the object info dump")             \
+                                                                            \
+  develop(bool, OrganizeObjects, false,                                     \
+          "move objects from red to blue space at intervals")               \
+                                                                            \
+  develop(uintx, ObjectLayoutInterval, 10000,                               \
+          "interval to organize objects")                                   \
+                                                                            \
+  develop(bool, PrintExtraGCDetails, false,                                 \
+          "print virtual address of GC sections")                           \
+                                                                            \
+  develop(bool, TraceColoredCopy, false,                                    \
+          "print extra colored copy info")                                  \
+                                                                            \
+  develop(bool, MJTraceScavenge, false,                                     \
+          "print extra colored copy info")                                  \
+                                                                            \
+  develop(intx, BlueCount, 0,                                               \
+          "number of objects that go blue at GC")                           \
+                                                                            \
+  develop(bool, InterpretModeLoopCounts, false,                             \
+          "gather loop counts during interpreted mode")                     \
+                                                                            \
+  develop(intx, ColorRefThreshold, -1,                                      \
+          "ref threshold for organizing objects into red space")            \
+                                                                            \
+  develop(intx, ColorAgeThreshold, -1,                                      \
+          "age threshold for organizing objects into red space")            \
+                                                                            \
+  develop(intx, ProfileAgeThreshold, -1,                                    \
+          "age threshold for profiling objects")                            \
+                                                                            \
+  develop(bool, SurvivorsAlwaysBlue, false,                                 \
+          "always copy survivors to the blue space")                        \
+                                                                            \
+  develop(bool, SurvivorsAlwaysRed, false,                                  \
+          "always copy survivors to the red space")                         \
+                                                                            \
+  develop(jint, HotObjectThreshold, 0,                                      \
+          "always copy survivors to the red space")                         \
+                                                                            \
+  develop(bool, PrintReferencedObjects, false,                              \
+          "print referenced objects in ObjectInfoLog")                      \
+                                                                            \
+  develop(bool, MemBenchOrganize, true,                                     \
+          "special object organization for MemBench benchmark")             \
+                                                                            \
+  develop(bool, RedMemoryInterleave, false,                                 \
+          "use mcolor to interleave red memory")                            \
+                                                                            \
+  develop(bool, BlueMemoryInterleave, false,                                \
+          "use mcolor to interleave blue memory")                           \
+                                                                            \
+  develop(ccstr, RedMemoryTrays, NULL,                                      \
+          "trays to use for red memory coloring")                           \
+                                                                            \
+  develop(ccstr, BlueMemoryTrays, NULL,                                     \
+          "trays to use for blue memory coloring")                          \
+                                                                            \
+  develop(bool, AlwaysCountInvocations, false,                              \
+          "Always count invocations even when compilation is off")          \
+                                                                            \
+  develop(bool, ColorObjectAllocations, false,                              \
+          "Color object allocations")                                       \
+                                                                            \
+  develop(bool, MethodSampleColors, false,                                  \
+          "Use online thread sampler to apply object colors")               \
+                                                                            \
+  develop(bool, HotKlassOrganize, false,                                    \
+          "Organize hot objects using klass info at GC")                    \
+                                                                            \
+  develop(bool, HotKlassAllocate, false,                                    \
+          "Allocate hot objects using klass info at GC")                    \
+                                                                            \
+  develop(intx, MaxMethodTemperature, 4,                                    \
+          "Max temperature for hot methods")                                \
+                                                                            \
+  develop(intx, MaxKlassTemperature, 4,                                     \
+          "Max temperature for hot klasses")                                \
+                                                                            \
+  develop(bool, GCTimers, false,                                            \
+          "Print out timing information for each GC")                       \
+                                                                            \
+  develop(bool, CompileSlowAllocations, false,                              \
+          "Only compile in the slow path for object allocation")            \
+                                                                            \
+  develop(bool, SlowAllocations, false,                                     \
+          "Only use slow path for object allocation in the interpreter")    \
+                                                                            \
+  develop(bool, EdenAlwaysRed, false,                                       \
+          "Color all eden spaces red -- even when using multiple spaces")   \
+                                                                            \
+  develop(bool, DisableMajorGC, false,                                      \
+          "disable major GC in the parallel scavenge collector")            \
+                                                                            \
+  develop(bool, OnlyOrganizeGC, false,                                      \
+          "only do GC when we are doing object organization")               \
+                                                                            \
+  develop(bool, OnlyIntervalGC, false,                                      \
+          "only do GC when we are doing object info collection")            \
+                                                                            \
+  develop(bool, ObjectInfoWithGC, true,                                     \
+          "do GC every time we collect object info")                        \
+                                                                            \
+  develop(intx, UnknownObjectColor, 1, /* HC_BLUE */                        \
+          "color for unknown objects")                                      \
+                                                                            \
+  develop(intx, UnknownAPColor, 1, /* HC_BLUE */                            \
+          "color for objects created at unknown allocation points")         \
+                                                                            \
+  develop(bool, RedHeap, false,                                             \
+          "color all heap spaces red")                                      \
+                                                                            \
+  develop(bool, ColoredTLABs, false,                                        \
+          "use colored TLABs")                                              \
+                                                                            \
+  develop(bool, RandomHeapColors, false,                                    \
+          "allocate colors randomly")                                       \
+                                                                            \
+  develop(double, RedObjectRatio, 0.5,                                      \
+          "allocate colors randomly")                                       \
+                                                                            \
+  develop(uintx, MethodSamplerInterval, 10,                                 \
+	  "the interval in milliseconds that we sample the stacks")               \
+                                                                            \
+  develop(uintx, CoolDownInterval, 100,                                     \
+	  "the interval in milliseconds that we attempt to reorder"               \
+	  "the objects on the heap")                                              \
+                                                                            \
+  develop(bool, ScavengeAtRegularIntervals, false,                          \
+	  "the interval in milliseconds that we induce GC to reorganize objects") \
+                                                                            \
+  develop(uintx, ScavengeInterval, 5000,                                    \
+	  "the interval in milliseconds that we induce GC to reorganize objects") \
+/*
+  develop(ccstr, UnknownPagesLog, NULL,                                     \
+          "filename to log heap pages with unknown objects")                \
+                                                                            \
+*/
 
 /*
  *  Macros for factoring of globals

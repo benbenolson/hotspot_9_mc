@@ -38,10 +38,27 @@
 //  Klass*    // 32 bits if compressed but declared 64 in LP64.
 //  length    // shares klass memory or allocated after declared fields.
 
+class PersistentObjectInfo;
 
 class arrayOopDesc : public oopDesc {
   friend class VMStructs;
 
+#ifdef PROFILE_OBJECT_INFO
+  jint _id, _init_val;
+  PersistentObjectInfo *_poi;
+
+  jint _color_mark;
+  HeapColor _color;
+#endif
+#if 0
+    /* MRJ -- just assume COLORED_EDEN_SPACE is defined when UseColoredSpaces
+     * is set
+     */
+#if (defined PROFILE_OBJECT_INFO) || !(defined COLORED_EDEN_SPACE)
+    jint _color_mark;
+    HeapColor _color;
+#endif
+#endif
   // Interpreter/Compiler offsets
 
   // Header size computation.
@@ -65,7 +82,7 @@ class arrayOopDesc : public oopDesc {
   // declared nonstatic fields in arrayOopDesc if not compressed, otherwise
   // it occupies the second half of the _klass field in oopDesc.
   static int length_offset_in_bytes() {
-    return UseCompressedClassPointers ? klass_gap_offset_in_bytes() :
+    return UseCompressedClassPointers ? (klass_gap_offset_in_bytes()) :
                                sizeof(arrayOopDesc);
   }
 
@@ -123,6 +140,53 @@ class arrayOopDesc : public oopDesc {
     }
     return (int32_t)max_elements_per_size_t;
   }
+
+#ifdef PROFILE_OBJECT_INFO
+  void initialize (jint id, jint init_val) { 
+    _id           = id;
+    _init_val     = init_val;
+#if 0
+    _load_cnt     = 0;
+    _store_cnt    = 0;
+#endif
+    _color_mark   = COLOR_MARK;
+    _poi          = NULL;
+  }
+
+#if 0
+  jint load_cnt ()            { return _load_cnt;  }
+  jint store_cnt ()           { return _store_cnt; }
+  void set_load_cnt  (jint c) { Atomic::store(c, &_load_cnt);  }
+  void set_store_cnt (jint c) { Atomic::store(c, &_store_cnt); }
+  void inc_load_cnt  () { if (_load_cnt  >= 0) Atomic::inc(&_load_cnt);  }
+  void inc_store_cnt () { if (_store_cnt >= 0) Atomic::inc(&_store_cnt); }
+#endif
+
+  jint id ()              { return _id; }
+  jint init_val ()        { return _init_val; }
+  bool is_initialized ()  { return _color_mark == COLOR_MARK; }
+
+  PersistentObjectInfo *poi ()             { return _poi; }
+  void set_poi (PersistentObjectInfo *poi) { _poi = poi;  }
+
+  HeapColor color()               { return _color;  }
+  void set_color(HeapColor color) { _color = color; }
+
+  void set_color_mark(jint val) { _color_mark = val; }
+  jint color_mark()             { return _color_mark; }
+#endif
+#if 0
+    /* MRJ -- just assume COLORED_EDEN_SPACE is defined when UseColoredSpaces
+     * is set
+     */
+#if (defined PROFILE_OBJECT_INFO) || !(defined COLORED_EDEN_SPACE)
+  HeapColor color()               { return _color;  }
+  void set_color(HeapColor color) { _color = color; }
+
+  void set_color_mark(jint val) { _color_mark = val; }
+  jint color_mark()             { return _color_mark; }
+#endif
+#endif
 
 // for unit testing
 #ifndef PRODUCT

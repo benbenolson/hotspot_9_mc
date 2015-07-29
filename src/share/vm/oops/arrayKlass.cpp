@@ -64,6 +64,11 @@ oop ArrayKlass::multi_allocate(int rank, jint* sizes, TRAPS) {
   return NULL;
 }
 
+oop arrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS) {
+  ShouldNotReachHere();
+  return NULL;
+}
+
 // find field according to JVM spec 5.4.3.2, returns the klass in which the field is defined
 Klass* ArrayKlass::find_field(Symbol* name, Symbol* sig, fieldDescriptor* fd) const {
   // There are no fields in an array klass but look to the super class (Object)
@@ -147,6 +152,23 @@ objArrayOop ArrayKlass::allocate_arrayArray(int n, int length, TRAPS) {
   ArrayKlass* ak = ArrayKlass::cast(k);
   objArrayOop o =
     (objArrayOop)CollectedHeap::array_allocate(ak, size, length, CHECK_0);
+  // initialization to NULL not necessary, area already cleared
+  return o;
+}
+
+objArrayOop arrayKlass::allocate_arrayArray(int n, int length, HeapColor color, TRAPS) {
+  if (length < 0) {
+    THROW_0(vmSymbols::java_lang_NegativeArraySizeException());
+  }
+  if (length > arrayOopDesc::max_array_length(T_ARRAY)) {
+    report_java_out_of_memory("Requested array size exceeds VM limit");
+    THROW_OOP_0(Universe::out_of_memory_error_array_size());
+  }
+  int size = objArrayOopDesc::object_size(length);
+  klassOop k = array_klass(n+dimension(), CHECK_0);
+  arrayKlassHandle ak (THREAD, k);
+  objArrayOop o =
+    (objArrayOop)CollectedHeap::array_allocate(ak, size, length, color, CHECK_0);
   // initialization to NULL not necessary, area already cleared
   return o;
 }

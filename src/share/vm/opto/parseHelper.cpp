@@ -296,8 +296,10 @@ void Parse::do_new() {
     emit_guard_for_new(klass);
   }
 
-  Node* kls = makecon(TypeKlassPtr::make(klass));
-  Node* obj = new_instance(kls);
+  Node* kls_node = makecon(TypeKlassPtr::make(klass));
+  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+  Node* bci_node = intcon(bci());
+  Node* obj = new_instance(kls_node, mth_node, bci_node);
 
   // Push resultant oop onto stack
   push(obj);

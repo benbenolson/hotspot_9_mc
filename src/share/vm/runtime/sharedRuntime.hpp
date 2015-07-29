@@ -39,6 +39,19 @@ class AdapterHandlerTable;
 class AdapterFingerPrint;
 class vframeStream;
 
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+enum x86_op_size {
+  X86_BYTE_SIZE   = 1,
+  X86_SHORT_SIZE  = 2,
+  X86_WORD_SIZE   = 2,
+  X86_LONG_SIZE   = 4,
+  X86_FLOAT_SIZE  = 4,
+  X86_QUAD_SIZE   = 8,
+  X86_DOUBLE_SIZE = 8,
+  X86_TEN_SIZE    = 10,
+};
+#endif
+
 // Runtime is the base class for various runtime interfaces
 // (InterpreterRuntime, CompilerRuntime, etc.). It provides
 // shared functionality such as exception forwarding (C++ to
@@ -176,6 +189,22 @@ class SharedRuntime: AllStatic {
   static void g1_wb_post(void* card_addr, JavaThread* thread);
 #endif // INCLUDE_ALL_GCS
 
+#if PROFILE_OBJECT_INFO
+  static void inc_load_cnt  (oopDesc *oop);
+  //static void inc_load_cnt  (oopDesc *oop, methodOopDesc *method);
+  //static void inc_load_cnt  (oopDesc *oop, methodOopDesc *method, address bcp);
+  static void inc_store_cnt (oopDesc *oop);
+  //static void inc_store_cnt (oopDesc *oop, methodOopDesc *method);
+  //static void inc_store_cnt (oopDesc *oop, methodOopDesc *method, address bcp);
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  static void inc_addr_load_cnt  (oopDesc *oop);
+  static void inc_addr_store_cnt (oopDesc *oop);
+  static void inc_inst_load_cnt  (oopDesc *oop, void *field, int size);
+  static void inc_inst_store_cnt (oopDesc *oop, void *field, int size);
+  //static void inc_inst_store_cnt (oopDesc *oop, void *field, int idx, int scale, int disp);
+#endif
+
   // exception handling and implicit exceptions
   static address compute_compiled_exc_handler(nmethod* nm, address ret_pc, Handle& exception,
                                               bool force_unwind, bool top_frame_only);
@@ -262,6 +291,23 @@ class SharedRuntime: AllStatic {
   static int dtrace_object_alloc_base(Thread* thread, oopDesc* o, int size);
   static int dtrace_method_entry(JavaThread* thread, Method* m);
   static int dtrace_method_exit(JavaThread* thread, Method* m);
+
+#if 0
+  // allocation point colors
+  static HeapColor get_alloc_point_color(methodOopDesc *method, address bcp);
+#endif
+
+#if PROFILE_OBJECT_INFO
+  // profile info
+  static void interp_profile_object_alloc(oopDesc* o, methodOopDesc *method, address bcp);
+  static void profile_object_alloc(oopDesc* o, methodOopDesc *method, int bci);
+
+  // profile info
+  static void color_object_alloc(oopDesc* o, methodOopDesc *method, address bcp);
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  static void profile_object_address_alloc(oopDesc *o);
+#endif
 
   // Utility method for retrieving the Java thread id, returns 0 if the
   // thread is not a well formed Java thread.

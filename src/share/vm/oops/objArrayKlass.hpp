@@ -68,7 +68,9 @@ class ObjArrayKlass : public ArrayKlass {
                                           int n, KlassHandle element_klass, TRAPS);
 
   objArrayOop allocate(int length, TRAPS);
+  objArrayOop allocate(int length, HeapColor color, TRAPS);
   oop multi_allocate(int rank, jint* sizes, TRAPS);
+  oop multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS);
 
   // Copying
   void  copy_array(arrayOop s, int src_pos, arrayOop d, int dst_pos, int length, TRAPS);

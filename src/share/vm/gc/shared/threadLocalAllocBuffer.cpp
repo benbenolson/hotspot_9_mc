@@ -46,10 +46,28 @@ void ThreadLocalAllocBuffer::clear_before_allocation() {
 void ThreadLocalAllocBuffer::accumulate_statistics_before_gc() {
   global_stats()->initialize();
 
+#ifdef COLORED_TLABS
+  if(UseColoredSpaces) {
+    for(JavaThread *thread = Threads::first(); thread; thread = thread->next()) {
+      //tty->print("early: %p\n", thread);
+      thread->tlab(HC_RED).accumulate_statistics();
+      thread->tlab(HC_RED).initialize_statistics();
+      thread->tlab(HC_BLUE).accumulate_statistics();
+      thread->tlab(HC_BLUE).initialize_statistics();
+    }
+  } else {
+    for(JavaThread *thread = Threads::first(); thread; thread = thread->next()) {
+      //tty->print("early: %p\n", thread);
+      thread->tlab().accumulate_statistics();
+      thread->tlab().initialize_statistics();
+    }
+  }
+#else
   for (JavaThread *thread = Threads::first(); thread != NULL; thread = thread->next()) {
     thread->tlab().accumulate_statistics();
     thread->tlab().initialize_statistics();
   }
+#endif
 
   // Publish new stats if some allocation occurred.
   if (global_stats()->allocation() != 0) {
@@ -130,6 +148,20 @@ void ThreadLocalAllocBuffer::make_parsable(bool retire) {
          "TLAB must be reset");
 }
 
+#ifdef COLORED_TLABS
+void ThreadLocalAllocBuffer::resize_all_tlabs() {
+  if (UseColoredSpaces) {
+    for(JavaThread *thread = Threads::first(); thread; thread = thread->next()) {
+      thread->tlab(HC_RED).resize();
+      thread->tlab(HC_BLUE).resize();
+    }
+  } else {
+    for(JavaThread *thread = Threads::first(); thread; thread = thread->next()) {
+      thread->tlab().resize();
+    }
+  }
+}
+#else
 void ThreadLocalAllocBuffer::resize_all_tlabs() {
   if (ResizeTLAB) {
     for (JavaThread *thread = Threads::first(); thread != NULL; thread = thread->next()) {
@@ -137,6 +169,7 @@ void ThreadLocalAllocBuffer::resize_all_tlabs() {
     }
   }
 }
+#endif
 
 void ThreadLocalAllocBuffer::resize() {
   // Compute the next tlab size using expected allocation amount
@@ -192,6 +225,7 @@ void ThreadLocalAllocBuffer::initialize(HeapWord* start,
 }
 
 void ThreadLocalAllocBuffer::initialize() {
+  _cnt = 0;
   initialize(NULL,                    // start
              NULL,                    // top
              NULL);                   // end
@@ -224,12 +258,38 @@ void ThreadLocalAllocBuffer::startup_initialization() {
   // During jvm startup, the main (primordial) thread is initialized
   // before the heap is initialized.  So reinitialize it now.
   guarantee(Thread::current()->is_Java_thread(), "tlab initialization thread not Java thread");
+#ifdef COLORED_TLABS
+  if (UseColoredSpaces) {
+    Thread::current()->tlab(HC_RED).initialize();
+    Thread::current()->tlab(HC_BLUE).initialize();
+
+    Thread::current()->tlab(HC_RED).set_color(HC_RED);
+    Thread::current()->tlab(HC_BLUE).set_color(HC_BLUE);
+
+    if (PrintTLAB && Verbose) {
+      gclog_or_tty->print("TLAB min: " SIZE_FORMAT " initial: " SIZE_FORMAT " max: " SIZE_FORMAT "\n",
+                          min_size(), Thread::current()->tlab(HC_RED).initial_desired_size(), max_size());
+    }
+    if (PrintTLAB && Verbose) {
+      gclog_or_tty->print("TLAB min: " SIZE_FORMAT " initial: " SIZE_FORMAT " max: " SIZE_FORMAT "\n",
+                          min_size(), Thread::current()->tlab(HC_BLUE).initial_desired_size(), max_size());
+    }
+  } else {
+    Thread::current()->tlab().initialize();
+
+    if (PrintTLAB && Verbose) {
+      gclog_or_tty->print("TLAB min: " SIZE_FORMAT " initial: " SIZE_FORMAT " max: " SIZE_FORMAT "\n",
+                          min_size(), Thread::current()->tlab().initial_desired_size(), max_size());
+    }
+  }
+#else
   Thread::current()->tlab().initialize();
 
   if (PrintTLAB && Verbose) {
     gclog_or_tty->print("TLAB min: " SIZE_FORMAT " initial: " SIZE_FORMAT " max: " SIZE_FORMAT "\n",
                         min_size(), Thread::current()->tlab().initial_desired_size(), max_size());
   }
+#endif
 }
 
 size_t ThreadLocalAllocBuffer::initial_desired_size() {
@@ -285,9 +345,21 @@ void ThreadLocalAllocBuffer::verify() {
 }
 
 Thread* ThreadLocalAllocBuffer::myThread() {
+#ifdef COLORED_TLABS
+  if (UseColoredSpaces) {
+    return (Thread*)(((char *)this) +
+                     in_bytes(start_offset()) -
+                     in_bytes(Thread::colored_tlab_start_offset(_color)));
+  } else {
+    return (Thread*)(((char *)this) +
+                     in_bytes(start_offset()) -
+                     in_bytes(Thread::tlab_start_offset()));
+  }
+#else
   return (Thread*)(((char *)this) +
                    in_bytes(start_offset()) -
                    in_bytes(Thread::tlab_start_offset()));
+#endif
 }
 
 

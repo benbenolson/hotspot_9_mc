@@ -48,6 +48,9 @@ const char* GCCause::to_string(GCCause::Cause cause) {
     case _heap_inspection:
       return "Heap Inspection Initiated GC";
 
+    case _object_info_collection:
+      return "Object Info Collection";
+
     case _heap_dump:
       return "Heap Dump Initiated GC";
 
@@ -108,6 +111,12 @@ const char* GCCause::to_string(GCCause::Cause cause) {
 
     case _last_gc_cause:
       return "ILLEGAL VALUE - last gc cause - ILLEGAL VALUE";
+
+    case _object_organize:
+      return "object organize";
+
+    case _regular_scavenge:
+      return "regular scavenge";
 
     default:
       return "unknown GCCause";

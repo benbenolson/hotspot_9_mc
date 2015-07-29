@@ -43,6 +43,8 @@
 #include "opto/regmask.hpp"
 #include "utilities/copy.hpp"
 
+#include "runtime/jrMethodInfo.hpp"
+
 // Portions of code courtesy of Clifford Click
 
 // Optimization - Graph Style
@@ -4544,3 +4546,117 @@ bool MergeMemStream::match_memory(Node* mem, const MergeMemNode* mm, int idx) {
   return false;
 }
 #endif // !PRODUCT
+
+
+// JR Custom Content - this method (used to be in headder file)
+LoadNode::LoadNode( Node *c, Node *mem, Node *adr, const TypePtr* at, const Type *rt )
+  : MemNode(c,mem,adr,at), _type(rt) {
+  init_class_id(Class_Load);
+
+  if (HotKlassOrganize) {
+    Compile* C = Compile::current();
+    GrowableArray<klassOop>* cur_kal = C->cur_klass_access_list();
+    if (cur_kal) {
+      const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
+      if (adr_type1 != NULL) {
+        klassOop k = adr_type1->klass()->mj_get_klassOop();
+        if (!JRMethodInfoManager::kal_contains( cur_kal, k ) ) {
+          cur_kal->append(k);
+        }
+      }
+    }
+  }
+
+#if 0
+  // JR Custom Content - begin
+  if (JRFieldTracker) {
+    Compile* C = Compile::current();
+
+    if (C->should_collect_fields()) {
+      const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
+      if (adr_type1 != NULL) {
+	//tty->print_cr("Load  %s in %s", adr_type1->klass()->name()->as_utf8(), C->method()->name()->as_utf8());
+	
+	JRMethodInfoAccessList* mial = C->jr_access_list();
+      mial->addAccess(adr_type1->klass()->name());
+      }
+    }
+  }
+#endif
+  // JR Custom Content - end
+}
+
+// JR Custom Content - this method (used to be in headder file)
+StoreNode::StoreNode( Node *c, Node *mem, Node *adr, const TypePtr* at, Node *val )
+  : MemNode(c,mem,adr,at,val) {
+  init_class_id(Class_Store);
+
+  if (HotKlassOrganize) {
+    Compile* C = Compile::current();
+    GrowableArray<klassOop>* cur_kal = C->cur_klass_access_list();
+    if (cur_kal) {
+      const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
+      if (adr_type1 != NULL) {
+        klassOop k = adr_type1->klass()->mj_get_klassOop();
+        if (!JRMethodInfoManager::kal_contains( cur_kal, k ) ) {
+          cur_kal->append(k);
+        }
+      }
+    }
+  }
+
+#if 0
+  // JR Custom Content - begin
+  if (JRFieldTracker) {
+    Compile* C = Compile::current();
+    if (C->should_collect_fields()) {
+      const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
+      if (adr_type1 != NULL) {
+	//tty->print_cr("Store %s in %s", adr_type1->klass()->name()->as_utf8(), C->method()->name()->as_utf8());
+	
+	JRMethodInfoAccessList* mial = C->jr_access_list();
+	mial->addAccess(adr_type1->klass()->name());
+      }
+    }
+  }
+#endif
+  // JR Custom Content - end
+}
+
+// JR Custom Content - this method (used to be in headder file)
+StoreNode::StoreNode( Node *c, Node *mem, Node *adr, const TypePtr* at, Node *val, Node *oop_store )
+  : MemNode(c,mem,adr,at,val,oop_store) {
+  init_class_id(Class_Store);
+
+  if (HotKlassOrganize) {
+    Compile* C = Compile::current();
+    GrowableArray<klassOop>* cur_kal = C->cur_klass_access_list();
+    if (cur_kal) {
+      const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
+      if (adr_type1 != NULL) {
+        klassOop k = adr_type1->klass()->mj_get_klassOop();
+        if (!JRMethodInfoManager::kal_contains( cur_kal, k ) ) {
+          cur_kal->append(k);
+        }
+      }
+    }
+  }
+
+#if 0
+  // JR Custom Content - begin
+  if (JRFieldTracker) {
+    Compile* C = Compile::current(); 
+ 
+    if (C->should_collect_fields()) {
+      const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
+      if (adr_type1 != NULL) {
+	//tty->print_cr("Store %s in %s", adr_type1->klass()->name()->as_utf8(), C->method()->name()->as_utf8());
+	
+	JRMethodInfoAccessList* mial = C->jr_access_list();
+	mial->addAccess(adr_type1->klass()->name());
+      }
+    }
+  }
+#endif
+  // JR Custom Content - end
+}

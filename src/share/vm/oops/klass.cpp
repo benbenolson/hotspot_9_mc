@@ -37,6 +37,7 @@
 #include "oops/oop.inline.hpp"
 #include "runtime/atomic.inline.hpp"
 #include "runtime/orderAccess.inline.hpp"
+#include "runtime/mutexLocker.hpp"
 #include "trace/traceMacros.hpp"
 #include "utilities/macros.hpp"
 #include "utilities/stack.inline.hpp"

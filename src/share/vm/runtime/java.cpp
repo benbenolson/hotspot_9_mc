@@ -33,6 +33,7 @@
 #include "interpreter/bytecodeHistogram.hpp"
 #include "memory/oopFactory.hpp"
 #include "memory/universe.hpp"
+#include "memory/heapInspection.hpp"
 #include "oops/constantPool.hpp"
 #include "oops/generateOopMap.hpp"
 #include "oops/instanceKlass.hpp"
@@ -79,6 +80,9 @@
 #include "opto/indexSet.hpp"
 #include "opto/runtime.hpp"
 #endif
+#include "gc_implementation/shared/vmGCOperations.hpp"
+
+#include "runtime/jr_vm_operations.hpp"
 
 PRAGMA_FORMAT_MUTE_WARNINGS_FOR_GCC
 
@@ -88,6 +92,18 @@ int compare_methods(Method** a, Method** b) {
   // %%% there can be 32-bit overflow here
   return ((*b)->invocation_count() + (*b)->compiled_invocation_count())
        - ((*a)->invocation_count() + (*a)->compiled_invocation_count());
+}
+
+int compare_methods3(methodOop* a, methodOop* b) {
+  // %%% there can be 32-bit overflow here
+  return (*b)->interpreter_invocation_count() -
+         (*a)->interpreter_invocation_count();
+}
+
+int compare_methods2(methodOop* a, methodOop* b) {
+  // %%% there can be 32-bit overflow here
+  return ((*b)->our_invocation_count() + (*b)->our_backedge_count())
+    - ((*a)->our_invocation_count() + (*a)->our_backedge_count());
 }
 
 void collect_profiled_methods(Method* m) {
@@ -156,7 +172,7 @@ void print_method_invocation_histogram() {
   HandleMark hm;
   collected_invoked_methods = new GrowableArray<Method*>(1024);
   SystemDictionary::methods_do(collect_invoked_methods);
-  collected_invoked_methods->sort(&compare_methods);
+  collected_invoked_methods->sort(&compare_methods3);
   //
   tty->cr();
   tty->print_cr("Histogram Over MethodOop Invocation Counters (cutoff = %d):", MethodHistogramCutoff);
@@ -432,6 +448,61 @@ void before_exit(JavaThread * thread) {
     FlatProfiler::disengage();
     FlatProfiler::print(10);
   }
+
+#ifdef PROFILE_OBJECT_INFO
+  if (PrintObjectInfoAtInterval || PrintAPInfoAtInterval) {
+    VM_GC_ObjectInfoCollection collector(objinfo_log, apinfo_log, "end-of-run");
+    /* XXX -- may need to comment this out to get some benchmarks (e.g.
+     * tradesoap-small)
+     */
+#if 0
+    collector.doit();
+    ObjectInfoCollection::disengage();
+#endif
+  }
+#if 0
+  } else if (PrintObjectInfoBeforeFullGC || 
+             PrintObjectInfoAfterFullGC) {
+    VM_GC_ObjectInfoCollection collector(objinfo_log, false /* ! full gc */,
+                                         false /* ! prologue */, "end-of-run");
+    collector.doit();
+  }
+#endif
+#endif
+
+  // JR Custom Content - begin
+  if (MethodSampleColors) {
+    JRHotMethodSamplerTaskManager::disengage();
+    JRCoolDownMethodsTaskManager::disengage();
+    RegularScavenge::disengage();
+  }
+  // JR Custom Content - end
+
+  if (OrganizeObjects) {
+    ObjectLayout::disengage();
+  }
+
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    VM_GC_PersistentObjectInfoCollection poic(objalloc_log, false);
+    poic.doit();
+
+    AllocPointInfoTable *apit = Universe::alloc_point_info_table();
+    apit->print_map_on(apmap_log);
+  }
+#endif
+
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (PrintObjectAddressInfoAtInterval || PrintObjectAddressInfoAtGC) {
+    VM_GC_ObjectAddressInfoCollection collector(addrinfo_log, fieldinfo_log, "end-of-run");
+
+    VMThread::execute(&collector);
+    //collector.doit();
+    ObjectAddressInfoCollection::disengage();
+    fclose(addrtable_log);
+    //fclose(addrups_log);
+  }
+#endif
 
   // shut down the StatSampler task
   StatSampler::disengage();

@@ -164,12 +164,62 @@ IRT_ENTRY(void, InterpreterRuntime::_new(JavaThread* thread, ConstantPool* pool,
   thread->set_vm_result(obj);
 IRT_END
 
+IRT_ENTRY(void, InterpreterRuntime::_colored_new(JavaThread* thread,
+          constantPoolOopDesc* pool, int index))
+  assert(UseColoredSpaces, "colored allocation without colored spaces");
+  klassOop k_oop = pool->klass_at(index, CHECK);
+  instanceKlassHandle klass (THREAD, k_oop);
+
+  // Make sure we are not instantiating an abstract klass
+  klass->check_valid_for_instantiation(true, CHECK);
+
+  // Make sure klass is initialized
+  klass->initialize(CHECK);
+
+  HeapColor color;
+  if (MethodSampleColors) {
+    if (method(thread)->is_hot()) {
+      color = HC_RED;
+    } else {
+      if (HotKlassAllocate) {
+        color = k_oop->klass_part()->is_hot() ? HC_RED : HC_BLUE;
+      } else {
+        color = HC_BLUE;
+      }
+    }
+  } else {
+    color = method(thread)->get_ap_color(bci(thread), UnknownAPHeapColor);
+  }
+  oop obj = klass->allocate_instance(color, CHECK);
+  thread->set_vm_result(obj);
+IRT_END
+
 
 IRT_ENTRY(void, InterpreterRuntime::newarray(JavaThread* thread, BasicType type, jint size))
   oop obj = oopFactory::new_typeArray(type, size, CHECK);
   thread->set_vm_result(obj);
 IRT_END
 
+IRT_ENTRY(void, InterpreterRuntime::colored_newarray(JavaThread* thread, BasicType type, jint size))
+  HeapColor color;
+  if (MethodSampleColors) {
+    if (method(thread)->is_hot()) {
+      color = HC_RED;
+    } else {
+      if (HotKlassAllocate) {
+        klassOop type_asKlassOop = Universe::typeArrayKlassObj(type);
+        typeArrayKlass* type_asArrayKlass = typeArrayKlass::cast(type_asKlassOop);
+        color = type_asArrayKlass->is_hot() ? HC_RED : HC_BLUE;
+      } else {
+        color = HC_BLUE;
+      }
+    }
+  } else {
+    color = method(thread)->get_ap_color(bci(thread), UnknownAPHeapColor);
+  }
+  oop obj = oopFactory::new_typeArray(type, size, color, CHECK);
+  thread->set_vm_result(obj);
+IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::anewarray(JavaThread* thread, ConstantPool* pool, int index, jint size))
   // Note: no oopHandle for pool & klass needed since they are not used
@@ -177,6 +227,28 @@ IRT_ENTRY(void, InterpreterRuntime::anewarray(JavaThread* thread, ConstantPool* 
   //       (This may have to change if this code changes!)
   Klass*    klass = pool->klass_at(index, CHECK);
   objArrayOop obj = oopFactory::new_objArray(klass, size, CHECK);
+  thread->set_vm_result(obj);
+IRT_END
+
+IRT_ENTRY(void, InterpreterRuntime::colored_anewarray(JavaThread* thread, constantPoolOopDesc* pool,
+  int index, jint size))
+  klassOop  klass = pool->klass_at(index, CHECK);
+
+  HeapColor color;
+  if (MethodSampleColors) {
+    if (method(thread)->is_hot()) {
+      color = HC_RED;
+    } else {
+      if (HotKlassAllocate) {
+        color = klass->klass_part()->is_hot() ? HC_RED : HC_BLUE;
+      } else {
+        color = HC_BLUE;
+      }
+    }
+  } else {
+    color = method(thread)->get_ap_color(bci(thread), UnknownAPHeapColor);
+  }
+  objArrayOop obj = oopFactory::new_objArray(klass, size, color, CHECK);
   thread->set_vm_result(obj);
 IRT_END
 
@@ -207,6 +279,48 @@ IRT_ENTRY(void, InterpreterRuntime::multianewarray(JavaThread* thread, jint* fir
   thread->set_vm_result(obj);
 IRT_END
 
+
+IRT_ENTRY(void, InterpreterRuntime::colored_multianewarray(JavaThread* thread,
+  jint* first_size_address))
+  // We may want to pass in more arguments - could make this slightly faster
+  constantPoolOop constants = method(thread)->constants();
+  int          i = get_index_u2(thread, Bytecodes::_multianewarray);
+  klassOop klass = constants->klass_at(i, CHECK);
+  int   nof_dims = number_of_dimensions(thread);
+  assert(oop(klass)->is_klass(), "not a class");
+  assert(nof_dims >= 1, "multianewarray rank must be nonzero");
+
+  // We must create an array of jints to pass to multi_allocate.
+  ResourceMark rm(thread);
+  const int small_dims = 10;
+  jint dim_array[small_dims];
+  jint *dims = &dim_array[0];
+  if (nof_dims > small_dims) {
+    dims = (jint*) NEW_RESOURCE_ARRAY(jint, nof_dims);
+  }
+  for (int index = 0; index < nof_dims; index++) {
+    // offset from first_size_address is addressed as local[index]
+    int n = Interpreter::local_offset_in_bytes(index)/jintSize;
+    dims[index] = first_size_address[n];
+  }
+
+  HeapColor color;
+  if (MethodSampleColors) {
+    if (method(thread)->is_hot()) {
+      color = HC_RED;
+    } else {
+      if (HotKlassAllocate) {
+        color = arrayKlass::cast(klass)->is_hot() ? HC_RED : HC_BLUE;
+      } else {
+        color = HC_BLUE;
+      }
+    }
+  } else {
+    color = method(thread)->get_ap_color(bci(thread), UnknownAPHeapColor);
+  }
+  oop obj = arrayKlass::cast(klass)->multi_allocate(nof_dims, dims, color, CHECK);
+  thread->set_vm_result(obj);
+IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::register_finalizer(JavaThread* thread, oopDesc* obj))
   assert(obj->is_oop(), "must be a valid oop");

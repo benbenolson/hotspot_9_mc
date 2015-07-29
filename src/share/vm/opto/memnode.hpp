@@ -180,10 +180,7 @@ protected:
   virtual Node* find_previous_arraycopy(PhaseTransform* phase, Node* ld_alloc, Node*& mem, bool can_see_stored_value) const;
 public:
 
-  LoadNode(Node *c, Node *mem, Node *adr, const TypePtr* at, const Type *rt, MemOrd mo, ControlDependency control_dependency)
-    : MemNode(c,mem,adr,at), _type(rt), _mo(mo), _depends_only_on_test(control_dependency == DependsOnlyOnTest) {
-    init_class_id(Class_Load);
-  }
+  LoadNode( Node *c, Node *mem, Node *adr, const TypePtr* at, const Type *rt MemOrd mo, ControlDependency control_dependency); // JR Custom Content - moved implementation to cpp
   inline bool is_unordered() const { return !is_acquire(); }
   inline bool is_acquire() const {
     assert(_mo == unordered || _mo == acquire, "unexpected");
@@ -520,14 +517,8 @@ public:
   // procedure must indicate that the store requires `release'
   // semantics, if the stored value is an object reference that might
   // point to a new object and may become externally visible.
-  StoreNode(Node *c, Node *mem, Node *adr, const TypePtr* at, Node *val, MemOrd mo)
-    : MemNode(c, mem, adr, at, val), _mo(mo) {
-    init_class_id(Class_Store);
-  }
-  StoreNode(Node *c, Node *mem, Node *adr, const TypePtr* at, Node *val, Node *oop_store, MemOrd mo)
-    : MemNode(c, mem, adr, at, val, oop_store), _mo(mo) {
-    init_class_id(Class_Store);
-  }
+  StoreNode( Node *c, Node *mem, Node *adr, const TypePtr* at, Node *val, MemOrd mo); // JR Custom Content - moved implementation to cpp
+  StoreNode( Node *c, Node *mem, Node *adr, const TypePtr* at, Node *val, Node *oop_store, MemOrd mo); // JR Custom Content - moved implementation to cpp
 
   inline bool is_unordered() const { return !is_release(); }
   inline bool is_release() const {

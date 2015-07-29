@@ -89,6 +89,10 @@ private:
   void print_stats(const char* tag);
 
   Thread* myThread();
+#ifdef COLORED_TLABS
+  HeapColor _color;
+#endif
+  int _cnt;
 
   // statistics
 
@@ -160,6 +164,14 @@ public:
   void initialize();
 
   static size_t refill_waste_limit_increment()   { return TLABWasteIncrement; }
+
+#ifdef COLORED_TLABS
+  // colored tlabs
+  HeapColor color()               { return _color; }
+  void set_color(HeapColor color) { _color = color; }
+#endif
+  int cnt()                       { return _cnt; }
+  void inc_cnt()                  { _cnt++;      }
 
   // Code generation support
   static ByteSize start_offset()                 { return byte_offset_of(ThreadLocalAllocBuffer, _start); }

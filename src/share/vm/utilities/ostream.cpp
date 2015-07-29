@@ -366,6 +366,17 @@ stringStream::~stringStream() {}
 xmlStream*   xtty;
 outputStream* tty;
 outputStream* gclog_or_tty;
+fileStream* objinfo_log;
+fileStream* objalloc_log;
+fileStream* apmap_log;
+fileStream* apinfo_log;
+fileStream* deadobj_log;
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+fileStream* addrinfo_log;
+fileStream* fieldinfo_log;
+FILE* addrtable_log;
+//FILE* addrups_log;
+#endif
 CDS_ONLY(fileStream* classlist_file;) // Only dump the classes that can be stored into the CDS archive
 extern Mutex* tty_lock;
 
@@ -1207,6 +1218,77 @@ void ostream_init_log() {
     }
     gclog_or_tty = gclog;
   }
+
+
+#if 0
+  bool need_objinfo = ProfileObjectInfo || PrintObjectInfoBeforeFullGC ||
+                      PrintObjectInfoAfterFullGC;
+  if (need_objinfo) {
+#endif
+  if (ProfileObjectInfo) {
+    if (Arguments::objinfo_log_filename() != NULL) {
+      objinfo_log = new(ResourceObj::C_HEAP)
+                   fileStream(Arguments::objinfo_log_filename());
+    } else {
+      objinfo_log = new(ResourceObj::C_HEAP) fileStream("objinfo.log");
+    }
+    if (TrimObjectInfo) {
+      if (Arguments::objalloc_log_filename() != NULL) {
+        objalloc_log = new(ResourceObj::C_HEAP)
+                     fileStream(Arguments::objalloc_log_filename());
+      } else {
+        objalloc_log = new(ResourceObj::C_HEAP) fileStream("objalloc.log");
+      }
+      if (Arguments::deadobj_log_filename() != NULL) {
+        deadobj_log = new(ResourceObj::C_HEAP)
+                     fileStream(Arguments::deadobj_log_filename());
+      } else {
+        deadobj_log = new(ResourceObj::C_HEAP) fileStream("deadobj.log");
+      }
+      if (Arguments::apmap_log_filename() != NULL) {
+        apmap_log = new(ResourceObj::C_HEAP)
+                     fileStream(Arguments::apmap_log_filename());
+      } else {
+        apmap_log = new(ResourceObj::C_HEAP) fileStream("apmap.log");
+      }
+      if (Arguments::apinfo_log_filename() != NULL) {
+        apinfo_log = new(ResourceObj::C_HEAP)
+                     fileStream(Arguments::apinfo_log_filename());
+      } else {
+        apinfo_log = new(ResourceObj::C_HEAP) fileStream("apinfo.log");
+      }
+    }
+  }
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    if (Arguments::addrinfo_log_filename() != NULL) {
+      addrinfo_log = new(ResourceObj::C_HEAP)
+                   fileStream(Arguments::addrinfo_log_filename());
+    } else {
+      addrinfo_log = new(ResourceObj::C_HEAP) fileStream("addrinfo.log");
+    }
+    if (Arguments::addrtable_log_filename() != NULL) {
+      addrtable_log = fopen( Arguments::addrtable_log_filename(), "w" );
+    } else {
+      addrtable_log = fopen( "addrtable.log", "rw" );
+    }
+    /*
+    if (Arguments::addrups_log_filename() != NULL) {
+      addrups_log = fopen( Arguments::addrups_log_filename(), "w" );
+    } else {
+      addrups_log = fopen( "addrups.log", "rw" );
+    }
+    */
+  }
+  if (ProfileObjectFieldInfo) {
+    if (Arguments::fieldinfo_log_filename() != NULL) {
+      fieldinfo_log = new(ResourceObj::C_HEAP)
+                   fileStream(Arguments::fieldinfo_log_filename());
+    } else {
+      fieldinfo_log = new(ResourceObj::C_HEAP) fileStream("fieldinfo.log");
+    }
+  }
+#endif
 
 #if INCLUDE_CDS
   // For -XX:DumpLoadedClassList=<file> option

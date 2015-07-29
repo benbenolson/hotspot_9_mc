@@ -299,6 +299,16 @@ HeapWord* GenCollectedHeap::mem_allocate(size_t size,
                                                gc_overhead_limit_was_exceeded);
 }
 
+HeapWord* GenCollectedHeap::mem_allocate(size_t size,
+                                         bool is_large_noref,
+                                         bool is_tlab,
+                                         bool* gc_overhead_limit_was_exceeded,
+                                         HeapColor color) {
+  return collector_policy()->mem_allocate_work(size,
+                                               is_tlab,
+                                               gc_overhead_limit_was_exceeded);
+}
+
 bool GenCollectedHeap::must_clear_all_soft_refs() {
   return _gc_cause == GCCause::_last_ditch_collection;
 }
@@ -418,6 +428,7 @@ void GenCollectedHeap::do_collection(bool   full,
                                      bool   is_tlab,
                                      int    max_level) {
   ResourceMark rm;
+  //static int smapsi = 0;
   DEBUG_ONLY(Thread* my_thread = Thread::current();)
 
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
@@ -439,6 +450,21 @@ void GenCollectedHeap::do_collection(bool   full,
 
   const size_t metadata_prev_used = MetaspaceAux::used_bytes();
 
+  jlong start_time, stop_time;
+  double start_dram_total_energy_consumed, stop_dram_total_energy_consumed,
+         energy_delta, power, elapsed_time;
+  bool major = false;
+  if (TimeStampGC || PowerSampleGC) {
+    start_time = os::javaTimeMillis();
+    //char cmd[512];
+    //tty->print_cr("num_rapl_nodes_pkg: %d", os::num_rapl_nodes_pkg());
+    //sprintf(cmd, "cat /proc/%d/smapscolor > /home/mjantz/projects/izephyr/tmp/smaps.%d.start.out", getpid(), smapsi);
+    //system(cmd);
+    if (PowerSampleGC) {
+      os::Linux::get_dram_total_energy_consumed(1,&start_dram_total_energy_consumed);
+    }
+  }
+
   print_heap_before_gc();
 
   {
@@ -453,6 +479,7 @@ void GenCollectedHeap::do_collection(bool   full,
 
     gc_prologue(complete);
     increment_total_collections(complete);
+    major = complete;
 
     size_t gch_prev_used = used();
     bool run_verification = total_collections() >= VerifyGCStartAt;
@@ -491,6 +518,7 @@ void GenCollectedHeap::do_collection(bool   full,
       if (!complete) {
         // The full_collections increment was missed above.
         increment_total_full_collections();
+        major = true;
       }
 
       pre_full_gc_dump(NULL);    // do any pre full gc dumps
@@ -556,6 +584,35 @@ void GenCollectedHeap::do_collection(bool   full,
       BiasedLocking::restore_marks();
     }
   }
+
+  if (TimeStampGC || PowerSampleGC) {
+    stop_time = os::javaTimeMillis();
+    elapsed_time = ((double) (stop_time - start_time) / 1000.0);
+    if (TimeStampGC) {
+      if (major) {
+        tty->print_cr("major GCH:    %2.4lf", elapsed_time);
+      } else {
+        tty->print_cr("minor GCH:    %2.4lf", elapsed_time);
+      }
+      //char cmd[512];
+      //sprintf(cmd, "cat /proc/%d/smapscolor > /home/mjantz/projects/izephyr/tmp/smaps.%d.end.out", getpid(), smapsi);
+      //system(cmd);
+      //smapsi++;
+    }
+    if (PowerSampleGC) {
+      os::Linux::get_dram_total_energy_consumed(1,&stop_dram_total_energy_consumed);
+      energy_delta = stop_dram_total_energy_consumed - start_dram_total_energy_consumed;
+      power = energy_delta / elapsed_time;
+      if (major) {
+        tty->print_cr("elapsed (major) GC time: %2.4lf     power: %6.2lf",
+                      elapsed_time, power);
+      } else {
+        tty->print_cr("elapsed (minor) GC time: %2.4lf     power: %6.2lf",
+                      elapsed_time, power);
+      }
+    }
+  }
+
 
   print_heap_after_gc();
 
@@ -1004,6 +1061,18 @@ size_t GenCollectedHeap::unsafe_max_tlab_alloc(Thread* thr) const {
   }
   return 0;
 }
+
+#ifdef COLORED_TLABS
+HeapWord* GenCollectedHeap::allocate_new_tlab(size_t size, HeapColor color) {
+  bool gc_overhead_limit_was_exceeded;
+  HeapWord* result = mem_allocate(size   /* size */,
+                                  false  /* is_large_noref */,
+                                  true   /* is_tlab */,
+                                  &gc_overhead_limit_was_exceeded,
+                                  color);
+  return result;
+}
+#endif
 
 HeapWord* GenCollectedHeap::allocate_new_tlab(size_t size) {
   bool gc_overhead_limit_was_exceeded;

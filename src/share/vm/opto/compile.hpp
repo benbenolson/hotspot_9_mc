@@ -42,6 +42,7 @@
 #include "runtime/vmThread.hpp"
 #include "trace/tracing.hpp"
 #include "utilities/ticks.hpp"
+#include "runtime/jrMethodInfo.hpp"
 
 class Block;
 class Bundle;
@@ -565,7 +566,16 @@ class Compile : public Phase {
   int                   _scratch_const_size;    // For temporary code buffers.
   bool                  _in_scratch_emit_size;  // true when in scratch_emit_size.
 
+  // JR Custom Content - begin
+  //JRMethodInfoAccessList* _jr_access_list;
+  // JR Custom Content - end
+  GrowableArray<klassOop>* _cur_klass_access_list;
+
  public:
+  // JR Custom Content - begin
+  //bool should_collect_fields()             { return _jr_access_list != NULL; }
+  //JRMethodInfoAccessList* jr_access_list() { return _jr_access_list; }
+  GrowableArray<klassOop>* cur_klass_access_list() { return _cur_klass_access_list; }
   // Accessors
 
   // The Compile instance currently active in this (compiler) thread.

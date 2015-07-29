@@ -235,6 +235,16 @@ class fdStream : public outputStream {
   void flush() {};
 };
 
+extern fileStream* objinfo_log;
+extern fileStream* objalloc_log;
+extern fileStream* apmap_log;
+extern fileStream* apinfo_log;
+extern fileStream* deadobj_log;
+extern fileStream* addrinfo_log;
+extern fileStream* fieldinfo_log;
+extern FILE* addrtable_log;
+//extern FILE* addrups_log;
+
 class gcLogFileStream : public fileStream {
  protected:
   const char*  _file_name;

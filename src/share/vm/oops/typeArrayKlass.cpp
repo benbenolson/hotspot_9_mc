@@ -119,6 +119,32 @@ typeArrayOop TypeArrayKlass::allocate_common(int length, bool do_zero, TRAPS) {
   }
 }
 
+typeArrayOop typeArrayKlass::allocate(int length, HeapColor color, TRAPS) {
+  assert(log2_element_size() >= 0, "bad scale");
+  if (length >= 0) {
+    if (length <= max_length()) {
+      size_t size = typeArrayOopDesc::object_size(layout_helper(), length);
+      KlassHandle h_k(THREAD, as_klassOop());
+      typeArrayOop t;
+      CollectedHeap* ch = Universe::heap();
+      if (size < ch->large_typearray_limit()) {
+        t = (typeArrayOop)CollectedHeap::array_allocate(h_k, (int)size, length,
+                                         color, CHECK_NULL);
+      } else {
+        t = (typeArrayOop)CollectedHeap::large_typearray_allocate(h_k, (int)size,
+                                         length, color, CHECK_NULL);
+      }
+      assert(t->is_parsable(), "Don't publish unless parsable");
+      return t;
+    } else {
+      report_java_out_of_memory("Requested array size exceeds VM limit");
+      THROW_OOP_0(Universe::out_of_memory_error_array_size());
+    }
+  } else {
+    THROW_0(vmSymbols::java_lang_NegativeArraySizeException());
+  }
+}
+
 oop TypeArrayKlass::multi_allocate(int rank, jint* last_size, TRAPS) {
   // For typeArrays this is only called for the last dimension
   assert(rank == 1, "just checking");
@@ -126,6 +152,12 @@ oop TypeArrayKlass::multi_allocate(int rank, jint* last_size, TRAPS) {
   return allocate(length, THREAD);
 }
 
+oop typeArrayKlass::multi_allocate(int rank, jint* last_size, HeapColor color, TRAPS) {
+  // For typeArrays this is only called for the last dimension
+  assert(rank == 1, "just checking");
+  int length = *last_size;
+  return allocate(length, color, THREAD);
+}
 
 void TypeArrayKlass::copy_array(arrayOop s, int src_pos, arrayOop d, int dst_pos, int length, TRAPS) {
   assert(s->is_typeArray(), "must be type array");
@@ -147,6 +179,25 @@ void TypeArrayKlass::copy_array(arrayOop s, int src_pos, arrayOop d, int dst_pos
   // Check zero copy
   if (length == 0)
     return;
+
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    ResourceMark rm;
+    if (s->poi()) {
+      s->poi()->batch_mark_load(length);
+    }
+    if (d->poi()) {
+      d->poi()->batch_mark_store(length);
+    }
+  }
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->batch_mark_load (s, length);
+    oait->batch_mark_store(d, length);
+  }
+#endif
 
   // This is an attempt to make the copy_array fast.
   int l2es = log2_element_size();

@@ -222,12 +222,113 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(KlassHandle klass, size_t si
   }
 }
 
+HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref,
+  HeapColor color, TRAPS) {
+  assert(UseColoredSpaces, "colored allocation without colored spaces");
+  //assert(!UseTLAB, "cannot allocate from TLAB with colored spaces");
+
+  // Clear unhandled oops for memory allocation.  Memory allocation might
+  // not take out a lock if from tlab, so clear here.
+  CHECK_UNHANDLED_OOPS_ONLY(THREAD->clear_unhandled_oops();)
+
+  if (HAS_PENDING_EXCEPTION) {
+    NOT_PRODUCT(guarantee(false, "Should not allocate with exception pending"));
+    return NULL;  // caller does a CHECK_0 too
+  }
+
+  // We may want to update this, is_noref objects might not be allocated in TLABs.
+  HeapWord* result = NULL;
+#ifdef COLORED_TLABS
+  if (UseTLAB) {
+    result = CollectedHeap::allocate_from_tlab(THREAD, size, color);
+    if (result != NULL) {
+      assert(!HAS_PENDING_EXCEPTION,
+             "Unexpected exception, will result in uninitialized storage");
+      return result;
+    }
+  }
+#endif
+  bool gc_overhead_limit_was_exceeded = false;
+  result = Universe::heap()->mem_allocate(size,
+                                          is_noref,
+                                          false,
+                                          &gc_overhead_limit_was_exceeded,
+                                          color);
+  if (result != NULL) {
+    NOT_PRODUCT(Universe::heap()->
+      check_for_non_bad_heap_word_value(result, size));
+    assert(!HAS_PENDING_EXCEPTION,
+           "Unexpected exception, will result in uninitialized storage");
+    THREAD->incr_allocated_bytes(size * HeapWordSize);
+    return result;
+  }
+
+
+  if (!gc_overhead_limit_was_exceeded) {
+    // -XX:+HeapDumpOnOutOfMemoryError and -XX:OnOutOfMemoryError support
+    report_java_out_of_memory("Java heap space");
+
+    if (JvmtiExport::should_post_resource_exhausted()) {
+      JvmtiExport::post_resource_exhausted(
+        JVMTI_RESOURCE_EXHAUSTED_OOM_ERROR | JVMTI_RESOURCE_EXHAUSTED_JAVA_HEAP,
+        "Java heap space");
+    }
+
+    THROW_OOP_0(Universe::out_of_memory_error_java_heap());
+  } else {
+    // -XX:+HeapDumpOnOutOfMemoryError and -XX:OnOutOfMemoryError support
+    report_java_out_of_memory("GC overhead limit exceeded");
+
+    if (JvmtiExport::should_post_resource_exhausted()) {
+      JvmtiExport::post_resource_exhausted(
+        JVMTI_RESOURCE_EXHAUSTED_OOM_ERROR | JVMTI_RESOURCE_EXHAUSTED_JAVA_HEAP,
+        "GC overhead limit exceeded");
+    }
+
+    THROW_OOP_0(Universe::out_of_memory_error_gc_overhead_limit());
+  }
+}
+
 HeapWord* CollectedHeap::common_mem_allocate_init(KlassHandle klass, size_t size, TRAPS) {
   HeapWord* obj = common_mem_allocate_noinit(klass, size, CHECK_NULL);
   init_obj(obj, size);
   return obj;
 }
 
+HeapWord* CollectedHeap::common_mem_allocate_init(size_t size, bool is_noref,
+                                                  HeapColor color, TRAPS) {
+  HeapWord* obj = common_mem_allocate_noinit(size, is_noref, color, CHECK_NULL);
+  init_obj(obj, size);
+  return obj;
+}
+
+#ifdef COLORED_TLABS
+HeapWord* CollectedHeap::allocate_from_tlab(Thread* thread, size_t size,
+  HeapColor color) {
+  assert(UseTLAB, "should use UseTLAB");
+
+  if (color==HC_NOT_COLORED) {
+    color = UnknownObjectHeapColor;
+  }
+
+#if 0
+  color == HC_RED ? thread->add_cnt(HC_RED, size) : thread->add_cnt(HC_BLUE, size);
+  thread->add_mark(1);
+  if (thread->reached_mark()) {
+    tty->print_cr("_colored_alloc: tid=%d, red=%d, blue=%d", thread->osthread()->thread_id(),
+                  (thread->cnt(HC_RED)/(1024*1024)),
+                  (thread->cnt(HC_BLUE)/(1024*1024)));
+  }
+#endif
+
+  HeapWord* obj = thread->tlab(color).allocate(size);
+  if (obj != NULL) {
+    return obj;
+  }
+  // Otherwise...
+  return allocate_from_tlab_slow(thread, size, color);
+}
+#endif
 HeapWord* CollectedHeap::allocate_from_tlab(KlassHandle klass, Thread* thread, size_t size) {
   assert(UseTLAB, "should use UseTLAB");
 
@@ -252,7 +353,32 @@ oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS) {
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
   HeapWord* obj = common_mem_allocate_init(klass, size, CHECK_NULL);
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+  }
+#endif
   post_allocation_setup_obj(klass, obj, size);
+  //tty->print_cr("obj_alloc");
+  NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
+  return (oop)obj;
+}
+
+oop CollectedHeap::obj_allocate(KlassHandle klass, int size, HeapColor color, TRAPS) {
+  debug_only(check_for_valid_allocation_state());
+  assert(UseColoredSpaces, "colored allocation without colored spaces");
+  assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
+  assert(size >= 0, "int won't convert to size_t");
+  HeapWord* obj = common_mem_allocate_init(size, false, color, CHECK_NULL);
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+  }
+#endif
+  post_allocation_setup_obj(klass, obj, size, color);
+  //tty->print_cr("colored obj_alloc");
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   return (oop)obj;
 }
@@ -266,6 +392,54 @@ oop CollectedHeap::array_allocate(KlassHandle klass,
   assert(size >= 0, "int won't convert to size_t");
   HeapWord* obj = common_mem_allocate_init(klass, size, CHECK_NULL);
   post_allocation_setup_array(klass, obj, length);
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+  }
+#endif
+  //tty->print_cr("array_alloc");
+  NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
+  return (oop)obj;
+}
+
+oop CollectedHeap::array_allocate(KlassHandle klass,
+                                  int size,
+                                  int length,
+                                  HeapColor color,
+                                  TRAPS) {
+  debug_only(check_for_valid_allocation_state());
+  assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
+  assert(size >= 0, "int won't convert to size_t");
+  HeapWord* obj = common_mem_allocate_init(size, false, color, CHECK_NULL);
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+  }
+#endif
+  post_allocation_setup_array(klass, obj, size, length, color);
+  //tty->print_cr("colored array_alloc");
+  NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
+  return (oop)obj;
+}
+
+oop CollectedHeap::large_typearray_allocate(KlassHandle klass,
+                                            int size,
+                                            int length,
+                                            HeapColor color,
+                                            TRAPS) {
+  debug_only(check_for_valid_allocation_state());
+  assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
+  assert(size >= 0, "int won't convert to size_t");
+  HeapWord* obj = common_mem_allocate_init(size, true, color, CHECK_NULL);
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+  }
+#endif
+  post_allocation_setup_array(klass, obj, size, length, color);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   return (oop)obj;
 }

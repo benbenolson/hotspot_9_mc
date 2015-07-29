@@ -86,6 +86,10 @@ class InterpreterRuntime: AllStatic {
   static void    newarray      (JavaThread* thread, BasicType type, jint size);
   static void    anewarray     (JavaThread* thread, ConstantPool* pool, int index, jint size);
   static void    multianewarray(JavaThread* thread, jint* first_size_address);
+  static void    _colored_new          (JavaThread* thread, constantPoolOopDesc* pool, int index);
+  static void    colored_newarray      (JavaThread* thread, BasicType type, jint size);
+  static void    colored_anewarray     (JavaThread* thread, constantPoolOopDesc* pool, int index, jint size);
+  static void    colored_multianewarray(JavaThread* thread, jint* first_size_address);
   static void    register_finalizer(JavaThread* thread, oopDesc* obj);
 
   // Quicken instance-of and check-cast bytecodes

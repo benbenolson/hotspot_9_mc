@@ -4150,7 +4150,16 @@ static jint attach_current_thread(JavaVM *vm, void **penv, void *_args, bool dae
   // Enable stack overflow checks
   thread->create_stack_guard_pages();
 
+#ifdef COLORED_TLABS
+  if (UseColoredSpaces) {
+    thread->initialize_tlab(HC_RED);
+    thread->initialize_tlab(HC_BLUE);
+  } else {
+    thread->initialize_tlab();
+  }
+#else
   thread->initialize_tlab();
+#endif
 
   thread->cache_global_variables();
 

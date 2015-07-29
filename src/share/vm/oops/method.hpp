@@ -104,6 +104,15 @@ class Method : public Metadata {
   nmethod* volatile _code;                       // Points to the corresponding piece of native code
   volatile address           _from_interpreted_entry; // Cache of _code ? _adapter->i2c_entry() : _i2i_entry
 
+  // PK: custom invocation/backedge counts that are never reset
+  InvocationCounter _our_invocation_counter;     // Incremented before each activation of the method - used to count the number of times each method is invoked before compilation(it is never reset)
+  InvocationCounter _our_backedge_counter;       // Incremented before each backedge taken - used to count the number of times each method is in loop before compilation(it is never reset)  
+
+  GrowableArray<MethodAllocPointInfo*>* _aps;
+
+  jint _temperature;
+  GrowableArray<klassOop>* _klass_access_list;
+
   // Constructor
   Method(ConstMethod* xconst, AccessFlags access_flags, int size);
  public:
@@ -393,6 +402,52 @@ class Method : public Metadata {
 
   int invocation_count();
   int backedge_count();
+  int our_invocation_count() const               { return _our_invocation_counter.count(); }
+  int our_backedge_count() const                 { return _our_backedge_counter.count(); }
+
+  void mark_hot()                                { _temperature = MaxMethodTemperature;  }
+  void cool_down()                               { if (_temperature > 0) _temperature--; }
+  bool is_hot()                                  { return (_temperature > 0);            }
+  void set_temperature(jint temp)                { _temperature = temp;                  }
+  jint temperature()                             { return _temperature;                  }
+ 
+  GrowableArray<klassOop>* klass_access_list () { return _klass_access_list; }
+  void set_klass_access_list(GrowableArray<klassOop>* kal) {
+    _klass_access_list = kal;
+  }
+
+  GrowableArray<MethodAllocPointInfo*>* aps()             { return _aps; }
+  void set_aps(GrowableArray<MethodAllocPointInfo*>* aps) { _aps = aps; }
+
+  void initialize_aps(GrowableArray<MethodAllocPointInfo*>* init_aps) {
+    _aps = new (ResourceObj::C_HEAP) GrowableArray<MethodAllocPointInfo*>(8,true);
+    for(int i=0; i < init_aps->length(); i++) {
+      MethodAllocPointInfo *mapi = new MethodAllocPointInfo(
+        init_aps->at(i)->bci(), init_aps->at(i)->color());
+      if (mapi == NULL) {
+        tty->print("copy_aps: out of memory\n");
+        exit(1);
+      }
+      _aps->append(mapi);
+    }
+  }
+
+  HeapColor get_ap_color(int bci, HeapColor default_color=HC_NOT_COLORED) {
+    if (RandomHeapColors) {
+      if ( ((double)(rand() % RAND_COLOR_MAX)/RAND_COLOR_MAX) < RedObjectRatio ) {
+        return HC_RED;
+      }
+      return HC_BLUE;
+    }
+    if (_aps != NULL) {
+      for(int i=0; i < _aps->length(); i++) {
+        if (_aps->at(i)->bci() == bci) {
+          return _aps->at(i)->color();
+        }
+      }
+    }
+    return default_color;
+  }
 
   bool was_executed_more_than(int n);
   bool was_never_executed()                      { return !was_executed_more_than(0); }
@@ -634,6 +689,8 @@ class Method : public Metadata {
   static ByteSize from_compiled_offset()         { return byte_offset_of(Method, _from_compiled_entry); }
   static ByteSize code_offset()                  { return byte_offset_of(Method, _code); }
   static ByteSize method_data_offset()           {
+  static ByteSize our_invocation_counter_offset(){ return byte_offset_of(methodOopDesc, _our_invocation_counter); }
+  static ByteSize our_backedge_counter_offset()  { return byte_offset_of(methodOopDesc, _our_backedge_counter); }
     return byte_offset_of(Method, _method_data);
   }
   static ByteSize method_counters_offset()       {

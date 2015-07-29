@@ -1124,11 +1124,15 @@ bool PhaseMacroExpand::eliminate_boxing_node(CallStaticJavaNode *boxing) {
 //---------------------------set_eden_pointers-------------------------
 void PhaseMacroExpand::set_eden_pointers(Node* &eden_top_adr, Node* &eden_end_adr) {
   if (UseTLAB) {                // Private allocation: load from TLS
+#ifdef COLORED_TLABS
+    ShouldNotReachHere();
+#else
     Node* thread = transform_later(new ThreadLocalNode());
     int tlab_top_offset = in_bytes(JavaThread::tlab_top_offset());
     int tlab_end_offset = in_bytes(JavaThread::tlab_end_offset());
     eden_top_adr = basic_plus_adr(top()/*not oop*/, thread, tlab_top_offset);
     eden_end_adr = basic_plus_adr(top()/*not oop*/, thread, tlab_end_offset);
+#endif
   } else {                      // Shared allocation: load from globals
     CollectedHeap* ch = Universe::heap();
     address top_adr = (address)ch->top_addr();
@@ -1222,6 +1226,8 @@ void PhaseMacroExpand::expand_allocate_common(
   Node* i_o  = alloc->in(TypeFunc::I_O);
   Node* size_in_bytes     = alloc->in(AllocateNode::AllocSize);
   Node* klass_node        = alloc->in(AllocateNode::KlassNode);
+  Node* method_node       = alloc->in(AllocateNode::MethodNode);
+  Node* bci_node          = alloc->in(AllocateNode::BCINode);
   Node* initial_slow_test = alloc->in(AllocateNode::InitialTest);
 
   assert(ctrl != NULL, "must have control");
@@ -1244,13 +1250,18 @@ void PhaseMacroExpand::expand_allocate_common(
     initial_slow_test = BoolNode::make_predicate(initial_slow_test, &_igvn);
   }
 
-  if (C->env()->dtrace_alloc_probes() ||
+#ifdef COLORED_TLABS
+  // Force slow-path allocation
+  always_slow = true;
+  initial_slow_test = NULL;
+#else
+  if (C->env()->dtrace_alloc_probes() || CompileSlowAllocations ||
       !UseTLAB && (!Universe::heap()->supports_inline_contig_alloc())) {
     // Force slow-path allocation
     always_slow = true;
     initial_slow_test = NULL;
   }
-
+#endif
 
   enum { too_big_or_final_path = 1, need_gc_path = 2 };
   Node *slow_region = NULL;
@@ -1521,6 +1532,7 @@ void PhaseMacroExpand::expand_allocate_common(
   }
 
   // Generate slow-path call
+  int argidx=0;
   CallNode *call = new CallStaticJavaNode(slow_call_type, slow_call_address,
                                OptoRuntime::stub_name(slow_call_address),
                                alloc->jvms()->bci(),
@@ -1534,6 +1546,15 @@ void PhaseMacroExpand::expand_allocate_common(
   call->init_req(TypeFunc::Parms+0, klass_node);
   if (length != NULL) {
     call->init_req(TypeFunc::Parms+1, length);
+    if (ColorObjectAllocations || MethodSampleColors) {
+      call->init_req(TypeFunc::Parms+2, method_node);
+      call->init_req(TypeFunc::Parms+3, bci_node);
+    }
+  } else {
+    if (ColorObjectAllocations || MethodSampleColors) {
+      call->init_req(TypeFunc::Parms+1, method_node);
+      call->init_req(TypeFunc::Parms+2, bci_node);
+    }
   }
 
   // Copy debug information and adjust JVMState information, then replace
@@ -1740,6 +1761,7 @@ Node* PhaseMacroExpand::prefetch_allocation(Node* i_o, Node*& needgc_false,
                                         Node* length) {
    enum { fall_in_path = 1, pf_path = 2 };
    if( UseTLAB && AllocatePrefetchStyle == 2 ) {
+#ifndef COLORED_TLABS
       // Generate prefetch allocation with watermark check.
       // As an allocation hits the watermark, we will prefetch starting
       // at a "distance" away from watermark.
@@ -1823,6 +1845,9 @@ Node* PhaseMacroExpand::prefetch_allocation(Node* i_o, Node*& needgc_false,
       needgc_false = pf_region;
       contended_phi_rawmem = pf_phi_rawmem;
       i_o = pf_phi_abio;
+#else
+      ShouldNotReachHere();
+#endif
    } else if( UseTLAB && AllocatePrefetchStyle == 3 ) {
       // Insert a prefetch for each allocation.
       // This code is used for Sparc with BIS.
@@ -1892,9 +1917,15 @@ Node* PhaseMacroExpand::prefetch_allocation(Node* i_o, Node*& needgc_false,
 
 
 void PhaseMacroExpand::expand_allocate(AllocateNode *alloc) {
-  expand_allocate_common(alloc, NULL,
-                         OptoRuntime::new_instance_Type(),
-                         OptoRuntime::new_instance_Java());
+  if (ColorObjectAllocations || MethodSampleColors) {
+    expand_allocate_common(alloc, NULL,
+                           OptoRuntime::new_colored_instance_Type(),
+                           OptoRuntime::new_colored_instance_Java());
+  } else {
+    expand_allocate_common(alloc, NULL,
+                           OptoRuntime::new_instance_Type(),
+                           OptoRuntime::new_instance_Java());
+  }
 }
 
 void PhaseMacroExpand::expand_allocate_array(AllocateArrayNode *alloc) {
@@ -1911,9 +1942,15 @@ void PhaseMacroExpand::expand_allocate_array(AllocateArrayNode *alloc) {
   } else {
     slow_call_address = OptoRuntime::new_array_Java();
   }
-  expand_allocate_common(alloc, length,
-                         OptoRuntime::new_array_Type(),
-                         slow_call_address);
+  if (ColorObjectAllocations || MethodSampleColors) {
+    expand_allocate_common(alloc, length,
+                           OptoRuntime::new_colored_array_Type(),
+                           OptoRuntime::new_colored_array_Java());
+  } else {
+    expand_allocate_common(alloc, length,
+                           OptoRuntime::new_array_Type(),
+                           OptoRuntime::new_array_Java());
+  }
 }
 
 //-------------------mark_eliminated_box----------------------------------

@@ -168,6 +168,10 @@ public:
   HeapWord* mem_allocate(size_t size,
                          bool*  gc_overhead_limit_was_exceeded);
 
+  HeapWord* mem_allocate(size_t size,
+                         bool*  gc_overhead_limit_was_exceeded,
+                         HeapColor color);
+
   // We may support a shared contiguous allocation area, if the youngest
   // generation does.
   bool supports_inline_contig_alloc() const;

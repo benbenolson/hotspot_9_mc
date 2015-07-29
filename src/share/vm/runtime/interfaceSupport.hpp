@@ -65,7 +65,6 @@ class HandleMarkCleaner: public StackObj {
 // VM_ENTRY_BASE macros. These macros are used to guard entry points into
 // the VM and perform checks upon leave of the VM.
 
-
 class InterfaceSupport: AllStatic {
 # ifdef ASSERT
  public:

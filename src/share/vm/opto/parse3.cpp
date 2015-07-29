@@ -419,7 +419,9 @@ void Parse::do_anewarray() {
 
   const TypeKlassPtr* array_klass_type = TypeKlassPtr::make(array_klass);
   Node* count_val = pop();
-  Node* obj = new_array(makecon(array_klass_type), count_val, 1);
+  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+  Node* bci_node = intcon(bci());
+  Node* obj = new_array(makecon(array_klass_type), count_val, 1, mth_node, bci_node);
   push(obj);
 }
 
@@ -439,7 +441,10 @@ void Parse::do_newarray(BasicType elem_type) {
 Node* Parse::expand_multianewarray(ciArrayKlass* array_klass, Node* *lengths, int ndimensions, int nargs) {
   Node* length = lengths[0];
   assert(length != NULL, "");
-  Node* array = new_array(makecon(TypeKlassPtr::make(array_klass)), length, nargs);
+  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+  Node* bci_node = intcon(bci());
+  Node* array = new_array(makecon(TypeKlassPtr::make(array_klass)), length,
+                          nargs, mth_node, bci_node);
   if (ndimensions > 1) {
     jint length_con = find_int_con(length, -1);
     guarantee(length_con >= 0, "non-constant multianewarray");
@@ -469,27 +474,50 @@ void Parse::do_multianewarray() {
 
   kill_dead_locals();
 
-  // get the lengths from the stack (first dimension is on top)
-  Node** length = NEW_RESOURCE_ARRAY(Node*, ndimensions + 1);
-  length[ndimensions] = NULL;  // terminating null for make_runtime_call
-  int j;
-  for (j = ndimensions-1; j >= 0 ; j--) length[j] = pop();
 
+  Node *length[MAX_DIMENSION+3];
   // The original expression was of this form: new T[length0][length1]...
   // It is often the case that the lengths are small (except the last).
   // If that happens, use the fast 1-d creator a constant number of times.
   const jint expand_limit = MIN2((juint)MultiArrayExpandLimit, (juint)100);
   jint expand_count = 1;        // count of allocations in the expansion
   jint expand_fanout = 1;       // running total fanout
-  for (j = 0; j < ndimensions-1; j++) {
-    jint dim_con = find_int_con(length[j], -1);
-    expand_fanout *= dim_con;
-    expand_count  += expand_fanout; // count the level-J sub-arrays
-    if (dim_con <= 0
-        || dim_con > expand_limit
-        || expand_count > expand_limit) {
-      expand_count = 0;
-      break;
+  if(ColorObjectAllocations || MethodSampleColors) {
+    // get the lengths from the stack (first dimension is on top)
+    Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+    Node* bci_node = intcon(bci());
+    length[ndimensions+2] = NULL; // terminating null for make_runtime_call
+    length[ndimensions+1] = bci_node;
+    length[ndimensions]   = mth_node;
+    int j;
+    for (j = ndimensions-1; j >= 0 ; j--) length[j] = pop();
+    for (j = 0; j < ndimensions-1; j++) {
+      jint dim_con = find_int_con(length[j], -1);
+      expand_fanout *= dim_con;
+      expand_count  += expand_fanout; // count the level-J sub-arrays
+      if (dim_con <= 0
+          || dim_con > expand_limit
+          || expand_count > expand_limit) {
+        expand_count = 0;
+        break;
+      }
+    }
+  } else {
+    // get the lengths from the stack (first dimension is on top)
+    length[ndimensions] = NULL;  // terminating null for make_runtime_call
+    int j;
+    for (j = ndimensions-1; j >= 0 ; j--) length[j] = pop();
+
+    for (j = 0; j < ndimensions-1; j++) {
+      jint dim_con = find_int_con(length[j], -1);
+      expand_fanout *= dim_con;
+      expand_count  += expand_fanout; // count the level-J sub-arrays
+      if (dim_con <= 0
+          || dim_con > expand_limit
+          || expand_count > expand_limit) {
+        expand_count = 0;
+        break;
+      }
     }
   }
 
@@ -514,21 +542,46 @@ void Parse::do_multianewarray() {
   address fun = NULL;
   switch (ndimensions) {
   case 1: ShouldNotReachHere(); break;
-  case 2: fun = OptoRuntime::multianewarray2_Java(); break;
-  case 3: fun = OptoRuntime::multianewarray3_Java(); break;
-  case 4: fun = OptoRuntime::multianewarray4_Java(); break;
-  case 5: fun = OptoRuntime::multianewarray5_Java(); break;
+  case 2: fun = (ColorObjectAllocations || MethodSampleColors) ?
+                  OptoRuntime::colored_multianewarray2_Java() :
+                  OptoRuntime::multianewarray2_Java();
+                break;
+  case 3: fun = (ColorObjectAllocations || MethodSampleColors) ?
+                  OptoRuntime::colored_multianewarray3_Java() :
+                  OptoRuntime::multianewarray3_Java();
+                break;
+  case 4: fun = (ColorObjectAllocations || MethodSampleColors) ?
+                  OptoRuntime::colored_multianewarray4_Java() :
+                  OptoRuntime::multianewarray4_Java();
+                break;
+  case 5: fun = (ColorObjectAllocations || MethodSampleColors) ?
+                  OptoRuntime::colored_multianewarray5_Java() :
+                  OptoRuntime::multianewarray5_Java();
+                break;
   };
   Node* c = NULL;
 
   if (fun != NULL) {
-    c = make_runtime_call(RC_NO_LEAF | RC_NO_IO,
-                          OptoRuntime::multianewarray_Type(ndimensions),
-                          fun, NULL, TypeRawPtr::BOTTOM,
-                          makecon(TypeKlassPtr::make(array_klass)),
-                          length[0], length[1], length[2],
-                          (ndimensions > 2) ? length[3] : NULL,
-                          (ndimensions > 3) ? length[4] : NULL);
+    if (ColorObjectAllocations || MethodSampleColors) {
+      c = make_runtime_call(RC_NO_LEAF | RC_NO_IO,
+                            OptoRuntime::colored_multianewarray_Type(ndimensions),
+                            fun, NULL, TypeRawPtr::BOTTOM,
+                            makecon(TypeKlassPtr::make(array_klass)),
+                            length[0], length[1], length[2],
+                            (ndimensions > 2) ? length[3] : NULL,
+                            (ndimensions > 3) ? length[4] : NULL,
+                            (ndimensions > 4) ? length[5] : NULL,
+                            (ndimensions > 5) ? length[6] : NULL);
+
+    } else {
+      c = make_runtime_call(RC_NO_LEAF | RC_NO_IO,
+                            OptoRuntime::multianewarray_Type(ndimensions),
+                            fun, NULL, TypeRawPtr::BOTTOM,
+                            makecon(TypeKlassPtr::make(array_klass)),
+                            length[0], length[1], length[2],
+                            (ndimensions > 2) ? length[3] : NULL,
+                            (ndimensions > 3) ? length[4] : NULL);
+    }
   } else {
     // Create a java array for dimension sizes
     Node* dims = NULL;

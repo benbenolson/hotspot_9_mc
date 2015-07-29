@@ -73,7 +73,10 @@ RuntimeHistogramElement::RuntimeHistogramElement(const char* elementName) {
 }
 
 void InterfaceSupport::trace(const char* result_type, const char* header) {
-  tty->print_cr("%6d  %s", _number_of_calls, header);
+  /* MRJ */
+  if (strstr(header, "inc_load_cnt") || strstr(header, "inc_store_cnt")) {
+    tty->print_cr("%6d  %s", _number_of_calls, header);
+  }
 }
 
 void InterfaceSupport::gc_alot() {

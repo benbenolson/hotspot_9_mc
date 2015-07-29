@@ -136,6 +136,8 @@ class Klass : public Metadata {
   markOop  _prototype_header;   // Used when biased locking is both enabled and disabled for this type
   jint     _biased_lock_revocation_count;
 
+  jint     _temperature;
+
   TRACE_DEFINE_KLASS_TRACE_ID;
 
   // Remembered sets support for the oops in the klasses.
@@ -327,7 +329,9 @@ protected:
   static int layout_helper_header_size(jint lh) {
     assert(lh < (jint)_lh_neutral_value, "must be array");
     int hsize = (lh >> _lh_header_size_shift) & _lh_header_size_mask;
+#if 0
     assert(hsize > 0 && hsize < (int)sizeof(oopDesc)*3, "sanity");
+#endif
     return hsize;
   }
   static BasicType layout_helper_element_type(jint lh) {
@@ -552,6 +556,11 @@ protected:
   void set_biased_lock_revocation_count(int val) { _biased_lock_revocation_count = (jint) val; }
   jlong last_biased_lock_bulk_revocation_time() { return _last_biased_lock_bulk_revocation_time; }
   void  set_last_biased_lock_bulk_revocation_time(jlong cur_time) { _last_biased_lock_bulk_revocation_time = cur_time; }
+
+  void mark_hot()  { _temperature = MaxKlassTemperature;   }
+  void cool_down() { if (_temperature > 0) _temperature--; }
+  bool is_hot()    { return (_temperature > 0);            }
+  void set_temperature(jint temp) { _temperature = temp;   }
 
   TRACE_DEFINE_KLASS_METHODS;
 

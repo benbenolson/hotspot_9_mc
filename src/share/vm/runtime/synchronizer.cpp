@@ -26,6 +26,7 @@
 #include "classfile/vmSymbols.hpp"
 #include "memory/padded.hpp"
 #include "memory/resourceArea.hpp"
+#include "memory/heapInspection.hpp"
 #include "oops/markOop.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/atomic.inline.hpp"

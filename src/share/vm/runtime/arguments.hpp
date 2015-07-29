@@ -280,10 +280,31 @@ class Arguments : AllStatic {
   // Option flags
   static bool   _has_profile;
   static const char*  _gc_log_filename;
+  static const char*  _objinfo_log_filename;
+  static const char*  _objalloc_log_filename;
+  static const char*  _apmap_log_filename;
+  static const char*  _apinfo_log_filename;
+  static const char*  _deadobj_log_filename;
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  static const char*  _addrinfo_log_filename;
+  static const char*  _addrtable_log_filename;
+  //static const char*  _addrups_log_filename;
+  static const char*  _fieldinfo_log_filename;
+#endif
+  static uintx  _orc_interval;
   // Value of the conservative maximum heap alignment needed
   static size_t  _conservative_max_heap_alignment;
 
   static uintx _min_heap_size;
+#if 0
+  static MemColor  _heap_mem_color;
+
+  static traymask_t *_perm_gen_tray_mask;
+  static traymask_t *_tenured_gen_tray_mask;
+  static traymask_t *_code_cache_tray_mask;
+#endif
+  static traymask_t *_red_memory_tray_mask;
+  static traymask_t *_blue_memory_tray_mask;
 
   // Used to store original flag values
   static uintx _min_heap_free_ratio;
@@ -348,6 +369,21 @@ class Arguments : AllStatic {
   static julong limit_by_allocatable_memory(julong size);
   // Setup heap size
   static void set_heap_size();
+
+#if 0
+  // Setup heap color
+  static void set_heap_mem_color();
+
+  /* setup (either tenured or permanent) generation tray mask */
+  static void setup_gen_tray_masks();
+  static void setup_code_cache_tray_mask();
+#endif
+
+  /* traymask parsing */
+  static unsigned long get_nr(const char *s, char **end, traymask_t *tm, int rel);
+  static traymask_t * parse_traystring(const char *s);
+  static void setup_colored_memory_tray_masks();
+
   // Based on automatic selection criteria, should the
   // low pause collector be used.
   static bool should_auto_select_low_pause_collector();
@@ -528,12 +564,44 @@ class Arguments : AllStatic {
   // -Xloggc:<file>, if not specified will be NULL
   static const char* gc_log_filename()      { return _gc_log_filename; }
 
+  static const char* objinfo_log_filename()   { return _objinfo_log_filename;   }
+  static const char* objalloc_log_filename()  { return _objalloc_log_filename;  }
+  static const char* apmap_log_filename()     { return _apmap_log_filename;     }
+  static const char* apinfo_log_filename()    { return _apinfo_log_filename;    }
+  static const char* deadobj_log_filename()   { return _deadobj_log_filename;   }
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  static const char* addrinfo_log_filename()  { return _addrinfo_log_filename;  }
+  static const char* addrtable_log_filename() { return _addrtable_log_filename; }
+  //static const char* addrups_log_filename()   { return _addrups_log_filename;   }
+  static const char* fieldinfo_log_filename() { return _fieldinfo_log_filename;  }
+#endif
+
   // -Xprof
   static bool has_profile()                 { return _has_profile; }
 
   // -Xms
   static size_t min_heap_size()             { return _min_heap_size; }
   static void  set_min_heap_size(size_t v)  { _min_heap_size = v;  }
+
+#if 0
+  // heap color
+  static MemColor heap_mem_color()              { return _heap_mem_color; }
+  static void  set_heap_mem_color(MemColor c)   { _heap_mem_color = c;    }
+
+  static traymask_t *perm_gen_tray_mask()             { return _perm_gen_tray_mask; }
+  static void set_perm_gen_tray_mask(traymask_t *tm)  { _perm_gen_tray_mask = tm;   }
+
+  static traymask_t *tenured_gen_tray_mask()             { return _tenured_gen_tray_mask; }
+  static void set_tenured_gen_tray_mask(traymask_t *tm)  { _tenured_gen_tray_mask = tm;   }
+
+  static traymask_t *code_cache_tray_mask()             { return _code_cache_tray_mask; }
+  static void set_code_cache_tray_mask(traymask_t *tm)  { _code_cache_tray_mask = tm;   }
+#endif
+  static traymask_t *red_memory_tray_mask()  { return _red_memory_tray_mask; }
+  static traymask_t *blue_memory_tray_mask() { return _blue_memory_tray_mask; }
+
+  static void set_red_memory_tray_mask(traymask_t *mask)  { _red_memory_tray_mask  = mask; }
+  static void set_blue_memory_tray_mask(traymask_t *mask) { _blue_memory_tray_mask = mask; }
 
   // Returns the original values of -XX:MinHeapFreeRatio and -XX:MaxHeapFreeRatio
   static uintx min_heap_free_ratio()        { return _min_heap_free_ratio; }

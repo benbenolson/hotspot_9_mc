@@ -3104,7 +3104,9 @@ bool LibraryCallKit::inline_unsafe_allocate() {
     // The 'test' is non-zero if we need to take a slow path.
   }
 
-  Node* obj = new_instance(kls, test);
+  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+  Node* bci_node = intcon(bci());
+  Node* obj = new_instance(kls, mth_node, bci_node, test);
   set_result(obj);
   return true;
 }
@@ -3798,7 +3800,9 @@ bool LibraryCallKit::inline_native_newArray() {
     // Normal case:  The array type has been cached in the java.lang.Class.
     // The following call works fine even if the array type is polymorphic.
     // It could be a dynamic mix of int[], boolean[], Object[], etc.
-    Node* obj = new_array(klass_node, count_val, 0);  // no arguments to push
+    Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+    Node* bci_node = intcon(bci());
+    Node* obj = new_array(klass_node, count_val, 2, mth_node, bci_node);
     result_reg->init_req(_normal_path, control());
     result_val->init_req(_normal_path, obj);
     result_io ->init_req(_normal_path, i_o());
@@ -3918,6 +3922,9 @@ bool LibraryCallKit::inline_array_copyOf(bool is_copyOfRange) {
       Node* orig_tail = _gvn.transform(new SubINode(orig_length, start));
       Node* moved = generate_min_max(vmIntrinsics::_min, orig_tail, length);
 
+      Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+      Node* bci_node = intcon(bci());
+      newcopy = new_array(klass_node, length, 0, mth_node, bci_node);
       // Generate a direct call to the right arraycopy function(s).
       // We know the copy is disjoint but we might not know if the
       // oop stores need checking.
@@ -4616,7 +4623,10 @@ bool LibraryCallKit::inline_native_clone(bool is_virtual) {
       set_control(array_ctl);
       Node* obj_length = load_array_length(obj);
       Node* obj_size  = NULL;
-      Node* alloc_obj = new_array(obj_klass, obj_length, 0, &obj_size);  // no arguments to push
+      Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+      Node* bci_node = intcon(bci());
+      Node* alloc_obj = new_array(obj_klass, obj_length, 0, mth_node,
+                                  bci_node, &obj_size);
 
       if (!use_ReduceInitialCardMarks()) {
         // If it is an oop array, it requires very special treatment,
@@ -4692,7 +4702,9 @@ bool LibraryCallKit::inline_native_clone(bool is_virtual) {
       // Need to deoptimize on exception from allocation since Object.clone intrinsic
       // is reexecuted if deoptimization occurs and there could be problems when merging
       // exception state between multiple Object.clone versions (reexecute=true vs reexecute=false).
-      Node* alloc_obj = new_instance(obj_klass, NULL, &obj_size, /*deoptimize_on_exception=*/true);
+      Node* mth_node  = makecon(TypeOopPtr::make_from_constant(method()));
+      Node* bci_node  = intcon(bci());
+      Node* alloc_obj = new_instance(obj_klass, mth_node, bci_node, NULL, &obj_size, true);
 
       copy_to_clone(obj, alloc_obj, obj_size, false, !use_ReduceInitialCardMarks());
 

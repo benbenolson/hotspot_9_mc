@@ -57,6 +57,10 @@
   template(DeoptimizeTheWorld)                    \
   template(CollectForMetadataAllocation)          \
   template(GC_HeapInspection)                     \
+  template(GC_ObjectInfoCollection)               \
+  template(GC_ObjectLayout)                       \
+  template(GC_ObjectAddressInfoCollection)        \
+  template(GC_RegularScavenge)                    \
   template(GenCollectFull)                        \
   template(GenCollectFullConcurrent)              \
   template(GenCollectForAllocation)               \
@@ -94,6 +98,8 @@
   template(HeapWalkOperation)                     \
   template(HeapIterateOperation)                  \
   template(ReportJavaOutOfMemory)                 \
+  template(JRHotMethodSampler)                    \
+  template(JRCoolDownMethods)                     \
   template(JFRCheckpoint)                         \
   template(Exit)                                  \
   template(LinuxDllLoad)                          \

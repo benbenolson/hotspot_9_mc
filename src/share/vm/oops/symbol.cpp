@@ -31,6 +31,7 @@
 #include "oops/symbol.hpp"
 #include "runtime/atomic.inline.hpp"
 #include "runtime/os.hpp"
+#include "memory/heapInspection.hpp"
 
 Symbol::Symbol(const u1* name, int length, int refcount) {
   _refcount = refcount;

@@ -1021,6 +1021,20 @@ objArrayOop InstanceKlass::allocate_objArray(int n, int length, TRAPS) {
   return o;
 }
 
+objArrayOop instanceKlass::allocate_objArray(int n, int length, HeapColor color, TRAPS) {
+  if (length < 0) THROW_0(vmSymbols::java_lang_NegativeArraySizeException());
+  if (length > arrayOopDesc::max_array_length(T_OBJECT)) {
+    report_java_out_of_memory("Requested array size exceeds VM limit");
+    THROW_OOP_0(Universe::out_of_memory_error_array_size());
+  }
+  int size = objArrayOopDesc::object_size(length);
+  klassOop ak = array_klass(n, CHECK_NULL);
+  KlassHandle h_ak (THREAD, ak);
+  objArrayOop o =
+    (objArrayOop)CollectedHeap::array_allocate(h_ak, size, length, color, CHECK_NULL);
+  return o;
+}
+
 instanceOop InstanceKlass::register_finalizer(instanceOop i, TRAPS) {
   if (TraceFinalizerRegistration) {
     tty->print("Registered ");
@@ -1045,6 +1059,24 @@ instanceOop InstanceKlass::allocate_instance(TRAPS) {
   instanceOop i;
 
   i = (instanceOop)CollectedHeap::obj_allocate(h_k, size, CHECK_NULL);
+  if (has_finalizer_flag && !RegisterFinalizersAtInit) {
+    i = register_finalizer(i, CHECK_NULL);
+  }
+
+  return i;
+}
+
+instanceOop instanceKlass::allocate_instance(HeapColor color, TRAPS) {
+  assert(UseColoredSpaces, "colored allocation without colored spaces");
+  assert(!oop_is_instanceMirror(), "wrong allocation path");
+  bool has_finalizer_flag = has_finalizer(); // Query before possible GC
+  int size = size_helper();  // Query before forming handle.
+
+  KlassHandle h_k(THREAD, as_klassOop());
+
+  instanceOop i;
+
+  i = (instanceOop)CollectedHeap::obj_allocate(h_k, size, color, CHECK_NULL);
   if (has_finalizer_flag && !RegisterFinalizersAtInit) {
     i = register_finalizer(i, CHECK_NULL);
   }

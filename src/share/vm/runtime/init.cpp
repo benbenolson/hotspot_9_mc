@@ -89,6 +89,9 @@ void vm_init_globals() {
   mutex_init();
   chunkpool_init();
   perfMemory_init();
+  if (GCTimers) {
+    tty->print_cr("vm start: "INT64_FORMAT_W(13), os::javaTimeMillis());
+  }
 }
 
 

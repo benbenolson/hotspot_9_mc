@@ -39,6 +39,13 @@
 
 class CollectedHeap;
 class DeferredObjAllocEvent;
+#ifdef PROFILE_OBJECT_INFO
+class PersistentObjectInfoTable;
+class AllocPointInfoTable;
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+class ObjectAddressInfoTable;
+#endif
 
 
 // A helper class for caching a Method* when the user of the cache
@@ -182,6 +189,14 @@ class Universe: AllStatic {
 
   // The particular choice of collected heap.
   static CollectedHeap* _collectedHeap;
+#ifdef PROFILE_OBJECT_INFO
+  static PersistentObjectInfoTable *_persistent_object_info_table;
+  static AllocPointInfoTable *_alloc_point_info_table;
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  static ObjectAddressInfoTable *_object_address_info_table;
+  static ObjectAddressInfoTable *_alt_oait;
+#endif
 
   static intptr_t _non_oop_bits;
 
@@ -343,6 +358,24 @@ class Universe: AllStatic {
 
   // The particular choice of collected heap.
   static CollectedHeap* heap() { return _collectedHeap; }
+
+#ifdef PROFILE_OBJECT_INFO
+  static PersistentObjectInfoTable* persistent_object_info_table() { return _persistent_object_info_table; }
+  static void set_persistent_object_info_table(PersistentObjectInfoTable* poit) { _persistent_object_info_table = poit; }
+  static AllocPointInfoTable* alloc_point_info_table() { return _alloc_point_info_table; }
+  static void set_alloc_point_info_table(AllocPointInfoTable* apit) { _alloc_point_info_table = apit; }
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  static ObjectAddressInfoTable* object_address_info_table() { return _object_address_info_table; }
+  static void set_object_address_info_table(ObjectAddressInfoTable* oait) { _object_address_info_table = oait; }
+  static ObjectAddressInfoTable* alt_oait() { return _alt_oait; }
+  static void set_alt_oait(ObjectAddressInfoTable* oait) { _alt_oait = oait; }
+  static void switch_obj_addr_tables() { 
+    ObjectAddressInfoTable *tmp = _object_address_info_table;
+    _object_address_info_table = _alt_oait;
+    _alt_oait = tmp; 
+  }
+#endif
 
   // For UseCompressedOops
   // Narrow Oop encoding mode:

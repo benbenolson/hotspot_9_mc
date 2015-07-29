@@ -614,6 +614,72 @@ union jlong_accessor {
 
 void basic_types_init(); // cannot define here; uses assert
 
+enum HeapColor {
+  HC_NOT_COLORED = -1,
+  HC_RED,
+  HC_BLUE,
+  HC_TOTAL
+};
+
+enum HeapColorEnum {
+  RED_TO_RED,
+  RED_TO_BLUE,
+  BLUE_TO_RED,
+  BLUE_TO_BLUE,
+  HC_ENUM_TOTAL
+};
+
+enum klass_type {
+  KT_UNSPECIFIED = -1,
+  KT_VM_INSTANCE,
+  KT_VM_ARRAY,
+  KT_VM_OTHER,
+  KT_VM_FILLER,
+  KT_APP_INSTANCE,
+  KT_APP_ARRAY,
+  KT_APP_OTHER,
+  NR_KLASS_TYPES
+};
+
+enum obj_type {
+  VM_OBJECT,
+  APP_OBJECT,
+  FILLER_OBJECT,
+  NR_OBJECT_TYPES
+};
+
+enum init_marker {
+  NEW_MARKER = -1,
+  OLD_MARKER =  0,
+  NR_INIT_MARKERS
+};
+
+class MethodAllocPointInfo {
+ private:
+  int _bci;
+  HeapColor _color;
+
+ public:
+  MethodAllocPointInfo(int bci, HeapColor color) : _bci(bci), _color(color) {}
+  int bci()         { return _bci; }
+  HeapColor color() { return _color; }
+};
+
+enum PSGenType {
+  YOUNG_GEN,
+  OLD_GEN,
+  PERM_GEN,
+  ALL_GENS,
+};
+
+extern const char* heapColor2Str(HeapColor color);
+extern const char* heapColorEnum2Str(HeapColorEnum hce);
+extern char* genColorStr(PSGenType, HeapColor color, char *buf);
+extern const char* klass_type_str(enum klass_type kt);
+
+extern HeapColor UnknownAPHeapColor;
+extern HeapColor UnknownObjectHeapColor;
+extern int mjcnt;
 
 // NOTE: replicated in SA in vm/agent/sun/jvm/hotspot/runtime/BasicType.java
 enum BasicType {
@@ -1421,6 +1487,18 @@ template<class T> static void swap(T& a, T& b) {
 # endif /* ASSERT */
 
 #define ARRAY_SIZE(array) (sizeof(array)/sizeof((array)[0]))
+
+
+//#define INITIAL_OOP_MARK 0xDEADBEEF
+//#define INITIAL_OOP_MARK 0xDEFECA7E
+#define COLOR_MARK (jint)0xDEFECA7E
+#define FILLER_KLASS (klassOop)0xDEADBEEF
+#define RAND_COLOR_MAX (jint) 10000
+//#define RECORD_MARK 0xDEFECA7E
+#define NEWBORN 0
+#define SENIOR 10
+#define BOTTOM_OOP_ID 0
+#define BAD_REF_CNT -11031985
 
 // Dereference vptr
 // All C++ compilers that we know of have the vtbl pointer in the first

@@ -1276,7 +1276,8 @@ uint AllocateNode::size_of() const { return sizeof(*this); }
 
 AllocateNode::AllocateNode(Compile* C, const TypeFunc *atype,
                            Node *ctrl, Node *mem, Node *abio,
-                           Node *size, Node *klass_node, Node *initial_test)
+                           Node *size, Node *klass_node, Node *initial_test,
+                           Node *method_node, Node *bci_node)
   : CallNode(atype, NULL, TypeRawPtr::BOTTOM)
 {
   init_class_id(Class_Allocate);
@@ -1293,6 +1294,10 @@ AllocateNode::AllocateNode(Compile* C, const TypeFunc *atype,
   init_req( AllocSize          , size);
   init_req( KlassNode          , klass_node);
   init_req( InitialTest        , initial_test);
+  if (ColorObjectAllocations || MethodSampleColors) {
+    init_req( MethodNode       , method_node);
+    init_req( BCINode          , bci_node);
+  }
   init_req( ALength            , topnode);
   C->add_macro_node(this);
 }

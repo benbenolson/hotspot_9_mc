@@ -263,7 +263,16 @@ class Thread: public ThreadShadow {
   friend class ThreadLocalStorage;
   friend class GC_locker;
 
-  ThreadLocalAllocBuffer _tlab;                 // Thread-local eden
+  /* MRJ -- need to keep this here for vmstructs */
+  ThreadLocalAllocBuffer _tlab;                    // Thread-local eden
+#ifdef COLORED_TLABS
+  /* XXX -- declaring this as 'ThreadLocalAllocBuffer _colored_tlab[HC_TOTAL]'
+   * is not compatible with vmstructs code -- double XXX -- this is probably
+   * OK -- fix this when you have time
+   */
+  ThreadLocalAllocBuffer _red_tlab;             // thread-local red eden
+  ThreadLocalAllocBuffer _blue_tlab;            // thread-local blue eden
+#endif
   jlong _allocated_bytes;                       // Cumulative number of bytes allocated on
                                                 // the Java heap
 
@@ -413,6 +422,17 @@ class Thread: public ThreadShadow {
   void set_metadata_handles(GrowableArray<Metadata*>* handles){ _metadata_handles = handles; }
 
   // Thread-Local Allocation Buffer (TLAB) support
+#ifdef COLORED_TLABS
+  ThreadLocalAllocBuffer& tlab(HeapColor color)  { 
+    return ((color==HC_RED) ? _red_tlab : _blue_tlab);
+  }
+  void initialize_tlab(HeapColor color) {
+    if (UseTLAB) {
+      tlab(color).initialize();
+      tlab(color).set_color(color);
+    }
+  }
+#endif
   ThreadLocalAllocBuffer& tlab()                 { return _tlab; }
   void initialize_tlab() {
     if (UseTLAB) {
@@ -591,8 +611,56 @@ protected:
   static ByteSize stack_base_offset()            { return byte_offset_of(Thread, _stack_base); }
   static ByteSize stack_size_offset()            { return byte_offset_of(Thread, _stack_size); }
 
+#if 0
+  void initialize_cnts()                   { _cnt[HC_RED] = 0; _cnt[HC_BLUE] = 0; }
+  void inc_cnt(HeapColor color)            { _cnt[color]++;      }
+  void add_cnt(HeapColor color, jlong inc) { _cnt[color] += inc; }
+  jlong cnt(HeapColor color)               { return _cnt[color]; }
+
+  void initialize_sizes()                  { _size[HC_RED] = 0; _size[HC_BLUE] = 0; }
+  void add_size(HeapColor color, jint s)   { _size[color] += s;  }
+  jlong size(HeapColor color)              { return _size[color]; }
+#endif
+
+#if 0
+  bool reached_mark() {
+    if ( (_mark % 1000000) == 0) {
+      return true;
+    }
+    return false;
+  }
+
+  void add_mark(jlong inc) {
+    _mark += inc;
+  }
+#endif
+
+#ifdef COLORED_TLABS
+#define COLORED_TLAB_FIELD_OFFSET(name) \
+  static ByteSize colored_tlab_##name##_offset(HeapColor color) { \
+    if (color == HC_RED) { \
+      return (byte_offset_of(Thread, _red_tlab) + ThreadLocalAllocBuffer::name##_offset()); \
+    } else { \
+      return (byte_offset_of(Thread, _blue_tlab) + ThreadLocalAllocBuffer::name##_offset()); \
+    } \
+  }
+#endif
 #define TLAB_FIELD_OFFSET(name) \
   static ByteSize tlab_##name##_offset()         { return byte_offset_of(Thread, _tlab) + ThreadLocalAllocBuffer::name##_offset(); }
+
+#ifdef COLORED_TLABS
+  COLORED_TLAB_FIELD_OFFSET(start)
+  COLORED_TLAB_FIELD_OFFSET(end)
+  COLORED_TLAB_FIELD_OFFSET(top)
+  COLORED_TLAB_FIELD_OFFSET(pf_top)
+  COLORED_TLAB_FIELD_OFFSET(size)                   // desired_size
+  COLORED_TLAB_FIELD_OFFSET(refill_waste_limit)
+  COLORED_TLAB_FIELD_OFFSET(number_of_refills)
+  COLORED_TLAB_FIELD_OFFSET(fast_refill_waste)
+  COLORED_TLAB_FIELD_OFFSET(slow_allocations)
+
+#undef COLORED_TLAB_FIELD_OFFSET
+#endif
 
   TLAB_FIELD_OFFSET(start)
   TLAB_FIELD_OFFSET(end)
@@ -1936,6 +2004,7 @@ class Threads: AllStatic {
 
   // Sweeper
   static void nmethods_do(CodeBlobClosure* cf);
+  static void print_mcolor_info();
 
   // RedefineClasses support
   static void metadata_do(void f(Metadata*));

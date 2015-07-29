@@ -1587,8 +1587,10 @@ void PhaseStringOpts::replace_string_concat(StringConcat* sc) {
       // reexecution.  If we deoptimize in the slow path the bytecode
       // will be reexecuted and the char[] allocation will be thrown away.
       kit.jvms()->set_should_reexecute(true);
+      Node* mth_node = __ makecon(TypeOopPtr::make_from_constant(kit.method()));
+      Node* bci_node = __ intcon(kit.bci());
       char_array = kit.new_array(__ makecon(TypeKlassPtr::make(ciTypeArrayKlass::make(T_CHAR))),
-                                 length, 1);
+                                 length, 1, mth_node, bci_node);
     }
 
     // Mark the allocation so that zeroing is skipped since the code
@@ -1632,7 +1634,10 @@ void PhaseStringOpts::replace_string_concat(StringConcat* sc) {
       // StringBuffer so no stack adjustment is necessary for proper
       // reexecution.
       kit.jvms()->set_should_reexecute(true);
-      result = kit.new_instance(__ makecon(TypeKlassPtr::make(C->env()->String_klass())));
+      Node* mth_node = __ makecon(TypeOopPtr::make_from_constant(kit.method()));
+      Node* bci_node = __ intcon(kit.bci());
+      result = kit.new_instance(__ makecon(TypeKlassPtr::make(C->env()->String_klass())),
+                                mth_node, bci_node);
     }
 
     // Intialize the string

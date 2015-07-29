@@ -44,9 +44,11 @@ class PeriodicTask: public CHeapObj<mtInternal> {
   enum { max_tasks     = 10,       // Max number of periodic tasks in system
          interval_gran = 10,
          min_interval  = 10,
-         max_interval  = 10000 };
+         max_interval  = 100000 };
 
   static int num_tasks()   { return _num_tasks; }
+
+  void reset_counter() { _counter = 0; }
 
  private:
   int _counter;

@@ -3374,6 +3374,8 @@ Node* GraphKit::set_output_for_allocation(AllocateNode* alloc,
 //  - If 'return_size_val', report the the total object size to the caller.
 //  - deoptimize_on_exception controls how Java exceptions are handled (rethrow vs deoptimize)
 Node* GraphKit::new_instance(Node* klass_node,
+                             Node* method_node,
+                             Node* bci_node,
                              Node* extra_slow_test,
                              Node* *return_size_val,
                              bool deoptimize_on_exception) {
@@ -3441,8 +3443,8 @@ Node* GraphKit::new_instance(Node* klass_node,
 
   AllocateNode* alloc = new AllocateNode(C, AllocateNode::alloc_type(Type::TOP),
                                          control(), mem, i_o(),
-                                         size, klass_node,
-                                         initial_slow_test);
+                                         size, klass_node, initial_slow_test,
+                                         method_node, bci_node);
 
   return set_output_for_allocation(alloc, oop_type, deoptimize_on_exception);
 }
@@ -3454,6 +3456,8 @@ Node* GraphKit::new_instance(Node* klass_node,
 Node* GraphKit::new_array(Node* klass_node,     // array klass (maybe variable)
                           Node* length,         // number of array elements
                           int   nargs,          // number of arguments to push back for uncommon trap
+                          Node* method_node,
+                          Node* bci_node,
                           Node* *return_size_val,
                           bool deoptimize_on_exception) {
   jint  layout_con = Klass::_lh_neutral_value;
@@ -3585,7 +3589,7 @@ Node* GraphKit::new_array(Node* klass_node,     // array klass (maybe variable)
                             control(), mem, i_o(),
                             size, klass_node,
                             initial_slow_test,
-                            length);
+                            length, method_node, bci_node);
 
   // Cast to correct type.  Note that the klass_node may be constant or not,
   // and in the latter case the actual array type will be inexact also.

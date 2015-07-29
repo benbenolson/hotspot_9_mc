@@ -98,6 +98,11 @@ const bool ExecMem = true;
 // Typedef for structured exception handling support
 typedef void (*java_call_t)(JavaValue* value, methodHandle* method, JavaCallArguments* args, Thread* thread);
 
+#define NR_TRAYS 8
+#define VALID_TRAY_START 0
+#define VALID_TRAY_END 7
+typedef uint64_t traymask_t;
+
 class MallocTracker;
 
 class os: AllStatic {
@@ -111,6 +116,9 @@ class os: AllStatic {
   static address            _polling_page;
   static volatile int32_t * _mem_serialize_page;
   static uintptr_t          _serialize_page_mask;
+  static traymask_t       * _traymask_all_trays_ptr;
+  static traymask_t       * _traymask_no_trays_ptr;
+  static traymask_t       * _default_traymask_ptr;
  public:
   static size_t             _page_sizes[page_sizes_max];
 
@@ -352,6 +360,13 @@ class os: AllStatic {
   static bool   numa_topology_changed();
   static int    numa_get_group_id();
 
+#if 0
+  static int tray_bind_addr(char *addr, size_t bytes, traymask_t *mask);
+#endif
+
+  /* memory coloring */
+  static void   color_memory(char *addr, size_t bytes, HeapColor color);
+
   // Page manipulation
   struct page_info {
     size_t size;
@@ -359,6 +374,14 @@ class os: AllStatic {
   };
   static bool   get_page_info(char *start, page_info* info);
   static char*  scan_pages(char *start, char* end, page_info* page_expected, page_info* page_found);
+
+  // colored page manipulation
+  struct colored_page_info {
+    size_t size;
+    HeapColor color;
+  };
+  static bool   get_colored_page_info(char *start, colored_page_info* info);
+  static char*  scan_colored_pages(char *start, char* end, colored_page_info* page_expected, colored_page_info* page_found);
 
   static char*  non_memory_address_word();
   // reserve, commit and pin the entire memory region
@@ -867,6 +890,23 @@ class os: AllStatic {
   // (for Unix, that stimulus is a signal, for Windows, an external
   // ResumeThread call)
   static void pause();
+
+
+#if 0
+  /* MRJ - get MemColor as string */
+  static const char *mcolor_as_str(MemColor);
+#endif
+
+  /* MRJ - traymasks */
+  static void set_traymask_constraints();
+  static void copy_traymask_from_traymask(traymask_t *dst, traymask_t *src);
+  static int traymask_isbitset(traymask_t *tm, int i);
+  static void traymask_clearbit(traymask_t *tm, int i);
+  static void traymask_setbit(traymask_t *tm, int i);
+
+  static traymask_t * traymask_all_trays() { return _traymask_all_trays_ptr; }
+  static traymask_t * traymask_no_trays()  { return _traymask_no_trays_ptr;  }
+  static traymask_t * default_traymask()   { return _default_traymask_ptr;   }
 
   // Builds a platform dependent Agent_OnLoad_<libname> function name
   // which is used to find statically linked in agents.

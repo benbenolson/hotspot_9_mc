@@ -57,6 +57,14 @@ typeArrayOop oopFactory::new_typeArray(BasicType type, int length, TRAPS) {
   return result;
 }
 
+typeArrayOop oopFactory::new_typeArray(BasicType type, int length,
+  HeapColor color, TRAPS) {
+  klassOop type_asKlassOop = Universe::typeArrayKlassObj(type);
+  typeArrayKlass* type_asArrayKlass = typeArrayKlass::cast(type_asKlassOop);
+  typeArrayOop result = type_asArrayKlass->allocate(length, color, THREAD);
+  return result;
+}
+
 // Create a Java array that points to metadata.
 // As far as Java code is concerned, a metaData array is either an array of
 // int or long depending on pointer size.  Only a few things use this, like
@@ -86,5 +94,16 @@ objArrayOop oopFactory::new_objArray(Klass* klass, int length, TRAPS) {
   } else {
     assert (klass->oop_is_instance(), "new object array with klass not an InstanceKlass");
     return ((InstanceKlass*)klass)->allocate_objArray(1, length, THREAD);
+  }
+}
+
+objArrayOop oopFactory::new_objArray(klassOop klass, int length,
+  HeapColor color, TRAPS) {
+  assert(klass->is_klass(), "must be instance class");
+  if (klass->klass_part()->oop_is_array()) {
+    return ((arrayKlass*)klass->klass_part())->allocate_arrayArray(1, length, color, THREAD);
+  } else {
+    assert (klass->klass_part()->oop_is_instance(), "new object array with klass not an instanceKlass");
+    return ((instanceKlass*)klass->klass_part())->allocate_objArray(1, length, color, THREAD);
   }
 }

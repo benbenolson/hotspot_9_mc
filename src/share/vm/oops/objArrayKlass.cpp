@@ -26,6 +26,7 @@
 #include "classfile/symbolTable.hpp"
 #include "classfile/systemDictionary.hpp"
 #include "classfile/vmSymbols.hpp"
+#include "interpreter/interpreterRuntime.hpp"
 #include "gc/shared/collectedHeap.inline.hpp"
 #include "gc/shared/specialized_oop_closures.hpp"
 #include "memory/iterator.inline.hpp"
@@ -43,6 +44,10 @@
 #include "runtime/orderAccess.inline.hpp"
 #include "utilities/copy.hpp"
 #include "utilities/macros.hpp"
+
+#if defined (PROFILE_OBJECT_INFO) || defined (PROFILE_OBJECT_ADDRESS_INFO)
+#include "memory/heapInspection.hpp"
+#endif
 
 ObjArrayKlass* ObjArrayKlass::allocate(ClassLoaderData* loader_data, int n, KlassHandle klass_handle, Symbol* name, TRAPS) {
   assert(ObjArrayKlass::header_size() <= InstanceKlass::header_size(),
@@ -185,6 +190,23 @@ objArrayOop ObjArrayKlass::allocate(int length, TRAPS) {
   }
 }
 
+objArrayOop objArrayKlass::allocate(int length, HeapColor color, TRAPS) {
+  if (length >= 0) {
+    if (length <= arrayOopDesc::max_array_length(T_OBJECT)) {
+      int size = objArrayOopDesc::object_size(length);
+      KlassHandle h_k(THREAD, as_klassOop());
+      objArrayOop a = (objArrayOop)CollectedHeap::array_allocate(h_k, size, length, color, CHECK_NULL);
+      assert(a->is_parsable(), "Can't publish unless parsable");
+      return a;
+    } else {
+      report_java_out_of_memory("Requested array size exceeds VM limit");
+      THROW_OOP_0(Universe::out_of_memory_error_array_size());
+    }
+  } else {
+    THROW_0(vmSymbols::java_lang_NegativeArraySizeException());
+  }
+}
+
 static int multi_alloc_counter = 0;
 
 oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, TRAPS) {
@@ -200,6 +222,64 @@ oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, TRAPS) {
       for (int index = 0; index < length; index++) {
         ArrayKlass* ak = ArrayKlass::cast(h_lower_dimension());
         oop sub_array = ak->multi_allocate(rank-1, &sizes[1], CHECK_NULL);
+#ifdef PROFILE_OBJECT_INFO
+        if (ProfileObjectInfo) {
+          JavaThread *thread = (JavaThread*)THREAD;
+          methodOop method = thread->last_frame().interpreter_frame_method();
+          int bci = thread->last_frame().interpreter_frame_bci();
+          SharedRuntime::profile_object_alloc(sub_array, method, bci);
+        }
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+        if (ProfileObjectAddressInfo) {
+          SharedRuntime::profile_object_address_alloc(sub_array);
+        }
+#endif
+        h_array->obj_at_put(index, sub_array);
+      }
+    } else {
+      // Since this array dimension has zero length, nothing will be
+      // allocated, however the lower dimension values must be checked
+      // for illegal values.
+      for (int i = 0; i < rank - 1; ++i) {
+        sizes += 1;
+        if (*sizes < 0) {
+          THROW_0(vmSymbols::java_lang_NegativeArraySizeException());
+        }
+      }
+    }
+  }
+  return h_array();
+}
+
+oop objArrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS) {
+  int length = *sizes;
+  // Call to lower_dimension uses this pointer, so most be called before a
+  // possible GC
+  KlassHandle h_lower_dimension(THREAD, lower_dimension());
+  // If length < 0 allocate will throw an exception.
+  objArrayOop array = allocate(length, color, CHECK_NULL);
+  assert(array->is_parsable(), "Don't handlize unless parsable");
+  objArrayHandle h_array (THREAD, array);
+  if (rank > 1) {
+    if (length != 0) {
+      for (int index = 0; index < length; index++) {
+        arrayKlass* ak = arrayKlass::cast(h_lower_dimension());
+        oop sub_array = ak->multi_allocate(rank-1, &sizes[1], color, CHECK_NULL);
+        assert(sub_array->is_parsable(), "Don't publish until parsable");
+#ifdef PROFILE_OBJECT_INFO
+        if (ProfileObjectInfo) {
+          JavaThread *thread = (JavaThread*)THREAD;
+          methodOop method = thread->last_frame().interpreter_frame_method();
+          int bci = thread->last_frame().interpreter_frame_bci();
+          SharedRuntime::profile_object_alloc(sub_array, method, bci);
+        }
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+        if (ProfileObjectAddressInfo) {
+          SharedRuntime::profile_object_address_alloc(sub_array);
+        }
+#endif
         h_array->obj_at_put(index, sub_array);
       }
     } else {
@@ -298,6 +378,26 @@ void ObjArrayKlass::copy_array(arrayOop s, int src_pos, arrayOop d,
   if (length==0) {
     return;
   }
+
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    ResourceMark rm;
+    if (s->poi()) {
+      s->poi()->batch_mark_load(length);
+    }
+    if (d->poi()) {
+      d->poi()->batch_mark_store(length);
+    }
+  }
+#endif
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->batch_mark_load (s, length);
+    oait->batch_mark_store(d, length);
+  }
+#endif
+
   if (UseCompressedOops) {
     narrowOop* const src = objArrayOop(s)->obj_at_addr<narrowOop>(src_pos);
     narrowOop* const dst = objArrayOop(d)->obj_at_addr<narrowOop>(dst_pos);

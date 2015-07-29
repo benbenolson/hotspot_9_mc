@@ -76,7 +76,9 @@ class ArrayKlass: public Klass {
   // Sizes points to the first dimension of the array, subsequent dimensions
   // are always in higher memory.  The callers of these set that up.
   virtual oop multi_allocate(int rank, jint* sizes, TRAPS);
+  virtual oop multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS);
   objArrayOop allocate_arrayArray(int n, int length, TRAPS);
+  objArrayOop allocate_arrayArray(int n, int length, HeapColor color, TRAPS);
 
   // find field according to JVM spec 5.4.3.2, returns the klass in which the field is defined
   Klass* find_field(Symbol* name, Symbol* sig, fieldDescriptor* fd) const;

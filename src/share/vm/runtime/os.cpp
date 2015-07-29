@@ -70,6 +70,9 @@ uintptr_t         os::_serialize_page_mask = 0;
 long              os::_rand_seed          = 1;
 int               os::_processor_count    = 0;
 size_t            os::_page_sizes[os::page_sizes_max];
+traymask_t*       os::_traymask_all_trays_ptr = NULL;
+traymask_t*       os::_traymask_no_trays_ptr  = NULL;
+traymask_t*       os::_default_traymask_ptr  = NULL;
 
 #ifndef PRODUCT
 julong os::num_mallocs = 0;         // # of calls to malloc/realloc
@@ -255,17 +258,42 @@ static void signal_thread_entry(JavaThread* thread, TRAPS) {
         // Any SIGBREAK operations added here should make sure to flush
         // the output stream (e.g. tty->flush()) after output.  See 4803766.
         // Each module also prints an extra carriage return after its output.
-        VM_PrintThreads op;
-        VMThread::execute(&op);
-        VM_PrintJNI jni_op;
-        VMThread::execute(&jni_op);
-        VM_FindDeadlocks op1(tty);
-        VMThread::execute(&op1);
-        Universe::print_heap_at_SIGBREAK();
+        if (PrintOpsAtSIGBREAK) {
+          VM_PrintThreads op;
+          VMThread::execute(&op);
+          VM_PrintJNI jni_op;
+          VMThread::execute(&jni_op);
+          VM_FindDeadlocks op1(tty);
+          VMThread::execute(&op1);
+          Universe::print_heap_at_SIGBREAK();
+        }
+        if (ScavengeAtRegularIntervals) {
+          VM_GC_RegularScavenge op1(false);
+          VMThread::execute(&op1);
+        }
         if (PrintClassHistogram) {
           VM_GC_HeapInspection op1(gclog_or_tty, true /* force full GC before heap inspection */);
           VMThread::execute(&op1);
         }
+#ifdef PROFILE_OBJECT_INFO
+        if (PrintObjectInfoAtInterval || PrintAPInfoAtInterval) {
+          VM_GC_ObjectInfoCollection op1(objinfo_log, apinfo_log, "signal");
+
+          VMThread::execute(&op1);
+        }
+#endif
+        if (OrganizeObjects) {
+          VM_GC_ObjectLayout op1(tty, "signal");
+
+          VMThread::execute(&op1);
+        }
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+        if (PrintObjectAddressInfoAtInterval) {
+          VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "signal");
+
+          VMThread::execute(&op1);
+        }
+#endif
         if (JvmtiExport::should_post_data_dump()) {
           JvmtiExport::post_data_dump();
         }
@@ -1636,6 +1664,52 @@ os::SuspendResume::State os::SuspendResume::switch_state(os::SuspendResume::Stat
   return result;
 }
 #endif
+
+void os::set_traymask_constraints()
+{
+	int i;
+
+	_traymask_all_trays_ptr = (traymask_t *) os::malloc(sizeof(traymask_t));
+	_traymask_no_trays_ptr  = (traymask_t *) os::malloc(sizeof(traymask_t));
+
+  (*_traymask_all_trays_ptr) = 0;
+  (*_traymask_no_trays_ptr)  = 0;
+
+	for (i = 0; i < NR_TRAYS; i++) {
+    if (i >= VALID_TRAY_START && i <= VALID_TRAY_END) {
+		  traymask_setbit(_traymask_all_trays_ptr,i);
+    } else {
+		  traymask_clearbit(_traymask_all_trays_ptr,i);
+    }
+		traymask_clearbit(_traymask_no_trays_ptr,i);
+	}
+  _default_traymask_ptr = _traymask_all_trays_ptr;
+}
+
+void os::copy_traymask_from_traymask(traymask_t *dst, traymask_t *src)
+{
+	*dst = *src;
+}
+
+int os::traymask_isbitset(traymask_t *tm, int i)
+{
+	if (i < NR_TRAYS)
+		return ((*tm >> i) & 1);
+	else
+		return 0;
+}
+
+void os::traymask_clearbit(traymask_t *tm, int i)
+{
+	if (i < NR_TRAYS)
+		*tm &= ~(1ULL << i);
+}
+
+void os::traymask_setbit(traymask_t *tm, int i)
+{
+	if (i < NR_TRAYS)
+		*tm |= (1ULL << i);
+}
 
 /////////////// Unit tests ///////////////
 

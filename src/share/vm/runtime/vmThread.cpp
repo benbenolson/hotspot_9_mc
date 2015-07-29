@@ -563,6 +563,8 @@ void VMThread::loop() {
 }
 
 void VMThread::execute(VM_Operation* op) {
+  jlong start, end, elapsed;
+
   Thread* t = Thread::current();
 
   if (!t->is_VM_thread()) {

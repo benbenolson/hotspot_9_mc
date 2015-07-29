@@ -755,11 +755,13 @@ class InstanceKlass: public Klass {
   }
   // allocation
   instanceOop allocate_instance(TRAPS);
+  instanceOop allocate_instance(HeapColor color, TRAPS);
 
   // additional member function to return a handle
   instanceHandle allocate_instance_handle(TRAPS)      { return instanceHandle(THREAD, allocate_instance(THREAD)); }
 
   objArrayOop allocate_objArray(int n, int length, TRAPS);
+  objArrayOop allocate_objArray(int n, int length, HeapColor color, TRAPS);
   // Helper function
   static instanceOop register_finalizer(instanceOop i, TRAPS);
 

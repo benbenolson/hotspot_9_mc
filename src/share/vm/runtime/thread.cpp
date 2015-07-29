@@ -39,6 +39,7 @@
 #include "memory/metaspaceShared.hpp"
 #include "memory/oopFactory.hpp"
 #include "memory/universe.inline.hpp"
+#include "memory/heapInspection.hpp"
 #include "oops/instanceKlass.hpp"
 #include "oops/objArrayOop.hpp"
 #include "oops/oop.inline.hpp"
@@ -105,6 +106,8 @@
 #if INCLUDE_RTM_OPT
 #include "runtime/rtmLocking.hpp"
 #endif
+
+#include "runtime/jr_vm_operations.hpp"
 
 PRAGMA_FORMAT_MUTE_WARNINGS_FOR_GCC
 
@@ -1594,7 +1597,16 @@ JavaThread::~JavaThread() {
 // The first routine called by a new Java thread
 void JavaThread::run() {
   // initialize thread-local alloc buffer related fields
+#ifdef COLORED_TLABS
+  if (UseColoredSpaces) {
+    this->initialize_tlab(HC_RED);
+    this->initialize_tlab(HC_BLUE);
+  } else {
+    this->initialize_tlab();
+  }
+#else
   this->initialize_tlab();
+#endif
 
   // used to test validity of stack trace backs
   this->record_base_of_stack_pointer();
@@ -1832,7 +1844,16 @@ void JavaThread::exit(bool destroy_vm, ExitType exit_type) {
   remove_stack_guard_pages();
 
   if (UseTLAB) {
+#ifdef COLORED_TLABS
+    if (UseColoredSpaces) {
+      tlab(HC_RED).make_parsable(true);  // retire TLAB
+      tlab(HC_BLUE).make_parsable(true); // retire TLAB
+    } else {
+      tlab().make_parsable(true);  // retire TLAB
+    }
+#else
     tlab().make_parsable(true);  // retire TLAB
+#endif
   }
 
   if (JvmtiEnv::environments_might_exist()) {
@@ -1911,7 +1932,16 @@ void JavaThread::cleanup_failed_attach_current_thread() {
   remove_stack_guard_pages();
 
   if (UseTLAB) {
+#ifdef COLORED_TLABS
+    if (UseColoredSpaces) {
+      tlab(HC_RED).make_parsable(true);
+      tlab(HC_BLUE).make_parsable(true);
+    } else {
+      tlab().make_parsable(true);  // retire TLAB, if any
+    }
+#else
     tlab().make_parsable(true);  // retire TLAB, if any
+#endif
   }
 
 #if INCLUDE_ALL_GCS
@@ -3548,6 +3578,21 @@ jint Threads::create_vm(JavaVMInitArgs* args, bool* canTryAgain) {
   if (MemProfiling)                   MemProfiler::engage();
   StatSampler::engage();
   if (CheckJNICalls)                  JniPeriodicChecker::engage();
+#ifdef PROFILE_OBJECT_INFO
+  if (PrintObjectInfoAtInterval || PrintAPInfoAtInterval)
+    ObjectInfoCollection::engage();
+#endif
+  if (OrganizeObjects)                ObjectLayout::engage();
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (PrintObjectAddressInfoAtInterval || PrintObjectAddressInfoAtGC)
+    ObjectAddressInfoCollection::engage();
+#endif
+
+  if (MethodSampleColors) {
+    JRHotMethodSamplerTaskManager::engage(MethodSamplerInterval);
+    JRCoolDownMethodsTaskManager::engage(CoolDownInterval);
+    //RegularScavenge::engage();
+  }
 
   BiasedLocking::init();
 
@@ -4103,6 +4148,55 @@ void Threads::nmethods_do(CodeBlobClosure* cf) {
     p->nmethods_do(cf);
   }
   VMThread::vm_thread()->nmethods_do(cf);
+}
+
+void Threads::print_mcolor_info() {
+#define MAXBUF 512
+  static int invcnt = -1;
+  char fname[MAXBUF], buf[MAXBUF];
+  int mypid, mytid, rsize;
+
+  invcnt++;
+  mypid = getpid();
+
+  /* print the main process smap */
+  sprintf(fname, "/proc/%d/smapscolor", mypid);
+  fileStream infs(fopen(fname, "r"));
+
+  sprintf(fname, "/home/mjantz/maplogs/mci-%d.gamma-%d.out", invcnt, mypid);
+  fileStream outfs(fopen(fname, "w+"));
+
+  while (!infs.eof()) {
+    rsize = infs.read(buf, sizeof(char), MAXBUF);
+    outfs.write(buf, rsize);
+  }
+
+  infs.set_need_close(true);
+  outfs.set_need_close(true);
+
+#if 0
+  /* print the smap for each thread */
+  ALL_JAVA_THREADS(p) {
+
+    mytid = p->osthread()->thread_id(); 
+
+    sprintf(fname, "/proc/%d/task/%d/smapscolor", mypid, mytid);
+    fileStream infs(fopen(fname, "r"));
+    tty->print("infs:  %s\n", fname);
+
+    sprintf(fname, "/home/mjantz/maplogs/mci-%d.tid-%d.out", invcnt, mytid);
+    fileStream outfs(fopen(fname, "w+"));
+    tty->print("outfs: %s\n", fname);
+
+    while (!infs.eof()) {
+      rsize = infs.read(buf, sizeof(char), MAXBUF);
+      outfs.write(buf, rsize);
+    }
+
+    infs.set_need_close(true);
+    outfs.set_need_close(true);
+  }
+#endif
 }
 
 void Threads::metadata_do(void f(Metadata*)) {

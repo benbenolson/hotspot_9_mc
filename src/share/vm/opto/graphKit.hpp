@@ -855,11 +855,16 @@ class GraphKit : public Phase {
                                   const TypeOopPtr* oop_type,
                                   bool deoptimize_on_exception=false);
   Node* get_layout_helper(Node* klass_node, jint& constant_value);
+
   Node* new_instance(Node* klass_node,
+                     Node* method_node,
+                     Node* bci_node,
                      Node* slow_test = NULL,
-                     Node* *return_size_val = NULL,
+                     Node* *return_size_val = NULL
                      bool deoptimize_on_exception = false);
+
   Node* new_array(Node* klass_node, Node* count_val, int nargs,
+                  Node* method_node, Node* bci_node,
                   Node* *return_size_val = NULL,
                   bool deoptimize_on_exception = false);
 

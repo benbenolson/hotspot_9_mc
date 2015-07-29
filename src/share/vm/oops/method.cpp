@@ -349,6 +349,7 @@ void Method::print_invocation_count() {
   if (is_native()) tty->print("native ");
   tty->print("%s::", method_holder()->external_name());
   name()->print_symbol_on(tty);
+  tty->print(" ");
   signature()->print_symbol_on(tty);
 
   if (WizardMode) {
@@ -356,6 +357,17 @@ void Method::print_invocation_count() {
     tty->print(" {%d}", code_size());
   }
   tty->cr();
+  //tty->print_cr ("  oop: {"INTPTR_FORMAT"}", this);
+#if 0
+  tty->print_cr ("  oop: "INTPTR_FORMAT"  mname: "INTPTR_FORMAT
+                 "  msig: "INTPTR_FORMAT, this, name(), signature());
+#endif
+  tty->print_cr ("  ap_method: "
+                 "(" INTPTR_FORMAT
+                 ", "INTPTR_FORMAT
+                 ", "INTPTR_FORMAT")",
+                 method_holder()->klass_part()->name(),
+                 name(), signature());
 
   tty->print_cr ("  interpreter_invocation_count: %8d ", interpreter_invocation_count());
   tty->print_cr ("  invocation_counter:           %8d ", invocation_count());

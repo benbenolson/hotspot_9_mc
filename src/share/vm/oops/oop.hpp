@@ -277,6 +277,7 @@ class oopDesc {
 
   // return the print strings
   char* print_string();
+  char* print_address_string();
   char* print_value_string();
 
   // verification operations

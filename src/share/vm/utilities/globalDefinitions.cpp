@@ -46,8 +46,66 @@ int MinObjAlignmentInBytesMask = 0;
 int LogMinObjAlignment         = -1;
 int LogMinObjAlignmentInBytes  = -1;
 
+int mjcnt  = 0;
+
 // Oop encoding heap max
 uint64_t OopEncodingHeapMax = 0;
+
+const char* heapColor2Str(HeapColor color) {
+  switch (color) {
+    case HC_NOT_COLORED: return "no-color";
+    case HC_RED: return "red";
+    case HC_BLUE: return "blue";
+    default: return "invalid color";
+  }
+}
+
+const char* heapColorEnum2Str(HeapColorEnum hce) {
+  switch (hce) {
+    case RED_TO_RED:   return "red_to_red";
+    case RED_TO_BLUE:  return "red_to_blue";
+    case BLUE_TO_RED:  return "blue_to_red";
+    case BLUE_TO_BLUE: return "blue_to_blue";
+    default: return "invalid hce";
+  }
+}
+
+const char * klass_type_str(klass_type kt) {
+  switch(kt) {
+    case KT_UNSPECIFIED:  return "unspecified ";
+    case KT_VM_INSTANCE:  return "vm_instance ";
+    case KT_VM_ARRAY:     return "vm_array    ";
+    case KT_VM_OTHER:     return "vm_other    ";
+    case KT_VM_FILLER:    return "vm_filler   ";
+    case KT_APP_INSTANCE: return "app_instance";
+    case KT_APP_ARRAY:    return "app_array   ";
+    case KT_APP_OTHER:    return "app_other   ";
+    default:              return "invalid     ";
+  }
+  return NULL;
+}
+
+char* genColorStr(PSGenType gen_type, HeapColor color, char *buf) {
+  char gen_buf[6], color_buf[5];
+  switch (gen_type) {
+    case YOUNG_GEN: strcpy(gen_buf, "young"); break;
+    case OLD_GEN:   strcpy(gen_buf, "old");   break;
+    case PERM_GEN:  strcpy(gen_buf, "perm");  break;
+    case ALL_GENS:  strcpy(gen_buf, "*");   break;
+    default:        ShouldNotReachHere();
+  }
+  switch (color) {
+    case HC_NOT_COLORED: strcpy(color_buf, "-");  break;
+    case HC_RED:         strcpy(color_buf, "red");  break;
+    case HC_BLUE:        strcpy(color_buf, "blue"); break;
+    default:             ShouldNotReachHere();
+  }
+  sprintf(buf, "%s %s", gen_buf, color_buf);
+  return buf;
+}
+
+HeapColor UnknownAPHeapColor = HC_RED;
+HeapColor UnknownObjectHeapColor = HC_RED;
 
 void basic_fatal(const char* msg) {
   fatal(msg);
