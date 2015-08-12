@@ -50,8 +50,8 @@ int ObjectAddressInfoTable::_klass_print_order = 0;
 #endif
 
 // ObjectLayout needs to know about the colored spaces
-#include "gc_implementation/shared/mutableColoredSpace.hpp"
-#include "gc_implementation/parallelScavenge/psScavenge.hpp"
+#include "gc/shared/mutableColoredSpace.hpp"
+#include "gc/parallel/psScavenge.hpp"
 
 #ifndef SIGBREAK
 #define SIGBREAK SIGQUIT

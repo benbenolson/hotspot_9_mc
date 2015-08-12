@@ -85,7 +85,7 @@ inline void post_allocation_notify(KlassHandle klass, oop obj, int size) {
   }
 }
 
-inline void post_allocation_notify(KlassHandle klass, oop obj, HeapColor color) {
+inline void post_allocation_notify(KlassHandle klass, oop obj, int size, HeapColor color) {
   // support low memory notifications (no-op if not enabled)
   LowMemoryDetector::detect_low_memory_for_collected_pools();
 
@@ -94,8 +94,8 @@ inline void post_allocation_notify(KlassHandle klass, oop obj, HeapColor color) 
 
   if (DTraceAllocProbes) {
     // support for Dtrace object alloc event (no-op most of the time)
-    if (klass() != NULL && klass()->klass_part()->name() != NULL) {
-      SharedRuntime::dtrace_object_alloc(obj);
+    if (klass() != NULL && klass()->name() != NULL) {
+      SharedRuntime::dtrace_object_alloc(obj, size);
     }
   }
 }
@@ -114,7 +114,7 @@ void CollectedHeap::post_allocation_setup_obj(KlassHandle klass,
                                               HeapWord* obj,
                                               size_t size,
                                               HeapColor color) {
-  post_allocation_setup_common(klass, obj, size);
+  post_allocation_setup_common(klass, obj);
   assert(Universe::is_bootstrapping() ||
          !((oop)obj)->blueprint()->oop_is_array(), "must not be an array");
 
@@ -147,7 +147,7 @@ void CollectedHeap::post_allocation_setup_array(KlassHandle klass,
   // indicates that the object is parsable by concurrent GC.
   assert(length >= 0, "length should be non-negative");
   ((arrayOop)obj)->set_length(length);
-  post_allocation_setup_common(klass, obj, size);
+  post_allocation_setup_common(klass, obj);
   assert(((oop)obj)->blueprint()->oop_is_array(), "must be an array");
   // notify jvmti and dtrace (must be after length is set for dtrace)
   post_allocation_notify(klass, (oop)obj, color);
@@ -250,8 +250,6 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref,
 #endif
   bool gc_overhead_limit_was_exceeded = false;
   result = Universe::heap()->mem_allocate(size,
-                                          is_noref,
-                                          false,
                                           &gc_overhead_limit_was_exceeded,
                                           color);
   if (result != NULL) {

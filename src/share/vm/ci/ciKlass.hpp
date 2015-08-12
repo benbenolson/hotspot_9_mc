@@ -130,8 +130,8 @@ public:
 
   const char* external_name() const;
 
-  klassOop mj_get_klassOop() const {
-    klassOop k = (klassOop)get_oop();
+  Klass* mj_get_klassOop() const {
+    Klass* k = (Klass*)get_Klass();
     assert(k != NULL, "illegal use of unloaded klass");
     return k;
   }

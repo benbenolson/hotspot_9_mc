@@ -189,6 +189,7 @@ class SharedRuntime: AllStatic {
   static void g1_wb_post(void* card_addr, JavaThread* thread);
 #endif // INCLUDE_ALL_GCS
 
+#ifdef PROFILE_OBJECT_INFO
 #if PROFILE_OBJECT_INFO
   static void inc_load_cnt  (oopDesc *oop);
   //static void inc_load_cnt  (oopDesc *oop, methodOopDesc *method);
@@ -196,6 +197,7 @@ class SharedRuntime: AllStatic {
   static void inc_store_cnt (oopDesc *oop);
   //static void inc_store_cnt (oopDesc *oop, methodOopDesc *method);
   //static void inc_store_cnt (oopDesc *oop, methodOopDesc *method, address bcp);
+#endif
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   static void inc_addr_load_cnt  (oopDesc *oop);
@@ -297,6 +299,7 @@ class SharedRuntime: AllStatic {
   static HeapColor get_alloc_point_color(methodOopDesc *method, address bcp);
 #endif
 
+#ifdef PROFILE_OBJECT_INFO
 #if PROFILE_OBJECT_INFO
   // profile info
   static void interp_profile_object_alloc(oopDesc* o, methodOopDesc *method, address bcp);
@@ -304,6 +307,7 @@ class SharedRuntime: AllStatic {
 
   // profile info
   static void color_object_alloc(oopDesc* o, methodOopDesc *method, address bcp);
+#endif
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   static void profile_object_address_alloc(oopDesc *o);

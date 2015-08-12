@@ -25,6 +25,7 @@
 #ifndef SHARE_VM_CI_CITYPE_HPP
 #define SHARE_VM_CI_CITYPE_HPP
 
+#include "ci/ciObject.hpp"
 #include "ci/ciMetadata.hpp"
 
 // ciType

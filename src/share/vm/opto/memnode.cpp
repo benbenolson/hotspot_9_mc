@@ -4555,11 +4555,11 @@ LoadNode::LoadNode( Node *c, Node *mem, Node *adr, const TypePtr* at, const Type
 
   if (HotKlassOrganize) {
     Compile* C = Compile::current();
-    GrowableArray<klassOop>* cur_kal = C->cur_klass_access_list();
+    GrowableArray<Klass *>* cur_kal = C->cur_klass_access_list();
     if (cur_kal) {
       const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
       if (adr_type1 != NULL) {
-        klassOop k = adr_type1->klass()->mj_get_klassOop();
+        Klass *k = adr_type1->klass()->get_Klass();
         if (!JRMethodInfoManager::kal_contains( cur_kal, k ) ) {
           cur_kal->append(k);
         }

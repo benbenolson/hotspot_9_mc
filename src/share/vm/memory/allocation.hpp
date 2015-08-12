@@ -614,7 +614,7 @@ class ResourceObj ALLOCATION_SUPER_CLASS_SPEC {
 };
 
 // One of the following macros must be used when allocating an array
-// or object to determine whether it should reside in the C heap on in
+// or object to determine whether it should reside in the C heap or in
 // the resource area.
 
 #define NEW_RESOURCE_ARRAY(type, size)\

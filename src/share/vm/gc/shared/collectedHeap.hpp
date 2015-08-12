@@ -339,8 +339,6 @@ class CollectedHeap : public CHeapObj<mtInternal> {
   virtual HeapWord* mem_allocate(size_t size,
                                  bool* gc_overhead_limit_was_exceeded) = 0;
   virtual HeapWord* mem_allocate(size_t size,
-                                 bool is_noref,
-                                 bool is_tlab,
                                  bool* gc_overhead_limit_was_exceeded,
                                  HeapColor color) = 0;
 

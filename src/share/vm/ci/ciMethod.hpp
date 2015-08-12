@@ -338,13 +338,13 @@ class ciMethod : public ciMetadata {
   void print_name(outputStream* st = tty);
   void print_short_name(outputStream* st = tty);
 
-  GrowableArray<klassOop>* klass_access_list () {
-    methodOop m = get_methodOop();
+  GrowableArray<Klass*>* klass_access_list () {
+    Method* m = get_Method();
     return m->klass_access_list();
   }
 
-  void set_klass_access_list(GrowableArray<klassOop>* kal) {
-    methodOop m = get_methodOop();
+  void set_klass_access_list(GrowableArray<Klass*>* kal) {
+    Method* m = get_Method();
     m->set_klass_access_list(kal);
   }
 

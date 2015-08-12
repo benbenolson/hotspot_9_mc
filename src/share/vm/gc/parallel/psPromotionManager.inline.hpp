@@ -345,7 +345,7 @@ oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
     size_t new_obj_size = o->size();
 
     // Find the objects age, MT safe.
-    int age = (test_mark->has_displaced_mark_helper() /* o->has_displaced_mark() */) ?
+    uint age = (test_mark->has_displaced_mark_helper() /* o->has_displaced_mark() */) ?
       test_mark->displaced_mark_helper()->age() : test_mark->age();
 
     // Try allocating obj in to-space (unless too old)
@@ -455,7 +455,7 @@ oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
         TASKQUEUE_STATS_ONLY(++_arrays_chunked; ++_masked_pushes);
       } else {
         // we'll just push its contents
-        new_obj->push_contents(this);
+        push_contents(new_obj);
       }
     }  else {
       // We lost, someone else "owns" this object
@@ -465,10 +465,10 @@ oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
       // deallocate it, so we have to test.  If the deallocation fails,
       // overwrite with a filler object.
       if (new_obj_is_tenured) {
-        if (!_old_colored_lab[color].unallocate_object(new_obj)) {
+        if (!_old_colored_lab[color].unallocate_object((HeapWord *)new_obj, new_obj_size)) {
           CollectedHeap::fill_with_object((HeapWord*) new_obj, new_obj_size);
         }
-      } else if (!_young_colored_lab[color].unallocate_object(new_obj)) {
+      } else if (!_young_colored_lab[color].unallocate_object((HeapWord *)new_obj, new_obj_size)) {
         CollectedHeap::fill_with_object((HeapWord*) new_obj, new_obj_size);
       }
 
@@ -493,82 +493,7 @@ oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
   return new_obj;
 }
 
-// Attempt to "claim" oop at p via CAS, push the new obj if successful
-// This version tests the oop* to make sure it is within the heap before
-// attempting marking.
-template <class T, bool promote_immediately>
-inline void PSPromotionManager::copy_and_push_safe_barrier(T* p) {
-  assert(should_scavenge(p, pm->safe_scavenge(), true), "revisiting object?");
-  //guarantee(should_scavenge(p, true), "revisiting object?");
-  static int cnt=0;
 
-  oop o = oopDesc::load_decode_heap_oop_not_null(p);
-  oop new_obj;
-#if 0
-  if (!o->is_oop()) {
-    tty->print_cr("bad oop: %p", o); tty->flush();
-    return;
-  }
-#endif
-  //guarantee(o->is_oop(true), "ah ha!");
-#if 0
-  if (cnt < 500000000) {
-    tty->print_cr("oop: %p, klass: %p", o, o->blueprint()); tty->flush();
-    cnt++;
-  }
-#endif
-  bool was_forwarded;
-  if (UseColoredSpaces) {
-    if (ProfileObjectInfo) {
-      was_forwarded = o->is_forwarded();
-    }
-    HeapColor surv_color = get_survivor_color(pm, (HeapWord*)o);
-    new_obj = o->is_forwarded()
-        ? o->forwardee()
-        : pm->copy_to_colored_space(o, surv_color);
-#if 0
-    /* MRJ -- forwarded objects may not be copied to the right space! but
-     * changing this currently causes a crash ...
-     */
-    HeapColor cur_color  = get_current_color((HeapWord*)o);
-    HeapColor surv_color = get_survivor_color(pm, (HeapWord*)o);
-    new_obj = (o->is_forwarded() && cur_color == surv_color)
-        ? o->forwardee()
-        : pm->copy_to_colored_space(o, surv_color);
-#endif
-#if 0
-    if (ProfileObjectInfo && was_forwarded) {
-      profile_object_copy(o, surv_color, true);
-    }
-#endif
-  } else {
-    new_obj = o->is_forwarded()
-        ? o->forwardee()
-        : copy_to_survivor_space<promote_immediately>(o);
-  }
-
-#ifndef PRODUCT
-  // This code must come after the CAS test, or it will print incorrect
-  // information.
-  if (TraceScavenge &&  o->is_forwarded()) {
-    gclog_or_tty->print_cr("{%s %s " PTR_FORMAT " -> " PTR_FORMAT " (%d)}",
-       "forwarding",
-       new_obj->klass()->internal_name(), p2i((void *)o), p2i((void *)new_obj), new_obj->size());
-  }
-#endif
-
-  oopDesc::encode_store_heap_oop_not_null(p, new_obj);
-
-  // We cannot mark without test, as some code passes us pointers
-  // that are outside the heap. These pointers are either from roots
-  // or from metadata.
-  if ((!PSScavenge::is_obj_in_young((HeapWord*)p)) &&
-      ParallelScavengeHeap::heap()->is_in_reserved(p)) {
-    if (PSScavenge::is_obj_in_young(new_obj)) {
-      PSScavenge::card_table()->inline_write_ref_field_gc(p, new_obj);
-    }
-  }
-}
 
 inline void PSPromotionManager::process_popped_location_depth(StarTask p) {
   if (is_oop_masked(p)) {
@@ -578,9 +503,9 @@ inline void PSPromotionManager::process_popped_location_depth(StarTask p) {
   } else {
     if (p.is_narrow()) {
       assert(UseCompressedOops, "Error");
-      copy_and_push_safe_barrier<narrowOop, /*promote_immediately=*/false>(p);
+      copy_and_push_safe_barrier<narrowOop, /*promote_immediately=*/false>(this, p);
     } else {
-      copy_and_push_safe_barrier<oop, /*promote_immediately=*/false>(p);
+      copy_and_push_safe_barrier<oop, /*promote_immediately=*/false>(this, p);
     }
   }
 }

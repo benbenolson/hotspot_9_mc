@@ -29,7 +29,7 @@
 #include "gc/parallel/objectStartArray.hpp"
 #include "gc/parallel/psGenerationCounters.hpp"
 #include "gc/parallel/psVirtualspace.hpp"
-#include "gc_implementation/shared/mutableColoredSpace.hpp"
+#include "gc/shared/mutableColoredSpace.hpp"
 #include "gc/parallel/spaceCounters.hpp"
 #include "runtime/safepoint.hpp"
 

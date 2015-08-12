@@ -165,9 +165,9 @@ IRT_ENTRY(void, InterpreterRuntime::_new(JavaThread* thread, ConstantPool* pool,
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_colored_new(JavaThread* thread,
-          constantPoolOopDesc* pool, int index))
+          ConstantPool* pool, int index))
   assert(UseColoredSpaces, "colored allocation without colored spaces");
-  klassOop k_oop = pool->klass_at(index, CHECK);
+  Klass* k_oop = pool->klass_at(index, CHECK);
   instanceKlassHandle klass (THREAD, k_oop);
 
   // Make sure we are not instantiating an abstract klass
@@ -182,7 +182,7 @@ IRT_ENTRY(void, InterpreterRuntime::_colored_new(JavaThread* thread,
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        color = k_oop->klass_part()->is_hot() ? HC_RED : HC_BLUE;
+        color = k_oop->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
       }
@@ -207,8 +207,8 @@ IRT_ENTRY(void, InterpreterRuntime::colored_newarray(JavaThread* thread, BasicTy
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        klassOop type_asKlassOop = Universe::typeArrayKlassObj(type);
-        typeArrayKlass* type_asArrayKlass = typeArrayKlass::cast(type_asKlassOop);
+        Klass* type_asKlassOop = Universe::typeArrayKlassObj(type);
+        TypeArrayKlass* type_asArrayKlass = TypeArrayKlass::cast(type_asKlassOop);
         color = type_asArrayKlass->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
@@ -230,9 +230,9 @@ IRT_ENTRY(void, InterpreterRuntime::anewarray(JavaThread* thread, ConstantPool* 
   thread->set_vm_result(obj);
 IRT_END
 
-IRT_ENTRY(void, InterpreterRuntime::colored_anewarray(JavaThread* thread, constantPoolOopDesc* pool,
+IRT_ENTRY(void, InterpreterRuntime::colored_anewarray(JavaThread* thread, ConstantPool* pool,
   int index, jint size))
-  klassOop  klass = pool->klass_at(index, CHECK);
+  Klass*  klass = pool->klass_at(index, CHECK);
 
   HeapColor color;
   if (MethodSampleColors) {
@@ -240,7 +240,7 @@ IRT_ENTRY(void, InterpreterRuntime::colored_anewarray(JavaThread* thread, consta
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        color = klass->klass_part()->is_hot() ? HC_RED : HC_BLUE;
+        color = klass->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
       }
@@ -283,9 +283,9 @@ IRT_END
 IRT_ENTRY(void, InterpreterRuntime::colored_multianewarray(JavaThread* thread,
   jint* first_size_address))
   // We may want to pass in more arguments - could make this slightly faster
-  constantPoolOop constants = method(thread)->constants();
+  ConstantPool* constants = method(thread)->constants();
   int          i = get_index_u2(thread, Bytecodes::_multianewarray);
-  klassOop klass = constants->klass_at(i, CHECK);
+  Klass* klass = constants->klass_at(i, CHECK);
   int   nof_dims = number_of_dimensions(thread);
   assert(oop(klass)->is_klass(), "not a class");
   assert(nof_dims >= 1, "multianewarray rank must be nonzero");
@@ -310,7 +310,7 @@ IRT_ENTRY(void, InterpreterRuntime::colored_multianewarray(JavaThread* thread,
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        color = arrayKlass::cast(klass)->is_hot() ? HC_RED : HC_BLUE;
+        color = ArrayKlass::cast(klass)->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
       }
@@ -318,7 +318,7 @@ IRT_ENTRY(void, InterpreterRuntime::colored_multianewarray(JavaThread* thread,
   } else {
     color = method(thread)->get_ap_color(bci(thread), UnknownAPHeapColor);
   }
-  oop obj = arrayKlass::cast(klass)->multi_allocate(nof_dims, dims, color, CHECK);
+  oop obj = ArrayKlass::cast(klass)->multi_allocate(nof_dims, dims, color, CHECK);
   thread->set_vm_result(obj);
 IRT_END
 

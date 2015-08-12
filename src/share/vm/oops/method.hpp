@@ -111,7 +111,7 @@ class Method : public Metadata {
   GrowableArray<MethodAllocPointInfo*>* _aps;
 
   jint _temperature;
-  GrowableArray<klassOop>* _klass_access_list;
+  GrowableArray<Klass*>* _klass_access_list;
 
   // Constructor
   Method(ConstMethod* xconst, AccessFlags access_flags, int size);
@@ -411,8 +411,8 @@ class Method : public Metadata {
   void set_temperature(jint temp)                { _temperature = temp;                  }
   jint temperature()                             { return _temperature;                  }
  
-  GrowableArray<klassOop>* klass_access_list () { return _klass_access_list; }
-  void set_klass_access_list(GrowableArray<klassOop>* kal) {
+  GrowableArray<Klass*>* klass_access_list () { return _klass_access_list; }
+  void set_klass_access_list(GrowableArray<Klass*>* kal) {
     _klass_access_list = kal;
   }
 
@@ -420,7 +420,7 @@ class Method : public Metadata {
   void set_aps(GrowableArray<MethodAllocPointInfo*>* aps) { _aps = aps; }
 
   void initialize_aps(GrowableArray<MethodAllocPointInfo*>* init_aps) {
-    _aps = new (ResourceObj::C_HEAP) GrowableArray<MethodAllocPointInfo*>(8,true);
+    _aps = new(ResourceObj::C_HEAP, mtInternal) GrowableArray<MethodAllocPointInfo*>(8, true);
     for(int i=0; i < init_aps->length(); i++) {
       MethodAllocPointInfo *mapi = new MethodAllocPointInfo(
         init_aps->at(i)->bci(), init_aps->at(i)->color());
@@ -689,9 +689,11 @@ class Method : public Metadata {
   static ByteSize from_compiled_offset()         { return byte_offset_of(Method, _from_compiled_entry); }
   static ByteSize code_offset()                  { return byte_offset_of(Method, _code); }
   static ByteSize method_data_offset()           {
-  static ByteSize our_invocation_counter_offset(){ return byte_offset_of(methodOopDesc, _our_invocation_counter); }
-  static ByteSize our_backedge_counter_offset()  { return byte_offset_of(methodOopDesc, _our_backedge_counter); }
     return byte_offset_of(Method, _method_data);
+  }
+  static ByteSize our_invocation_counter_offset(){ return byte_offset_of(Method, _our_invocation_counter); }
+  static ByteSize our_backedge_counter_offset()  {
+    return byte_offset_of(Method, _our_backedge_counter);
   }
   static ByteSize method_counters_offset()       {
     return byte_offset_of(Method, _method_counters);

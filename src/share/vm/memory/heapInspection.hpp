@@ -427,8 +427,6 @@ class HeapInspection : public StackObj {
   void iterate_over_heap(KlassInfoTable* cit, BoolObjectClosure* filter = NULL);
 };
 
-#endif // SHARE_VM_MEMORY_HEAPINSPECTION_HPP
-
 class ObjectLayoutTask;
 
 class ObjectLayout : public AllStatic

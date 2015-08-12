@@ -3104,7 +3104,7 @@ bool LibraryCallKit::inline_unsafe_allocate() {
     // The 'test' is non-zero if we need to take a slow path.
   }
 
-  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method(), true, false));
   Node* bci_node = intcon(bci());
   Node* obj = new_instance(kls, mth_node, bci_node, test);
   set_result(obj);

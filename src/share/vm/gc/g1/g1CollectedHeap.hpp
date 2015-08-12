@@ -499,8 +499,6 @@ protected:
                                  bool*  gc_overhead_limit_was_exceeded);
 
   virtual HeapWord* mem_allocate(size_t word_size,
-                                 bool   is_noref,
-                                 bool   is_tlab, /* expected to be false */
                                  bool*  gc_overhead_limit_was_exceeded,
                                  HeapColor color);
 

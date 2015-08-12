@@ -330,7 +330,7 @@ Klass* ConstantPool::klass_ref_at_if_loaded(constantPoolHandle this_cp, int whic
 
 Method* ConstantPool::method_at_if_loaded(constantPoolHandle cpool,
                                                    int which) {
-  if (cpool->cache() == NULL)  return false;  // nothing to load yet
+  if (cpool->cache() == NULL)  return NULL;  // nothing to load yet
   int cache_index = decode_cpcache_index(which, true);
   if (!(cache_index >= 0 && cache_index < cpool->cache()->length())) {
     // FIXME: should be an assert

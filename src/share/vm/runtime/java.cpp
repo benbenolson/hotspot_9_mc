@@ -80,7 +80,7 @@
 #include "opto/indexSet.hpp"
 #include "opto/runtime.hpp"
 #endif
-#include "gc_implementation/shared/vmGCOperations.hpp"
+#include "gc/shared/vmGCOperations.hpp"
 
 #include "runtime/jr_vm_operations.hpp"
 
@@ -94,13 +94,13 @@ int compare_methods(Method** a, Method** b) {
        - ((*a)->invocation_count() + (*a)->compiled_invocation_count());
 }
 
-int compare_methods3(methodOop* a, methodOop* b) {
+int compare_methods3(Method** a, Method** b) {
   // %%% there can be 32-bit overflow here
   return (*b)->interpreter_invocation_count() -
          (*a)->interpreter_invocation_count();
 }
 
-int compare_methods2(methodOop* a, methodOop* b) {
+int compare_methods2(Method** a, Method** b) {
   // %%% there can be 32-bit overflow here
   return ((*b)->our_invocation_count() + (*b)->our_backedge_count())
     - ((*a)->our_invocation_count() + (*a)->our_backedge_count());

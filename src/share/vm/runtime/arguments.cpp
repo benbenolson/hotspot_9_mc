@@ -1960,7 +1960,7 @@ traymask_t * Arguments::parse_traystring(const char *s)
   if (s == NULL)
     return os::default_traymask();
 
-	mask = (traymask_t *) os::malloc(sizeof(traymask_t));
+	mask = (traymask_t *) os::malloc(sizeof(traymask_t), mtInternal);
 	os::copy_traymask_from_traymask(mask, os::traymask_no_trays());
 
 	if (s[0] == 0){

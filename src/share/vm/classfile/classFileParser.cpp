@@ -2516,14 +2516,14 @@ methodHandle ClassFileParser::parse_method(bool is_interface,
 
   if (MethodSampleColors) {
     JRMethodInfoManager_lock->lock_without_safepoint_check();
-    JRMethodInfoManager::add_method(m_oop);
+    JRMethodInfoManager::add_method(m);
     JRMethodInfoManager_lock->unlock();
-    m_oop->set_temperature(0);
+    m->set_temperature(0);
   }
 
   if (HotKlassOrganize) {
-      GrowableArray<klassOop>* kal = new (ResourceObj::C_HEAP) GrowableArray<klassOop>(10, true);
-      m_oop->set_klass_access_list(kal);
+      GrowableArray<Klass*>* kal = new (ResourceObj::C_HEAP, mtInternal) GrowableArray<Klass*>(10, true);
+      m->set_klass_access_list(kal);
   }
 
   return m;
@@ -4283,8 +4283,8 @@ instanceKlassHandle ClassFileParser::parseClassFile(Symbol* name,
 
   if (ColorObjectAllocations) {
     for (int index = 0; index < this_klass->methods()->length(); index++) {
-      methodOop m_oop = (methodOopDesc*)this_klass->methods()->obj_at(index);
-      methodHandle method(THREAD,m_oop);
+      Method* m_oop = (Method*)this_klass->methods()->at(index);
+      methodHandle method(THREAD, m_oop);
       method->set_aps(NULL);
       CompilerOracle::initialize_alloc_point_colors(method);
     }

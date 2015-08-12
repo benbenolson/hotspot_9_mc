@@ -860,7 +860,7 @@ class GraphKit : public Phase {
                      Node* method_node,
                      Node* bci_node,
                      Node* slow_test = NULL,
-                     Node* *return_size_val = NULL
+                     Node* *return_size_val = NULL,
                      bool deoptimize_on_exception = false);
 
   Node* new_array(Node* klass_node, Node* count_val, int nargs,

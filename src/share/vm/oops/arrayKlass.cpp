@@ -64,7 +64,7 @@ oop ArrayKlass::multi_allocate(int rank, jint* sizes, TRAPS) {
   return NULL;
 }
 
-oop arrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS) {
+oop ArrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS) {
   ShouldNotReachHere();
   return NULL;
 }
@@ -156,7 +156,7 @@ objArrayOop ArrayKlass::allocate_arrayArray(int n, int length, TRAPS) {
   return o;
 }
 
-objArrayOop arrayKlass::allocate_arrayArray(int n, int length, HeapColor color, TRAPS) {
+objArrayOop ArrayKlass::allocate_arrayArray(int n, int length, HeapColor color, TRAPS) {
   if (length < 0) {
     THROW_0(vmSymbols::java_lang_NegativeArraySizeException());
   }
@@ -165,8 +165,8 @@ objArrayOop arrayKlass::allocate_arrayArray(int n, int length, HeapColor color, 
     THROW_OOP_0(Universe::out_of_memory_error_array_size());
   }
   int size = objArrayOopDesc::object_size(length);
-  klassOop k = array_klass(n+dimension(), CHECK_0);
-  arrayKlassHandle ak (THREAD, k);
+  Klass* k = array_klass(n+dimension(), CHECK_0);
+  ArrayKlass* ak = ArrayKlass::cast(k);
   objArrayOop o =
     (objArrayOop)CollectedHeap::array_allocate(ak, size, length, color, CHECK_0);
   // initialization to NULL not necessary, area already cleared

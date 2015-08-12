@@ -256,23 +256,11 @@ class PSScavenge: AllStatic {
     return id;
   }
 #endif
-#if 0
-#ifdef COLORED_EDEN_SPACE
+  
   inline static bool eden_colored_space_contains(HeapColor color, HeapWord* o) {
     return (_eden_colored_space_bottom[color] <= o &&
             _eden_colored_space_top[color] > o);
   }
-#else
-  inline static bool eden_space_contains(HeapWord* o) {
-    return (_eden_space_bottom <= o && _eden_space_top > o);
-  }
-#endif
-#else
-  inline static bool eden_colored_space_contains(HeapColor color, HeapWord* o) {
-    return (_eden_colored_space_bottom[color] <= o &&
-            _eden_colored_space_top[color] > o);
-  }
-#endif
   inline static bool from_colored_space_contains(HeapColor color, HeapWord* o) {
     return (_from_colored_space_bottom[color] <= o &&
             _from_colored_space_top[color] > o);

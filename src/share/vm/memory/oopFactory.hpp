@@ -67,7 +67,7 @@ class oopFactory: AllStatic {
 
   // Regular object arrays
   static objArrayOop     new_objArray(Klass* klass, int length, TRAPS);
-  static objArrayOop     new_objArray(klassOop klass, int length, HeapColor color, TRAPS);
+  static objArrayOop     new_objArray(Klass* klass, int length, HeapColor color, TRAPS);
 };
 
 #endif // SHARE_VM_MEMORY_OOPFACTORY_HPP

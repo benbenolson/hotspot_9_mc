@@ -300,12 +300,10 @@ HeapWord* GenCollectedHeap::mem_allocate(size_t size,
 }
 
 HeapWord* GenCollectedHeap::mem_allocate(size_t size,
-                                         bool is_large_noref,
-                                         bool is_tlab,
                                          bool* gc_overhead_limit_was_exceeded,
                                          HeapColor color) {
   return collector_policy()->mem_allocate_work(size,
-                                               is_tlab,
+                                               false, /* is_tlab */
                                                gc_overhead_limit_was_exceeded);
 }
 

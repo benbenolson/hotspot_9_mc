@@ -798,11 +798,9 @@ G1CollectedHeap::mem_allocate(size_t word_size,
 
 HeapWord*
 G1CollectedHeap::mem_allocate(size_t word_size,
-                              bool   is_noref,
-                              bool   is_tlab,
                               bool*  gc_overhead_limit_was_exceeded,
                               HeapColor color) {
-  return mem_allocate(word_size, is_noref, is_tlab, gc_overhead_limit_was_exceeded);
+  return mem_allocate(word_size, gc_overhead_limit_was_exceeded);
 }
 
 HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,

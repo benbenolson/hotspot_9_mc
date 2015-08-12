@@ -569,13 +569,13 @@ class Compile : public Phase {
   // JR Custom Content - begin
   //JRMethodInfoAccessList* _jr_access_list;
   // JR Custom Content - end
-  GrowableArray<klassOop>* _cur_klass_access_list;
+  GrowableArray<Klass*>* _cur_klass_access_list;
 
  public:
   // JR Custom Content - begin
   //bool should_collect_fields()             { return _jr_access_list != NULL; }
   //JRMethodInfoAccessList* jr_access_list() { return _jr_access_list; }
-  GrowableArray<klassOop>* cur_klass_access_list() { return _cur_klass_access_list; }
+  GrowableArray<Klass*>* cur_klass_access_list() { return _cur_klass_access_list; }
   // Accessors
 
   // The Compile instance currently active in this (compiler) thread.

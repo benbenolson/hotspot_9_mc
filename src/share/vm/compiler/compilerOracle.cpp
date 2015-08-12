@@ -284,7 +284,7 @@ class AllocPointMatcher: public MethodMatcher {
                     Symbol* method_name, Mode method_mode,
                     Symbol* signature, MethodMatcher* next):
     MethodMatcher(class_name, class_mode, method_name, method_mode, signature, next) {
-    _aps = new (ResourceObj::C_HEAP) GrowableArray<MethodAllocPointInfo*>(8,true);
+    _aps = new (ResourceObj::C_HEAP, mtInternal) GrowableArray<MethodAllocPointInfo*>(8,true);
   }
 
   GrowableArray<MethodAllocPointInfo*>* aps() { return _aps; }
@@ -292,6 +292,7 @@ class AllocPointMatcher: public MethodMatcher {
   bool add_method_alloc_point(int bci, HeapColor color) {
     MethodAllocPointInfo *api = new MethodAllocPointInfo(bci, color);
     aps()->append(api);
+    return true;
   }
 
   virtual void print() {

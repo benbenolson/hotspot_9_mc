@@ -168,15 +168,15 @@ class OptoRuntime : public AllStatic {
 
   // Allocate storage for a Java instance.
   static void new_instance_C(Klass* instance_klass, JavaThread *thread);
-  static void new_colored_instance_C(klassOopDesc* instance_klass,
-                                     methodOop method, int bci,
+  static void new_colored_instance_C(Klass* instance_klass,
+                                     Method* method, int bci,
                                      JavaThread *thread);
 
   // Allocate storage for a objArray or typeArray
   static void new_array_C(Klass* array_klass, int len, JavaThread *thread);
   static void new_array_nozero_C(Klass* array_klass, int len, JavaThread *thread);
-  static void new_colored_array_C(klassOopDesc* array_klass, int len,
-                                  methodOop method, int bci, JavaThread *thread);
+  static void new_colored_array_C(Klass* array_klass, int len,
+                                  Method* method, int bci, JavaThread *thread);
 
   // Post-slow-path-allocation, pre-initializing-stores step for
   // implementing ReduceInitialCardMarks
@@ -189,7 +189,7 @@ class OptoRuntime : public AllStatic {
                                          JavaThread *thread);
   static void colored_multianewarray2_C (Klass* klass,
                                          int len1, int len2,
-                                         methodOop method, int bci,
+                                         Method* method, int bci,
                                          JavaThread *thread);
 
   static void multianewarray3_C         (Klass* klass,
@@ -197,7 +197,7 @@ class OptoRuntime : public AllStatic {
                                          JavaThread *thread);
   static void colored_multianewarray3_C (Klass* klass,
                                          int len1, int len2, int len3,
-                                         methodOop method, int bci,
+                                         Method* method, int bci,
                                          JavaThread *thread);
 
   static void multianewarray4_C         (Klass* klass,
@@ -205,7 +205,7 @@ class OptoRuntime : public AllStatic {
                                          JavaThread *thread);
   static void colored_multianewarray4_C (Klass* klass,
                                          int len1, int len2, int len3, int len4,
-                                         methodOop method, int bci,
+                                         Method* method, int bci,
                                          JavaThread *thread);
 
   static void multianewarray5_C         (Klass* klass,
@@ -213,7 +213,7 @@ class OptoRuntime : public AllStatic {
                                          JavaThread *thread);
   static void colored_multianewarray5_C (Klass* klass,
                                          int len1, int len2, int len3, int len4, int len5,
-                                         methodOop method, int bci,
+                                         Method* method, int bci,
                                          JavaThread *thread);
   static void multianewarrayN_C(Klass* klass, arrayOopDesc* dims, JavaThread *thread);
   static void g1_wb_pre_C(oopDesc* orig, JavaThread* thread);

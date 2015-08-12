@@ -619,7 +619,7 @@ JVM_ENTRY(jobject, JVM_Clone(JNIEnv* env, jobject handle))
       JavaThread *thread = (JavaThread*)THREAD;
       HeapColor color = UnknownAPHeapColor;
       if (thread->last_frame().is_interpreted_frame()) {
-        methodOop method = thread->last_frame().interpreter_frame_method();
+        Method* method = thread->last_frame().interpreter_frame_method();
         int bci = thread->last_frame().interpreter_frame_bci();
         color = method->get_ap_color(bci, UnknownAPHeapColor);
       }
@@ -628,7 +628,7 @@ JVM_ENTRY(jobject, JVM_Clone(JNIEnv* env, jobject handle))
       JavaThread *thread = (JavaThread*)THREAD;
       HeapColor color = HC_BLUE;
       if (thread->last_frame().is_interpreted_frame()) {
-        methodOop method = thread->last_frame().interpreter_frame_method();
+        Method* method = thread->last_frame().interpreter_frame_method();
         if (method->is_hot()) {
           color = HC_RED;
         } else {
@@ -643,12 +643,12 @@ JVM_ENTRY(jobject, JVM_Clone(JNIEnv* env, jobject handle))
     } else {
       new_obj_oop = CollectedHeap::array_allocate(klass, size, length, CHECK_NULL);
     }
-  } else
+  } else {
     if (ColorObjectAllocations) {
       JavaThread *thread = (JavaThread*)THREAD;
       HeapColor color = UnknownAPHeapColor;
       if (thread->last_frame().is_interpreted_frame()) {
-        methodOop method = thread->last_frame().interpreter_frame_method();
+        Method* method = thread->last_frame().interpreter_frame_method();
         int bci = thread->last_frame().interpreter_frame_bci();
         color = method->get_ap_color(bci, UnknownAPHeapColor);
       }
@@ -657,7 +657,7 @@ JVM_ENTRY(jobject, JVM_Clone(JNIEnv* env, jobject handle))
       JavaThread *thread = (JavaThread*)THREAD;
       HeapColor color = HC_BLUE;
       if (thread->last_frame().is_interpreted_frame()) {
-        methodOop method = thread->last_frame().interpreter_frame_method();
+        Method* method = thread->last_frame().interpreter_frame_method();
         if (method->is_hot()) {
           color = HC_RED;
         } else {

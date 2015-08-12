@@ -234,7 +234,10 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
   static bool should_scavenge(narrowOop* p, bool check_to_space = false);
 
   template <class T, bool promote_immediately>
-  void copy_and_push_safe_barrier(T* p);
+  void copy_and_push_safe_barrier(PSPromotionManager* pm,
+                                  T*                  p);
+  static inline HeapColor get_survivor_color(PSPromotionManager* pm, HeapWord* obj);
+  inline HeapColor get_current_color(HeapWord *obj);
 
   template <class T> inline void claim_or_forward_depth(T* p);
 
