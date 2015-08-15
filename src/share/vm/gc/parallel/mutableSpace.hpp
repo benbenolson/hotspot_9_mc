@@ -137,7 +137,7 @@ class MutableSpace: public ImmutableSpace {
 
   // Iteration.
   void oop_iterate(ExtendedOopClosure* cl);
-  void oop_iterate(OopClosure* cl, HeapWord *start, HeapWord *end);
+  void oop_iterate(ExtendedOopClosure* cl, HeapWord *start, HeapWord *end);
   void oop_iterate_no_header(OopClosure* cl);
   void object_iterate(ObjectClosure* cl);
 

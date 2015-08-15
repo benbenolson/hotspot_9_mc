@@ -180,7 +180,7 @@ protected:
   virtual Node* find_previous_arraycopy(PhaseTransform* phase, Node* ld_alloc, Node*& mem, bool can_see_stored_value) const;
 public:
 
-  LoadNode( Node *c, Node *mem, Node *adr, const TypePtr* at, const Type *rt, MemOrd mo, ControlDependency control_dependency); // JR Custom Content - moved implementation to cpp
+  LoadNode( Node *c, Node *mem, Node *adr, const TypePtr* at, const Type *rt, MemOrd mo, ControlDependency control_dependency);
   inline bool is_unordered() const { return !is_acquire(); }
   inline bool is_acquire() const {
     assert(_mo == unordered || _mo == acquire, "unexpected");

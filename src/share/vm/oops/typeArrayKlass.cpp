@@ -119,21 +119,25 @@ typeArrayOop TypeArrayKlass::allocate_common(int length, bool do_zero, TRAPS) {
   }
 }
 
-typeArrayOop typeArrayKlass::allocate(int length, HeapColor color, TRAPS) {
+typeArrayOop TypeArrayKlass::allocate(int length, HeapColor color, TRAPS) {
   assert(log2_element_size() >= 0, "bad scale");
   if (length >= 0) {
     if (length <= max_length()) {
       size_t size = typeArrayOopDesc::object_size(layout_helper(), length);
-      KlassHandle h_k(THREAD, as_klassOop());
+      KlassHandle h_k(THREAD, this);
       typeArrayOop t;
       CollectedHeap* ch = Universe::heap();
+      /*
       if (size < ch->large_typearray_limit()) {
+      */
         t = (typeArrayOop)CollectedHeap::array_allocate(h_k, (int)size, length,
                                          color, CHECK_NULL);
+      /*
       } else {
         t = (typeArrayOop)CollectedHeap::large_typearray_allocate(h_k, (int)size,
                                          length, color, CHECK_NULL);
       }
+      */
       assert(t->is_parsable(), "Don't publish unless parsable");
       return t;
     } else {
@@ -152,7 +156,7 @@ oop TypeArrayKlass::multi_allocate(int rank, jint* last_size, TRAPS) {
   return allocate(length, THREAD);
 }
 
-oop typeArrayKlass::multi_allocate(int rank, jint* last_size, HeapColor color, TRAPS) {
+oop TypeArrayKlass::multi_allocate(int rank, jint* last_size, HeapColor color, TRAPS) {
   // For typeArrays this is only called for the last dimension
   assert(rank == 1, "just checking");
   int length = *last_size;

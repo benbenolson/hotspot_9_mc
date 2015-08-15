@@ -193,17 +193,18 @@ void OldToYoungRootsTask::do_it(GCTaskManager* manager, uint which) {
       MutableSpace *blue_space = obj_space->colored_spaces()->at(HC_BLUE)->space();
 
       card_table->scavenge_contents_parallel(_gen->start_array(),
-        red_space, _colored_gen_top[HC_RED], pm, _stripe_number);
+        red_space, _colored_gen_top[HC_RED], pm, _stripe_number, _stripe_total);
 
       card_table->scavenge_contents_parallel(_gen->start_array(),
-        blue_space, _colored_gen_top[HC_BLUE], pm, _stripe_number);
+        blue_space, _colored_gen_top[HC_BLUE], pm, _stripe_number, _stripe_total);
 
     } else {
       card_table->scavenge_contents_parallel(_gen->start_array(),
                                              _gen->object_space(),
                                              _gen_top,
                                              pm,
-                                             _stripe_number);
+                                             _stripe_number,
+                                             _stripe_total);
     }
 
     // Do the real work

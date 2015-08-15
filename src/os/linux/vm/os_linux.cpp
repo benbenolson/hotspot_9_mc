@@ -206,6 +206,7 @@ mcolor heapColor2mcolor(HeapColor color) {
     case HC_BLUE: return MCOLOR_BLUE;
     default: ShouldNotReachHere();
   }
+  return MCOLOR_UNCOLORED;
 }
 
 void get_mcolor_attr(mcolor color, mcolor_attr *attr) {

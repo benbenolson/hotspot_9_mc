@@ -419,7 +419,7 @@ void Parse::do_anewarray() {
 
   const TypeKlassPtr* array_klass_type = TypeKlassPtr::make(array_klass);
   Node* count_val = pop();
-  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+  Node* mth_node = makecon(TypeMetadataPtr::make(method()));
   Node* bci_node = intcon(bci());
   Node* obj = new_array(makecon(array_klass_type), count_val, 1, mth_node, bci_node);
   push(obj);
@@ -431,7 +431,10 @@ void Parse::do_newarray(BasicType elem_type) {
 
   Node*   count_val = pop();
   const TypeKlassPtr* array_klass = TypeKlassPtr::make(ciTypeArrayKlass::make(elem_type));
-  Node*   obj = new_array(makecon(array_klass), count_val, 1);
+
+  Node* mth_node = makecon(TypeMetadataPtr::make(method()));
+  Node* bci_node = intcon(bci());
+  Node*   obj = new_array(makecon(array_klass), count_val, 1, mth_node, bci_node);
   // Push resultant oop onto stack
   push(obj);
 }
@@ -441,7 +444,7 @@ void Parse::do_newarray(BasicType elem_type) {
 Node* Parse::expand_multianewarray(ciArrayKlass* array_klass, Node* *lengths, int ndimensions, int nargs) {
   Node* length = lengths[0];
   assert(length != NULL, "");
-  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+  Node* mth_node = makecon(TypeMetadataPtr::make(method()));
   Node* bci_node = intcon(bci());
   Node* array = new_array(makecon(TypeKlassPtr::make(array_klass)), length,
                           nargs, mth_node, bci_node);
@@ -471,9 +474,14 @@ void Parse::do_multianewarray() {
   assert(will_link, "multianewarray: typeflow responsibility");
 
   // Note:  Array classes are always initialized; no is_initialized check.
+  enum { MAX_DIMENSION = 5 };
+  if (ndimensions > MAX_DIMENSION || ndimensions <= 0) {
+    uncommon_trap(Deoptimization::Reason_unhandled,
+                  Deoptimization::Action_none);
+    return;
+  }
 
   kill_dead_locals();
-
 
   Node *length[MAX_DIMENSION+3];
   // The original expression was of this form: new T[length0][length1]...
@@ -484,7 +492,7 @@ void Parse::do_multianewarray() {
   jint expand_fanout = 1;       // running total fanout
   if(ColorObjectAllocations || MethodSampleColors) {
     // get the lengths from the stack (first dimension is on top)
-    Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+    Node* mth_node = makecon(TypeMetadataPtr::make(method()));
     Node* bci_node = intcon(bci());
     length[ndimensions+2] = NULL; // terminating null for make_runtime_call
     length[ndimensions+1] = bci_node;
@@ -588,10 +596,12 @@ void Parse::do_multianewarray() {
     { PreserveReexecuteState preexecs(this);
       inc_sp(ndimensions);
       Node* dims_array_klass = makecon(TypeKlassPtr::make(ciArrayKlass::make(ciType::make(T_INT))));
-      dims = new_array(dims_array_klass, intcon(ndimensions), 0);
+      Node* mth_node = makecon(TypeMetadataPtr::make(method()));
+      Node* bci_node = intcon(bci());
+      dims = new_array(dims_array_klass, intcon(ndimensions), 0, mth_node, bci_node);
 
       // Fill-in it with values
-      for (j = 0; j < ndimensions; j++) {
+      for (int j = 0; j < ndimensions; j++) {
         Node *dims_elem = array_element_address(dims, intcon(j), T_INT);
         store_to_memory(control(), dims_elem, length[j], T_INT, TypeAryPtr::INTS, MemNode::unordered);
       }

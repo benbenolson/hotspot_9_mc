@@ -115,7 +115,7 @@ bool PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
    * happen
    */
   if (DisableMajorGC)
-    return;
+    return false;
 
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
   GCCause::Cause gc_cause = heap->gc_cause();

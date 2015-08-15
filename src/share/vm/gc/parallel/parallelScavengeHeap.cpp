@@ -363,8 +363,6 @@ HeapWord* ParallelScavengeHeap::mem_allocate(
 
 HeapWord* ParallelScavengeHeap::mem_allocate(
                                      size_t size,
-                                     bool is_noref,
-                                     bool is_tlab,
                                      bool* gc_overhead_limit_was_exceeded,
                                      HeapColor color) {
   assert(!SafepointSynchronize::is_at_safepoint(), "should not be at safepoint");
@@ -376,15 +374,7 @@ HeapWord* ParallelScavengeHeap::mem_allocate(
   // limit is being exceeded as checked below.
   *gc_overhead_limit_was_exceeded = false;
 
-#if 0
-#ifdef COLORED_EDEN_SPACE
-  HeapWord* result = young_gen()->allocate(size, is_tlab, color);
-#else
-  HeapWord* result = young_gen()->allocate(size, is_tlab);
-#endif
-#else
-  HeapWord* result = young_gen()->allocate(size, is_tlab, color);
-#endif
+  HeapWord* result = young_gen()->allocate(size, color);
 
   uint loop_count = 0;
   uint gc_count = 0;
@@ -405,15 +395,7 @@ HeapWord* ParallelScavengeHeap::mem_allocate(
       MutexLocker ml(Heap_lock);
       gc_count = Universe::heap()->total_collections();
 
-#if 0
-#ifdef COLORED_EDEN_SPACE
-      result = young_gen()->allocate(size, is_tlab, color);
-#else
-      result = young_gen()->allocate(size, is_tlab);
-#endif
-#else
-      result = young_gen()->allocate(size, is_tlab, color);
-#endif
+      result = young_gen()->allocate(size, color);
 
       // (1) If the requested object is too large to easily fit in the
       //     young_gen, or
@@ -427,9 +409,9 @@ HeapWord* ParallelScavengeHeap::mem_allocate(
       if (result != NULL) {
         return result;
       }
-      if (!is_tlab &&
+      if (/*!is_tlab && */
           size >= (young_gen()->eden_space()->capacity_in_words(Thread::current()) / 2)) {
-        result = old_gen()->allocate(size, is_tlab, color);
+        result = old_gen()->allocate(size, color);
         if (result != NULL) {
           return result;
         }
@@ -438,9 +420,11 @@ HeapWord* ParallelScavengeHeap::mem_allocate(
         // GC is locked out. If this is a TLAB allocation,
         // return NULL; the requestor will retry allocation
         // of an idividual object at a time.
+        /*
         if (is_tlab) {
           return NULL;
         }
+        */
 
         // If this thread is not in a jni critical section, we stall
         // the requestor until the critical section has cleared and
@@ -466,7 +450,7 @@ HeapWord* ParallelScavengeHeap::mem_allocate(
     if (result == NULL) {
 
       // Generate a VM operation
-      VM_ParallelGCFailedAllocation op(size, is_tlab, gc_count);
+      VM_ParallelGCFailedAllocation op(size, gc_count);
       VMThread::execute(&op);
 
       // Did the VM operation execute? If so, return the result directly.
@@ -521,7 +505,7 @@ HeapWord* ParallelScavengeHeap::mem_allocate(
     if ((result == NULL) && (QueuedAllocationWarningCount > 0) &&
         (loop_count % QueuedAllocationWarningCount == 0)) {
       warning("ParallelScavengeHeap::mem_allocate retries %d times \n\t"
-              " size=%d %s", loop_count, size, is_tlab ? "(TLAB)" : "");
+              " size=%zu", loop_count, size);
     }
   }
 
@@ -707,7 +691,7 @@ void ParallelScavengeHeap::object_iterate(ObjectClosure* cl) {
 
 void ParallelScavengeHeap::tenured_object_iterate(ObjectClosure* cl) {
   old_gen()->object_iterate(cl);
-  perm_gen()->object_iterate(cl);
+  //perm_gen()->object_iterate(cl);
 }
 
 void ParallelScavengeHeap::colored_object_iterate(ObjectClosure* cl,
@@ -921,13 +905,9 @@ HeapColor ParallelScavengeHeap::get_current_color(oop obj)
 {
   guarantee(UseColoredSpaces, "not using colored spaces!");
   guarantee(is_in(obj), "obj not in a colored space!");
-  if (is_in_permanent(obj))
-    return HC_NOT_COLORED;
 
   if (is_in_young(obj)) {
     if (young_gen()->eden_space()->contains(obj)) {
-#if 0
-#ifdef COLORED_EDEN_SPACE
       if (((MutableColoredSpace*)young_gen()->eden_space())->
           colored_spaces()->at(HC_RED)->space()->contains(obj)) {
         return HC_RED;
@@ -935,18 +915,6 @@ HeapColor ParallelScavengeHeap::get_current_color(oop obj)
       guarantee(((MutableColoredSpace*)young_gen()->eden_space())->
                 colored_spaces()->at(HC_BLUE)->space()->contains(obj), "wtf");
       return HC_BLUE;
-#else
-      return HC_RED;
-#endif
-#else
-      if (((MutableColoredSpace*)young_gen()->eden_space())->
-          colored_spaces()->at(HC_RED)->space()->contains(obj)) {
-        return HC_RED;
-      }
-      guarantee(((MutableColoredSpace*)young_gen()->eden_space())->
-                colored_spaces()->at(HC_BLUE)->space()->contains(obj), "wtf");
-      return HC_BLUE;
-#endif
     } else if (young_gen()->from_space()->contains(obj)) {
       if (((MutableColoredSpace*)young_gen()->from_space())->
           colored_spaces()->at(HC_RED)->space()->contains(obj)) {

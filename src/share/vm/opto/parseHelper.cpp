@@ -297,7 +297,7 @@ void Parse::do_new() {
   }
 
   Node* kls_node = makecon(TypeKlassPtr::make(klass));
-  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+  Node* mth_node = makecon(TypeMetadataPtr::make(method()));
   Node* bci_node = intcon(bci());
   Node* obj = new_instance(kls_node, mth_node, bci_node);
 

@@ -44,7 +44,7 @@
 #include "gc/shared/referencePolicy.hpp"
 #include "gc/shared/referenceProcessor.hpp"
 #include "gc/shared/spaceDecorator.hpp"
-#include "gc_implementation/shared/vmGCOperations.hpp"
+#include "gc/shared/vmGCOperations.hpp"
 #include "memory/resourceArea.hpp"
 #include "memory/heapInspection.hpp"
 #include "oops/oop.inline.hpp"
@@ -129,7 +129,7 @@ public:
 
     // Weak refs may be visited more than once.
     if (PSScavenge::should_scavenge(p, false, _to_space)) {
-      _promotion_manager->copy_and_push_safe_barrier<T, /*promote_immediately=*/false>(_promotion_manager, p);
+      _promotion_manager->copy_and_push_safe_barrier<T, /*promote_immediately=*/false>(p);
     }
   }
   virtual void do_oop(oop* p)       { PSKeepAliveClosure::do_oop_work(p); }
@@ -479,9 +479,9 @@ bool PSScavenge::invoke_no_policy() {
         for(uint i=0; i < stripe_total; i++) {
           if (UseColoredSpaces) {
             q->enqueue(new OldToYoungRootsTask(old_gen, old_top,
-              colored_old_top[HC_RED], colored_old_top[HC_BLUE], i));
+              colored_old_top[HC_RED], colored_old_top[HC_BLUE], i, stripe_total));
           } else {
-            q->enqueue(new OldToYoungRootsTask(old_gen, old_top, i));
+            q->enqueue(new OldToYoungRootsTask(old_gen, old_top, i, stripe_total));
           }
         }
       }

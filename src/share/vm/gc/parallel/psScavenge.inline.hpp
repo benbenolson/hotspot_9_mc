@@ -39,6 +39,11 @@ inline void PSScavenge::save_to_space_top_before_gc() {
   _to_space_top_before_gc = heap->young_gen()->to_space()->top();
 }
 
+template <class T> inline bool PSScavenge::should_scavenge(T* p) {
+  T heap_oop = oopDesc::load_heap_oop(p);
+  return PSScavenge::is_obj_in_young(heap_oop);
+}
+
 inline void PSScavenge::save_eden_colored_space_bounds() {
   assert(UseColoredSpaces, "only used with colors");
   ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
@@ -160,6 +165,7 @@ inline HeapColor PSScavenge::get_survivor_color(PSPromotionManager *pm, HeapWord
     return get_current_color(obj);
   }
   return get_current_color(obj);
+#endif
 }
 
 #ifdef PROFILE_OBJECT_INFO
@@ -222,7 +228,6 @@ inline void PSScavenge::profile_object_copy(oop obj, HeapColor to_color,
 }
 #endif
 
-
 template<bool promote_immediately>
 class PSRootsClosure: public OopClosure {
  private:
@@ -230,10 +235,9 @@ class PSRootsClosure: public OopClosure {
 
  protected:
   template <class T> void do_oop_work(T *p) {
-    // We never card mark roots, maybe call a func without test?
-    //if (PSScavenge::should_scavenge(p, _promotion_manager->safe_scavenge())) {
-    if (PSScavenge::should_scavenge(p, false)) {
-      _promotion_manager->copy_and_push_safe_barrier<T, promote_immediately>(_promotion_manager, p);
+    if (PSScavenge::should_scavenge(p)) {
+      // We never card mark roots, maybe call a func without test?
+      _promotion_manager->copy_and_push_safe_barrier<T, promote_immediately>(p);
     }
   }
  public:
@@ -275,7 +279,6 @@ class PSScavengeFromKlassClosure: public OopClosure {
       }
     }
   }
-
   void set_scanned_klass(Klass* klass) {
     assert(_scanned_klass == NULL || klass == NULL, "Should always only handling one klass at a time");
     _scanned_klass = klass;
@@ -288,6 +291,7 @@ class PSScavengeFromKlassClosure: public OopClosure {
   }
 
 };
+
 
 // Scavenges the oop in a Klass.
 class PSScavengeKlassClosure: public KlassClosure {

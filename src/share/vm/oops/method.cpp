@@ -366,7 +366,7 @@ void Method::print_invocation_count() {
                  "(" INTPTR_FORMAT
                  ", "INTPTR_FORMAT
                  ", "INTPTR_FORMAT")",
-                 method_holder()->klass_part()->name(),
+                 method_holder()->name(),
                  name(), signature());
 
   tty->print_cr ("  interpreter_invocation_count: %8d ", interpreter_invocation_count());

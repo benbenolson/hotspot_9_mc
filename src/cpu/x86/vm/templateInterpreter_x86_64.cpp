@@ -298,6 +298,9 @@ void InterpreterGenerator::generate_counter_incr(
         Label* profile_method,
         Label* profile_method_continue) {
   Label done;
+  const Address our_invocation_counter(rbx,
+                                       Method::our_invocation_counter_offset() +
+                                       InvocationCounter::counter_offset());
   // Note: In tiered we increment either counters in Method* or in MDO depending if we're profiling or not.
   if (TieredCompilation) {
     int increment = InvocationCounter::count_increment;
@@ -319,9 +322,6 @@ void InterpreterGenerator::generate_counter_incr(
     const Address invocation_counter(rax,
                   MethodCounters::invocation_counter_offset() +
                   InvocationCounter::counter_offset());
-    const Address our_invocation_counter(rbx,
-                                         methodOopsDesc::our_invocation_counter_offset() +
-                                         InvocationCounter::counter_offset());
     __ get_method_counters(rbx, rax, done);
     const Address mask(rax, in_bytes(MethodCounters::invoke_mask_offset()));
     __ increment_mask_and_jump(invocation_counter, increment, mask, rcx,

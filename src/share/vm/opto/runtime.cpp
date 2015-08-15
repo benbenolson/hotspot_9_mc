@@ -266,31 +266,22 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_instance_C(Klass* klass, JavaThread* thre
   }
 JRT_END
 
-JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_instance_C(klassOopDesc* klass,
-  methodOop method, int bci, JavaThread* thread))
+JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_instance_C(Klass* klass,
+  Method* method, int bci, JavaThread* thread))
   JRT_BLOCK;
 #ifndef PRODUCT
   SharedRuntime::_new_instance_ctr++;         // new instance requires GC
 #endif
   assert(check_compiled_frame(thread), "incorrect caller");
 
-#if 0
-  if (method) {
-    tty->print_cr("new: %s is_hot? %d\n", method->name()->as_C_string(), method->is_hot());
-    if ((strstr(method->name()->as_C_string(), "transform_internal"))) {
-      tty->print_cr("transform_internal: is_hot? %d\n", method->is_hot());
-    }
-  }
-#endif
-
   // These checks are cheap to make and support reflective allocation.
-  int lh = Klass::cast(klass)->layout_helper();
+  int lh = InstanceKlass::cast(klass)->layout_helper();
   if (Klass::layout_helper_needs_slow_path(lh)
-      || !instanceKlass::cast(klass)->is_initialized()) {
+      || !InstanceKlass::cast(klass)->is_initialized()) {
     KlassHandle kh(THREAD, klass);
     kh->check_valid_for_instantiation(false, THREAD);
     if (!HAS_PENDING_EXCEPTION) {
-      instanceKlass::cast(kh())->initialize(THREAD);
+      InstanceKlass::cast(kh())->initialize(THREAD);
     }
     if (!HAS_PENDING_EXCEPTION) {
       klass = kh();
@@ -305,7 +296,7 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_instance_C(klassOopDesc* klass,
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        color = klass->klass_part()->is_hot() ? HC_RED : HC_BLUE;
+        color = klass->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
       }
@@ -315,7 +306,7 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_instance_C(klassOopDesc* klass,
   }
   if (klass != NULL) {
     // Scavenge and allocate an instance.
-    oop result = instanceKlass::cast(klass)->allocate_instance(color, THREAD);
+    oop result = InstanceKlass::cast(klass)->allocate_instance(color, THREAD);
     thread->set_vm_result(result);
 
     // Pass oops back through thread local storage.  Our apparent type to Java
@@ -419,8 +410,8 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_array_nozero_C(Klass* array_type, int len
 
 JRT_END
 
-JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_C(klassOopDesc* array_type,
-  int len, methodOop method, int bci, JavaThread *thread))
+JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_C(Klass* array_type,
+  int len, Method* method, int bci, JavaThread *thread))
   JRT_BLOCK;
 #ifndef PRODUCT
   SharedRuntime::_new_array_ctr++;            // new array requires GC
@@ -430,22 +421,13 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_C(klassOopDesc* array_type,
   // Scavenge and allocate an instance.
   oop result;
 
-#if 0
-  if (method) {
-    tty->print_cr("new: %s is_hot? %d\n", method->name()->as_C_string(), method->is_hot());
-    if ((strstr(method->name()->as_C_string(), "transform_internal"))) {
-      tty->print_cr("transform_internal: is_hot? %d\n", method->is_hot());
-    }
-  }
-#endif
-
   HeapColor color;
   if (MethodSampleColors) {
     if (method->is_hot()) {
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        color = Klass::cast(array_type)->is_hot() ? HC_RED : HC_BLUE;
+        color = InstanceKlass::cast(array_type)->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
       }
@@ -453,16 +435,16 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_C(klassOopDesc* array_type,
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
-  if (Klass::cast(array_type)->oop_is_typeArray()) {
+  if (InstanceKlass::cast(array_type)->oop_is_typeArray()) {
     // The oopFactory likes to work with the element type.
     // (We could bypass the oopFactory, since it doesn't add much value.)
-    BasicType elem_type = typeArrayKlass::cast(array_type)->element_type();
+    BasicType elem_type = TypeArrayKlass::cast(array_type)->element_type();
     result = oopFactory::new_typeArray(elem_type, len, color, THREAD);
   } else {
     // Although the oopFactory likes to work with the elem_type,
     // the compiler prefers the array_type, since it must already have
     // that latter value in hand for the fast path.
-    klassOopDesc* elem_type = objArrayKlass::cast(array_type)->element_klass();
+    Klass* elem_type = ObjArrayKlass::cast(array_type)->element_klass();
     result = oopFactory::new_objArray(elem_type, len, color, THREAD);
   }
 
@@ -497,8 +479,8 @@ JRT_ENTRY(void, OptoRuntime::multianewarray2_C(Klass* elem_type, int len1, int l
   thread->set_vm_result(obj);
 JRT_END
 
-JRT_ENTRY(void, OptoRuntime::colored_multianewarray2_C(klassOopDesc* elem_type,
-  int len1, int len2, methodOop method, int bci, JavaThread *thread))
+JRT_ENTRY(void, OptoRuntime::colored_multianewarray2_C(Klass* elem_type,
+  int len1, int len2, Method* method, int bci, JavaThread *thread))
 #ifndef PRODUCT
   SharedRuntime::_multi2_ctr++;                // multianewarray for 1 dimension
 #endif
@@ -513,7 +495,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray2_C(klassOopDesc* elem_type,
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        color = arrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
+        color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
       }
@@ -521,7 +503,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray2_C(klassOopDesc* elem_type,
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
-  oop obj = arrayKlass::cast(elem_type)->multi_allocate(2, dims, color, THREAD);
+  oop obj = ArrayKlass::cast(elem_type)->multi_allocate(2, dims, color, THREAD);
   deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
   thread->set_vm_result(obj);
 JRT_END
@@ -542,8 +524,8 @@ JRT_ENTRY(void, OptoRuntime::multianewarray3_C(Klass* elem_type, int len1, int l
   thread->set_vm_result(obj);
 JRT_END
 
-JRT_ENTRY(void, OptoRuntime::colored_multianewarray3_C(klassOopDesc* elem_type,
-  int len1, int len2, int len3, methodOop method, int bci, JavaThread *thread))
+JRT_ENTRY(void, OptoRuntime::colored_multianewarray3_C(Klass* elem_type,
+  int len1, int len2, int len3, Method* method, int bci, JavaThread *thread))
 #ifndef PRODUCT
   SharedRuntime::_multi3_ctr++;                // multianewarray for 1 dimension
 #endif
@@ -559,7 +541,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray3_C(klassOopDesc* elem_type,
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        color = arrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
+        color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
       }
@@ -567,7 +549,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray3_C(klassOopDesc* elem_type,
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
-  oop obj = arrayKlass::cast(elem_type)->multi_allocate(3, dims, color, THREAD);
+  oop obj = ArrayKlass::cast(elem_type)->multi_allocate(3, dims, color, THREAD);
   deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
   thread->set_vm_result(obj);
 JRT_END
@@ -589,8 +571,8 @@ JRT_ENTRY(void, OptoRuntime::multianewarray4_C(Klass* elem_type, int len1, int l
   thread->set_vm_result(obj);
 JRT_END
 
-JRT_ENTRY(void, OptoRuntime::colored_multianewarray4_C(klassOopDesc* elem_type,
-  int len1, int len2, int len3, int len4, methodOop method, int bci,
+JRT_ENTRY(void, OptoRuntime::colored_multianewarray4_C(Klass* elem_type,
+  int len1, int len2, int len3, int len4, Method* method, int bci,
   JavaThread *thread))
 #ifndef PRODUCT
   SharedRuntime::_multi4_ctr++;                // multianewarray for 1 dimension
@@ -608,7 +590,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray4_C(klassOopDesc* elem_type,
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        color = arrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
+        color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
       }
@@ -616,7 +598,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray4_C(klassOopDesc* elem_type,
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
-  oop obj = arrayKlass::cast(elem_type)->multi_allocate(4, dims, color, THREAD);
+  oop obj = ArrayKlass::cast(elem_type)->multi_allocate(4, dims, color, THREAD);
   deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
   thread->set_vm_result(obj);
 JRT_END
@@ -656,8 +638,8 @@ JRT_ENTRY(void, OptoRuntime::multianewarrayN_C(Klass* elem_type, arrayOopDesc* d
   thread->set_vm_result(obj);
 JRT_END
 
-JRT_ENTRY(void, OptoRuntime::colored_multianewarray5_C(klassOopDesc* elem_type,
-  int len1, int len2, int len3, int len4, int len5, methodOop method, int bci,
+JRT_ENTRY(void, OptoRuntime::colored_multianewarray5_C(Klass* elem_type,
+  int len1, int len2, int len3, int len4, int len5, Method* method, int bci,
   JavaThread *thread))
 #ifndef PRODUCT
   SharedRuntime::_multi5_ctr++;                // multianewarray for 1 dimension
@@ -676,7 +658,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray5_C(klassOopDesc* elem_type,
       color = HC_RED;
     } else {
       if (HotKlassAllocate) {
-        color = arrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
+        color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
       } else {
         color = HC_BLUE;
       }
@@ -684,7 +666,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray5_C(klassOopDesc* elem_type,
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
-  oop obj = arrayKlass::cast(elem_type)->multi_allocate(5, dims, color, THREAD);
+  oop obj = ArrayKlass::cast(elem_type)->multi_allocate(5, dims, color, THREAD);
   deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
   thread->set_vm_result(obj);
 JRT_END

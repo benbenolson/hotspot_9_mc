@@ -37,7 +37,7 @@
 #include "oops/instanceMirrorKlass.inline.hpp"
 #include "oops/objArrayKlass.inline.hpp"
 #include "oops/oop.inline.hpp"
-#include "gc_implementation/shared/mutableColoredSpace.hpp"
+#include "gc/shared/mutableColoredSpace.hpp"
 
 PaddedEnd<PSPromotionManager>* PSPromotionManager::_manager_array = NULL;
 OopStarTaskQueueSet*           PSPromotionManager::_stack_array_depth = NULL;
@@ -399,7 +399,7 @@ class PushContentsClosure : public ExtendedOopClosure {
   PushContentsClosure(PSPromotionManager* pm) : _pm(pm) {}
 
   template <typename T> void do_oop_nv(T* p) {
-    if (PSScavenge::should_scavenge(p)) {
+    if (PSScavenge::should_scavenge(p, true)) {
       _pm->claim_or_forward_depth(p);
     }
   }
@@ -438,7 +438,7 @@ void InstanceClassLoaderKlass::oop_ps_push_contents(oop obj, PSPromotionManager*
 template <class T>
 static void oop_ps_push_contents_specialized(oop obj, InstanceRefKlass *klass, PSPromotionManager* pm) {
   T* referent_addr = (T*)java_lang_ref_Reference::referent_addr(obj);
-  if (PSScavenge::should_scavenge(referent_addr)) {
+  if (PSScavenge::should_scavenge(referent_addr, true)) {
     ReferenceProcessor* rp = PSScavenge::reference_processor();
     if (rp->discover_reference(obj, klass->reference_type())) {
       // reference already enqueued, referent and next will be traversed later
@@ -461,12 +461,12 @@ static void oop_ps_push_contents_specialized(oop obj, InstanceRefKlass *klass, P
                                PTR_FORMAT, p2i(discovered_addr));
       }
     )
-    if (PSScavenge::should_scavenge(discovered_addr)) {
+    if (PSScavenge::should_scavenge(discovered_addr, true)) {
       pm->claim_or_forward_depth(discovered_addr);
     }
   }
   // Treat next as normal oop;  next is a link in the reference queue.
-  if (PSScavenge::should_scavenge(next_addr)) {
+  if (PSScavenge::should_scavenge(next_addr, true)) {
     pm->claim_or_forward_depth(next_addr);
   }
   klass->InstanceKlass::oop_ps_push_contents(obj, pm);
@@ -530,4 +530,188 @@ oop PSPromotionManager::oop_promotion_failed(oop obj, markOop obj_mark) {
 #endif
 
   return obj;
+}
+
+oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
+  assert(PSScavenge::should_scavenge(&o, _safe_scavenge), "Sanity");
+  //guarantee(PSScavenge::should_scavenge(&o, _safe_scavenge, true),"wat wat");
+  assert(color == HC_RED || color == HC_BLUE, "bad color!");
+#ifdef PROFILE_OBJECT_INFO
+  if (ProfileObjectInfo) {
+    if (!(PSScavenge::obj_is_initialized(o))) {
+      AllocPointInfoTable *apit = Universe::alloc_point_info_table();
+      AllocPointInfo *api = apit->get(NULL, -1);
+      PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
+      PersistentObjectInfo* poi       = poit->append_instance(o, api, HC_BLUE);
+      PSScavenge::obj_set_poi(o, poi);
+      if (poi) {
+        poi->batch_mark_store(o->size());
+      }
+      if (api) {
+        api->mark_new_object(o->size());
+      }
+    }
+  }
+#endif
+  //static int running_size = 0;
+
+  oop new_obj = NULL;
+
+  // NOTE! We must be very careful with any methods that access the mark
+  // in o. There may be multiple threads racing on it, and it may be forwarded
+  // at any time. Do not use oop methods for accessing the mark!
+  markOop test_mark = o->mark();
+  /* MRJ -- forwarded objects may not be copied to the right space! */
+  // The same test as "o->is_forwarded()"
+  if (!test_mark->is_marked()) {
+    bool new_obj_is_tenured = false;
+    size_t new_obj_size = o->size();
+
+    // Find the objects age, MT safe.
+    uint age = (test_mark->has_displaced_mark_helper() /* o->has_displaced_mark() */) ?
+      test_mark->displaced_mark_helper()->age() : test_mark->age();
+
+    // Try allocating obj in to-space (unless too old)
+    if (age < PSScavenge::tenuring_threshold()) {
+      new_obj = (oop) _young_colored_lab[color].allocate(new_obj_size);
+      if (new_obj == NULL && !_young_colored_space_is_full[color]) {
+        // Do we allocate directly, or flush and refill?
+        if (new_obj_size > (YoungPLABSize / 2)) {
+          // Allocate this object directly
+          new_obj = (oop)((MutableColoredSpace*)young_space())->
+                          cas_allocate(new_obj_size, color);
+        } else {
+          // Flush and fill
+          _young_colored_lab[color].flush();
+
+          HeapWord* lab_base = ((MutableColoredSpace*)young_space())->
+                                cas_allocate(YoungPLABSize, color);
+          if (lab_base != NULL) {
+            _young_colored_lab[color].initialize(MemRegion(lab_base, YoungPLABSize));
+            // Try the colored lab allocation again.
+            new_obj = (oop) _young_colored_lab[color].allocate(new_obj_size);
+          } else {
+            _young_colored_space_is_full[color] = true;
+          }
+        }
+      }
+    }
+    // Otherwise try allocating obj tenured
+    if (new_obj == NULL) {
+#ifndef PRODUCT
+      if (Universe::heap()->promotion_should_fail()) {
+        return oop_promotion_failed(o, test_mark);
+      }
+#endif  // #ifndef PRODUCT
+
+      new_obj = (oop) _old_colored_lab[color].allocate(new_obj_size);
+      new_obj_is_tenured = true;
+
+      if (new_obj == NULL) {
+        if (!_old_colored_space_is_full[color]) {
+          // Do we allocate directly, or flush and refill?
+          if (new_obj_size > (OldPLABSize / 2)) {
+            // Allocate this object directly
+            new_obj = (oop)old_gen()->cas_allocate(new_obj_size, color);
+          } else {
+            // Flush and fill
+            _old_colored_lab[color].flush();
+
+            HeapWord* lab_base = old_gen()->cas_allocate(OldPLABSize, color);
+            if(lab_base != NULL) {
+              _old_colored_lab[color].initialize(MemRegion(lab_base, OldPLABSize));
+              // Try the old lab allocation again.
+              new_obj = (oop) _old_colored_lab[color].allocate(new_obj_size);
+            }
+          }
+        }
+
+        // This is the promotion failed test, and code handling.
+        // The code belongs here for two reasons. It is slightly
+        // different thatn the code below, and cannot share the
+        // CAS testing code. Keeping the code here also minimizes
+        // the impact on the common case fast path code.
+
+        if (new_obj == NULL) {
+          _old_colored_space_is_full[color] = true;
+          return oop_promotion_failed(o, test_mark);
+        }
+      }
+    }
+    assert(new_obj != NULL, "allocation should have succeeded");
+
+#ifdef PROFILE_OBJECT_INFO
+    //jint old_id, old_refs, new_id, new_refs;
+    //old_id = old_refs = 0;
+    if (ProfileObjectInfo) {
+      PSScavenge::profile_object_copy(o, color, new_obj_is_tenured);
+    }
+#endif
+    // Copy obj
+    Copy::aligned_disjoint_words((HeapWord*)o, (HeapWord*)new_obj, new_obj_size);
+
+    // Now we have to CAS in the header.
+    if (o->cas_forward_to(new_obj, test_mark)) {
+      // We won any races, we "own" this object.
+      assert(new_obj == o->forwardee(), "Sanity");
+
+      // Increment age if obj still in new generation. Now that
+      // we're dealing with a markOop that cannot change, it is
+      // okay to use the non mt safe oop methods.
+      //if (!new_obj_is_tenured && !object_organize()) {
+      if (!new_obj_is_tenured) {
+        new_obj->incr_age();
+        assert(young_colored_space(color)->contains(new_obj),
+               "Attempt to push non-promoted obj");
+      }
+
+      // Do the size comparison first with new_obj_size, which we
+      // already have. Hopefully, only a few objects are larger than
+      // _min_array_size_for_chunking, and most of them will be arrays.
+      // So, the is->objArray() test would be very infrequent.
+      if (new_obj_size > _min_array_size_for_chunking &&
+          new_obj->is_objArray() &&
+          PSChunkLargeArrays) {
+        // we'll chunk it
+        oop* const masked_o = mask_chunked_array_oop(o);
+        push_depth(masked_o);
+        TASKQUEUE_STATS_ONLY(++_arrays_chunked; ++_masked_pushes);
+      } else {
+        // we'll just push its contents
+        push_contents(new_obj);
+      }
+    }  else {
+      // We lost, someone else "owns" this object
+      guarantee(o->is_forwarded(), "Object must be forwarded if the cas failed.");
+
+      // Try to deallocate the space.  If it was directly allocated we cannot
+      // deallocate it, so we have to test.  If the deallocation fails,
+      // overwrite with a filler object.
+      if (new_obj_is_tenured) {
+        if (!_old_colored_lab[color].unallocate_object((HeapWord *)new_obj, new_obj_size)) {
+          CollectedHeap::fill_with_object((HeapWord*) new_obj, new_obj_size);
+        }
+      } else if (!_young_colored_lab[color].unallocate_object((HeapWord *)new_obj, new_obj_size)) {
+        CollectedHeap::fill_with_object((HeapWord*) new_obj, new_obj_size);
+      }
+
+      // don't update this before the unallocation!
+      new_obj = o->forwardee();
+    }
+  } else {
+    assert(o->is_forwarded(), "Sanity");
+    new_obj = o->forwardee();
+  }
+
+#ifndef PRODUCT
+  // This code must come after the CAS test, or it will print incorrect
+  // information.
+  if (TraceScavenge) {
+    gclog_or_tty->print_cr("{%s %s " PTR_FORMAT " -> " PTR_FORMAT " (%d)}",
+       should_scavenge(&new_obj, _safe_scavenge) ? "copying" : "tenuring",
+       new_obj->klass()->internal_name(), p2i((void *)o), p2i((void *)new_obj), new_obj->size());
+  }
+#endif
+
+  return new_obj;
 }

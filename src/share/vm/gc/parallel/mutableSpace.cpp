@@ -206,7 +206,7 @@ void MutableSpace::color_region(MemRegion mr, HeapColor color) {
     os::realign_memory((char*)aligned_region.start(), aligned_region.byte_size(), page_size);
     // Then we uncommit the pages in the range.
     if (FreeColoredSpacePages) {
-      os::free_memory((char*)aligned_region.start(), aligned_region.byte_size());
+      os::free_memory((char*)aligned_region.start(), aligned_region.byte_size(), page_size);
     }
     // And make them local/first-touch biased.
     os::color_memory((char*)aligned_region.start(), aligned_region.byte_size(), color);
@@ -279,7 +279,7 @@ bool MutableSpace::cas_deallocate(HeapWord *obj, size_t size) {
   return (HeapWord*)Atomic::cmpxchg_ptr(obj, top_addr(), expected_top) == expected_top;
 }
 
-void MutableSpace::oop_iterate(OopClosure* cl, HeapWord *start, HeapWord *end) {
+void MutableSpace::oop_iterate(ExtendedOopClosure* cl, HeapWord *start, HeapWord *end) {
   assert(bottom() <= start, "oop_iterate: bad bottom");
   assert(top() >= end, "oop_iterate: bad top");
 

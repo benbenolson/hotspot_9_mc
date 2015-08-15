@@ -286,12 +286,12 @@ void mutex_init() {
   def(ProfileVM_lock               , Monitor, special,     false, Monitor::_safepoint_check_never);      // used for profiling of the VMThread
   def(CompileThread_lock           , Monitor, nonleaf+5,   false, Monitor::_safepoint_check_always);
 #ifdef PROFILE_OBJECT_INFO
-  def(ObjectInfoTable_lock         , Mutex  , leaf,        true );
+  def(ObjectInfoTable_lock         , Mutex  , leaf,        true,  Monitor::_safepoint_check_never);
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-  def(ObjectAddressInfoTable_lock  , Mutex  , leaf,        true );
+  def(ObjectAddressInfoTable_lock  , Mutex  , leaf,        true,  Monitor::_safepoint_check_never);
 #endif
-  def(JRMethodInfoManager_lock     , Mutex  , leaf,        true );
+  def(JRMethodInfoManager_lock     , Mutex  , leaf,        true,  Monitor::_safepoint_check_never);
   def(PeriodicTask_lock            , Monitor, nonleaf+5,   true,  Monitor::_safepoint_check_sometimes);
   if (WhiteBoxAPI) {
     def(Compilation_lock           , Monitor, leaf,        false, Monitor::_safepoint_check_never);

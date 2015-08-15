@@ -62,9 +62,8 @@ class PSOldGen : public CHeapObj<mtGC> {
   static inline const char* select_name();
 
     /* MRJ -- support for colored allocation during GC */
-  HeapWord* allocate_noexpand(size_t word_size, bool is_tlab, HeapColor color) {
+  HeapWord* allocate_noexpand(size_t word_size, HeapColor color) {
     // We assume the heap lock is held here.
-    assert(!is_tlab, "Does not support TLAB allocation");
     assert(UseColoredSpaces, "colored allocation without colored spaces");
     assert_locked_or_safepoint(Heap_lock);
 
@@ -97,7 +96,7 @@ class PSOldGen : public CHeapObj<mtGC> {
     return (res == NULL) ? expand_and_cas_allocate(word_size, color) : res;
   }
 
-  HeapWord* expand_and_allocate(size_t word_size, bool is_tlab, HeapColor color);
+  HeapWord* expand_and_allocate(size_t word_size, HeapColor color);
   HeapWord* expand_and_cas_allocate(size_t word_size, HeapColor color);
 
   /* MRJ -- default allocation -- if using colored spaces, this will allocate

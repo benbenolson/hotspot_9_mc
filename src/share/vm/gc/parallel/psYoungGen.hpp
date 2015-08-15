@@ -166,7 +166,7 @@ class PSYoungGen : public CHeapObj<mtGC> {
   }
 #endif
 #else
-  HeapWord* allocate(size_t word_size, bool is_tlab, HeapColor color) {
+  HeapWord* allocate(size_t word_size, HeapColor color) {
     assert(UseColoredSpaces, "colored allocation without colored spaces");
     HeapWord *result = ((MutableColoredSpace*)eden_space())->cas_allocate(word_size, color);
     return result;

@@ -190,11 +190,11 @@ objArrayOop ObjArrayKlass::allocate(int length, TRAPS) {
   }
 }
 
-objArrayOop objArrayKlass::allocate(int length, HeapColor color, TRAPS) {
+objArrayOop ObjArrayKlass::allocate(int length, HeapColor color, TRAPS) {
   if (length >= 0) {
     if (length <= arrayOopDesc::max_array_length(T_OBJECT)) {
       int size = objArrayOopDesc::object_size(length);
-      KlassHandle h_k(THREAD, as_klassOop());
+      KlassHandle h_k(THREAD, this);
       objArrayOop a = (objArrayOop)CollectedHeap::array_allocate(h_k, size, length, color, CHECK_NULL);
       assert(a->is_parsable(), "Can't publish unless parsable");
       return a;
@@ -252,7 +252,7 @@ oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, TRAPS) {
   return h_array();
 }
 
-oop objArrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS) {
+oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS) {
   int length = *sizes;
   // Call to lower_dimension uses this pointer, so most be called before a
   // possible GC
@@ -264,7 +264,7 @@ oop objArrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS)
   if (rank > 1) {
     if (length != 0) {
       for (int index = 0; index < length; index++) {
-        arrayKlass* ak = arrayKlass::cast(h_lower_dimension());
+        ArrayKlass* ak = ArrayKlass::cast(h_lower_dimension());
         oop sub_array = ak->multi_allocate(rank-1, &sizes[1], color, CHECK_NULL);
         assert(sub_array->is_parsable(), "Don't publish until parsable");
 #ifdef PROFILE_OBJECT_INFO

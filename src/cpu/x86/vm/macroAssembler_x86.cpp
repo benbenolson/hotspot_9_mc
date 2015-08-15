@@ -5678,6 +5678,7 @@ void MacroAssembler::store_klass(Register dst, Register src) {
 }
 
 void MacroAssembler::load_heap_oop(Register dst, Address src) {
+#ifdef _LP64
   /* MRJ -- increment load count */
   // FIXME: Must change all places where we try to load the klass.
   if (UseCompressedOops) {

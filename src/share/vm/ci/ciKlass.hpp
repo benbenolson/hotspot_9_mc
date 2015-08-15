@@ -130,12 +130,11 @@ public:
 
   const char* external_name() const;
 
-  Klass* mj_get_klassOop() const {
-    Klass* k = (Klass*)get_Klass();
+  Klass* mj_get_Klass() const {
+    Klass* k = (Klass*)_metadata;
     assert(k != NULL, "illegal use of unloaded klass");
     return k;
   }
-
 };
 
 #endif // SHARE_VM_CI_CIKLASS_HPP

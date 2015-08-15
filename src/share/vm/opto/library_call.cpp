@@ -3104,7 +3104,7 @@ bool LibraryCallKit::inline_unsafe_allocate() {
     // The 'test' is non-zero if we need to take a slow path.
   }
 
-  Node* mth_node = makecon(TypeOopPtr::make_from_constant(method(), true, false));
+  Node* mth_node = makecon(TypeMetadataPtr::make(method()));
   Node* bci_node = intcon(bci());
   Node* obj = new_instance(kls, mth_node, bci_node, test);
   set_result(obj);
@@ -3800,7 +3800,7 @@ bool LibraryCallKit::inline_native_newArray() {
     // Normal case:  The array type has been cached in the java.lang.Class.
     // The following call works fine even if the array type is polymorphic.
     // It could be a dynamic mix of int[], boolean[], Object[], etc.
-    Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+    Node* mth_node = makecon(TypeMetadataPtr::make(method()));
     Node* bci_node = intcon(bci());
     Node* obj = new_array(klass_node, count_val, 2, mth_node, bci_node);
     result_reg->init_req(_normal_path, control());
@@ -3922,7 +3922,7 @@ bool LibraryCallKit::inline_array_copyOf(bool is_copyOfRange) {
       Node* orig_tail = _gvn.transform(new SubINode(orig_length, start));
       Node* moved = generate_min_max(vmIntrinsics::_min, orig_tail, length);
 
-      Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+      Node* mth_node = makecon(TypeMetadataPtr::make(method()));
       Node* bci_node = intcon(bci());
       newcopy = new_array(klass_node, length, 0, mth_node, bci_node);
       // Generate a direct call to the right arraycopy function(s).
@@ -3969,7 +3969,7 @@ bool LibraryCallKit::inline_array_copyOf(bool is_copyOfRange) {
       }
 
       if (!stopped()) {
-        newcopy = new_array(klass_node, length, 0);  // no arguments to push
+        newcopy = new_array(klass_node, length, 0, mth_node, bci_node);  // no arguments to push
 
         ArrayCopyNode* ac = ArrayCopyNode::make(this, true, original, start, newcopy, intcon(0), moved, true,
                                                 load_object_klass(original), klass_node);
@@ -4623,7 +4623,7 @@ bool LibraryCallKit::inline_native_clone(bool is_virtual) {
       set_control(array_ctl);
       Node* obj_length = load_array_length(obj);
       Node* obj_size  = NULL;
-      Node* mth_node = makecon(TypeOopPtr::make_from_constant(method()));
+      Node* mth_node = makecon(TypeMetadataPtr::make(method()));
       Node* bci_node = intcon(bci());
       Node* alloc_obj = new_array(obj_klass, obj_length, 0, mth_node,
                                   bci_node, &obj_size);
@@ -4702,7 +4702,7 @@ bool LibraryCallKit::inline_native_clone(bool is_virtual) {
       // Need to deoptimize on exception from allocation since Object.clone intrinsic
       // is reexecuted if deoptimization occurs and there could be problems when merging
       // exception state between multiple Object.clone versions (reexecute=true vs reexecute=false).
-      Node* mth_node  = makecon(TypeOopPtr::make_from_constant(method()));
+      Node* mth_node  = makecon(TypeMetadataPtr::make(method()));
       Node* bci_node  = intcon(bci());
       Node* alloc_obj = new_instance(obj_klass, mth_node, bci_node, NULL, &obj_size, true);
 
@@ -5307,7 +5307,9 @@ bool LibraryCallKit::inline_multiplyToLen() {
      __ if_then(__ value(need_alloc), BoolTest::ne, zero); {
        // Update graphKit memory and control from IdealKit.
        sync_kit(ideal);
-       Node * narr = new_array(klass_node, zlen, 1);
+       Node* mth_node = makecon(TypeMetadataPtr::make(method()));
+       Node* bci_node = intcon(bci());
+       Node * narr = new_array(klass_node, zlen, 1, mth_node, bci_node);
        // Update IdealKit memory and control from graphKit.
        __ sync_kit(this);
        __ set(z_alloc, narr);

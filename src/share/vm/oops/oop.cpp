@@ -46,15 +46,7 @@ void oopDesc::print_on(outputStream* st) const {
 }
 
 void oopDesc::print_address_on(outputStream* st) const {
-#if 0
-  /* MRJ -- I don't know why this is only if PrintOopAddress is true. I need
-   * this, so I'm removing it.
-   */
-  if (PrintOopAddress) {
-    st->print("{"INTPTR_FORMAT"}", this);
-  }
-#endif
-  st-print("{"INTPTR_FORMAT"}", this);
+  st->print("{"INTPTR_FORMAT"}", this);
 }
 
 void oopDesc::print()         { print_on(tty);         }

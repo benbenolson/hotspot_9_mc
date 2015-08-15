@@ -180,6 +180,7 @@ class PSScavenge: AllStatic {
   static void oop_promotion_failed(oop obj, markOop obj_mark);
 
   template <class T> static inline bool should_scavenge(T* p, bool safe);
+  template <class T> static inline bool should_scavenge(T* p);
 
   // These call should_scavenge() above and, if it returns true, also check that
   // the object was not newly copied into to_space.  The version with the bool

@@ -1669,8 +1669,8 @@ void os::set_traymask_constraints()
 {
 	int i;
 
-	_traymask_all_trays_ptr = (traymask_t *) os::malloc(sizeof(traymask_t));
-	_traymask_no_trays_ptr  = (traymask_t *) os::malloc(sizeof(traymask_t));
+	_traymask_all_trays_ptr = (traymask_t *) os::malloc(sizeof(traymask_t), mtInternal);
+	_traymask_no_trays_ptr  = (traymask_t *) os::malloc(sizeof(traymask_t), mtInternal);
 
   (*_traymask_all_trays_ptr) = 0;
   (*_traymask_no_trays_ptr)  = 0;

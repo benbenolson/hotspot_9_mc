@@ -59,8 +59,8 @@ typeArrayOop oopFactory::new_typeArray(BasicType type, int length, TRAPS) {
 
 typeArrayOop oopFactory::new_typeArray(BasicType type, int length,
   HeapColor color, TRAPS) {
-  klassOop type_asKlassOop = Universe::typeArrayKlassObj(type);
-  typeArrayKlass* type_asArrayKlass = typeArrayKlass::cast(type_asKlassOop);
+  Klass* type_asKlassOop = Universe::typeArrayKlassObj(type);
+  TypeArrayKlass* type_asArrayKlass = TypeArrayKlass::cast(type_asKlassOop);
   typeArrayOop result = type_asArrayKlass->allocate(length, color, THREAD);
   return result;
 }
@@ -97,13 +97,13 @@ objArrayOop oopFactory::new_objArray(Klass* klass, int length, TRAPS) {
   }
 }
 
-objArrayOop oopFactory::new_objArray(klassOop klass, int length,
+objArrayOop oopFactory::new_objArray(Klass* klass, int length,
   HeapColor color, TRAPS) {
   assert(klass->is_klass(), "must be instance class");
-  if (klass->klass_part()->oop_is_array()) {
-    return ((arrayKlass*)klass->klass_part())->allocate_arrayArray(1, length, color, THREAD);
+  if (klass->oop_is_array()) {
+    return ((ArrayKlass*)klass)->allocate_arrayArray(1, length, color, THREAD);
   } else {
-    assert (klass->klass_part()->oop_is_instance(), "new object array with klass not an instanceKlass");
-    return ((instanceKlass*)klass->klass_part())->allocate_objArray(1, length, color, THREAD);
+    assert (klass->oop_is_instance(), "new object array with klass not an instanceKlass");
+    return ((InstanceKlass*)klass)->allocate_objArray(1, length, color, THREAD);
   }
 }

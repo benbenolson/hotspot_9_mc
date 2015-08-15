@@ -1227,65 +1227,58 @@ void ostream_init_log() {
 #endif
   if (ProfileObjectInfo) {
     if (Arguments::objinfo_log_filename() != NULL) {
-      objinfo_log = new(ResourceObj::C_HEAP)
+      objinfo_log = new(ResourceObj::C_HEAP, mtInternal)
                    fileStream(Arguments::objinfo_log_filename());
     } else {
-      objinfo_log = new(ResourceObj::C_HEAP) fileStream("objinfo.log");
+      objinfo_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("objinfo.log");
     }
     if (TrimObjectInfo) {
       if (Arguments::objalloc_log_filename() != NULL) {
-        objalloc_log = new(ResourceObj::C_HEAP)
+        objalloc_log = new(ResourceObj::C_HEAP, mtInternal)
                      fileStream(Arguments::objalloc_log_filename());
       } else {
-        objalloc_log = new(ResourceObj::C_HEAP) fileStream("objalloc.log");
+        objalloc_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("objalloc.log");
       }
       if (Arguments::deadobj_log_filename() != NULL) {
-        deadobj_log = new(ResourceObj::C_HEAP)
+        deadobj_log = new(ResourceObj::C_HEAP, mtInternal)
                      fileStream(Arguments::deadobj_log_filename());
       } else {
-        deadobj_log = new(ResourceObj::C_HEAP) fileStream("deadobj.log");
+        deadobj_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("deadobj.log");
       }
       if (Arguments::apmap_log_filename() != NULL) {
-        apmap_log = new(ResourceObj::C_HEAP)
+        apmap_log = new(ResourceObj::C_HEAP, mtInternal)
                      fileStream(Arguments::apmap_log_filename());
       } else {
-        apmap_log = new(ResourceObj::C_HEAP) fileStream("apmap.log");
+        apmap_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("apmap.log");
       }
       if (Arguments::apinfo_log_filename() != NULL) {
-        apinfo_log = new(ResourceObj::C_HEAP)
+        apinfo_log = new(ResourceObj::C_HEAP, mtInternal)
                      fileStream(Arguments::apinfo_log_filename());
       } else {
-        apinfo_log = new(ResourceObj::C_HEAP) fileStream("apinfo.log");
+        apinfo_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("apinfo.log");
       }
     }
   }
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     if (Arguments::addrinfo_log_filename() != NULL) {
-      addrinfo_log = new(ResourceObj::C_HEAP)
+      addrinfo_log = new(ResourceObj::C_HEAP, mtInternal)
                    fileStream(Arguments::addrinfo_log_filename());
     } else {
-      addrinfo_log = new(ResourceObj::C_HEAP) fileStream("addrinfo.log");
+      addrinfo_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("addrinfo.log");
     }
     if (Arguments::addrtable_log_filename() != NULL) {
       addrtable_log = fopen( Arguments::addrtable_log_filename(), "w" );
     } else {
       addrtable_log = fopen( "addrtable.log", "rw" );
     }
-    /*
-    if (Arguments::addrups_log_filename() != NULL) {
-      addrups_log = fopen( Arguments::addrups_log_filename(), "w" );
-    } else {
-      addrups_log = fopen( "addrups.log", "rw" );
-    }
-    */
   }
   if (ProfileObjectFieldInfo) {
     if (Arguments::fieldinfo_log_filename() != NULL) {
-      fieldinfo_log = new(ResourceObj::C_HEAP)
+      fieldinfo_log = new(ResourceObj::C_HEAP, mtInternal)
                    fileStream(Arguments::fieldinfo_log_filename());
     } else {
-      fieldinfo_log = new(ResourceObj::C_HEAP) fileStream("fieldinfo.log");
+      fieldinfo_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("fieldinfo.log");
     }
   }
 #endif

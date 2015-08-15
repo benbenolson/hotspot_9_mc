@@ -860,7 +860,7 @@ size_t PSYoungGen::free_in_words() const {
        + from_space()->free_in_words();      // to_space() is only used during scavenge
 }
 
-void PSYoungGen::oop_iterate(OopClosure* blk) {
+void PSYoungGen::oop_iterate(ExtendedOopClosure* blk) {
   eden_space()->oop_iterate(blk);
   from_space()->oop_iterate(blk);
   to_space()->oop_iterate(blk);
@@ -873,36 +873,17 @@ void PSYoungGen::object_iterate(ObjectClosure* blk) {
 }
 
 void PSYoungGen::colored_object_iterate(ObjectClosure* blk, HeapColor color) {
-#if 0
-#ifdef COLORED_EDEN_SPACE
   MutableSpace *colored_eden_space = ((MutableColoredSpace*)eden_space())->
                                       colored_spaces()->at(color)->space();
-#endif
-#else
-  MutableSpace *colored_eden_space = ((MutableColoredSpace*)eden_space())->
-                                      colored_spaces()->at(color)->space();
-#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
   MutableSpace *colored_from_space = ((MutableColoredSpace*)from_space())->
                                       colored_spaces()->at(color)->space();
   MutableSpace *colored_to_space   = ((MutableColoredSpace*)to_space())->
                                       colored_spaces()->at(color)->space();
-#if 0
-#ifdef COLORED_EDEN_SPACE
-  //objinfo_log->print_cr("\ndumping eden: top: %p, bottom: %p",
-  //  colored_eden_space->top(), colored_eden_space->bottom());
   colored_eden_space->object_iterate(blk);
-#endif
-#else
-  colored_eden_space->object_iterate(blk);
-#endif /* #if 0 -- MRJ -- assume COLORED_EDEN_SPACE is always defined */
 
-  //objinfo_log->print_cr("\ndumping from: top: %p, bottom: %p",
-  //  colored_from_space->top(), colored_from_space->bottom());
   colored_from_space->object_iterate(blk);
 
   /* MRJ -- I just need to account for the old objects */
-  //objinfo_log->print_cr("\ndumping to: top: %p, bottom: %p",
-  //  colored_to_space->top(), colored_to_space->bottom());
   colored_to_space->object_iterate(blk);
 }
 
@@ -938,7 +919,7 @@ void PSYoungGen::print_on(outputStream* st) const {
   if (PrintExtraGCDetails) {
     virtual_space()->print_space_boundaries_on(st);
   } else {
-    st->print_cr("");
+    st->print_cr(" ");
   }
   st->print("  eden"); eden_space()->print_on(st);
   st->print("  from"); from_space()->print_on(st);

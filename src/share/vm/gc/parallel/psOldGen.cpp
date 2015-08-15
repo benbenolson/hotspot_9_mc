@@ -30,7 +30,7 @@
 #include "gc/shared/cardTableModRefBS.hpp"
 #include "gc/shared/gcLocker.inline.hpp"
 #include "gc/shared/spaceDecorator.hpp"
-#include "gc_implementation/shared/mutableColoredSpace.hpp"
+#include "gc/shared/mutableColoredSpace.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/java.hpp"
 
@@ -393,7 +393,7 @@ void PSOldGen::resize(size_t desired_free_space) {
   //if (UseColoredSpaces) {
     size_t tmp_size = new_size;
     new_size *= ((MutableColoredSpace*)object_space())->colored_spaces()->length();
-    tty->print("\nnew_size: %8d, adjusted_new_size: %8d\n", tmp_size/K, new_size/K);
+    tty->print("\nnew_size: %8zu, adjusted_new_size: %8zu\n", tmp_size/K, new_size/K);
     //tty->flush();
   }
 #endif
@@ -509,11 +509,11 @@ void PSOldGen::print_on(outputStream* st) const {
 
   if (PrintExtraGCDetails) {
     st->print_cr(" [" INTPTR_FORMAT ", " INTPTR_FORMAT ", " INTPTR_FORMAT ")",
-                  virtual_space()->low_boundary(),
-                  virtual_space()->high(),
-                  virtual_space()->high_boundary());
+                  (long unsigned int)virtual_space()->low_boundary(),
+                  (long unsigned int)virtual_space()->high(),
+                  (long unsigned int)virtual_space()->high_boundary());
   } else {
-    st->print_cr("");
+    st->print_cr(" ");
   }
 
 
