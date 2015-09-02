@@ -287,7 +287,7 @@ IRT_ENTRY(void, InterpreterRuntime::colored_multianewarray(JavaThread* thread,
   int          i = get_index_u2(thread, Bytecodes::_multianewarray);
   Klass* klass = constants->klass_at(i, CHECK);
   int   nof_dims = number_of_dimensions(thread);
-  assert(oop(klass)->is_klass(), "not a class");
+  assert(klass->is_klass(), "not a class");
   assert(nof_dims >= 1, "multianewarray rank must be nonzero");
 
   // We must create an array of jints to pass to multi_allocate.

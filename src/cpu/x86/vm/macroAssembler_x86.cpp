@@ -4336,6 +4336,7 @@ void MacroAssembler::testptr(Register dst, Register src) {
   LP64_ONLY(testq(dst, src)) NOT_LP64(testl(dst, src));
 }
 
+/*
 #ifdef COLORED_TLABS
 // Defines obj, preserves var_size_in_bytes, okay for t2 == var_size_in_bytes.
 void MacroAssembler::tlab_allocate(Register obj,
@@ -4347,6 +4348,7 @@ void MacroAssembler::tlab_allocate(Register obj,
   ShouldNotReachHere();
 }
 #else
+*/
 // Defines obj, preserves var_size_in_bytes, okay for t2 == var_size_in_bytes.
 void MacroAssembler::tlab_allocate(Register obj,
                                    Register var_size_in_bytes,
@@ -4381,15 +4383,19 @@ void MacroAssembler::tlab_allocate(Register obj,
   }
   verify_tlab();
 }
-#endif
+//#endif /* COLORED_TLABS */
 
+/*
 #ifdef COLORED_TLABS
 Register MacroAssembler::tlab_refill(Label& retry,
                                      Label& try_eden,
                                      Label& slow_case) {
   ShouldNotReachHere();
+  printf("I shouldn't reach here.\n");
+  return Register();
 }
 #else
+*/
 // Preserves rbx, and rdx.
 Register MacroAssembler::tlab_refill(Label& retry,
                                      Label& try_eden,
@@ -4496,7 +4502,7 @@ Register MacroAssembler::tlab_refill(Label& retry,
 
   return thread_reg; // for use by caller
 }
-#endif
+//#endif /* COLORED_TLABS */
 
 void MacroAssembler::incr_allocated_bytes(Register thread,
                                           Register var_size_in_bytes,

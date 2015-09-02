@@ -34,6 +34,7 @@
 #include "memory/oopFactory.hpp"
 #include "memory/universe.hpp"
 #include "memory/heapInspection.hpp"
+#include "memory/profileObjectInfo.hpp"
 #include "oops/constantPool.hpp"
 #include "oops/generateOopMap.hpp"
 #include "oops/instanceKlass.hpp"

@@ -38,7 +38,7 @@
 #if INCLUDE_ALL_GCS
 #include "gc/g1/g1StringDedup.hpp"
 #endif // INCLUDE_ALL_GCS
-#include "memory/heapInspection.hpp"
+#include "memory/profileObjectInfo.hpp"
 
 
 inline void MarkSweep::mark_object(oop obj) {
@@ -129,8 +129,8 @@ template <class T> inline void MarkSweep::adjust_pointer(T* p) {
         if ((oai = oait->lookup(obj))) {
           ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
           //tty->print_cr("ay: %p", oai->klass_record()->klass());
-          klassOop klass = ProfileObjectFieldInfo ?
-                           oai->klass_record()->klass() : NULL;
+          Klass *klass = ProfileObjectFieldInfo ?
+                         oai->klass_record()->klass() : NULL;
           ObjectAddressInfo *alt_oai = alt_oait->insert(new_obj, oai->size(),
                                                         klass, oai->type());
           if (alt_oai) {

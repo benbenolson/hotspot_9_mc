@@ -341,7 +341,7 @@ DEBUG_CFLAGS=-O0 -ggdb3
 
 # DEBUG_BINARIES uses full -g debug information for all configs
 ifeq ($(DEBUG_BINARIES), true)
-  CFLAGS += -g
+  CFLAGS += -gstabs
 else
   DEBUG_CFLAGS += $(DEBUG_CFLAGS/$(BUILDARCH))
   ifeq ($(DEBUG_CFLAGS/$(BUILDARCH)),)

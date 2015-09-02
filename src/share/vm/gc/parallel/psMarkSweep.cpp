@@ -240,7 +240,7 @@ bool PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
         if (!OnlyTenuredObjectInfo)
           young_gen->object_iterate(&dic);
         old_gen->object_iterate(&dic);
-        perm_gen->object_iterate(&dic);
+        //perm_gen->object_iterate(&dic);
         deadobj_log->print_cr("done dumping deads");
       }
     }

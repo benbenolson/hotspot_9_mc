@@ -485,7 +485,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray2_C(Klass* elem_type,
   SharedRuntime::_multi2_ctr++;                // multianewarray for 1 dimension
 #endif
   assert(check_compiled_frame(thread), "incorrect caller");
-  assert(oop(elem_type)->is_klass(), "not a class");
+  assert(elem_type->is_klass(), "not a class");
   jint dims[2];
   dims[0] = len1;
   dims[1] = len2;
@@ -530,7 +530,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray3_C(Klass* elem_type,
   SharedRuntime::_multi3_ctr++;                // multianewarray for 1 dimension
 #endif
   assert(check_compiled_frame(thread), "incorrect caller");
-  assert(oop(elem_type)->is_klass(), "not a class");
+  assert(elem_type->is_klass(), "not a class");
   jint dims[3];
   dims[0] = len1;
   dims[1] = len2;
@@ -578,7 +578,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray4_C(Klass* elem_type,
   SharedRuntime::_multi4_ctr++;                // multianewarray for 1 dimension
 #endif
   assert(check_compiled_frame(thread), "incorrect caller");
-  assert(oop(elem_type)->is_klass(), "not a class");
+  assert(elem_type->is_klass(), "not a class");
   jint dims[4];
   dims[0] = len1;
   dims[1] = len2;
@@ -645,7 +645,7 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray5_C(Klass* elem_type,
   SharedRuntime::_multi5_ctr++;                // multianewarray for 1 dimension
 #endif
   assert(check_compiled_frame(thread), "incorrect caller");
-  assert(oop(elem_type)->is_klass(), "not a class");
+  assert(elem_type->is_klass(), "not a class");
   jint dims[5];
   dims[0] = len1;
   dims[1] = len2;

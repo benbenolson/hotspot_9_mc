@@ -25,6 +25,7 @@
 #ifndef SHARE_VM_SERVICES_MEMORYPOOL_HPP
 #define SHARE_VM_SERVICES_MEMORYPOOL_HPP
 
+#include "gc/parallel/mutableSpace.hpp"
 #include "memory/heap.hpp"
 #include "services/memoryUsage.hpp"
 #include "utilities/macros.hpp"

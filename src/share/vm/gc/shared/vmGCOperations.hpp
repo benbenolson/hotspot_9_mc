@@ -25,6 +25,7 @@
 #ifndef SHARE_VM_GC_SHARED_VMGCOPERATIONS_HPP
 #define SHARE_VM_GC_SHARED_VMGCOPERATIONS_HPP
 
+#include "gc/shared/collectedHeap.inline.hpp"
 #include "gc/shared/collectedHeap.hpp"
 #include "memory/heapInspection.hpp"
 #include "prims/jvmtiExport.hpp"

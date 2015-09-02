@@ -32,6 +32,9 @@
 #include "memory/allocation.hpp"
 #include "oops/oop.hpp"
 #include "utilities/stack.hpp"
+#ifdef PROFILE_OBJECT_INFO
+#include "memory/heapInspection.hpp"
+#endif
 
 class GCTaskManager;
 class GCTaskQueue;
@@ -213,26 +216,26 @@ class PSScavenge: AllStatic {
 #ifdef PROFILE_OBJECT_INFO
   inline static PersistentObjectInfo *obj_poi(oop obj) {
     PersistentObjectInfo *poi = NULL;
-    if (obj->blueprint()->oop_is_instance()) {
+    if (obj->is_instance()) {
       poi = ((instanceOop)obj)->poi();
-    } else if (obj->blueprint()->oop_is_array()) {
+    } else if (obj->is_array()) {
       poi = ((arrayOop)obj)->poi();
     }
     return poi;
   }
 
   inline static void obj_set_poi(oop obj, PersistentObjectInfo *poi) {
-    if (obj->blueprint()->oop_is_instance()) {
+    if (obj->is_instance()) {
       ((instanceOop)obj)->set_poi(poi);
-    } else if (obj->blueprint()->oop_is_array()) {
+    } else if (obj->is_array()) {
       ((arrayOop)obj)->set_poi(poi);
     }
   }
 
   inline static bool obj_is_initialized(oop obj) {
-    if (obj->blueprint()->oop_is_instance()) {
+    if (obj->is_instance()) {
       return ((instanceOop)obj)->is_initialized();
-    } else if (obj->blueprint()->oop_is_array()) {
+    } else if (obj->is_array()) {
       return ((arrayOop)obj)->is_initialized();
     }
     return false;
@@ -249,9 +252,9 @@ class PSScavenge: AllStatic {
 
   inline static jint obj_id(oop obj) {
     jint id = 0;
-    if (obj->blueprint()->oop_is_instance()) {
+    if (obj->is_instance()) {
       id = ((instanceOop)obj)->id();
-    } else if (obj->blueprint()->oop_is_array()) {
+    } else if (obj->is_array()) {
       id = ((arrayOop)obj)->id();
     }
     return id;

@@ -4513,14 +4513,6 @@ void TemplateTable::_new() {
       __ pop(atos);
     }
 
-#if 0
-    if (ProfileObjectInfo) {
-        __ push(atos); // save the return value
-        __ call_VM_leaf(
-             CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_alloc), rax);
-        __ pop(atos); // restore the return value
-    }
-#endif
 #ifdef PROFILE_OBJECT_INFO
     if (ProfileObjectInfo) {
       __ push(atos); // save the return value
@@ -4532,19 +4524,6 @@ void TemplateTable::_new() {
                             r13); // bytecode address
       __ pop(atos); // restore the return value
     }
-
-#if 0
-    if (ColorObjectAllocations) {
-      __ push(atos); // save the return value
-      __ get_method(rcx);
-      __ call_VM_leaf(
-           CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
-                            rax,  // oopDesc*
-                            rcx,  // methodOopDesc*
-                            r13); // bytecode address
-      __ pop(atos); // restore the return value
-    }
-#endif
 #endif /* PROFILE_OBJECT_INFO */
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
     if (ProfileObjectAddressInfo) {
@@ -4573,9 +4552,9 @@ void TemplateTable::_new() {
   __ get_unsigned_2_byte_index_at_bcp(rarg2, 1);
   if (ColorObjectAllocations) {
     call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::_colored_new),
-            c_rarg1, c_rarg2);
+            rarg1, rarg2);
   } else {
-    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::_new), c_rarg1, c_rarg2);
+    call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::_new), rarg1, rarg2);
   }
    __ verify_oop(rax);
 
@@ -4590,19 +4569,6 @@ void TemplateTable::_new() {
                           r13); // bytecode address
     __ pop(atos); // restore the return value
   }
-
-#if 0
-  if (ColorObjectAllocations) {
-    __ push(atos); // save the return value
-    __ get_method(rcx);
-    __ call_VM_leaf(
-         CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
-                          rax,  // oopDesc*
-                          rcx,  // methodOopDesc*
-                          r13); // bytecode address
-    __ pop(atos); // restore the return value
-  }
-#endif
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
@@ -4626,10 +4592,10 @@ void TemplateTable::newarray() {
   __ load_unsigned_byte(rarg1, at_bcp(1));
   if (ColorObjectAllocations) {
     call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::colored_newarray),
-            c_rarg1, c_rarg2);
+            rarg1, rax);
   } else {
     call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::newarray),
-            c_rarg1, c_rarg2);
+            rarg1, rax);
   }
 
 #ifdef PROFILE_OBJECT_INFO
@@ -4644,18 +4610,6 @@ void TemplateTable::newarray() {
     __ pop(atos); // restore the return value
   }
 
-#if 0
-  if (ColorObjectAllocations) {
-    __ push(atos); // save the return value
-    __ get_method(rcx);
-    __ call_VM_leaf(
-         CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
-                          rax,  // oopDesc*
-                          rcx,  // methodOopDesc*
-                          r13); // bytecode address
-    __ pop(atos); // restore the return value
-  }
-#endif
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
@@ -4680,10 +4634,10 @@ void TemplateTable::anewarray() {
   __ get_constant_pool(rarg1);
   if (ColorObjectAllocations) {
     call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::colored_anewarray),
-            c_rarg1, c_rarg2, c_rarg3);
+            rarg1, rarg2, rax);
   } else {
     call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::anewarray),
-            c_rarg1, c_rarg2, c_rarg3);
+            rarg1, rarg2, rax);
   }
 
 #ifdef PROFILE_OBJECT_INFO
@@ -4698,18 +4652,6 @@ void TemplateTable::anewarray() {
     __ pop(atos); // restore the return value
   }
 
-#if 0
-  if (ColorObjectAllocations) {
-    __ push(atos); // save the return value
-    __ get_method(rcx);
-    __ call_VM_leaf(
-         CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
-                          rax,  // oopDesc*
-                          rcx,  // methodOopDesc*
-                          r13); // bytecode address
-    __ pop(atos); // restore the return value
-  }
-#endif
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
@@ -5086,10 +5028,10 @@ void TemplateTable::multianewarray() {
   __ lea(rarg, Address(rsp, rax, Interpreter::stackElementScale(), -wordSize));
   if (ColorObjectAllocations) {
     call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::colored_multianewarray),
-            c_rarg1);
+            rarg);
   } else {
     call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::multianewarray),
-            c_rarg1);
+            rarg);
   }
 
   __ load_unsigned_byte(rbx, at_bcp(3));
@@ -5106,18 +5048,6 @@ void TemplateTable::multianewarray() {
     __ pop(atos); // restore the return value
   }
 
-#if 0
-  if (ColorObjectAllocations) {
-    __ push(atos); // save the return value
-    __ get_method(rcx);
-    __ call_VM_leaf(
-         CAST_FROM_FN_PTR(address, SharedRuntime::color_object_alloc),
-                          rax,  // oopDesc*
-                          rcx,  // methodOopDesc*
-                          r13); // bytecode address
-    __ pop(atos); // restore the return value
-  }
-#endif
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {

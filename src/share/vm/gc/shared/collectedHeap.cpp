@@ -276,7 +276,7 @@ void CollectedHeap::check_for_valid_allocation_state() {
 #endif
 
 #ifdef COLORED_TLABS
-HeapWord* CollectedHeap::allocate_from_tlab_slow(Thread* thread, size_t size,
+HeapWord* CollectedHeap::allocate_from_tlab_slow(KlassHandle klass, Thread* thread, size_t size,
   HeapColor color) {
 
   if (color==HC_NOT_COLORED) {

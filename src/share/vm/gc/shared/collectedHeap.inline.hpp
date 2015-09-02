@@ -29,6 +29,8 @@
 #include "gc/shared/collectedHeap.hpp"
 #include "gc/shared/threadLocalAllocBuffer.inline.hpp"
 #include "memory/universe.hpp"
+//#include "memory/heapInspection.hpp"
+#include "memory/profileObjectInfo.hpp"
 #include "oops/arrayOop.hpp"
 #include "prims/jvmtiExport.hpp"
 #include "runtime/sharedRuntime.hpp"
@@ -116,7 +118,7 @@ void CollectedHeap::post_allocation_setup_obj(KlassHandle klass,
                                               HeapColor color) {
   post_allocation_setup_common(klass, obj);
   assert(Universe::is_bootstrapping() ||
-         !((oop)obj)->blueprint()->oop_is_array(), "must not be an array");
+         !((oop)obj)->is_array(), "must not be an array");
 
   // notify jvmti and dtrace
   post_allocation_notify(klass, (oop)obj, color);
@@ -148,7 +150,7 @@ void CollectedHeap::post_allocation_setup_array(KlassHandle klass,
   assert(length >= 0, "length should be non-negative");
   ((arrayOop)obj)->set_length(length);
   post_allocation_setup_common(klass, obj);
-  assert(((oop)obj)->blueprint()->oop_is_array(), "must be an array");
+  assert(((oop)obj)->is_array(), "must be an array");
   // notify jvmti and dtrace (must be after length is set for dtrace)
   post_allocation_notify(klass, (oop)obj, color);
 }
@@ -168,9 +170,9 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(KlassHandle klass, size_t si
   if (UseTLAB) {
 #ifdef COLORED_TLABS
     if (UseColoredSpaces) {
-      result = CollectedHeap::allocate_from_tlab(THREAD, size, UnknownObjectHeapColor);
+      result = CollectedHeap::allocate_from_tlab(klass, THREAD, size, UnknownObjectHeapColor);
     } else {
-      result = CollectedHeap::allocate_from_tlab(THREAD, size);
+      result = CollectedHeap::allocate_from_tlab(klass, THREAD, size);
     }
 #else
     result = allocate_from_tlab(klass, THREAD, size);
@@ -222,7 +224,7 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(KlassHandle klass, size_t si
   }
 }
 
-HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref,
+HeapWord* CollectedHeap::common_mem_allocate_noinit(KlassHandle klass, size_t size,
   HeapColor color, TRAPS) {
   assert(UseColoredSpaces, "colored allocation without colored spaces");
   //assert(!UseTLAB, "cannot allocate from TLAB with colored spaces");
@@ -240,7 +242,7 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref,
   HeapWord* result = NULL;
 #ifdef COLORED_TLABS
   if (UseTLAB) {
-    result = CollectedHeap::allocate_from_tlab(THREAD, size, color);
+    result = CollectedHeap::allocate_from_tlab(klass, THREAD, size, color);
     if (result != NULL) {
       assert(!HAS_PENDING_EXCEPTION,
              "Unexpected exception, will result in uninitialized storage");
@@ -293,15 +295,15 @@ HeapWord* CollectedHeap::common_mem_allocate_init(KlassHandle klass, size_t size
   return obj;
 }
 
-HeapWord* CollectedHeap::common_mem_allocate_init(size_t size, bool is_noref,
+HeapWord* CollectedHeap::common_mem_allocate_init(KlassHandle klass, size_t size,
                                                   HeapColor color, TRAPS) {
-  HeapWord* obj = common_mem_allocate_noinit(size, is_noref, color, CHECK_NULL);
+  HeapWord* obj = common_mem_allocate_noinit(klass, size, color, CHECK_NULL);
   init_obj(obj, size);
   return obj;
 }
 
 #ifdef COLORED_TLABS
-HeapWord* CollectedHeap::allocate_from_tlab(Thread* thread, size_t size,
+HeapWord* CollectedHeap::allocate_from_tlab(KlassHandle klass, Thread* thread, size_t size,
   HeapColor color) {
   assert(UseTLAB, "should use UseTLAB");
 
@@ -309,22 +311,12 @@ HeapWord* CollectedHeap::allocate_from_tlab(Thread* thread, size_t size,
     color = UnknownObjectHeapColor;
   }
 
-#if 0
-  color == HC_RED ? thread->add_cnt(HC_RED, size) : thread->add_cnt(HC_BLUE, size);
-  thread->add_mark(1);
-  if (thread->reached_mark()) {
-    tty->print_cr("_colored_alloc: tid=%d, red=%d, blue=%d", thread->osthread()->thread_id(),
-                  (thread->cnt(HC_RED)/(1024*1024)),
-                  (thread->cnt(HC_BLUE)/(1024*1024)));
-  }
-#endif
-
   HeapWord* obj = thread->tlab(color).allocate(size);
   if (obj != NULL) {
     return obj;
   }
   // Otherwise...
-  return allocate_from_tlab_slow(thread, size, color);
+  return allocate_from_tlab_slow(klass, thread, size, color);
 }
 #endif
 HeapWord* CollectedHeap::allocate_from_tlab(KlassHandle klass, Thread* thread, size_t size) {
@@ -368,7 +360,7 @@ oop CollectedHeap::obj_allocate(KlassHandle klass, int size, HeapColor color, TR
   assert(UseColoredSpaces, "colored allocation without colored spaces");
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
-  HeapWord* obj = common_mem_allocate_init(size, false, color, CHECK_NULL);
+  HeapWord* obj = common_mem_allocate_init(klass, size, color, CHECK_NULL);
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
@@ -409,7 +401,7 @@ oop CollectedHeap::array_allocate(KlassHandle klass,
   debug_only(check_for_valid_allocation_state());
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
-  HeapWord* obj = common_mem_allocate_init(size, false, color, CHECK_NULL);
+  HeapWord* obj = common_mem_allocate_init(klass, size, color, CHECK_NULL);
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
@@ -430,7 +422,7 @@ oop CollectedHeap::large_typearray_allocate(KlassHandle klass,
   debug_only(check_for_valid_allocation_state());
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
-  HeapWord* obj = common_mem_allocate_init(size, true, color, CHECK_NULL);
+  HeapWord* obj = common_mem_allocate_init(klass, size, color, CHECK_NULL);
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();

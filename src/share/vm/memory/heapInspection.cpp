@@ -28,6 +28,7 @@
 #include "gc/shared/collectedHeap.hpp"
 #include "gc/shared/genCollectedHeap.hpp"
 #include "memory/heapInspection.hpp"
+#include "memory/profileObjectInfo.hpp"
 #include "memory/resourceArea.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/os.hpp"
@@ -904,9 +905,9 @@ class ObjectInfoPrintClosure : public ObjectInfoClosure {
   }
 };
 
-ObjectInfoEntry::ObjectInfoEntry(klassOop k, ObjectInfoEntry* next) :
+ObjectInfoEntry::ObjectInfoEntry(Klass* k, ObjectInfoEntry* next) :
   _klass(k), _instance_count(0), _instance_words(0), _next(next) {
-  _elements = new (ResourceObj::C_HEAP) GrowableArray<oop>(INITIAL_ENTRY_ARRAY_SIZE,true);
+  _elements = new (ResourceObj::C_HEAP, mtInternal) GrowableArray<oop>(INITIAL_ENTRY_ARRAY_SIZE,true);
 }
 
 int ObjectInfoEntry::compare(ObjectInfoEntry* e1, ObjectInfoEntry* e2) {
@@ -958,8 +959,8 @@ void ObjectInfoEntry::print_oop_info(outputStream *st, oop cur_oop) const {
 
   /* formatted print */
   if (TotalRefCounts) {
-    if (cur_oop->blueprint()->oop_is_instance() ||
-        cur_oop->blueprint()->oop_is_array()) {
+    if (cur_oop->is_instance() ||
+        cur_oop->is_array()) {
       guarantee(load_cnt != BAD_REF_CNT, "bad ref count");
       jint total_cnt = load_cnt + store_cnt;
       if (TrimObjectInfo) {
@@ -984,8 +985,8 @@ void ObjectInfoEntry::print_oop_info(outputStream *st, oop cur_oop) const {
       }
     }
   } else {
-    if (cur_oop->blueprint()->oop_is_instance() ||
-        cur_oop->blueprint()->oop_is_array()) {
+    if (cur_oop->is_instance() ||
+        cur_oop->is_array()) {
       guarantee(load_cnt != BAD_REF_CNT, "bad ref count");
       if (TrimObjectInfo) {
         st->print_cr(INT64_FORMAT_W(13) "  " INT64_FORMAT_W(13)
@@ -1019,28 +1020,17 @@ void ObjectInfoEntry::long_print_on(outputStream* st) const {
   ResourceMark rm;
   const char* name;
 
-  if (_klass->klass_part()->name() != NULL) {
-    name = _klass->klass_part()->external_name();
+  if (_klass->name() != NULL) {
+    name = _klass->external_name();
   } else {
-    if (_klass == Universe::klassKlassObj())             name = "<klassKlass>";             else
-    if (_klass == Universe::arrayKlassKlassObj())        name = "<arrayKlassKlass>";        else
-    if (_klass == Universe::objArrayKlassKlassObj())     name = "<objArrayKlassKlass>";     else
-    if (_klass == Universe::instanceKlassKlassObj())     name = "<instanceKlassKlass>";     else
-    if (_klass == Universe::typeArrayKlassKlassObj())    name = "<typeArrayKlassKlass>";    else
     if (_klass == Universe::boolArrayKlassObj())         name = "<boolArrayKlass>";         else
+    if (_klass == Universe::byteArrayKlassObj())         name = "<byteArrayKlass>";         else
     if (_klass == Universe::charArrayKlassObj())         name = "<charArrayKlass>";         else
+    if (_klass == Universe::intArrayKlassObj())          name = "<intArrayKlass>";          else
+    if (_klass == Universe::shortArrayKlassObj())        name = "<shortArrayKlass>";        else
+    if (_klass == Universe::longArrayKlassObj())         name = "<longArrayKlass>";         else
     if (_klass == Universe::singleArrayKlassObj())       name = "<singleArrayKlass>";       else
     if (_klass == Universe::doubleArrayKlassObj())       name = "<doubleArrayKlass>";       else
-    if (_klass == Universe::byteArrayKlassObj())         name = "<byteArrayKlass>";         else
-    if (_klass == Universe::shortArrayKlassObj())        name = "<shortArrayKlass>";        else
-    if (_klass == Universe::intArrayKlassObj())          name = "<intArrayKlass>";          else
-    if (_klass == Universe::longArrayKlassObj())         name = "<longArrayKlass>";         else
-    if (_klass == Universe::methodKlassObj())            name = "<methodKlass>";            else
-    if (_klass == Universe::constMethodKlassObj())       name = "<constMethodKlass>";       else
-    if (_klass == Universe::methodDataKlassObj())        name = "<methodDataKlass>";        else
-    if (_klass == Universe::constantPoolKlassObj())      name = "<constantPoolKlass>";      else
-    if (_klass == Universe::constantPoolCacheKlassObj()) name = "<constantPoolCacheKlass>"; else
-    if (_klass == Universe::compiledICHolderKlassObj())  name = "<compiledICHolderKlass>";  else
       name = "<no name>";
   }
 
@@ -1050,22 +1040,16 @@ void ObjectInfoEntry::long_print_on(outputStream* st) const {
   //st->print_cr("%s", name);
 
   st->print("    * %s : ", name);
-  if (_klass->klass_part()->oop_is_instance())          st->print("%s ", "instance");
-  if (_klass->klass_part()->oop_is_array())             st->print("%s ", "array");
-  if (_klass->klass_part()->oop_is_objArray_slow())     st->print("%s ", "objArray_slow");
-  if (_klass->klass_part()->oop_is_klass())             st->print("%s ", "klass");
-  if (_klass->klass_part()->oop_is_thread())            st->print("%s ", "thread");
-  if (_klass->klass_part()->oop_is_method())            st->print("%s ", "method");
-  if (_klass->klass_part()->oop_is_constMethod())       st->print("%s ", "constMethod");
-  if (_klass->klass_part()->oop_is_methodData())        st->print("%s ", "methodData");
-  if (_klass->klass_part()->oop_is_constantPool())      st->print("%s ", "constantPool");
-  if (_klass->klass_part()->oop_is_constantPoolCache()) st->print("%s ", "constantPoolCache");
-  if (_klass->klass_part()->oop_is_typeArray_slow())    st->print("%s ", "typeArray_slow");
-  if (_klass->klass_part()->oop_is_arrayKlass())        st->print("%s ", "arrayKlass");
-  if (_klass->klass_part()->oop_is_objArrayKlass())     st->print("%s ", "objArrayKlass");
-  if (_klass->klass_part()->oop_is_typeArrayKlass())    st->print("%s ", "typeArrayKlass");
-  if (_klass->klass_part()->oop_is_compiledICHolder())  st->print("%s ", "compiledICHolder");
-  if (_klass->klass_part()->oop_is_instanceKlass())     st->print("%s ", "instanceKlass");
+  if (_klass->oop_is_instance())          st->print("%s ", "instance");
+  if (_klass->oop_is_array())             st->print("%s ", "array");
+  if (_klass->oop_is_objArray())     st->print("%s ", "objArray");
+//  if (_klass->oop_is_objArray_slow())     st->print("%s ", "objArray_slow");
+  if (_klass->oop_is_typeArray())    st->print("%s ", "typeArray");
+//  if (_klass->oop_is_typeArray_slow())    st->print("%s ", "typeArray_slow");
+  if (_klass->is_klass())             st->print("%s ", "klass");
+  if (_klass->is_method())            st->print("%s ", "method");
+  if (_klass->is_methodData())        st->print("%s ", "methodData");
+  if (_klass->is_constantPool())      st->print("%s ", "constantPool");
   st->print_cr(" ");
 
 #if 0
@@ -1103,7 +1087,7 @@ void ObjectInfoEntry::print_on(outputStream* st) const {
   long_print_on(st);
 }
 
-ObjectInfoEntry* ObjectInfoBucket::lookup(const klassOop k) {
+ObjectInfoEntry* ObjectInfoBucket::lookup(Klass* k) {
   ObjectInfoEntry* oie = _list;
   while (oie != NULL) {
     if (oie->is_equal(k)) {
@@ -1140,7 +1124,7 @@ void ObjectInfoBucket::empty() {
 ObjectInfoTable::ObjectInfoTable(int size, HeapWord* ref) {
   _size = 0;
   _ref = ref;
-  _buckets = NEW_C_HEAP_ARRAY(ObjectInfoBucket, size);
+  _buckets = NEW_C_HEAP_ARRAY(ObjectInfoBucket, size, mtInternal);
   if (_buckets != NULL) {
     _size = size;
     for (int index = 0; index < _size; index++) {
@@ -1160,12 +1144,12 @@ ObjectInfoTable::~ObjectInfoTable() {
   }
 }
 
-uint ObjectInfoTable::hash(klassOop p) {
+uint ObjectInfoTable::hash(const Klass* p) {
   assert(Universe::heap()->is_in_permanent((HeapWord*)p), "all klasses in permgen");
   return (uint)(((uintptr_t)p - (uintptr_t)_ref) >> 2);
 }
 
-ObjectInfoEntry* ObjectInfoTable::lookup(const klassOop k) {
+ObjectInfoEntry* ObjectInfoTable::lookup(Klass* k) {
   uint         idx = hash(k) % _size;
   assert(_buckets != NULL, "Allocation failure should have been caught");
   ObjectInfoEntry* oie = _buckets[idx].lookup(k);
@@ -1237,7 +1221,7 @@ void ObjectInfoTable::append_to_hot_age_tables(const oop obj) {
 // Return false if the entry could not be recorded on account
 // of running out of space required to create a new entry.
 bool ObjectInfoTable::append_instance(const oop obj) {
-  klassOop      k = obj->klass();
+  Klass*      k = obj->klass();
   ObjectInfoEntry* oie = lookup(k);
 
   // koil may be NULL if it's a new klass for which we
@@ -1264,7 +1248,7 @@ int ObjectInfoHisto::sort_helper(ObjectInfoEntry** e1, ObjectInfoEntry** e2) {
 }
 
 ObjectInfoHisto::ObjectInfoHisto(int estimatedCount) {
-  _elements = new (ResourceObj::C_HEAP) GrowableArray<ObjectInfoEntry*>(estimatedCount,true);
+  _elements = new (ResourceObj::C_HEAP, mtInternal) GrowableArray<ObjectInfoEntry*>(estimatedCount,true);
 }
 
 ObjectInfoHisto::~ObjectInfoHisto() {
@@ -1295,7 +1279,7 @@ void ObjectInfoHisto::print_elements(outputStream* st) const {
     totalw += elements()->at(i)->words();
   }
   if (!TrimObjectInfo) {
-    st->print_cr("  All classes: " INT64_FORMAT_W(13) "  (%d)\n",
+    st->print_cr("  All classes: " INT64_FORMAT_W(13) "  (%ld)\n",
                  (totalw * HeapWordSize), total);
   }
 }
@@ -1508,7 +1492,7 @@ void ObjectInfoCollection::print_young_collection_stats(outputStream *out)
                   ((PSGenType)g) == OLD_GEN ? "old" : "young");
 #if 1
     for (i=0; i < HC_ENUM_TOTAL; i++) {
-      out->print_cr(" %17s: %13d objects, %13d KB, %13d refs",
+      out->print_cr(" %17s: %13lu objects, %13lu KB, %13lu refs",
         heapColorEnum2Str((HeapColorEnum)i),
         PSScavenge::live_objects((PSGenType)g,(HeapColorEnum)i),
         ((PSScavenge::live_size((PSGenType)g,(HeapColorEnum)i)*HeapWordSize)>>10),
@@ -1528,7 +1512,7 @@ void ObjectInfoCollection::print_young_collection_stats(outputStream *out)
     out->print_cr("   hots (to %5s)", 
                   ((PSGenType)g) == OLD_GEN ? "old" : "young");
     for (i=0; i < HC_ENUM_TOTAL; i++) {
-      out->print_cr(" %17s: %13d objects, %13d KB, %13d refs",
+      out->print_cr(" %17s: %13lu objects, %13lu KB, %13lu refs",
         heapColorEnum2Str((HeapColorEnum)i),
         PSScavenge::hot_objects((PSGenType)g,(HeapColorEnum)i),
         ((PSScavenge::hot_size((PSGenType)g,(HeapColorEnum)i)*HeapWordSize)>>10),
@@ -1536,7 +1520,7 @@ void ObjectInfoCollection::print_young_collection_stats(outputStream *out)
     }
   }
 #endif
-  out->print_cr("");
+  out->print_cr(" ");
 }
 
 void ObjectInfoCollection::print_gen_color_object_info(outputStream *out,
@@ -1563,9 +1547,11 @@ void ObjectInfoCollection::print_gen_color_object_info(outputStream *out,
         case OLD_GEN:
           psh->old_gen()->colored_object_iterate(&aic, color);
           break;
+        /*
         case PERM_GEN:
           psh->perm_gen()->colored_object_iterate(&aic, color);
           break;
+        */
         case ALL_GENS:
           psh->colored_object_iterate(&aic, color);
         default:
@@ -1579,9 +1565,11 @@ void ObjectInfoCollection::print_gen_color_object_info(outputStream *out,
         case OLD_GEN:
           psh->old_gen()->object_iterate(&aic);
           break;
+        /*
         case PERM_GEN:
           psh->perm_gen()->object_iterate(&aic);
           break;
+        */
         case ALL_GENS:
           psh->object_iterate(&aic);
           break;
@@ -1599,12 +1587,12 @@ void ObjectInfoCollection::print_gen_color_object_info(outputStream *out,
     }
 
     char buf[10];
-    out->print("  %10s lives: " INT64_FORMAT_W(13) " objects, "
-               INT64_FORMAT_W(13) " KB, " INT64_FORMAT_W(13) " refs\n",
+    out->print("  %10s lives: " INT32_FORMAT_W(13) " objects, "
+               INT32_FORMAT_W(13) " KB, " INT32_FORMAT_W(13) " refs\n",
                genColorStr(gen_type, color, buf), aic.live_objects(),
                ((aic.live_size()*HeapWordSize) >> 10), aic.live_refs());
-    out->print("  %10s  hots: " INT64_FORMAT_W(13) " objects, "
-               INT64_FORMAT_W(13) " KB, " INT64_FORMAT_W(13) " refs\n",
+    out->print("  %10s  hots: " INT32_FORMAT_W(13) " objects, "
+               INT32_FORMAT_W(13) " KB, " INT32_FORMAT_W(13) " refs\n",
                genColorStr(gen_type, color, buf), aic.hot_objects(),
                ((aic.hot_size()*HeapWordSize) >> 10), aic.hot_refs());
     //oit.print_age_tables(out, pref);
@@ -1647,9 +1635,11 @@ void ObjectInfoCollection::collect_gen_color_alloc_point_info(bool only_unmarked
       case OLD_GEN:
         psh->old_gen()->colored_object_iterate(&apic, color);
         break;
+      /*
       case PERM_GEN:
         psh->perm_gen()->colored_object_iterate(&apic, color);
         break;
+      */
       case ALL_GENS:
         psh->colored_object_iterate(&apic, color);
       default:
@@ -1663,9 +1653,11 @@ void ObjectInfoCollection::collect_gen_color_alloc_point_info(bool only_unmarked
       case OLD_GEN:
         psh->old_gen()->object_iterate(&apic);
         break;
+      /*
       case PERM_GEN:
         psh->perm_gen()->object_iterate(&apic);
         break;
+      */
       case ALL_GENS:
         psh->object_iterate(&apic);
         break;
@@ -1711,7 +1703,7 @@ void ObjectInfoCollection::print_object_info(outputStream *objlog,
 
   assert(heap->kind() == CollectedHeap::ParallelScavengeHeap, "invalid heap kind");
   ParallelScavengeHeap* psh = (ParallelScavengeHeap*)heap;
-  ref = psh->perm_gen()->object_space()->used_region().start();
+  ref = psh->old_gen()->object_space()->used_region().start();
   if (OnlyTenuredObjectInfo) {
     tenured_only = true;
   }
@@ -1847,54 +1839,35 @@ void PersistentObjectInfo::batch_mark_store(int n) {
   Atomic::add(n, &_tot_store_cnt);
 }
 
-PersistentObjectInfoEntry::PersistentObjectInfoEntry(klassOop k, PersistentObjectInfoEntry* next) :
+PersistentObjectInfoEntry::PersistentObjectInfoEntry(Klass* k, PersistentObjectInfoEntry* next) :
   _klass(k), _instance_count(0), _instance_words(0), _next(next) {
-  _elements = new (ResourceObj::C_HEAP) GrowableArray<PersistentObjectInfo*>(INITIAL_ENTRY_ARRAY_SIZE,true);
+  _elements = new (ResourceObj::C_HEAP, mtInternal) GrowableArray<PersistentObjectInfo*>(INITIAL_ENTRY_ARRAY_SIZE,true);
   ResourceMark rm;
   FILE *_klass_name_stream;
 
   _klass_name_stream = open_memstream(&_klass_name, &_klass_name_len);
-  if (_klass->klass_part()->name() != NULL) {
-    fprintf(_klass_name_stream, "%s", _klass->klass_part()->external_name());
+  if (_klass->name() != NULL) {
+    fprintf(_klass_name_stream, "%s", _klass->external_name());
   } else {
-    if (_klass == Universe::klassKlassObj())             fprintf(_klass_name_stream, "<klassKlass>");             else
-    if (_klass == Universe::arrayKlassKlassObj())        fprintf(_klass_name_stream, "<arrayKlassKlass>");        else
-    if (_klass == Universe::objArrayKlassKlassObj())     fprintf(_klass_name_stream, "<objArrayKlassKlass>");     else
-    if (_klass == Universe::instanceKlassKlassObj())     fprintf(_klass_name_stream, "<instanceKlassKlass>");     else
-    if (_klass == Universe::typeArrayKlassKlassObj())    fprintf(_klass_name_stream, "<typeArrayKlassKlass>");    else
     if (_klass == Universe::boolArrayKlassObj())         fprintf(_klass_name_stream, "<boolArrayKlass>");         else
+    if (_klass == Universe::byteArrayKlassObj())         fprintf(_klass_name_stream, "<byteArrayKlass>");         else
     if (_klass == Universe::charArrayKlassObj())         fprintf(_klass_name_stream, "<charArrayKlass>");         else
+    if (_klass == Universe::intArrayKlassObj())          fprintf(_klass_name_stream, "<intArrayKlass>");          else
+    if (_klass == Universe::shortArrayKlassObj())        fprintf(_klass_name_stream, "<shortArrayKlass>");        else
+    if (_klass == Universe::longArrayKlassObj())         fprintf(_klass_name_stream, "<longArrayKlass>");         else
     if (_klass == Universe::singleArrayKlassObj())       fprintf(_klass_name_stream, "<singleArrayKlass>");       else
     if (_klass == Universe::doubleArrayKlassObj())       fprintf(_klass_name_stream, "<doubleArrayKlass>");       else
-    if (_klass == Universe::byteArrayKlassObj())         fprintf(_klass_name_stream, "<byteArrayKlass>");         else
-    if (_klass == Universe::shortArrayKlassObj())        fprintf(_klass_name_stream, "<shortArrayKlass>");        else
-    if (_klass == Universe::intArrayKlassObj())          fprintf(_klass_name_stream, "<intArrayKlass>");          else
-    if (_klass == Universe::longArrayKlassObj())         fprintf(_klass_name_stream, "<longArrayKlass>");         else
-    if (_klass == Universe::methodKlassObj())            fprintf(_klass_name_stream, "<methodKlass>");            else
-    if (_klass == Universe::constMethodKlassObj())       fprintf(_klass_name_stream, "<constMethodKlass>");       else
-    if (_klass == Universe::methodDataKlassObj())        fprintf(_klass_name_stream, "<methodDataKlass>");        else
-    if (_klass == Universe::constantPoolKlassObj())      fprintf(_klass_name_stream, "<constantPoolKlass>");      else
-    if (_klass == Universe::constantPoolCacheKlassObj()) fprintf(_klass_name_stream, "<constantPoolCacheKlass>"); else
-    if (_klass == Universe::compiledICHolderKlassObj())  fprintf(_klass_name_stream, "<compiledICHolderKlass>");  else
       fprintf(_klass_name_stream, "<no name>");
   }
 
-  if (_klass->klass_part()->oop_is_instance())          fprintf(_klass_name_stream, " : instance");
-  if (_klass->klass_part()->oop_is_array())             fprintf(_klass_name_stream, " : array");
-  if (_klass->klass_part()->oop_is_objArray())          fprintf(_klass_name_stream, " : objArray");
-  if (_klass->klass_part()->oop_is_typeArray())         fprintf(_klass_name_stream, " : typeArray");
-  if (_klass->klass_part()->oop_is_klass())             fprintf(_klass_name_stream, " : klass");
-  if (_klass->klass_part()->oop_is_thread())            fprintf(_klass_name_stream, " : thread");
-  if (_klass->klass_part()->oop_is_method())            fprintf(_klass_name_stream, " : method");
-  if (_klass->klass_part()->oop_is_constMethod())       fprintf(_klass_name_stream, " : constMethod");
-  if (_klass->klass_part()->oop_is_methodData())        fprintf(_klass_name_stream, " : methodData");
-  if (_klass->klass_part()->oop_is_constantPool())      fprintf(_klass_name_stream, " : constantPool");
-  if (_klass->klass_part()->oop_is_constantPoolCache()) fprintf(_klass_name_stream, " : constantPoolCache");
-  if (_klass->klass_part()->oop_is_arrayKlass())        fprintf(_klass_name_stream, " : arrayKlass");
-  if (_klass->klass_part()->oop_is_objArrayKlass())     fprintf(_klass_name_stream, " : objArrayKlass");
-  if (_klass->klass_part()->oop_is_typeArrayKlass())    fprintf(_klass_name_stream, " : typeArrayKlass");
-  if (_klass->klass_part()->oop_is_compiledICHolder())  fprintf(_klass_name_stream, " : compiledICHolder");
-  if (_klass->klass_part()->oop_is_instanceKlass())     fprintf(_klass_name_stream, " : instanceKlass");
+  if (_klass->oop_is_instance())          fprintf(_klass_name_stream, " : instance");
+  if (_klass->oop_is_array())             fprintf(_klass_name_stream, " : array");
+  if (_klass->oop_is_objArray())          fprintf(_klass_name_stream, " : objArray");
+  if (_klass->oop_is_typeArray())         fprintf(_klass_name_stream, " : typeArray");
+  if (_klass->is_klass())             fprintf(_klass_name_stream, " : klass");
+  if (_klass->is_method())            fprintf(_klass_name_stream, " : method");
+  if (_klass->is_methodData())        fprintf(_klass_name_stream, " : methodData");
+  if (_klass->is_constantPool())      fprintf(_klass_name_stream, " : constantPool");
   fclose(_klass_name_stream);
 }
 
@@ -1927,12 +1900,6 @@ PersistentObjectInfo* PersistentObjectInfoEntry::append_new_poi(jint id,
   jint cval, int size, AllocPointInfo *api, HeapColor color,
   intptr_t addr) {
   static int cnt = 0;
-#if 0
-  PersistentObjectInfo *poi = new PersistentObjectInfo(id,cval,size,
-                                                       ap_klass,ap_name,
-                                                       ap_sig,ap_bci,
-                                                       color, addr);
-#endif
   //tty->print_cr("alloc_point: %p\n", api);
   PersistentObjectInfo *poi = new PersistentObjectInfo(id,cval,size,
                                     api, color, addr);
@@ -1978,7 +1945,7 @@ void PersistentObjectInfoEntry::print_poi(outputStream *st,
     }
   }
   st->print_cr(INT64_FORMAT_W(12)   " " INT64_FORMAT_W(8)  " "
-               INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
+               INT32_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
                INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12),
                //INT64_FORMAT_W(8) ") {"INTPTR_FORMAT"}",
                (jlong)cur_poi->id(),
@@ -1986,22 +1953,6 @@ void PersistentObjectInfoEntry::print_poi(outputStream *st,
                (cur_poi->size()*HeapWordSize),
                cnt_a, cnt_b,
                (jlong)cur_poi->alloc_point()->id());
-#if 0
-  st->print_cr(INT64_FORMAT_W(12)   " " INT64_FORMAT_W(8)  " "
-               INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
-               INT64_FORMAT_W(12)   " ({" INTPTR_FORMAT", "
-               INTPTR_FORMAT", "INTPTR_FORMAT"}, "
-               INT64_FORMAT_W(8) ")",
-               //INT64_FORMAT_W(8) ") {"INTPTR_FORMAT"}",
-               (jlong)cur_poi->id(),
-               (jlong)cur_poi->cval(),
-               (cur_poi->size()*HeapWordSize),
-               cnt_a, cnt_b,
-               cur_poi->ap_klass(),
-               cur_poi->ap_name(),
-               cur_poi->ap_signature(),
-               (jlong)cur_poi->ap_bci());
-#endif
 }
 
 void PersistentObjectInfoEntry::print_on(outputStream* st) const {
@@ -2018,7 +1969,7 @@ void PersistentObjectInfoEntry::print_on(outputStream* st) const {
   }
 }
 
-PersistentObjectInfoEntry* PersistentObjectInfoBucket::lookup(const klassOop k) {
+PersistentObjectInfoEntry* PersistentObjectInfoBucket::lookup(Klass* k) {
   PersistentObjectInfoEntry* oie = _list;
   while (oie != NULL) {
     if (oie->is_equal(k)) {
@@ -2057,7 +2008,7 @@ PersistentObjectInfoTable::PersistentObjectInfoTable(int size, HeapWord* ref) {
   _ref = ref;
   _printing = false;
   _cur_val = 0;
-  _buckets = NEW_C_HEAP_ARRAY(PersistentObjectInfoBucket, size);
+  _buckets = NEW_C_HEAP_ARRAY(PersistentObjectInfoBucket, size, mtInternal);
   if (_buckets != NULL) {
     _size = size;
     for (int index = 0; index < _size; index++) {
@@ -2076,12 +2027,12 @@ PersistentObjectInfoTable::~PersistentObjectInfoTable() {
   }
 }
 
-uint PersistentObjectInfoTable::hash(klassOop p) {
+uint PersistentObjectInfoTable::hash(Klass* p) {
   assert(Universe::heap()->is_in_permanent((HeapWord*)p), "all klasses in permgen");
   return (uint)(((uintptr_t)p - (uintptr_t)_ref) >> 2);
 }
 
-PersistentObjectInfoEntry* PersistentObjectInfoTable::lookup(const klassOop k) {
+PersistentObjectInfoEntry* PersistentObjectInfoTable::lookup(Klass* k) {
   uint         idx = hash(k) % _size;
   assert(_buckets != NULL, "Allocation failure should have been caught");
   PersistentObjectInfoEntry* oie = _buckets[idx].lookup(k);
@@ -2095,11 +2046,8 @@ PersistentObjectInfoEntry* PersistentObjectInfoTable::lookup(const klassOop k) {
 // of running out of space required to create a new entry.
 PersistentObjectInfo* PersistentObjectInfoTable::append_instance(const oop obj,
   AllocPointInfo *api, HeapColor color) {
-#if 0
-  ResourceMark rm;
-#endif
-  klassOop      k = obj->klass();
-  if (k != NULL && k->klass_part()->name() != NULL) {
+  Klass*      k = obj->klass();
+  if (k != NULL && k->name() != NULL) {
     PersistentObjectInfoEntry* poie = lookup(k);
     // poie may be NULL if it's a new klass for which we
     // could not allocate space for a new entry in the hashtable.
@@ -2107,46 +2055,22 @@ PersistentObjectInfo* PersistentObjectInfoTable::append_instance(const oop obj,
       CollectedHeap *heap = Universe::heap();
       PersistentObjectInfo *poi = NULL;
       /* add a poi if this oop has not been seen before */
-      if (obj->blueprint()->oop_is_instance()) {
+      if (obj->is_instance()) {
         ObjectInfoTable_lock->lock_without_safepoint_check();
         instanceOop inst_oop = ((instanceOop)obj);
         inst_oop->initialize(heap->fresh_oop_id(), _cur_val);
-#if 0
-        objinfo_log->print_cr("oop:   "INTPTR_FORMAT"  "
-                              "klass: "INTPTR_FORMAT"  "
-                              "mname: "INTPTR_FORMAT"  "
-                              "msig:  "INTPTR_FORMAT"  "
-                              "--> %s.%s %s %d  ",
-                              ap_method, ap_method->method_holder()->klass_part()->name(),
-                              ap_method->name(), ap_method->signature(),
-                              ap_method->method_holder()->klass_part()->name()->as_C_string(),
-                              ap_method->name()->as_C_string(),
-                              ap_method->signature()->as_C_string(), ap_bci);
-#endif
         poi = poie->append_new_poi(inst_oop->id(), _cur_val, obj->size(),
                                    api, color, (intptr_t)obj);
-        if (poi == NULL) return false;
+        if (poi == NULL) return NULL;
         guarantee (heap->valid_id(inst_oop->id()), "invalid id!!");
         ObjectInfoTable_lock->unlock();
-      } else if (obj->blueprint()->oop_is_array()) {
+      } else if (obj->is_array()) {
         ObjectInfoTable_lock->lock_without_safepoint_check();
         arrayOop arr_oop = ((arrayOop)obj);
         arr_oop->initialize(heap->fresh_oop_id(), _cur_val);
-#if 0
-        objinfo_log->print_cr("oop:   "INTPTR_FORMAT"  "
-                              "klass: "INTPTR_FORMAT"  "
-                              "mname: "INTPTR_FORMAT"  "
-                              "msig:  "INTPTR_FORMAT"  "
-                              "--> %s.%s %s %d  ",
-                              ap_method, ap_method->method_holder()->klass_part()->name(),
-                              ap_method->name(), ap_method->signature(),
-                              ap_method->method_holder()->klass_part()->name()->as_C_string(),
-                              ap_method->name()->as_C_string(),
-                              ap_method->signature()->as_C_string(), ap_bci);
-#endif
         poi = poie->append_new_poi(arr_oop->id(), _cur_val, obj->size(),
                                    api, color, (intptr_t)obj);
-        if (poi == NULL) return false;
+        if (poi == NULL) return NULL;
         guarantee (heap->valid_id(arr_oop->id()), "invalid id!!");
         ObjectInfoTable_lock->unlock();
       }
@@ -2168,7 +2092,7 @@ int PersistentObjectInfoHisto::sort_helper(PersistentObjectInfoEntry** e1, Persi
 }
 
 PersistentObjectInfoHisto::PersistentObjectInfoHisto(int estimatedCount) {
-  _elements = new (ResourceObj::C_HEAP) GrowableArray<PersistentObjectInfoEntry*>(estimatedCount,true);
+  _elements = new (ResourceObj::C_HEAP, mtInternal) GrowableArray<PersistentObjectInfoEntry*>(estimatedCount,true);
 }
 
 PersistentObjectInfoHisto::~PersistentObjectInfoHisto() {
@@ -2197,7 +2121,7 @@ void PersistentObjectInfoHisto::print_elements(outputStream* st) const {
     total += elements()->at(i)->count();
     totalw += elements()->at(i)->words();
   }
-  st->print_cr("  All classes: " INT64_FORMAT_W(13) " KB  (%d instances)\n",
+  st->print_cr("  All classes: " INT64_FORMAT_W(13) " KB  (%lu instances)\n",
                ((totalw * HeapWordSize) >> 10), total);
 }
 
@@ -2211,8 +2135,9 @@ class PersistentObjectClosure : public ObjectInfoClosure {
   PersistentObjectInfoHisto* _cih;
  public:
   PersistentObjectClosure(PersistentObjectInfoHisto* cih) : _cih(cih) {}
-
-  void do_cinfo(PersistentObjectInfoEntry* cie) {
+  
+  using ObjectInfoClosure::do_cinfo;
+  virtual void do_cinfo(PersistentObjectInfoEntry* cie) {
     _cih->add(cie);
   }
 };
@@ -2358,9 +2283,6 @@ void ObjectInfoCollection::collect_object_info(outputStream *objlog,
   if (ObjectInfoWithGC && !skip_gc) {
     /* print_object_info will collect all the alloc point info */
     ObjectInfoCollection::print_object_info(objlog, false, "pre-gc", false);
-#if 0
-    ObjectLayout::reset_ref_cnts();
-#endif
 
     /* GC can find new objects -- don't print out the alloc point info just yet */
     heap->young_collect_as_vm_thread(GCCause::_object_info_collection);
@@ -2371,30 +2293,19 @@ void ObjectInfoCollection::collect_object_info(outputStream *objlog,
       aplog->print_cr("    allocation point info %-5d pre-gc:", poit->cur_val());
       apit->print_val_info(aplog);
       apit->reset_val_cnts();
-      aplog->print_cr(""); aplog->flush();
+      aplog->print_cr(" "); aplog->flush();
     }
-
-#if 0
-    if (PrintAPInfoAtInterval) {
-      apit->print_new_val_info(aplog);
-      apit->reset_ref_cnts();
-      aplog->print_cr(""); aplog->flush();
-    }
-#endif
 
     /* the GC will discover objects that don't have a known AP -- print those
      * out and reset again
      */
     ObjectInfoCollection::print_object_info(objlog, true, "post-GC", true);
-#if 0
-    ObjectLayout::reset_ref_cnts(); // ref_cnts should always be 0 -- but do this anyway
-#endif
 
     if (PrintAPInfoAtInterval) {
       aplog->print_cr("    allocation point info %-5d post-gc:", poit->cur_val());
       apit->print_val_info(aplog);
       apit->reset_val_cnts();
-      aplog->print_cr(""); aplog->flush();
+      aplog->print_cr(" "); aplog->flush();
     }
 #if 1
     ObjectLayout::reset_ref_cnts(); // ref_cnts should always be 0 -- but do this anyway
@@ -2408,7 +2319,7 @@ void ObjectInfoCollection::collect_object_info(outputStream *objlog,
       aplog->print_cr("    allocation point info %-5d:", poit->cur_val());
       apit->print_val_info(aplog);
       apit->reset_val_cnts();
-      aplog->print_cr(""); aplog->flush();
+      aplog->print_cr(" "); aplog->flush();
     }
   }
 
@@ -2607,7 +2518,7 @@ AllocPointInfoEntry::AllocPointInfoEntry(const char *key, unsigned int id,
 	unsigned int key_len;
 
   key_len = strlen(key);
-	_key    = NEW_C_HEAP_ARRAY(char, key_len+1  );
+	_key    = NEW_C_HEAP_ARRAY(char, key_len+1, mtInternal);
   strcpy(_key, key);
 
   _value  = new AllocPointInfo(id, color);
@@ -2803,7 +2714,7 @@ AllocPointInfoTable::AllocPointInfoTable(unsigned int capacity)
 {
 	_size = 0;
   _cur_id = 0;
-  _buckets = NEW_C_HEAP_ARRAY(AllocPointInfoBucket, capacity);
+  _buckets = NEW_C_HEAP_ARRAY(AllocPointInfoBucket, capacity, mtInternal);
   if (_buckets != NULL) {
     _size = capacity;
     for (unsigned int index = 0; index < _size; index++) {
@@ -2823,7 +2734,7 @@ AllocPointInfoTable::~AllocPointInfoTable()
   }
 }
 
-AllocPointInfo *AllocPointInfoTable::get(methodOopDesc *ap_method, int ap_bci,
+AllocPointInfo *AllocPointInfoTable::get(Method *ap_method, int ap_bci,
   HeapColor color)
 {
   ResourceMark rm;
@@ -2835,7 +2746,7 @@ AllocPointInfo *AllocPointInfoTable::get(methodOopDesc *ap_method, int ap_bci,
   assert(_buckets != NULL, "AllocPointInfoTable buckets is null");
 
   if (ap_method) {
-    ap_klass = ap_method->method_holder()->klass_part()->name();
+    ap_klass = ap_method->method_holder()->name();
     ap_name  = ap_method->name();
     ap_sig   = ap_method->signature();
 #if 0
@@ -2888,7 +2799,7 @@ void AllocPointInfoTable::print_map_on(outputStream *out)
   for(unsigned int i=0; i < _size; i++) {
     _buckets[i].print_map_on(out);
   }
-  out->print_cr("");
+  out->print_cr(" ");
 }
 
 void AllocPointInfoTable::print_val_info(outputStream *out)
@@ -2898,7 +2809,7 @@ void AllocPointInfoTable::print_val_info(outputStream *out)
     "new_objs", "new_size", "refs");
 
   compute_val_totals();
-  out->print_cr("total   | %16d %16d |  %16d %16d |  %16d %16d |  %16d",
+  out->print_cr("total   | %16lu %16lu |  %16lu %16lu |  %16lu %16lu |  %16lu",
     _val_total_objects,     _val_total_size*HeapWordSize,
     _val_total_hot_objects, _val_total_hot_size*HeapWordSize,
     _val_total_new_objects, _val_total_new_size*HeapWordSize,
@@ -2908,15 +2819,6 @@ void AllocPointInfoTable::print_val_info(outputStream *out)
     _buckets[i].print_val_info(out);
   }
 }
-
-#if 0
-void AllocPointInfoTable::print_new_val_info(outputStream *out)
-{
-  for(unsigned int i=0; i < _size; i++) {
-    _buckets[i].print_new_val_info(out);
-  }
-}
-#endif
 
 void AllocPointInfoTable::reset_val_totals()
 {
@@ -2953,376 +2855,6 @@ void AllocPointInfoTable::reset_ref_cnts()
 }
 #endif /* PROFILE_OBJECT_INFO */
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-#if 0
-/* Some allocations are missed during profiling (these are likely allocated in
- * native methods) -- we use this closure to put these missed allocations in
- * the ObjectAddressInfoTable
- */
-class InsertObjectAddressClosure : public OopClosure {
- private:
-  ObjectAddressInfoTable *_oait;
-  bool _count_refs;
- public:
-  InsertObjectAddressClosure(ObjectAddressInfoTable *oait, bool count_refs) : _oait(oait),
-    _count_refs(count_refs) {}
-
-  static inline bool should_include(oop obj) {
-    if (obj && obj->is_oop()) {
-      klassOop klass = obj->klass();
-      if (klass) {
-        if (klass->klass_part()->oop_is_instance()
-            || klass->klass_part()->oop_is_array()) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  void do_object(oop obj) {
-    if (should_include(obj)) {
-      if ((_oait->lookup(obj)) == NULL) {
-        _oait->inc_missed_objects();
-        _oait->add_missed_size(obj->size());
-        if (obj->size() > 131072) {
-          ResourceMark rm;
-          const char* name;;
-
-          addrinfo_log->print_cr("big object missed!");
-          klassOop klass = obj->klass();
-          if (klass) {
-            if (klass->klass_part()->name() != NULL) {
-              name = klass->klass_part()->external_name();
-            } else {
-              if (klass == Universe::klassKlassObj())             name = "<klassKlass>";             else
-              if (klass == Universe::arrayKlassKlassObj())        name = "<arrayKlassKlass>";        else
-              if (klass == Universe::objArrayKlassKlassObj())     name = "<objArrayKlassKlass>";     else
-              if (klass == Universe::instanceKlassKlassObj())     name = "<instanceKlassKlass>";     else
-              if (klass == Universe::typeArrayKlassKlassObj())    name = "<typeArrayKlassKlass>";    else
-              if (klass == Universe::boolArrayKlassObj())         name = "<boolArrayKlass>";         else
-              if (klass == Universe::charArrayKlassObj())         name = "<charArrayKlass>";         else
-              if (klass == Universe::singleArrayKlassObj())       name = "<singleArrayKlass>";       else
-              if (klass == Universe::doubleArrayKlassObj())       name = "<doubleArrayKlass>";       else
-              if (klass == Universe::byteArrayKlassObj())         name = "<byteArrayKlass>";         else
-              if (klass == Universe::shortArrayKlassObj())        name = "<shortArrayKlass>";        else
-              if (klass == Universe::intArrayKlassObj())          name = "<intArrayKlass>";          else
-              if (klass == Universe::longArrayKlassObj())         name = "<longArrayKlass>";         else
-              if (klass == Universe::methodKlassObj())            name = "<methodKlass>";            else
-              if (klass == Universe::constMethodKlassObj())       name = "<constMethodKlass>";       else
-              if (klass == Universe::methodDataKlassObj())        name = "<methodDataKlass>";        else
-              if (klass == Universe::constantPoolKlassObj())      name = "<constantPoolKlass>";      else
-              if (klass == Universe::constantPoolCacheKlassObj()) name = "<constantPoolCacheKlass>"; else
-              if (klass == Universe::compiledICHolderKlassObj())  name = "<compiledICHolderKlass>";  else
-                name = "<no name>";
-            }
-          } else {
-            name = "<no name>";
-          }
-          // simplify the formatting (ILP32 vs LP64) - always cast the numbers to 64-bit
-          addrinfo_log->print_cr(INTPTR_FORMAT "  " UINT64_FORMAT_W(13) "  %s",
-                                 obj, (julong) obj->size() * HeapWordSize, name);
-        }
-        if (_count_refs) {
-          _oait->add_missed_refs(obj->size());
-          _oait->mark_alloc(obj);
-        } else {
-          _oait->insert(obj);
-        }
-      }
-    }
-  }
-};
-
-class HeapStatsClosure : public ObjectClosure {
- private:
-  ObjectAddressInfoTable *_oait;
-  ObjectAddressInfo *_oai;
-  size_t _missed_count;
-  jint _live_objects, _live_size, _live_refs,
-        _hot_objects,  _hot_size, _hot_refs;
- public:
-  HeapStatsClosure(ObjectAddressInfoTable *oait) : _oait(oait),
-    _live_objects(0), _live_size(0), _live_refs(0),
-    _hot_objects(0), _hot_size(0), _hot_refs(0) {    
-  }
-
-  jint live_objects() { return _live_objects; }
-  jint live_size()    { return _live_size;    }
-  jint live_refs()    { return _live_refs;    }
-  jint hot_objects()  { return _hot_objects;  }
-  jint hot_size()     { return _hot_size;     }
-  jint hot_refs()     { return _hot_refs;     }
-
-  static inline bool should_include(oop obj) {
-    if (obj)
-      return true;
-
-#if 0
-    if (obj && obj->is_oop()) {
-      klassOop klass = obj->klass();
-      if (klass) {
-        if (klass->klass_part()->oop_is_instance()
-            || klass->klass_part()->oop_is_array()) {
-          return true;
-        }
-      }
-    }
-#endif
-    return false;
-  }
-
-  void do_object(oop obj) {
-    if (should_include(obj)) {
-      _live_objects++;
-      _live_size += obj->size();
-      if (_oai = (_oait->lookup(obj))) {
-        jint refs = _oai->load_cnt() + _oai->store_cnt();
-        if (refs > 0) {
-          _live_refs += refs;
-          _hot_refs  += refs;
-          _hot_objects++;
-          _hot_size += obj->size();
-        }
-      } else {
-#if 0
-        if (_pre_gc) {
-          /* this is a missed allocation (likely allocated in native code) --
-           * add it to the oait
-           */
-          oait->mark_alloc(obj)
-        }
-#endif
-      }
-    }
-  }
-};
-#endif
-
-#if 0
-class UnknownPagesClosure : public ObjectClosure {
- private:
-  ObjectAddressInfoTable *_oait;
-  ObjectAddressInfo *_oai;
-  intptr_t _prev_page, _cur_page, _next_page;
-  int _val;
-
-  int _unk_objs, _unk_size, _knw_objs, _knw_size;
-  intptr_t heap_boundaries[HS_NR_SPACES][NR_MARKS];
-
- public:
-  UnknownPagesClosure(ObjectAddressInfoTable *oait, int val) : _oait(oait),
-    _val(val) {
-    _prev_page = _next_page = NULL;
-    _cur_page = OAR_MARKER;
-    _unk_objs = _unk_size = _knw_objs = _knw_size = 0;
-
-    ParallelScavengeHeap* psh = ((ParallelScavengeHeap*)Universe::heap());
-    heap_boundaries[HS_EDEN_SPACE][BOTTOM_ADDR]     = (intptr_t)psh->young_gen()->eden_space()->bottom();
-    heap_boundaries[HS_EDEN_SPACE][END_ADDR]        = (intptr_t)psh->young_gen()->eden_space()->top();
-    heap_boundaries[HS_SURVIVOR_SPACE][BOTTOM_ADDR] = (intptr_t)psh->young_gen()->from_space()->bottom();
-    heap_boundaries[HS_SURVIVOR_SPACE][END_ADDR]    = (intptr_t)psh->young_gen()->from_space()->top();
-    heap_boundaries[HS_TENURED_SPACE][BOTTOM_ADDR]  = (intptr_t)psh->old_gen()->object_space()->bottom();
-    heap_boundaries[HS_TENURED_SPACE][END_ADDR]     = (intptr_t)psh->old_gen()->object_space()->top();
-    heap_boundaries[HS_PERM_SPACE][BOTTOM_ADDR]     = (intptr_t)psh->perm_gen()->object_space()->bottom();
-    heap_boundaries[HS_PERM_SPACE][END_ADDR]        = (intptr_t)psh->perm_gen()->object_space()->top();
-
-    fwrite(&_cur_page, sizeof(intptr_t), 1, addrups_log);
-    fwrite(&_val, sizeof(int), 1, addrups_log);
-
-#if 0
-    if (PrintTextOAT) {
-      addrinfo_log->print_cr("  Pages with unknown objects (val=%d)", _val);
-    }
-#endif
-    addrinfo_log->flush();
-  }
-
-  int unk_objs() { return _unk_objs; }
-  int unk_size() { return _unk_size; }
-  int knw_objs() { return _knw_objs; }
-  int knw_size() { return _knw_size; }
-
-  bool obj_in_eden(oop obj) {
-    if ( ((intptr_t)obj) >= heap_boundaries[HS_EDEN_SPACE][BOTTOM_ADDR] &&
-         ((intptr_t)obj) <  heap_boundaries[HS_EDEN_SPACE][END_ADDR] ) {
-      return true;
-    }
-    return false;
-  }
-
-  bool obj_in_survivor(oop obj) {
-    if ( ((intptr_t)obj) >= heap_boundaries[HS_SURVIVOR_SPACE][BOTTOM_ADDR] &&
-         ((intptr_t)obj) <  heap_boundaries[HS_SURVIVOR_SPACE][END_ADDR] ) {
-      return true;
-    }
-    return false;
-  }
-
-  bool obj_in_tenured(oop obj) {
-    if ( ((intptr_t)obj) >= heap_boundaries[HS_TENURED_SPACE][BOTTOM_ADDR] &&
-         ((intptr_t)obj) <  heap_boundaries[HS_TENURED_SPACE][END_ADDR] ) {
-      return true;
-    }
-    return false;
-  }
-
-  bool obj_in_perm(oop obj) {
-    if ( ((intptr_t)obj) >= heap_boundaries[HS_PERM_SPACE][BOTTOM_ADDR] &&
-         ((intptr_t)obj) <  heap_boundaries[HS_PERM_SPACE][END_ADDR] ) {
-      return true;
-    }
-    return false;
-  }
-
-  bool page_in_survivor(intptr_t page) {
-    if ( page >= heap_boundaries[HS_SURVIVOR_SPACE][BOTTOM_ADDR] &&
-         page <  heap_boundaries[HS_SURVIVOR_SPACE][END_ADDR] ) {
-      return true;
-    }
-    return false;
-  }
-
-  void print_cur_page() {
-    if (_cur_page != _prev_page) {
-      fwrite(&_cur_page, sizeof(intptr_t), 1, addrups_log);
-#if 0
-      if (PrintTextOAT) {
-        addrinfo_log->print_cr("%p", _cur_page);
-      }
-#endif
-#if 0
-      if (page_in_survivor(_cur_page)) {
-        addrinfo_log->print_cr("  %p", _cur_page);
-      }
-#endif
-      _prev_page = _cur_page;
-    }
-  }
-
-  void do_object(oop obj) {
-    ObjectAddressInfo *oai = _oait->lookup(obj);
-#if 0
-    if (obj == (void*)0x6c06e0000) {
-      ObjectAddressInfoTable *oait     = Universe::object_address_info_table();
-      ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
-      ObjectAddressInfo *oai           = oait->lookup(obj);
-      ObjectAddressInfo *alt_oai       = alt_oait->lookup(obj);
-      tty->print_cr("got %p : oai=%p alt_oai=%p oait=%p alt_oait=%p _oait=%p", obj,
-        oai, alt_oai, oait, alt_oait, _oait);
-    }
-#endif
-    if (obj && (oai == NULL)) {
-      if (_oait->is_known_free(obj)) {
-#if 0
-        if (obj_in_eden(obj)) {
-          _knw_objs += 1;
-          _knw_size += obj->size();
-        }
-#endif
-        //tty->print_cr("inserting known free: %p %d", obj, obj->size()*HeapWordSize);
-        _oait->insert(obj, false);
-        return;
-      }
-
-#if 1
-      if (obj_in_survivor(obj)) {
-        _unk_objs += 1;
-        _unk_size += obj->size();
-        tty->print_cr("unk_obj: %p %d", obj, (obj->size()*HeapWordSize));
-      }
-#endif
-#if 0
-      if (_oait->cur_val() == 20 || ((obj->size()*HeapWordSize)>>10) > 128) {
-        ResourceMark rm;
-        const char* name;;
-
-        klassOop klass = obj->klass();
-        if (klass) {
-          if (klass->klass_part()->name() != NULL) {
-            name = klass->klass_part()->external_name();
-          } else {
-            if (klass == Universe::klassKlassObj())             name = "<klassKlass>";             else
-            if (klass == Universe::arrayKlassKlassObj())        name = "<arrayKlassKlass>";        else
-            if (klass == Universe::objArrayKlassKlassObj())     name = "<objArrayKlassKlass>";     else
-            if (klass == Universe::instanceKlassKlassObj())     name = "<instanceKlassKlass>";     else
-            if (klass == Universe::typeArrayKlassKlassObj())    name = "<typeArrayKlassKlass>";    else
-            if (klass == Universe::boolArrayKlassObj())         name = "<boolArrayKlass>";         else
-            if (klass == Universe::charArrayKlassObj())         name = "<charArrayKlass>";         else
-            if (klass == Universe::singleArrayKlassObj())       name = "<singleArrayKlass>";       else
-            if (klass == Universe::doubleArrayKlassObj())       name = "<doubleArrayKlass>";       else
-            if (klass == Universe::byteArrayKlassObj())         name = "<byteArrayKlass>";         else
-            if (klass == Universe::shortArrayKlassObj())        name = "<shortArrayKlass>";        else
-            if (klass == Universe::intArrayKlassObj())          name = "<intArrayKlass>";          else
-            if (klass == Universe::longArrayKlassObj())         name = "<longArrayKlass>";         else
-            if (klass == Universe::methodKlassObj())            name = "<methodKlass>";            else
-            if (klass == Universe::constMethodKlassObj())       name = "<constMethodKlass>";       else
-            if (klass == Universe::methodDataKlassObj())        name = "<methodDataKlass>";        else
-            if (klass == Universe::constantPoolKlassObj())      name = "<constantPoolKlass>";      else
-            if (klass == Universe::constantPoolCacheKlassObj()) name = "<constantPoolCacheKlass>"; else
-            if (klass == Universe::compiledICHolderKlassObj())  name = "<compiledICHolderKlass>";  else
-              name = "<no name>";
-          }
-        } else {
-          name = "<no name>";
-        }
-        addrinfo_log->print_cr("unknw: " INTPTR_FORMAT "  " UINT64_FORMAT_W(13) "  %s",
-                               obj, (julong) obj->size() * HeapWordSize, name);
-      }
-#endif
-
-#if 0
-      static int i=0;
-      if (obj_in_eden(obj) && i < 20000) {
-        tty->print_cr("eden object: %p %d", obj, (obj->size()*HeapWordSize));
-        i++;
-      }
-#endif
-#if 0
-      if (obj_in_survivor(obj)) {
-        addrinfo_log->print_cr("unknown obj: %p %d", obj, (obj->size()*HeapWordSize));
-      }
-#endif
-      int rem = (obj->size()*HeapWordSize);
-      _cur_page = ((((intptr_t)obj) >> PAGE_SHIFT) << PAGE_SHIFT);
-      print_cur_page();
-
-      _next_page = _cur_page + PAGE_SIZE;
-      rem -= (_next_page - ((intptr_t)obj));
-      while (rem > 0) {
-        _cur_page = _next_page;
-        _next_page += PAGE_SIZE;
-        print_cur_page();
-        rem -= PAGE_SIZE;
-      }
-    } else {
-      /* MRJ: don't know why this happens -- but it can happen in some
-       * benchmarks
-       */
-      if (oai->size() != obj->size()) {
-        oai->set_size(obj->size());
-      }
-#if 0
-      if (obj_in_eden(obj)) {
-        _knw_objs += 1;
-        _knw_size += obj->size();
-      }
-#endif
-#if 0
-      if (obj && _oait->cur_val() == 20) {
-        addrinfo_log->print_cr("known: " INTPTR_FORMAT "  " UINT64_FORMAT_W(13),
-                               obj, (julong) obj->size() * HeapWordSize);
-      }
-#endif
-#if 0
-      if (obj_in_survivor(obj)) {
-        addrinfo_log->print_cr("known obj:   %p %d", obj, (obj->size()*HeapWordSize));
-      }
-#endif
-    }
-  }
-};
-#endif
-
 //----------------------------------------------------------
 // Implementation of ObjectAddressInfoCollectionTask
 ObjectAddressInfoCollectionTask* ObjectAddressInfoCollection::_task = NULL;
@@ -3362,98 +2894,6 @@ void ObjectAddressInfoCollectionTask::task() {
       os::signal_notify(SIGBREAK);
   }
 }
-
-#if 0
-void ObjectAddressInfoCollection::print_oait_summary(outputStream *out, bool pre_gc)
-{
-  ParallelScavengeHeap* psh = ((ParallelScavengeHeap*)Universe::heap());
-  ObjectAddressInfoTable *oait;
-  bool count_refs;
-  
-  if (pre_gc) {
-    oait = Universe::object_address_info_table();
-    count_refs = true;
-  } else {
-    oait = Universe::alt_oait();
-    count_refs = false;
-  }
-
-  InsertObjectAddressClosure ioac(oait, count_refs);
-  psh->object_iterate(&ioac);
-
-  oait->compute_heap_stats(pre_gc);
-
-  out->print("  lives:   " INT64_FORMAT_W(13) " objects, "
-             INT64_FORMAT_W(13) " KB, " INT64_FORMAT_W(13) " refs\n",
-             oait->live_objects(), ((oait->live_size()*HeapWordSize) >> 10),
-             oait->live_refs());
-  out->print("  hots:    " INT64_FORMAT_W(13) " objects, "
-             INT64_FORMAT_W(13) " KB, " INT64_FORMAT_W(13) " refs\n",
-             oait->hot_objects(), ((oait->hot_size()*HeapWordSize) >> 10),
-             oait->hot_refs());
-  out->print("  (missed: " INT64_FORMAT_W(13) " objects, "
-             INT64_FORMAT_W(13) " KB)\n", oait->missed_objects(),
-             ((oait->missed_size()*HeapWordSize) >> 10));
-  out->flush();
-
-  guarantee(oait != NULL, "no object address info table!");
-}
-
-void ObjectAddressInfoCollection::print_object_address_info(outputStream *out,
-  const char *reason)
-{
-  ParallelScavengeHeap* psh = ((ParallelScavengeHeap*)Universe::heap());
-  ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-  guarantee(oait != NULL, "no object address info table!");
-
-#if 0
-  jlong cur_time = os::javaTimeMillis();
-  out->print("%10s ObjectAddressInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
-                      reason, oait->cur_val(), cur_time,
-                      cur_time-ObjectAddressInfoCollection::_val_start);
-  out->flush();
-#endif
-
-  HeapStatsClosure yhsc(oait);
-  psh->young_gen()->object_iterate(&yhsc);
-
-  out->print("  young lives: " INT64_FORMAT_W(13) " objects, "
-             INT64_FORMAT_W(13) " bytes, " INT64_FORMAT_W(13) " refs\n",
-             yhsc.live_objects(), (yhsc.live_size()*HeapWordSize),
-             yhsc.live_refs());
-  out->print("  young hots:  " INT64_FORMAT_W(13) " objects, "
-             INT64_FORMAT_W(13) " bytes, " INT64_FORMAT_W(13) " refs\n",
-             yhsc.hot_objects(), (yhsc.hot_size()*HeapWordSize),
-             yhsc.hot_refs());
-  out->flush();
-
-  HeapStatsClosure ohsc(oait);
-  psh->old_gen()->object_iterate(&ohsc);
-
-  out->print("  old lives:   " INT64_FORMAT_W(13) " objects, "
-             INT64_FORMAT_W(13) " bytes, " INT64_FORMAT_W(13) " refs\n",
-             ohsc.live_objects(), (ohsc.live_size()*HeapWordSize),
-             ohsc.live_refs());
-  out->print("  old hots:    " INT64_FORMAT_W(13) " objects, "
-             INT64_FORMAT_W(13) " bytes, " INT64_FORMAT_W(13) " refs\n",
-             ohsc.hot_objects(), (ohsc.hot_size()*HeapWordSize),
-             ohsc.hot_refs());
-  out->flush();
-
-  HeapStatsClosure phsc(oait);
-  psh->perm_gen()->object_iterate(&phsc);
-
-  out->print("  perm lives:  " INT64_FORMAT_W(13) " objects, "
-             INT64_FORMAT_W(13) " bytes, " INT64_FORMAT_W(13) " refs\n",
-             phsc.live_objects(), (phsc.live_size()*HeapWordSize),
-             phsc.live_refs());
-  out->print("  perm hots:   " INT64_FORMAT_W(13) " objects, "
-             INT64_FORMAT_W(13) " bytes, " INT64_FORMAT_W(13) " refs\n",
-             phsc.hot_objects(), (phsc.hot_size()*HeapWordSize),
-             phsc.hot_refs());
-  out->flush();
-}
-#endif
 
 void ObjectAddressInfoCollection::collect_object_address_info(outputStream *addrlog, 
   outputStream *fieldlog, const char *reason)
@@ -3531,14 +2971,6 @@ void ObjectAddressInfoCollection::collect_object_address_info(outputStream *addr
     alt_oait->reset_spaces(true /* old and young */);
   }
 
-#if 0
-  addrinfo_log->print_cr("unknown objects: " INT64_FORMAT_W(13)
-                         " unknown size: " INT64_FORMAT_W(13),
-                         upc.unk_objs(), (upc.unk_size()*HeapWordSize));
-  addrinfo_log->print_cr("  known objects: " INT64_FORMAT_W(13)
-                         "   known size: " INT64_FORMAT_W(13),
-                         upc.knw_objs(), (upc.knw_size()*HeapWordSize));
-#endif
   oait->compute_heap_stats();
   oait->print_on(addrlog, fieldlog, reason);
   oait->inc_cur_val();
@@ -3554,7 +2986,7 @@ void ObjectAddressInfoCollection::collect_object_address_info(outputStream *addr
   }
 }
 
-KlassRecord::KlassRecord(klassOop k, int instance_size, enum klass_type ktype) :
+KlassRecord::KlassRecord(Klass* k, int instance_size, enum klass_type ktype) :
   _klass(k) {
   /* XXX: eclipse-default throws an error in the very last part of the run
    * with the FIELD_TLAB_INTERVAL configuration in this code -- we can just
@@ -3569,20 +3001,15 @@ KlassRecord::KlassRecord(klassOop k, int instance_size, enum klass_type ktype) :
 
   _klass_name     = NULL;
   _klass_name_len = 0;
-  if (_klass && _klass != FILLER_KLASS && heap->is_in(_klass->klass_part())) {
+  if (_klass && _klass != FILLER_KLASS && heap->is_in(_klass)) {
     //ObjectAddressInfoTable::_klass_print_order += 1;
     //tty->print_cr("inserting: %p, size: %d", k, instance_size);
     //tty->print_cr("  klass_part: %p", _klass->klass_part());
 
     _klass_name_stream = open_memstream(&_klass_name, &_klass_name_len);
-    if (_klass->klass_part()->name() != NULL) {
-      fprintf(_klass_name_stream, "%s", _klass->klass_part()->external_name());
+    if (_klass->name() != NULL) {
+      fprintf(_klass_name_stream, "%s", _klass->external_name());
     } else {
-      if (_klass == Universe::klassKlassObj())             fprintf(_klass_name_stream, "<klassKlass>");             else
-      if (_klass == Universe::arrayKlassKlassObj())        fprintf(_klass_name_stream, "<arrayKlassKlass>");        else
-      if (_klass == Universe::objArrayKlassKlassObj())     fprintf(_klass_name_stream, "<objArrayKlassKlass>");     else
-      if (_klass == Universe::instanceKlassKlassObj())     fprintf(_klass_name_stream, "<instanceKlassKlass>");     else
-      if (_klass == Universe::typeArrayKlassKlassObj())    fprintf(_klass_name_stream, "<typeArrayKlassKlass>");    else
       if (_klass == Universe::boolArrayKlassObj())         fprintf(_klass_name_stream, "<boolArrayKlass>");         else
       if (_klass == Universe::charArrayKlassObj())         fprintf(_klass_name_stream, "<charArrayKlass>");         else
       if (_klass == Universe::singleArrayKlassObj())       fprintf(_klass_name_stream, "<singleArrayKlass>");       else
@@ -3591,41 +3018,27 @@ KlassRecord::KlassRecord(klassOop k, int instance_size, enum klass_type ktype) :
       if (_klass == Universe::shortArrayKlassObj())        fprintf(_klass_name_stream, "<shortArrayKlass>");        else
       if (_klass == Universe::intArrayKlassObj())          fprintf(_klass_name_stream, "<intArrayKlass>");          else
       if (_klass == Universe::longArrayKlassObj())         fprintf(_klass_name_stream, "<longArrayKlass>");         else
-      if (_klass == Universe::methodKlassObj())            fprintf(_klass_name_stream, "<methodKlass>");            else
-      if (_klass == Universe::constMethodKlassObj())       fprintf(_klass_name_stream, "<constMethodKlass>");       else
-      if (_klass == Universe::methodDataKlassObj())        fprintf(_klass_name_stream, "<methodDataKlass>");        else
-      if (_klass == Universe::constantPoolKlassObj())      fprintf(_klass_name_stream, "<constantPoolKlass>");      else
-      if (_klass == Universe::constantPoolCacheKlassObj()) fprintf(_klass_name_stream, "<constantPoolCacheKlass>"); else
-      if (_klass == Universe::compiledICHolderKlassObj())  fprintf(_klass_name_stream, "<compiledICHolderKlass>");  else
         fprintf(_klass_name_stream, "<no name>");
     }
 
     /* for whatever reason -- this code does not work with eclipse-default */
-    if (_klass->klass_part()->oop_is_instance())          fprintf(_klass_name_stream, " : instance");
-    if (_klass->klass_part()->oop_is_array())             fprintf(_klass_name_stream, " : array");
-    if (_klass->klass_part()->oop_is_objArray())          fprintf(_klass_name_stream, " : objArray");
-    if (_klass->klass_part()->oop_is_typeArray())         fprintf(_klass_name_stream, " : typeArray");
-    if (_klass->klass_part()->oop_is_klass())             fprintf(_klass_name_stream, " : klass");
-    if (_klass->klass_part()->oop_is_thread())            fprintf(_klass_name_stream, " : thread");
-    if (_klass->klass_part()->oop_is_method())            fprintf(_klass_name_stream, " : method");
-    if (_klass->klass_part()->oop_is_constMethod())       fprintf(_klass_name_stream, " : constMethod");
-    if (_klass->klass_part()->oop_is_methodData())        fprintf(_klass_name_stream, " : methodData");
-    if (_klass->klass_part()->oop_is_constantPool())      fprintf(_klass_name_stream, " : constantPool");
-    if (_klass->klass_part()->oop_is_constantPoolCache()) fprintf(_klass_name_stream, " : constantPoolCache");
-    if (_klass->klass_part()->oop_is_arrayKlass())        fprintf(_klass_name_stream, " : arrayKlass");
-    if (_klass->klass_part()->oop_is_objArrayKlass())     fprintf(_klass_name_stream, " : objArrayKlass");
-    if (_klass->klass_part()->oop_is_typeArrayKlass())    fprintf(_klass_name_stream, " : typeArrayKlass");
-    if (_klass->klass_part()->oop_is_compiledICHolder())  fprintf(_klass_name_stream, " : compiledICHolder");
-    if (_klass->klass_part()->oop_is_instanceKlass())     fprintf(_klass_name_stream, " : instanceKlass");
+    if (_klass->oop_is_instance())          fprintf(_klass_name_stream, " : instance");
+    if (_klass->oop_is_array())             fprintf(_klass_name_stream, " : array");
+    if (_klass->oop_is_objArray())          fprintf(_klass_name_stream, " : objArray");
+    if (_klass->oop_is_typeArray())         fprintf(_klass_name_stream, " : typeArray");
+    if (_klass->is_klass())             fprintf(_klass_name_stream, " : klass");
+    if (_klass->is_method())            fprintf(_klass_name_stream, " : method");
+    if (_klass->is_methodData())        fprintf(_klass_name_stream, " : methodData");
+    if (_klass->is_constantPool())      fprintf(_klass_name_stream, " : constantPool");
     fclose(_klass_name_stream);
   }
 
   if (ktype == KT_UNSPECIFIED) {
     if (_klass && _klass != FILLER_KLASS) {
-      if (_klass->klass_part()->oop_is_instance()) {
+      if (_klass->oop_is_instance()) {
         _klass_type = KT_VM_INSTANCE;
         _instance_size = instance_size;
-      } else if (_klass->klass_part()->oop_is_array()) {
+      } else if (_klass->oop_is_array()) {
         _klass_type = KT_VM_ARRAY;
         _instance_size = -1;
       } else {
@@ -3645,7 +3058,7 @@ KlassRecord::KlassRecord(klassOop k, int instance_size, enum klass_type ktype) :
   _fields = NULL;
   if (_instance_size > 0) {
     _nr_fields = (_instance_size * HeapWordSize) - OOP_HEADER_SIZE;
-    _fields = new (ResourceObj::C_HEAP)
+    _fields = new (ResourceObj::C_HEAP, mtInternal)
       GrowableArray<FieldRecord*>(_nr_fields,true);
 
     for (i = 0; i < _nr_fields; i++) {
@@ -3736,9 +3149,9 @@ void KlassRecord::print_on(outputStream *out)
     sprintf(sizebuf, "%13s", "-");
   }
 
-  out->print_cr(" %5d : {0x%016x} %s B %s\t\t%s",
+  out->print_cr(" %5d : {0x%016lx} %s B %s\t\t%s",
                 ObjectAddressInfoTable::_klass_print_order,
-                _klass, sizebuf, klass_type_str(_klass_type),
+                (long unsigned int)_klass, sizebuf, klass_type_str(_klass_type),
                 _klass_name);
   out->print_cr("  alive:   %13d %13d %13d",
                 get_total_stat(KS_LIVE_OBJECTS),
@@ -3763,7 +3176,7 @@ void KlassRecord::print_on(outputStream *out)
           out->print_cr(" fields:");
           first = false;
         }
-        out->print_cr("           %13d %13d", (i+OOP_HEADER_SIZE), field_refs);
+        out->print_cr("           %13d %13ld", (i+OOP_HEADER_SIZE), field_refs);
       }
     }
   }
@@ -3771,7 +3184,7 @@ void KlassRecord::print_on(outputStream *out)
   ObjectAddressInfoTable::_klass_print_order += 1;
 }
 
-KlassRecordEntry::KlassRecordEntry(klassOop k, int instance_size,
+KlassRecordEntry::KlassRecordEntry(Klass* k, int instance_size,
   enum klass_type ktype, KlassRecordEntry *next) {
   _key    = k;
   _value  = new KlassRecord(k, instance_size, ktype);
@@ -3788,7 +3201,7 @@ void KlassRecordEntry::add_to_klass_totals(ObjectAddressInfoTable *oait)
   oait->add_to_klass_totals(_value);
 }
 
-KlassRecordEntry* KlassRecordBucket::get_kre(klassOop obj)
+KlassRecordEntry* KlassRecordBucket::get_kre(Klass* obj)
 {
 	KlassRecordEntry *kre;
 
@@ -3829,7 +3242,7 @@ int KlassRecordEntry::compare(KlassRecordEntry* e1, KlassRecordEntry* e2) {
 void KlassRecordBucket::copy_entries_to(ObjectAddressInfoTable *dst_oait) {
   KlassRecordEntry* kre = _kres;
   while (kre != NULL) {
-    klassOop klass        = kre->value()->klass();
+    Klass* klass        = kre->value()->klass();
     int size              = kre->value()->instance_size();
     enum klass_type ktype = kre->value()->klass_type();
 
@@ -3864,7 +3277,7 @@ void KlassRecordBucket::empty() {
   }
 }
 
-KlassRecordEntry* KlassRecordBucket::kt_insert(klassOop k, int instance_size,
+KlassRecordEntry* KlassRecordBucket::kt_insert(Klass* k, int instance_size,
   enum klass_type ktype)
 {
 	/* Check if we can handle insertion by simply replacing
@@ -3983,14 +3396,6 @@ void ObjectAddressInfoEntry::print_on(outputStream *out)
         _value->addr(), size, ref_cnt, type);
     }
   }
-#if 0
-  if (PrintTextOAT) {
-    if (((size * HeapWordSize)>>10) > 512) {
-    out->print_cr("  " INTPTR_FORMAT "    %-16ld %-16ld", _value->addr(),
-      size, ref_cnt);
-    }
-  }
-#endif
 }
 
 void ObjectAddressInfoBucket::copy_entries_to(ObjectAddressInfoTable *dst_oait) {
@@ -3999,7 +3404,7 @@ void ObjectAddressInfoBucket::copy_entries_to(ObjectAddressInfoTable *dst_oait) 
     intptr_t addr  = oaie->value()->addr();
     int size       = oaie->value()->size();
     obj_type type  = oaie->value()->type();
-    klassOop klass = ProfileObjectFieldInfo ? 
+    Klass* klass = ProfileObjectFieldInfo ? 
                      oaie->value()->klass_record()->klass() : NULL;
 
     dst_oait->insert((oop)addr, size, klass, type, false);
@@ -4097,7 +3502,7 @@ ObjectAddressInfoTable::ObjectAddressInfoTable(unsigned int obj_table_size,
 	_size = 0;
   _using_to_space = false;
 
-  _buckets = NEW_C_HEAP_ARRAY(ObjectAddressInfoBucket, obj_table_size);
+  _buckets = NEW_C_HEAP_ARRAY(ObjectAddressInfoBucket, obj_table_size, mtInternal);
   if (_buckets != NULL) {
     _size = obj_table_size;
     for (unsigned int index = 0; index < _size; index++) {
@@ -4106,7 +3511,7 @@ ObjectAddressInfoTable::ObjectAddressInfoTable(unsigned int obj_table_size,
   }
 
 	_kr_size = 0;
-  _klass_buckets = NEW_C_HEAP_ARRAY(KlassRecordBucket, klass_table_size);
+  _klass_buckets = NEW_C_HEAP_ARRAY(KlassRecordBucket, klass_table_size, mtInternal);
   if (_klass_buckets != NULL) {
     _kr_size = klass_table_size;
     for (unsigned int index = 0; index < _kr_size; index++) {
@@ -4139,23 +3544,6 @@ ObjectAddressInfoTable::~ObjectAddressInfoTable()
   //delete _known_free;
 }
 
-#if 0
-bool ObjectAddressInfoTable::is_known_free(oop obj)
-{
-  for (int i = 0; i < known_free()->length(); i++) {
-    if (known_free()->at(i) == obj) {
-      return true;
-    }
-  }
-  return false;
-}
-
-void ObjectAddressInfoTable::mark_known_free(oop obj)
-{
-  known_free()->append(obj);
-}
-#endif
-
 ObjectAddressInfo *ObjectAddressInfoTable::mark_alloc(oop obj)
 {
   ObjectAddressInfo *oai = lookup(obj);
@@ -4167,12 +3555,12 @@ ObjectAddressInfo *ObjectAddressInfoTable::mark_alloc(oop obj)
 
   if (ProfileObjectFieldInfo) {
     KlassRecord *kr = NULL;
-    klassOop klass  = obj->klass();
+    Klass* klass  = obj->klass();
     int obj_size    = obj->size();
 
     if (obj->size() != oai->size()) {
       if (oai->klass_record()->klass_type() != KT_VM_FILLER) {
-        tty->print_cr("addr: %p obj_size: %d oai_type: %d oai_size: %d",
+        tty->print_cr("addr: %ld obj_size: %d oai_type: %d oai_size: %d",
           oai->addr(), obj->size(), oai->type(), oai->size());
       }
       //guarantee(oai->klass_record()->klass_type() == KT_VM_FILLER,
@@ -4180,9 +3568,9 @@ ObjectAddressInfo *ObjectAddressInfoTable::mark_alloc(oop obj)
     }
 
     enum klass_type ktype;
-    if (klass && klass->klass_part()->oop_is_instance()) {
+    if (klass && klass->oop_is_instance()) {
       ktype = KT_APP_INSTANCE;
-    } else if (klass && klass->klass_part()->oop_is_array()) {
+    } else if (klass && klass->oop_is_array()) {
       ktype = KT_APP_ARRAY;
     } else {
       ktype = KT_APP_OTHER;
@@ -4245,11 +3633,6 @@ ObjectAddressInfo *ObjectAddressInfoTable::mark_filler(oop obj,
   guarantee((intptr_t)obj == oai->addr(), "mark_filler: addr does not match");
   guarantee(size          == oai->size(), "mark_filler: size does not match");
   if (ProfileObjectFieldInfo) {
-#if 0
-    if (FILLER_KLASS != oai->klass_record()->klass()) {
-      tty->print_cr("oai_klass: %p", oai->klass_record()->klass());
-    }
-#endif
     guarantee((FILLER_KLASS == oai->klass_record()->klass()),
       "mark_filler: klass does not match");
     oai->klass_record()->set_klass_type(KT_VM_FILLER);
@@ -4309,23 +3692,6 @@ void ObjectAddressInfoTable::mark_load(oop obj, intptr_t field_addr, int size)
     }
   }
 
-  /* MRJ -- the old way (below) marked loads for VM objects */
-#if 0
-  if (!oai) {
-    oai = insert(obj);
-  }
-  if (oai->type() != APP_OBJECT) {
-    oai->set_type(APP_OBJECT);
-  }
-
-  oai->inc_load_cnt();
-  if (ProfileObjectFieldInfo) {
-    if (oai->klass_record()->instance_size() > 0) {
-      int offset = ((int)(field_addr - oai->addr()) - OOP_HEADER_SIZE);
-      oai->klass_record()->mark_field_load(offset, size);
-    }
-  }
-#endif
 }
 
 void ObjectAddressInfoTable::mark_store(oop obj, intptr_t field_addr, int size)
@@ -4343,24 +3709,6 @@ void ObjectAddressInfoTable::mark_store(oop obj, intptr_t field_addr, int size)
     }
   }
 
-  /* MRJ -- the old way (below) marked stores for VM objects */
-#if 0
-  if (!oai) {
-    oai = insert(obj);
-  }
-  if (oai->type() != APP_OBJECT) {
-    oai->set_type(APP_OBJECT);
-  }
- 
-  oai->inc_store_cnt();
-
-  if (ProfileObjectFieldInfo) {
-    if (oai->klass_record()->instance_size() > 0) {
-      int offset = ((int)(field_addr - oai->addr()) - OOP_HEADER_SIZE);
-      oai->klass_record()->mark_field_store(offset, size);
-    }
-  }
-#endif
 }
 
 void ObjectAddressInfoTable::batch_mark_load(oop obj, int length)
@@ -4370,16 +3718,6 @@ void ObjectAddressInfoTable::batch_mark_load(oop obj, int length)
   if (oai && oai->type() == APP_OBJECT) {
     oai->add_load_cnt(length);
   }
-  /* MRJ -- the old way (below) marked loads for VM objects */
-#if 0
-  if (!oai) {
-    oai = insert(obj);
-  }
-
-  if (oai->type() != APP_OBJECT) {
-    oai->set_type(APP_OBJECT);
-  }
-#endif
 }
 
 void ObjectAddressInfoTable::batch_mark_store(oop obj, int length)
@@ -4389,21 +3727,10 @@ void ObjectAddressInfoTable::batch_mark_store(oop obj, int length)
   if (oai && oai->type() == APP_OBJECT) {
     oai->add_store_cnt(length);
   }
-  /* MRJ -- the old way (below) marked stores for VM objects */
-#if 0
-  if (!oai) {
-    oai = insert(obj);
-  }
-  if (oai->type() != APP_OBJECT) {
-    oai->set_type(APP_OBJECT);
-  }
-
-  oai->add_store_cnt(length);
-#endif
 }
 
 ObjectAddressInfo *ObjectAddressInfoTable::insert(oop obj,
-  int obj_size, klassOop klass, obj_type type, bool old_rec)
+  int obj_size, Klass* klass, obj_type type, bool old_rec)
 {
   ResourceMark rm;
 	unsigned int index;
@@ -4458,7 +3785,7 @@ ObjectAddressInfo *ObjectAddressInfoTable::lookup(oop obj)
   return NULL;
 }
 
-KlassRecord *ObjectAddressInfoTable::kt_insert(klassOop k, int instance_size,
+KlassRecord *ObjectAddressInfoTable::kt_insert(Klass* k, int instance_size,
   enum klass_type ktype)
 {
   ResourceMark rm;
@@ -4476,7 +3803,7 @@ KlassRecord *ObjectAddressInfoTable::kt_insert(klassOop k, int instance_size,
 	return kre->value();
 }
 
-KlassRecord *ObjectAddressInfoTable::kt_lookup(klassOop k)
+KlassRecord *ObjectAddressInfoTable::kt_lookup(Klass* k)
 {
 	unsigned int index;
 	KlassRecordEntry *kre;
@@ -4501,44 +3828,26 @@ void ObjectAddressInfoTable::print_klass_header(outputStream *out,
     const char *reason)
 {
   out->print_cr("KlassRecords : (%s)\n", reason);
-  out->print_cr("klasses      : " INT64_FORMAT_W(13), klass_totals[KST_NR_KLASSES]);
-  out->print_cr("live_objects : " INT64_FORMAT_W(13) "  "
-                "live_bytes   : " INT64_FORMAT_W(13) "  "
-                "live_refs    : " INT64_FORMAT_W(13),
+  out->print_cr("klasses      : " INT32_FORMAT_W(13), klass_totals[KST_NR_KLASSES]);
+  out->print_cr("live_objects : " INT32_FORMAT_W(13) "  "
+                "live_bytes   : " INT32_FORMAT_W(13) "  "
+                "live_refs    : " INT32_FORMAT_W(13),
                 klass_totals[KST_LIVE_OBJECTS],
                 klass_totals[KST_LIVE_SIZE] * HeapWordSize,
                 klass_totals[KST_LIVE_REFS]);
-  out->print_cr("hot_size     : " INT64_FORMAT_W(13) "  "
-                "hot_bytes    : " INT64_FORMAT_W(13) "  "
-                "hot_refs     : " INT64_FORMAT_W(13),
+  out->print_cr("hot_size     : " INT32_FORMAT_W(13) "  "
+                "hot_bytes    : " INT32_FORMAT_W(13) "  "
+                "hot_refs     : " INT32_FORMAT_W(13),
                 klass_totals[KST_HOT_OBJECTS],
                 klass_totals[KST_HOT_SIZE] * HeapWordSize,
                 klass_totals[KST_HOT_REFS]);
-  out->print_cr("new_size     : " INT64_FORMAT_W(13) "  "
-                "new_bytes    : " INT64_FORMAT_W(13) "  "
-                "new_refs     : " INT64_FORMAT_W(13),
+  out->print_cr("new_size     : " INT32_FORMAT_W(13) "  "
+                "new_bytes    : " INT32_FORMAT_W(13) "  "
+                "new_refs     : " INT32_FORMAT_W(13),
                 klass_totals[KST_NEW_OBJECTS],
                 klass_totals[KST_NEW_SIZE] * HeapWordSize,
                 klass_totals[KST_NEW_REFS]);
-#if 0
-  out->print_cr("inst_objects : " INT64_FORMAT_W(13) "  "
-                "inst_bytes   : " INT64_FORMAT_W(13),
-                klass_totals[KST_INSTANCE_OBJECTS],
-                klass_totals[KST_INSTANCE_SIZE] * HeapWordSize);
-  out->print_cr("arr_objects  : " INT64_FORMAT_W(13) "  "
-                "arr_bytes    : " INT64_FORMAT_W(13),
-                klass_totals[KST_ARRAY_OBJECTS],
-                klass_totals[KST_ARRAY_SIZE] * HeapWordSize);
-  out->print_cr("hot_ins_objs : " INT64_FORMAT_W(13) "  "
-                "hot_ins_byts : " INT64_FORMAT_W(13),
-                klass_totals[KST_HOT_INSTANCE_OBJECTS],
-                klass_totals[KST_HOT_INSTANCE_SIZE] * HeapWordSize);
-  out->print_cr("hot_arr_objs : " INT64_FORMAT_W(13) "  "
-                "hot_arr_byts : " INT64_FORMAT_W(13),
-                klass_totals[KST_HOT_ARRAY_OBJECTS],
-                klass_totals[KST_HOT_ARRAY_SIZE] * HeapWordSize);
-#endif
-  out->print_cr("");
+  out->print_cr(" ");
 }
 
 void ObjectAddressInfoTable::print_klass_table(outputStream *out)
@@ -4547,7 +3856,7 @@ void ObjectAddressInfoTable::print_klass_table(outputStream *out)
   for(unsigned int i=0; i < _kr_size; i++) {
     _klass_buckets[i].print_on(out);
   }
-  out->print_cr("");
+  out->print_cr(" ");
 }
 
 void ObjectAddressInfoTable::print_heap_stats(outputStream *out, const char *name,
@@ -4555,49 +3864,49 @@ void ObjectAddressInfoTable::print_heap_stats(outputStream *out, const char *nam
 {
   char buf[10];
   sprintf(buf, "%s:", name);
-  out->print("  %-9s span: " INT64_FORMAT_W(13) " bytes ( "
+  out->print("  %-9s span: " INT32_FORMAT_W(13) " bytes ( "
                              INTPTR_FORMAT "  "
                              INTPTR_FORMAT " )\n", buf,
                              heap_stats[hs][USED_BYTES],
                              heap_boundaries[hs][BOTTOM_ADDR],
                              heap_boundaries[hs][TOP_ADDR]);
-  out->print("           alive: " INT64_FORMAT_W(13) " objects, "
-                                  INT64_FORMAT_W(13) " bytes, "
-                                  INT64_FORMAT_W(13) " refs\n",
+  out->print("           alive: " INT32_FORMAT_W(13) " objects, "
+                                  INT32_FORMAT_W(13) " bytes, "
+                                  INT32_FORMAT_W(13) " refs\n",
                                   heap_stats[hs][LIVE_OBJECTS],
                                   heap_stats[hs][LIVE_SIZE],
                                   heap_stats[hs][LIVE_REFS]);
-  out->print("             hot: " INT64_FORMAT_W(13) " objects, "
-                                  INT64_FORMAT_W(13) " bytes, "
-                                  INT64_FORMAT_W(13) " refs\n",
+  out->print("             hot: " INT32_FORMAT_W(13) " objects, "
+                                  INT32_FORMAT_W(13) " bytes, "
+                                  INT32_FORMAT_W(13) " refs\n",
                                   heap_stats[hs][HOT_OBJECTS],
                                   heap_stats[hs][HOT_SIZE],
                                   heap_stats[hs][HOT_REFS]);
-  out->print("             new: " INT64_FORMAT_W(13) " objects, "
-                                  INT64_FORMAT_W(13) " bytes, "
-                                  INT64_FORMAT_W(13) " refs\n",
+  out->print("             new: " INT32_FORMAT_W(13) " objects, "
+                                  INT32_FORMAT_W(13) " bytes, "
+                                  INT32_FORMAT_W(13) " refs\n",
                                   heap_stats[hs][NEW_OBJECTS],
                                   heap_stats[hs][NEW_SIZE],
                                   heap_stats[hs][NEW_REFS]);
-  out->print("              vm: " INT64_FORMAT_W(13) " objects, "
-                                  INT64_FORMAT_W(13) " bytes, "
-                                  INT64_FORMAT_W(13) " refs\n",
+  out->print("              vm: " INT32_FORMAT_W(13) " objects, "
+                                  INT32_FORMAT_W(13) " bytes, "
+                                  INT32_FORMAT_W(13) " refs\n",
                                   heap_stats[hs][VM_OBJECTS],
                                   heap_stats[hs][VM_SIZE],
                                   heap_stats[hs][VM_REFS]);
-  out->print("          filler: " INT64_FORMAT_W(13) " objects, "
-                                  INT64_FORMAT_W(13) " bytes, "
-                                  INT64_FORMAT_W(13) " refs\n",
+  out->print("          filler: " INT32_FORMAT_W(13) " objects, "
+                                  INT32_FORMAT_W(13) " bytes, "
+                                  INT32_FORMAT_W(13) " refs\n",
                                   heap_stats[hs][FILLER_OBJECTS],
                                   heap_stats[hs][FILLER_SIZE],
                                   heap_stats[hs][FILLER_REFS]);
-  out->print("             app: " INT64_FORMAT_W(13) " objects, "
-                                  INT64_FORMAT_W(13) " bytes, "
-                                  INT64_FORMAT_W(13) " refs\n",
+  out->print("             app: " INT32_FORMAT_W(13) " objects, "
+                                  INT32_FORMAT_W(13) " bytes, "
+                                  INT32_FORMAT_W(13) " refs\n",
                                   heap_stats[hs][APP_OBJECTS],
                                   heap_stats[hs][APP_SIZE],
                                   heap_stats[hs][APP_REFS]);
-  out->print_cr("");
+  out->print_cr(" ");
 }
 
 void ObjectAddressInfoTable::print_header(outputStream *out, const char *reason)
@@ -4608,7 +3917,7 @@ void ObjectAddressInfoTable::print_header(outputStream *out, const char *reason)
   print_heap_stats(out, "tenured",  HS_TENURED_SPACE);
   print_heap_stats(out, "perm",     HS_PERM_SPACE);
 
-  out->print_cr("");
+  out->print_cr(" ");
 }
 
 void ObjectAddressInfoTable::print_table(outputStream *out)
@@ -4631,31 +3940,7 @@ void ObjectAddressInfoTable::print_table(outputStream *out)
     _buckets[i].print_on(out);
   }
 
-  out->print_cr("");
-#if 0
-  if (addrtable_log == NULL) {
-    out->print_cr("  %-21s %-16s %-16s",
-      "Address", "Size", "Refs");
-    out->flush();
-  }
-
-  for(unsigned int i=0; i < _size; i++) {
-    _buckets[i].print_on(out);
-  }
-
-  if (addrtable_log != NULL) {
-    /* Mark the end of the table with a marker rec */
-    struct object_address_record marker_rec;
-    marker_rec.addr      = (intptr_t) OAR_MARKER;
-    marker_rec.size      = (int)  OAR_MARKER;
-    marker_rec.load_cnt  = (jint) OAR_MARKER;
-    marker_rec.store_cnt = (jint) OAR_MARKER;
-
-    fwrite(&marker_rec, sizeof(struct object_address_record), 1, addrtable_log);
-  } else {
-    out->print_cr("");
-  }
-#endif
+  out->print_cr(" ");
 }
 
 void ObjectAddressInfoTable::print_on(outputStream *obj_out,
@@ -4708,39 +3993,24 @@ void ObjectAddressInfoTable::add_to_heap_stats(ObjectAddressInfo *oai)
   if (hs == HS_INVALID_SPACE) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
     if (this == oait || oait == NULL) {
-      tty->print_cr("invalid space: addr: %p oait: orig using_to_space? %d, ",
+      tty->print_cr("invalid space: addr: %ld oait: orig using_to_space? %d, ",
                     oai->addr(), _using_to_space);
     } else {
-      tty->print_cr("invalid space: addr: %p oait: alt  using_to_space? %d, ",
+      tty->print_cr("invalid space: addr: %ld oait: alt  using_to_space? %d, ",
                     oai->addr(), _using_to_space);
     }
-#if 1
     for (int s = 0; s < HS_NR_SPACES; s++) {
-      tty->print("  space: %d, bottom: %p, top: %p, end: %p\n", s,
+      tty->print("  space: %d, bottom: %ld, top: %ld, end: %ld\n", s,
                  heap_boundaries[s][BOTTOM_ADDR],
                  heap_boundaries[s][TOP_ADDR],
                  heap_boundaries[s][END_ADDR]);
     }
-#endif
-#if 0
-    tty->print("oai with invalid space:  " INTPTR_FORMAT
-               " " INT64_FORMAT_W(13) " bytes"
-               " " INT64_FORMAT_W(13) " refs\n", oai->addr(),
-               (oai->size()*HeapWordSize),
-               (oai->load_cnt() + oai->store_cnt()));
-#endif
     return;
   }
 
   jint refs = (oai->init_cnt() < 0) ? 
               (oai->load_cnt() + oai->store_cnt()) :
               (oai->load_cnt() + oai->store_cnt() + oai->init_cnt());
-#if 0
-  if (refs < 0) {
-    tty->print_cr("refs: %d load: %d store: %d init: %d", refs,
-                  oai->load_cnt(), oai->store_cnt(), oai->init_cnt());
-  }
-#endif
   guarantee(refs >= 0, "negative refs!");
 
   heap_stats[hs][LIVE_OBJECTS]      += 1;
@@ -4779,7 +4049,7 @@ void ObjectAddressInfoTable::add_to_heap_stats(ObjectAddressInfo *oai)
     if (kr) {
       kr->add_to_klass_stats(oai, hs);
     } else {
-      tty->print_cr("oai without kr!: %p size: %d refs: %d",
+      tty->print_cr("oai without kr!: %ld size: %d refs: %d",
         oai->addr(), oai->size() * HeapWordSize, refs);
     }
   }
@@ -4788,7 +4058,7 @@ void ObjectAddressInfoTable::add_to_heap_stats(ObjectAddressInfo *oai)
   heap_stats[HS_EDEN_SPACE][USED_BYTES]     = psh->young_gen()->eden_space()->used_in_bytes();
   heap_stats[HS_SURVIVOR_SPACE][USED_BYTES] = psh->young_gen()->from_space()->used_in_bytes();
   heap_stats[HS_TENURED_SPACE][USED_BYTES]  = psh->old_gen()->object_space()->used_in_bytes();
-  heap_stats[HS_PERM_SPACE][USED_BYTES]     = psh->perm_gen()->object_space()->used_in_bytes();
+  //heap_stats[HS_PERM_SPACE][USED_BYTES]     = psh->perm_gen()->object_space()->used_in_bytes();
 }
 
 void ObjectAddressInfoTable::add_to_klass_totals(KlassRecord *kr)
@@ -4803,20 +4073,6 @@ void ObjectAddressInfoTable::add_to_klass_totals(KlassRecord *kr)
   klass_totals[KST_NEW_OBJECTS]  += kr->new_objects();
   klass_totals[KST_NEW_SIZE]     += kr->new_size();
   klass_totals[KST_NEW_REFS]     += kr->new_refs();
-
-#if 0
-  if (kr->is_instance()) {
-    klass_totals[KST_INSTANCE_OBJECTS]     += kr->live_objects();
-    klass_totals[KST_INSTANCE_SIZE]        += kr->live_size();
-    klass_totals[KST_HOT_INSTANCE_OBJECTS] += kr->hot_objects();
-    klass_totals[KST_HOT_INSTANCE_SIZE]    += kr->hot_size();
-  } else if (kr->is_array()) {
-    klass_totals[KST_ARRAY_OBJECTS]        += kr->live_objects();
-    klass_totals[KST_ARRAY_SIZE]           += kr->live_size();
-    klass_totals[KST_HOT_ARRAY_OBJECTS]    += kr->hot_objects();
-    klass_totals[KST_HOT_ARRAY_SIZE]       += kr->hot_size();
-  }
-#endif
 }
 
 void ObjectAddressInfoTable::compute_heap_stats()
@@ -4858,24 +4114,10 @@ void ObjectAddressInfoTable::record_heap_boundaries()
   heap_boundaries[HS_TENURED_SPACE][TOP_ADDR]     = (intptr_t)psh->old_gen()->object_space()->top();
   heap_boundaries[HS_TENURED_SPACE][END_ADDR]     = (intptr_t)psh->old_gen()->object_space()->end();
 
-  heap_boundaries[HS_PERM_SPACE][BOTTOM_ADDR]     = (intptr_t)psh->perm_gen()->object_space()->bottom();
-  heap_boundaries[HS_PERM_SPACE][TOP_ADDR]        = (intptr_t)psh->perm_gen()->object_space()->top();
-  heap_boundaries[HS_PERM_SPACE][END_ADDR]        = (intptr_t)psh->perm_gen()->object_space()->end();
+  //heap_boundaries[HS_PERM_SPACE][BOTTOM_ADDR]     = (intptr_t)psh->perm_gen()->object_space()->bottom();
+  //heap_boundaries[HS_PERM_SPACE][TOP_ADDR]        = (intptr_t)psh->perm_gen()->object_space()->top();
+  //heap_boundaries[HS_PERM_SPACE][END_ADDR]        = (intptr_t)psh->perm_gen()->object_space()->end();
 
-#if 0
-  ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-  if (this == oait || oait == NULL) {
-    tty->print_cr("recorded heap bounds for orig oait: using_to_space? %d", _using_to_space);
-  } else {
-    tty->print_cr("recorded heap bounds for  alt_oait: using_to_space? %d", _using_to_space);
-  }
-  for (int s = 0; s < HS_NR_SPACES; s++) {
-    tty->print("  space: %d, bottom: %p, top: %p, end: %p\n", s,
-               heap_boundaries[s][BOTTOM_ADDR],
-               heap_boundaries[s][TOP_ADDR],
-               heap_boundaries[s][END_ADDR]);
-  }
-#endif
 }
 
 //void ObjectAddressInfoTable::reset_ref_cnts()

@@ -1064,8 +1064,6 @@ size_t GenCollectedHeap::unsafe_max_tlab_alloc(Thread* thr) const {
 HeapWord* GenCollectedHeap::allocate_new_tlab(size_t size, HeapColor color) {
   bool gc_overhead_limit_was_exceeded;
   HeapWord* result = mem_allocate(size   /* size */,
-                                  false  /* is_large_noref */,
-                                  true   /* is_tlab */,
                                   &gc_overhead_limit_was_exceeded,
                                   color);
   return result;

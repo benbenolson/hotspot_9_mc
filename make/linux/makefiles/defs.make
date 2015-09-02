@@ -224,7 +224,7 @@ ifeq ($(JDK6_OR_EARLIER),0)
         #
         # Currently, STRIP_POLICY is only used when Full Debug Symbols is enabled.
         #
-        STRIP_POLICY ?= min_strip
+        STRIP_POLICY ?= no_strip
 
         $(eval $(call print_info, "STRIP_POLICY=$(STRIP_POLICY)"))
 

@@ -25,10 +25,10 @@
 #include "precompiled.hpp"
 #include "gc/shared/gcLocker.hpp"
 #include "interpreter/interpreter.hpp"
-#include "memory/heapInspection.hpp"
 #include "memory/metadataFactory.hpp"
 #include "oops/constMethod.hpp"
 #include "oops/method.hpp"
+#include "memory/heapInspection.hpp"
 
 // Static initialization
 const u2 ConstMethod::MAX_IDNUM   = 0xFFFE;

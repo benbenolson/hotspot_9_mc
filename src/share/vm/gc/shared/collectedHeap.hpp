@@ -141,9 +141,9 @@ class CollectedHeap : public CHeapObj<mtInternal> {
 
   // Allocate from the current thread's TLAB, with broken-out slow path.
 #ifdef COLORED_TLABS
-  inline static HeapWord* allocate_from_tlab(Thread* thread, size_t size,
+  inline static HeapWord* allocate_from_tlab(KlassHandle klass, Thread* thread, size_t size,
                                              HeapColor color);
-  static HeapWord* allocate_from_tlab_slow(Thread* thread, size_t size,
+  static HeapWord* allocate_from_tlab_slow(KlassHandle klass, Thread* thread, size_t size,
                                            HeapColor color);
 #endif
   inline static HeapWord* allocate_from_tlab(KlassHandle klass, Thread* thread, size_t size);
@@ -152,14 +152,14 @@ class CollectedHeap : public CHeapObj<mtInternal> {
   // Allocate an uninitialized block of the given size, or returns NULL if
   // this is impossible.
   inline static HeapWord* common_mem_allocate_noinit(KlassHandle klass, size_t size, TRAPS);
-  inline static HeapWord* common_mem_allocate_noinit(size_t size, bool is_noref,
+  inline static HeapWord* common_mem_allocate_noinit(KlassHandle klass, size_t size,
                                                      HeapColor color, TRAPS);
 
 
   // Like allocate_init, but the block returned by a successful allocation
   // is guaranteed initialized to zeros.
   inline static HeapWord* common_mem_allocate_init(KlassHandle klass, size_t size, TRAPS);
-  inline static HeapWord* common_mem_allocate_init(size_t size, bool is_noref,
+  inline static HeapWord* common_mem_allocate_init(KlassHandle klass, size_t size,
                                                    HeapColor color, TRAPS);
 
 

@@ -47,6 +47,7 @@
 #include "gc/shared/vmGCOperations.hpp"
 #include "memory/resourceArea.hpp"
 #include "memory/heapInspection.hpp"
+#include "memory/profileObjectInfo.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/biasedLocking.hpp"
 #include "runtime/fprofiler.hpp"

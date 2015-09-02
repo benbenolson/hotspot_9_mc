@@ -1492,7 +1492,7 @@ template<class T> static void swap(T& a, T& b) {
 //#define INITIAL_OOP_MARK 0xDEADBEEF
 //#define INITIAL_OOP_MARK 0xDEFECA7E
 #define COLOR_MARK (jint)0xDEFECA7E
-#define FILLER_KLASS (klassOop)0xDEADBEEF
+#define FILLER_KLASS (Klass*)0xDEADBEEF
 #define RAND_COLOR_MAX (jint) 10000
 //#define RECORD_MARK 0xDEFECA7E
 #define NEWBORN 0

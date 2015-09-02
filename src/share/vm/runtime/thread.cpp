@@ -40,6 +40,7 @@
 #include "memory/oopFactory.hpp"
 #include "memory/universe.inline.hpp"
 #include "memory/heapInspection.hpp"
+#include "memory/profileObjectInfo.hpp"
 #include "oops/instanceKlass.hpp"
 #include "oops/objArrayOop.hpp"
 #include "oops/oop.inline.hpp"

@@ -468,7 +468,6 @@ class VM_Version_StubGenerator: public StubCodeGenerator {
 };
 
 void VM_Version::get_processor_features() {
-
   _cpu = 4; // 486 by default
   _model = 0;
   _stepping = 0;
@@ -477,15 +476,16 @@ void VM_Version::get_processor_features() {
   // i486 internal cache is both I&D and has a 16-byte line size
   _L1_data_cache_line_size = 16;
 
+
   if (!Use486InstrsOnly) {
     // Get raw processor info
-
     get_cpu_info_stub(&_cpuid_info);
 
     assert_is_initialized();
     _cpu = extended_cpu_family();
     _model = extended_cpu_model();
     _stepping = cpu_stepping();
+
 
     if (cpu_family() > 4) { // it supports CPUID
       _cpuFeatures = feature_flags();
@@ -495,6 +495,8 @@ void VM_Version::get_processor_features() {
       _L1_data_cache_line_size = L1_line_size();
     }
   }
+  
+  fflush(stdout);
 
   _supports_cx8 = supports_cmpxchg8();
   // xchg and xadd instructions
@@ -583,6 +585,7 @@ void VM_Version::get_processor_features() {
     // HT processor could be installed on a system which doesn't support HT.
     _cpuFeatures &= ~CPU_HT;
   }
+
 
   char buf[256];
   jio_snprintf(buf, sizeof(buf), "(%u cores per cpu, %u threads per core) family %d model %d stepping %d%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
@@ -817,6 +820,7 @@ void VM_Version::get_processor_features() {
   }
 #endif
 #endif // COMPILER2
+
 
   // On new cpus instructions which update whole XMM register should be used
   // to prevent partial register stall due to dependencies on high half.
@@ -1190,6 +1194,6 @@ void VM_Version::initialize() {
   VM_Version_StubGenerator g(&c);
   get_cpu_info_stub = CAST_TO_FN_PTR(get_cpu_info_stub_t,
                                      g.generate_get_cpu_info());
-
+  
   get_processor_features();
 }

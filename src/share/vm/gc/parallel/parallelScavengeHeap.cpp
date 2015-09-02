@@ -45,7 +45,7 @@
 #include "services/memTracker.hpp"
 #include "utilities/vmError.hpp"
 // PersistentObjectInfoTable
-#include "memory/heapInspection.hpp"
+#include "memory/profileObjectInfo.hpp"
 
 PSYoungGen*  ParallelScavengeHeap::_young_gen = NULL;
 PSOldGen*    ParallelScavengeHeap::_old_gen = NULL;
@@ -115,11 +115,13 @@ jint ParallelScavengeHeap::initialize() {
 
 #ifdef PROFILE_OBJECT_INFO
   if (ProfileObjectInfo) {
+    /*
     PersistentObjectInfoTable *poit = new PersistentObjectInfoTable(
       PersistentObjectInfoTable::oit_size,
       _perm_gen->object_space()->used_region().start());
     guarantee(!poit->allocation_failed(), "poit allocation failed");
     Universe::set_persistent_object_info_table(poit);
+    */
 
     AllocPointInfoTable *apit = new AllocPointInfoTable(AllocPointInfoTable::apit_size);
     guarantee(!apit->allocation_failed(), "apm allocation failed");
@@ -634,7 +636,7 @@ size_t ParallelScavengeHeap::unsafe_max_tlab_alloc(Thread* thr) const {
 
 #ifdef COLORED_TLABS
 HeapWord* ParallelScavengeHeap::allocate_new_tlab(size_t size, HeapColor color) {
-  return young_gen()->allocate(size, true, color);
+  return young_gen()->allocate(size, color);
 }
 #endif
 HeapWord* ParallelScavengeHeap::allocate_new_tlab(size_t size) {

@@ -46,7 +46,7 @@
 #include "utilities/macros.hpp"
 
 #if defined (PROFILE_OBJECT_INFO) || defined (PROFILE_OBJECT_ADDRESS_INFO)
-#include "memory/heapInspection.hpp"
+#include "memory/profileObjectInfo.hpp"
 #endif
 
 ObjArrayKlass* ObjArrayKlass::allocate(ClassLoaderData* loader_data, int n, KlassHandle klass_handle, Symbol* name, TRAPS) {
@@ -196,7 +196,7 @@ objArrayOop ObjArrayKlass::allocate(int length, HeapColor color, TRAPS) {
       int size = objArrayOopDesc::object_size(length);
       KlassHandle h_k(THREAD, this);
       objArrayOop a = (objArrayOop)CollectedHeap::array_allocate(h_k, size, length, color, CHECK_NULL);
-      assert(a->is_parsable(), "Can't publish unless parsable");
+      //assert(a->is_parsable(), "Can't publish unless parsable");
       return a;
     } else {
       report_java_out_of_memory("Requested array size exceeds VM limit");
@@ -225,7 +225,7 @@ oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, TRAPS) {
 #ifdef PROFILE_OBJECT_INFO
         if (ProfileObjectInfo) {
           JavaThread *thread = (JavaThread*)THREAD;
-          methodOop method = thread->last_frame().interpreter_frame_method();
+          Method* method = thread->last_frame().interpreter_frame_method();
           int bci = thread->last_frame().interpreter_frame_bci();
           SharedRuntime::profile_object_alloc(sub_array, method, bci);
         }
@@ -259,18 +259,18 @@ oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS)
   KlassHandle h_lower_dimension(THREAD, lower_dimension());
   // If length < 0 allocate will throw an exception.
   objArrayOop array = allocate(length, color, CHECK_NULL);
-  assert(array->is_parsable(), "Don't handlize unless parsable");
+  //assert(array->is_parsable(), "Don't handlize unless parsable");
   objArrayHandle h_array (THREAD, array);
   if (rank > 1) {
     if (length != 0) {
       for (int index = 0; index < length; index++) {
         ArrayKlass* ak = ArrayKlass::cast(h_lower_dimension());
         oop sub_array = ak->multi_allocate(rank-1, &sizes[1], color, CHECK_NULL);
-        assert(sub_array->is_parsable(), "Don't publish until parsable");
+        //assert(sub_array->is_parsable(), "Don't publish until parsable");
 #ifdef PROFILE_OBJECT_INFO
         if (ProfileObjectInfo) {
           JavaThread *thread = (JavaThread*)THREAD;
-          methodOop method = thread->last_frame().interpreter_frame_method();
+          Method* method = thread->last_frame().interpreter_frame_method();
           int bci = thread->last_frame().interpreter_frame_bci();
           SharedRuntime::profile_object_alloc(sub_array, method, bci);
         }

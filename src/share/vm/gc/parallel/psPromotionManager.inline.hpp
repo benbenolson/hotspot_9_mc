@@ -285,8 +285,8 @@ inline oop PSPromotionManager::copy_to_survivor_space(oop o) {
     ObjectAddressInfo *oai;
     if ((oai = oait->lookup(o))) {
       ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
-      klassOop klass = ProfileObjectFieldInfo ?
-                       oai->klass_record()->klass() : NULL;
+      Klass *klass = ProfileObjectFieldInfo ?
+                     oai->klass_record()->klass() : NULL;
       ObjectAddressInfo *alt_oai = alt_oait->insert(new_obj, oai->size(),
                                                     klass, oai->type());
       if (alt_oai) {

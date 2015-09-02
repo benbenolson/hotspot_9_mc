@@ -259,6 +259,9 @@ public:
   virtual size_t tlab_capacity(Thread* thr) const;
   virtual size_t tlab_used(Thread* thr) const;
   virtual size_t unsafe_max_tlab_alloc(Thread* thr) const;
+#ifdef COLORED_TLABS
+  virtual HeapWord* allocate_new_tlab(size_t size, HeapColor color);
+#endif
   virtual HeapWord* allocate_new_tlab(size_t size);
 
   // Can a compiler initialize a new object without store barriers?
