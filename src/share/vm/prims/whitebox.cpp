@@ -27,10 +27,12 @@
 #include <new>
 
 #include "classfile/classLoaderData.hpp"
+#include "classfile/imageFile.hpp"
 #include "classfile/stringTable.hpp"
 #include "code/codeCache.hpp"
 #include "jvmtifiles/jvmtiEnv.hpp"
 #include "memory/metadataFactory.hpp"
+#include "memory/metaspaceShared.hpp"
 #include "memory/universe.hpp"
 #include "oops/oop.inline.hpp"
 #include "prims/wbtestmethods/parserTests.hpp"
@@ -87,6 +89,10 @@ WB_END
 
 WB_ENTRY(jint, WB_GetVMPageSize(JNIEnv* env, jobject o))
   return os::vm_page_size();
+WB_END
+
+WB_ENTRY(jlong, WB_GetVMAllocationGranularity(JNIEnv* env, jobject o))
+  return os::vm_allocation_granularity();
 WB_END
 
 WB_ENTRY(jlong, WB_GetVMLargePageSize(JNIEnv* env, jobject o))
@@ -154,8 +160,8 @@ WB_END
 
 WB_ENTRY(void, WB_PrintHeapSizes(JNIEnv* env, jobject o)) {
   CollectorPolicy * p = Universe::heap()->collector_policy();
-  gclog_or_tty->print_cr("Minimum heap "SIZE_FORMAT" Initial heap "
-    SIZE_FORMAT" Maximum heap "SIZE_FORMAT" Space alignment "SIZE_FORMAT" Heap alignment "SIZE_FORMAT,
+  gclog_or_tty->print_cr("Minimum heap " SIZE_FORMAT " Initial heap "
+    SIZE_FORMAT " Maximum heap " SIZE_FORMAT " Space alignment " SIZE_FORMAT " Heap alignment " SIZE_FORMAT,
     p->min_heap_byte_size(), p->initial_heap_byte_size(), p->max_heap_byte_size(),
     p->space_alignment(), p->heap_alignment());
 }
@@ -190,8 +196,8 @@ WB_ENTRY(void, WB_ReadFromNoaccessArea(JNIEnv* env, jobject o))
          Universe::narrow_oop_use_implicit_null_checks() )) {
     tty->print_cr("WB_ReadFromNoaccessArea method is useless:\n "
                   "\tUseCompressedOops is %d\n"
-                  "\trhs.base() is "PTR_FORMAT"\n"
-                  "\tUniverse::narrow_oop_base() is "PTR_FORMAT"\n"
+                  "\trhs.base() is " PTR_FORMAT "\n"
+                  "\tUniverse::narrow_oop_base() is " PTR_FORMAT "\n"
                   "\tUniverse::narrow_oop_use_implicit_null_checks() is %d",
                   UseCompressedOops,
                   rhs.base(),
@@ -244,8 +250,8 @@ static jint wb_stress_virtual_space_resize(size_t reserved_space_size,
 
 WB_ENTRY(jint, WB_StressVirtualSpaceResize(JNIEnv* env, jobject o,
         jlong reserved_space_size, jlong magnitude, jlong iterations))
-  tty->print_cr("reservedSpaceSize="JLONG_FORMAT", magnitude="JLONG_FORMAT", "
-                "iterations="JLONG_FORMAT"\n", reserved_space_size, magnitude,
+  tty->print_cr("reservedSpaceSize=" JLONG_FORMAT ", magnitude=" JLONG_FORMAT ", "
+                "iterations=" JLONG_FORMAT "\n", reserved_space_size, magnitude,
                 iterations);
   if (reserved_space_size < 0 || magnitude < 0 || iterations < 0) {
     tty->print_cr("One of variables printed above is negative. Can't proceed.\n");
@@ -522,6 +528,24 @@ WB_ENTRY(jboolean, WB_IsMethodQueuedForCompilation(JNIEnv* env, jobject o, jobje
   return mh->queued_for_compilation();
 WB_END
 
+WB_ENTRY(jboolean, WB_IsIntrinsicAvailable(JNIEnv* env, jobject o, jobject method, jobject compilation_context, jint compLevel))
+  if (compLevel < CompLevel_none || compLevel > CompLevel_highest_tier) {
+    return false; // Intrinsic is not available on a non-existent compilation level.
+  }
+  jmethodID method_id, compilation_context_id;
+  method_id = reflected_method_to_jmid(thread, env, method);
+  CHECK_JNI_EXCEPTION_(env, JNI_FALSE);
+  methodHandle mh(THREAD, Method::checked_resolve_jmethod_id(method_id));
+  if (compilation_context != NULL) {
+    compilation_context_id = reflected_method_to_jmid(thread, env, compilation_context);
+    CHECK_JNI_EXCEPTION_(env, JNI_FALSE);
+    methodHandle cch(THREAD, Method::checked_resolve_jmethod_id(compilation_context_id));
+    return CompileBroker::compiler(compLevel)->is_intrinsic_available(mh, cch);
+  } else {
+    return CompileBroker::compiler(compLevel)->is_intrinsic_available(mh, NULL);
+  }
+WB_END
+
 WB_ENTRY(jint, WB_GetMethodCompilationLevel(JNIEnv* env, jobject o, jobject method, jboolean is_osr))
   jmethodID jmid = reflected_method_to_jmid(thread, env, method);
   CHECK_JNI_EXCEPTION_(env, CompLevel_none);
@@ -630,27 +654,27 @@ WB_ENTRY(void, WB_ClearMethodState(JNIEnv* env, jobject o, jobject method))
 WB_END
 
 template <typename T>
-static bool GetVMFlag(JavaThread* thread, JNIEnv* env, jstring name, T* value, bool (*TAt)(const char*, T*, bool, bool)) {
+static bool GetVMFlag(JavaThread* thread, JNIEnv* env, jstring name, T* value, Flag::Error (*TAt)(const char*, T*, bool, bool)) {
   if (name == NULL) {
     return false;
   }
   ThreadToNativeFromVM ttnfv(thread);   // can't be in VM when we call JNI
   const char* flag_name = env->GetStringUTFChars(name, NULL);
-  bool result = (*TAt)(flag_name, value, true, true);
+  Flag::Error result = (*TAt)(flag_name, value, true, true);
   env->ReleaseStringUTFChars(name, flag_name);
-  return result;
+  return (result == Flag::SUCCESS);
 }
 
 template <typename T>
-static bool SetVMFlag(JavaThread* thread, JNIEnv* env, jstring name, T* value, bool (*TAtPut)(const char*, T*, Flag::Flags)) {
+static bool SetVMFlag(JavaThread* thread, JNIEnv* env, jstring name, T* value, Flag::Error (*TAtPut)(const char*, T*, Flag::Flags)) {
   if (name == NULL) {
     return false;
   }
   ThreadToNativeFromVM ttnfv(thread);   // can't be in VM when we call JNI
   const char* flag_name = env->GetStringUTFChars(name, NULL);
-  bool result = (*TAtPut)(flag_name, value, Flag::INTERNAL);
+  Flag::Error result = (*TAtPut)(flag_name, value, Flag::INTERNAL);
   env->ReleaseStringUTFChars(name, flag_name);
-  return result;
+  return (result == Flag::SUCCESS);
 }
 
 template <typename T>
@@ -1120,6 +1144,132 @@ WB_ENTRY(jlong, WB_MetaspaceCapacityUntilGC(JNIEnv* env, jobject wb))
   return (jlong) MetaspaceGC::capacity_until_GC();
 WB_END
 
+WB_ENTRY(jboolean, WB_ReadImageFile(JNIEnv* env, jobject wb, jstring imagefile))
+  const char* filename = java_lang_String::as_utf8_string(JNIHandles::resolve_non_null(imagefile));
+  return ImageFileReader::open(filename) != NULL;
+WB_END
+
+WB_ENTRY(jlong, WB_imageOpenImage(JNIEnv *env, jobject wb, jstring path, jboolean big_endian))
+  ThreadToNativeFromVM ttn(thread);
+  const char *nativePath = env->GetStringUTFChars(path, NULL);
+  jlong ret = JVM_ImageOpen(env, nativePath, big_endian);
+
+  env->ReleaseStringUTFChars(path, nativePath);
+  return ret;
+WB_END
+
+WB_ENTRY(void, WB_imageCloseImage(JNIEnv *env, jobject wb, jlong id))
+  ThreadToNativeFromVM ttn(thread);
+  JVM_ImageClose(env, id);
+WB_END
+
+WB_ENTRY(jlong, WB_imageGetIndexAddress(JNIEnv *env, jobject wb, jlong id))
+  ThreadToNativeFromVM ttn(thread);
+  return JVM_ImageGetIndexAddress(env, id);
+WB_END
+
+WB_ENTRY(jlong, WB_imageGetDataAddress(JNIEnv *env, jobject wb, jlong id))
+  ThreadToNativeFromVM ttn(thread);
+  return JVM_ImageGetDataAddress(env, id);
+WB_END
+
+WB_ENTRY(jboolean, WB_imageRead(JNIEnv *env, jobject wb, jlong id, jlong offset, jobject uncompressedBuffer, jlong uncompressed_size))
+  ThreadToNativeFromVM ttn(thread);
+  if (uncompressedBuffer == NULL) {
+    return JNI_FALSE;
+  }
+  unsigned char* uncompressedAddress =
+          (unsigned char*) env->GetDirectBufferAddress(uncompressedBuffer);
+  return JVM_ImageRead(env, id, offset, uncompressedAddress, uncompressed_size);
+WB_END
+
+WB_ENTRY(jboolean, WB_imageReadCompressed(JNIEnv *env, jobject wb, jlong id, jlong offset, jobject compressedBuffer, jlong compressed_size, jobject uncompressedBuffer, jlong uncompressed_size))
+  ThreadToNativeFromVM ttn(thread);
+  if (uncompressedBuffer == NULL || compressedBuffer == NULL) {
+    return false;
+  }
+  // Get address of read direct buffer.
+  unsigned char* compressedAddress =
+        (unsigned char*) env->GetDirectBufferAddress(compressedBuffer);
+  // Get address of decompression direct buffer.
+  unsigned char* uncompressedAddress =
+        (unsigned char*) env->GetDirectBufferAddress(uncompressedBuffer);
+  return JVM_ImageReadCompressed(env, id, offset, compressedAddress, compressed_size, uncompressedAddress, uncompressed_size);
+WB_END
+
+WB_ENTRY(jbyteArray, WB_imageGetStringBytes(JNIEnv *env, jobject wb, jlong id, jlong offset))
+  ThreadToNativeFromVM ttn(thread);
+  const char* data = JVM_ImageGetStringBytes(env, id, offset);
+  // Determine String length.
+  size_t size = strlen(data);
+  // Allocate byte array.
+  jbyteArray byteArray = env->NewByteArray((jsize) size);
+  // Get array base address.
+  jbyte* rawBytes = env->GetByteArrayElements(byteArray, NULL);
+  // Copy bytes from image string table.
+  memcpy(rawBytes, data, size);
+  // Release byte array base address.
+  env->ReleaseByteArrayElements(byteArray, rawBytes, 0);
+  return byteArray;
+WB_END
+
+WB_ENTRY(jlong, WB_imageGetStringsSize(JNIEnv *env, jobject wb, jlong id))
+  ImageFileReader* reader = ImageFileReader::idToReader(id);
+  return reader? reader->strings_size() : 0L;
+WB_END
+
+WB_ENTRY(jlongArray, WB_imageGetAttributes(JNIEnv *env, jobject wb, jlong id, jint offset))
+  ThreadToNativeFromVM ttn(thread);
+  // Allocate a jlong large enough for all location attributes.
+  jlongArray attributes = env->NewLongArray(JVM_ImageGetAttributesCount(env));
+  // Get base address for jlong array.
+  jlong* rawAttributes = env->GetLongArrayElements(attributes, NULL);
+  jlong* ret = JVM_ImageGetAttributes(env, rawAttributes, id, offset);
+  // Release jlong array base address.
+  env->ReleaseLongArrayElements(attributes, rawAttributes, 0);
+    return ret == NULL ? NULL : attributes;
+WB_END
+
+WB_ENTRY(jlongArray, WB_imageFindAttributes(JNIEnv *env, jobject wb, jlong id, jbyteArray utf8))
+  ThreadToNativeFromVM ttn(thread);
+  // Allocate a jlong large enough for all location attributes.
+  jlongArray attributes = env->NewLongArray(JVM_ImageGetAttributesCount(env));
+  // Get base address for jlong array.
+  jlong* rawAttributes = env->GetLongArrayElements(attributes, NULL);
+  jsize size = env->GetArrayLength(utf8);
+  jbyte* rawBytes = env->GetByteArrayElements(utf8, NULL);
+  jlong* ret = JVM_ImageFindAttributes(env, rawAttributes, rawBytes, size, id);
+  env->ReleaseByteArrayElements(utf8, rawBytes, 0);
+  env->ReleaseLongArrayElements(attributes, rawAttributes, 0);
+  return ret == NULL ? NULL : attributes;
+WB_END
+
+WB_ENTRY(jintArray, WB_imageAttributeOffsets(JNIEnv *env, jobject wb, jlong id))
+  ThreadToNativeFromVM ttn(thread);
+  unsigned int length = JVM_ImageAttributeOffsetsLength(env, id);
+  if (length == 0) {
+    return NULL;
+  }
+  jintArray offsets = env->NewIntArray(length);
+  // Get base address of result.
+  jint* rawOffsets = env->GetIntArrayElements(offsets, NULL);
+  jint* ret = JVM_ImageAttributeOffsets(env, rawOffsets, length, id);
+  // Release result base address.
+  env->ReleaseIntArrayElements(offsets, rawOffsets, 0);
+  return ret == NULL ? NULL : offsets;
+WB_END
+
+WB_ENTRY(jint, WB_imageGetIntAtAddress(JNIEnv *env, jobject wb, jlong address, jint offset, jboolean big_endian))
+  unsigned char* arr = (unsigned char*) address + offset;
+  jint uraw;
+  if (big_endian) {
+     uraw = arr[0] << 24 | arr[1]<<16 | (arr[2]<<8) | arr[3];
+  } else {
+      uraw = arr[0] | arr[1]<<8 | (arr[2]<<16) | arr[3]<<24;
+  }
+  return uraw;
+WB_END
+
 WB_ENTRY(void, WB_AssertMatchingSafepointCalls(JNIEnv* env, jobject o, jboolean mutexSafepointValue, jboolean attemptedNoSafepointValue))
   Monitor::SafepointCheckRequired sfpt_check_required = mutexSafepointValue ?
                                            Monitor::_safepoint_check_always :
@@ -1207,6 +1357,15 @@ WB_ENTRY(jobject, WB_GetMethodStringOption(JNIEnv* env, jobject wb, jobject meth
   return NULL;
 WB_END
 
+WB_ENTRY(jboolean, WB_IsShared(JNIEnv* env, jobject wb, jobject obj))
+  oop obj_oop = JNIHandles::resolve(obj);
+  return MetaspaceShared::is_in_shared_space((void*)obj_oop);
+WB_END
+
+WB_ENTRY(jboolean, WB_AreSharedStringsIgnored(JNIEnv* env))
+  return StringTable::shared_string_ignored();
+WB_END
+
 //Some convenience methods to deal with objects from java
 int WhiteBox::offset_for_field(const char* field_name, oop object,
     Symbol* signature_symbol) {
@@ -1291,13 +1450,14 @@ void WhiteBox::register_methods(JNIEnv* env, jclass wbclass, JavaThread* thread,
 #define CC (char*)
 
 static JNINativeMethod methods[] = {
-  {CC"getObjectAddress0",   CC"(Ljava/lang/Object;)J", (void*)&WB_GetObjectAddress  },
-  {CC"getObjectSize0",      CC"(Ljava/lang/Object;)J", (void*)&WB_GetObjectSize     },
-  {CC"isObjectInOldGen0",   CC"(Ljava/lang/Object;)Z", (void*)&WB_isObjectInOldGen  },
-  {CC"getHeapOopSize",     CC"()I",                   (void*)&WB_GetHeapOopSize    },
-  {CC"getVMPageSize",      CC"()I",                   (void*)&WB_GetVMPageSize     },
-  {CC"getVMLargePageSize", CC"()J",                   (void*)&WB_GetVMLargePageSize},
-  {CC"isClassAlive0",      CC"(Ljava/lang/String;)Z", (void*)&WB_IsClassAlive      },
+  {CC"getObjectAddress0",                CC"(Ljava/lang/Object;)J", (void*)&WB_GetObjectAddress  },
+  {CC"getObjectSize0",                   CC"(Ljava/lang/Object;)J", (void*)&WB_GetObjectSize     },
+  {CC"isObjectInOldGen0",                CC"(Ljava/lang/Object;)Z", (void*)&WB_isObjectInOldGen  },
+  {CC"getHeapOopSize",                   CC"()I",                   (void*)&WB_GetHeapOopSize    },
+  {CC"getVMPageSize",                    CC"()I",                   (void*)&WB_GetVMPageSize     },
+  {CC"getVMAllocationGranularity",       CC"()J",                   (void*)&WB_GetVMAllocationGranularity },
+  {CC"getVMLargePageSize",               CC"()J",                   (void*)&WB_GetVMLargePageSize},
+  {CC"isClassAlive0",                    CC"(Ljava/lang/String;)Z", (void*)&WB_IsClassAlive      },
   {CC"parseCommandLine0",
       CC"(Ljava/lang/String;C[Lsun/hotspot/parser/DiagnosticCommand;)[Ljava/lang/Object;",
       (void*) &WB_ParseCommandLine
@@ -1335,14 +1495,17 @@ static JNINativeMethod methods[] = {
 #endif // INCLUDE_NMT
   {CC"deoptimizeFrames",   CC"(Z)I",                  (void*)&WB_DeoptimizeFrames  },
   {CC"deoptimizeAll",      CC"()V",                   (void*)&WB_DeoptimizeAll     },
-  {CC"deoptimizeMethod0",   CC"(Ljava/lang/reflect/Executable;Z)I",
-                                                      (void*)&WB_DeoptimizeMethod  },
+    {CC"deoptimizeMethod0",   CC"(Ljava/lang/reflect/Executable;Z)I",
+                                                        (void*)&WB_DeoptimizeMethod  },
   {CC"isMethodCompiled0",   CC"(Ljava/lang/reflect/Executable;Z)Z",
                                                       (void*)&WB_IsMethodCompiled  },
   {CC"isMethodCompilable0", CC"(Ljava/lang/reflect/Executable;IZ)Z",
                                                       (void*)&WB_IsMethodCompilable},
   {CC"isMethodQueuedForCompilation0",
       CC"(Ljava/lang/reflect/Executable;)Z",          (void*)&WB_IsMethodQueuedForCompilation},
+  {CC"isIntrinsicAvailable0",
+      CC"(Ljava/lang/reflect/Executable;Ljava/lang/reflect/Executable;I)Z",
+                                                      (void*)&WB_IsIntrinsicAvailable},
   {CC"makeMethodNotCompilable0",
       CC"(Ljava/lang/reflect/Executable;IZ)V",        (void*)&WB_MakeMethodNotCompilable},
   {CC"testSetDontInlineMethod0",
@@ -1413,8 +1576,23 @@ static JNINativeMethod methods[] = {
   {CC"getCodeBlob",        CC"(J)[Ljava/lang/Object;",(void*)&WB_GetCodeBlob        },
   {CC"getThreadStackSize", CC"()J",                   (void*)&WB_GetThreadStackSize },
   {CC"getThreadRemainingStackSize", CC"()J",          (void*)&WB_GetThreadRemainingStackSize },
+  {CC"readImageFile",      CC"(Ljava/lang/String;)Z", (void*)&WB_ReadImageFile },
+  {CC"imageOpenImage",     CC"(Ljava/lang/String;Z)J",(void*)&WB_imageOpenImage },
+  {CC"imageCloseImage",    CC"(J)V",                  (void*)&WB_imageCloseImage },
+  {CC"imageGetIndexAddress",CC"(J)J",                 (void*)&WB_imageGetIndexAddress},
+  {CC"imageGetDataAddress",CC"(J)J",                  (void*)&WB_imageGetDataAddress},
+  {CC"imageRead",          CC"(JJLjava/nio/ByteBuffer;J)Z",
+                                                      (void*)&WB_imageRead    },
+  {CC"imageReadCompressed",CC"(JJLjava/nio/ByteBuffer;JLjava/nio/ByteBuffer;J)Z",
+                                                      (void*)&WB_imageReadCompressed},
+  {CC"imageGetStringBytes",CC"(JI)[B",                (void*)&WB_imageGetStringBytes},
+  {CC"imageGetStringsSize",CC"(J)J",                  (void*)&WB_imageGetStringsSize},
+  {CC"imageGetAttributes", CC"(JI)[J",                (void*)&WB_imageGetAttributes},
+  {CC"imageFindAttributes",CC"(J[B)[J",               (void*)&WB_imageFindAttributes},
+  {CC"imageAttributeOffsets",CC"(J)[I",               (void*)&WB_imageAttributeOffsets},
+  {CC"imageGetIntAtAddress",CC"(JIZ)I",                (void*)&WB_imageGetIntAtAddress},
   {CC"assertMatchingSafepointCalls", CC"(ZZ)V",       (void*)&WB_AssertMatchingSafepointCalls },
-  {CC"isMonitorInflated0",  CC"(Ljava/lang/Object;)Z", (void*)&WB_IsMonitorInflated  },
+  {CC"isMonitorInflated0", CC"(Ljava/lang/Object;)Z", (void*)&WB_IsMonitorInflated  },
   {CC"forceSafepoint",     CC"()V",                   (void*)&WB_ForceSafepoint     },
   {CC"getMethodBooleanOption",
       CC"(Ljava/lang/reflect/Executable;Ljava/lang/String;)Ljava/lang/Boolean;",
@@ -1431,6 +1609,8 @@ static JNINativeMethod methods[] = {
   {CC"getMethodStringOption",
       CC"(Ljava/lang/reflect/Executable;Ljava/lang/String;)Ljava/lang/String;",
                                                       (void*)&WB_GetMethodStringOption},
+  {CC"isShared",           CC"(Ljava/lang/Object;)Z", (void*)&WB_IsShared },
+  {CC"areSharedStringsIgnored",           CC"()Z",    (void*)&WB_AreSharedStringsIgnored },
 };
 
 #undef CC

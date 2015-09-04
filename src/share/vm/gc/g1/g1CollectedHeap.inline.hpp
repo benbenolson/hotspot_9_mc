@@ -29,6 +29,7 @@
 #include "gc/g1/g1AllocRegion.inline.hpp"
 #include "gc/g1/g1CollectedHeap.hpp"
 #include "gc/g1/g1CollectorPolicy.hpp"
+#include "gc/g1/g1CollectorState.hpp"
 #include "gc/g1/g1SATBCardTableModRefBS.hpp"
 #include "gc/g1/heapRegionManager.inline.hpp"
 #include "gc/g1/heapRegionSet.inline.hpp"
@@ -48,7 +49,7 @@ PLABStats* G1CollectedHeap::alloc_buffer_stats(InCSetState dest) {
 }
 
 size_t G1CollectedHeap::desired_plab_sz(InCSetState dest) {
-  size_t gclab_word_size = alloc_buffer_stats(dest)->desired_plab_sz();
+  size_t gclab_word_size = alloc_buffer_stats(dest)->desired_plab_sz(G1CollectedHeap::heap()->workers()->active_workers());
   // Prevent humongous PLAB sizes for two reasons:
   // * PLABs are allocated using a similar paths as oops, but should
   //   never be in a humongous region
@@ -81,7 +82,7 @@ inline HeapRegion* G1CollectedHeap::region_at(uint index) const { return _hrm.at
 
 inline uint G1CollectedHeap::addr_to_region(HeapWord* addr) const {
   assert(is_in_reserved(addr),
-         err_msg("Cannot calculate region index for address "PTR_FORMAT" that is outside of the heap ["PTR_FORMAT", "PTR_FORMAT")",
+         err_msg("Cannot calculate region index for address " PTR_FORMAT " that is outside of the heap [" PTR_FORMAT ", " PTR_FORMAT ")",
                  p2i(addr), p2i(reserved_region().start()), p2i(reserved_region().end())));
   return (uint)(pointer_delta(addr, reserved_region().start(), sizeof(uint8_t)) >> HeapRegion::LogOfHRGrainBytes);
 }
@@ -94,7 +95,7 @@ template <class T>
 inline HeapRegion* G1CollectedHeap::heap_region_containing_raw(const T addr) const {
   assert(addr != NULL, "invariant");
   assert(is_in_g1_reserved((const void*) addr),
-      err_msg("Address "PTR_FORMAT" is outside of the heap ranging from ["PTR_FORMAT" to "PTR_FORMAT")",
+      err_msg("Address " PTR_FORMAT " is outside of the heap ranging from [" PTR_FORMAT " to " PTR_FORMAT ")",
           p2i((void*)addr), p2i(g1_reserved().start()), p2i(g1_reserved().end())));
   return _hrm.addr_to_region((HeapWord*) addr);
 }
@@ -288,9 +289,9 @@ G1CollectedHeap::set_evacuation_failure_alot_for_current_gc() {
     _evacuation_failure_alot_for_current_gc = (elapsed_gcs >= G1EvacuationFailureALotInterval);
 
     // Now check if G1EvacuationFailureALot is enabled for the current GC type.
-    const bool gcs_are_young = g1_policy()->gcs_are_young();
-    const bool during_im = g1_policy()->during_initial_mark_pause();
-    const bool during_marking = mark_in_progress();
+    const bool gcs_are_young = collector_state()->gcs_are_young();
+    const bool during_im = collector_state()->during_initial_mark_pause();
+    const bool during_marking = collector_state()->mark_in_progress();
 
     _evacuation_failure_alot_for_current_gc &=
       evacuation_failure_alot_for_gc_type(gcs_are_young,

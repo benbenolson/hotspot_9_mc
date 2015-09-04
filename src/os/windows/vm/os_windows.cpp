@@ -63,6 +63,7 @@
 #include "runtime/threadCritical.hpp"
 #include "runtime/timer.hpp"
 #include "runtime/vm_version.hpp"
+#include "semaphore_windows.hpp"
 #include "services/attachListener.hpp"
 #include "services/memTracker.hpp"
 #include "services/runtimeService.hpp"
@@ -1369,11 +1370,12 @@ bool os::dll_address_to_library_name(address addr, char* buf,
 }
 
 bool os::dll_address_to_function_name(address addr, char *buf,
-                                      int buflen, int *offset) {
+                                      int buflen, int *offset,
+                                      bool demangle) {
   // buf is not optional, but offset is optional
   assert(buf != NULL, "sanity check");
 
-  if (Decoder::decode(addr, buf, buflen, offset)) {
+  if (Decoder::decode(addr, buf, buflen, offset, demangle)) {
     return true;
   }
   if (offset != NULL)  *offset  = -1;
@@ -1591,6 +1593,21 @@ int os::get_loaded_modules_info(os::LoadedModulesCallbackFunc callback, void *pa
   return result;
 }
 
+#ifndef PRODUCT
+bool os::get_host_name(char* buf, size_t buflen) {
+  DWORD size = (DWORD)buflen;
+  return (GetComputerNameEx(ComputerNameDnsHostname, buf, &size) == TRUE);
+}
+#endif // PRODUCT
+
+void os::get_summary_os_info(char* buf, size_t buflen) {
+  stringStream sst(buf, buflen);
+  os::win32::print_windows_version(&sst);
+  // chop off newline character
+  char* nl = strchr(buf, '\n');
+  if (nl != NULL) *nl = '\0';
+}
+
 void os::print_os_info_brief(outputStream* st) {
   os::print_os_info(st);
 }
@@ -1598,15 +1615,14 @@ void os::print_os_info_brief(outputStream* st) {
 void os::print_os_info(outputStream* st) {
 #ifdef ASSERT
   char buffer[1024];
-  DWORD size = sizeof(buffer);
-  st->print(" HostName: ");
-  if (GetComputerNameEx(ComputerNameDnsHostname, buffer, &size)) {
-    st->print("%s", buffer);
+  st->print("HostName: ");
+  if (get_host_name(buffer, sizeof(buffer))) {
+    st->print("%s ", buffer);
   } else {
-    st->print("N/A");
+    st->print("N/A ");
   }
 #endif
-  st->print(" OS:");
+  st->print("OS:");
   os::win32::print_windows_version(st);
 }
 
@@ -1732,8 +1748,25 @@ void os::win32::print_windows_version(outputStream* st) {
   st->cr();
 }
 
-void os::pd_print_cpu_info(outputStream* st) {
+void os::pd_print_cpu_info(outputStream* st, char* buf, size_t buflen) {
   // Nothing to do for now.
+}
+
+void os::get_summary_cpu_info(char* buf, size_t buflen) {
+  HKEY key;
+  DWORD status = RegOpenKey(HKEY_LOCAL_MACHINE,
+               "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", &key);
+  if (status == ERROR_SUCCESS) {
+    DWORD size = (DWORD)buflen;
+    status = RegQueryValueEx(key, "ProcessorNameString", NULL, NULL, (byte*)buf, &size);
+    if (status != ERROR_SUCCESS) {
+        strncpy(buf, "## __CPU__", buflen);
+    }
+    RegCloseKey(key);
+  } else {
+    // Put generic cpu info to return
+    strncpy(buf, "## __CPU__", buflen);
+  }
 }
 
 void os::print_memory_info(outputStream* st) {
@@ -1898,6 +1931,30 @@ int os::get_last_error() {
     error = errno;
   }
   return (int)error;
+}
+
+WindowsSemaphore::WindowsSemaphore(uint value) {
+  _semaphore = ::CreateSemaphore(NULL, value, LONG_MAX, NULL);
+
+  guarantee(_semaphore != NULL, err_msg("CreateSemaphore failed with error code: %lu", GetLastError()));
+}
+
+WindowsSemaphore::~WindowsSemaphore() {
+  ::CloseHandle(_semaphore);
+}
+
+void WindowsSemaphore::signal(uint count) {
+  if (count > 0) {
+    BOOL ret = ::ReleaseSemaphore(_semaphore, count, NULL);
+
+    assert(ret != 0, err_msg("ReleaseSemaphore failed with error code: %lu", GetLastError()));
+  }
+}
+
+void WindowsSemaphore::wait() {
+  DWORD ret = ::WaitForSingleObject(_semaphore, INFINITE);
+  assert(ret != WAIT_FAILED,   err_msg("WaitForSingleObject failed with error code: %lu", GetLastError()));
+  assert(ret == WAIT_OBJECT_0, err_msg("WaitForSingleObject failed with return value: %lu", ret));
 }
 
 // sun.misc.Signal
@@ -3714,15 +3771,6 @@ void os::win32::initialize_system_info() {
          "stack size not a multiple of page size");
 
   initialize_performance_counter();
-
-  // Win95/Win98 scheduler bug work-around. The Win95/98 scheduler is
-  // known to deadlock the system, if the VM issues to thread operations with
-  // a too high frequency, e.g., such as changing the priorities.
-  // The 6000 seems to work well - no deadlocks has been notices on the test
-  // programs that we have seen experience this problem.
-  if (!os::win32::is_nt()) {
-    StarvationMonitorInterval = 6000;
-  }
 }
 
 
@@ -5889,7 +5937,7 @@ void TestReserveMemorySpecial_test() {
   char* result = os::reserve_memory_special(large_allocation_size, os::large_page_size(), NULL, false);
   if (result == NULL) {
     if (VerboseInternalVMTests) {
-      gclog_or_tty->print("Failed to allocate control block with size "SIZE_FORMAT". Skipping remainder of test.",
+      gclog_or_tty->print("Failed to allocate control block with size " SIZE_FORMAT ". Skipping remainder of test.",
                           large_allocation_size);
     }
   } else {
@@ -5902,7 +5950,7 @@ void TestReserveMemorySpecial_test() {
     char* actual_location = os::reserve_memory_special(expected_allocation_size, os::large_page_size(), expected_location, false);
     if (actual_location == NULL) {
       if (VerboseInternalVMTests) {
-        gclog_or_tty->print("Failed to allocate any memory at "PTR_FORMAT" size "SIZE_FORMAT". Skipping remainder of test.",
+        gclog_or_tty->print("Failed to allocate any memory at " PTR_FORMAT " size " SIZE_FORMAT ". Skipping remainder of test.",
                             expected_location, large_allocation_size);
       }
     } else {
@@ -5910,7 +5958,7 @@ void TestReserveMemorySpecial_test() {
       os::release_memory_special(actual_location, expected_allocation_size);
       // only now check, after releasing any memory to avoid any leaks.
       assert(actual_location == expected_location,
-             err_msg("Failed to allocate memory at requested location "PTR_FORMAT" of size "SIZE_FORMAT", is "PTR_FORMAT" instead",
+             err_msg("Failed to allocate memory at requested location " PTR_FORMAT " of size " SIZE_FORMAT ", is " PTR_FORMAT " instead",
              expected_location, expected_allocation_size, actual_location));
     }
   }

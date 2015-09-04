@@ -409,7 +409,7 @@ CodeBlob* CodeCache::allocate(int size, int code_blob_type, bool strict) {
     }
     if (PrintCodeCacheExtension) {
       ResourceMark rm;
-      if (SegmentedCodeCache) {
+      if (_heaps->length() >= 1) {
         tty->print("%s", heap->name());
       } else {
         tty->print("CodeCache");
@@ -1188,7 +1188,8 @@ void CodeCache::print_trace(const char* event, CodeBlob* cb, int size) {
   if (PrintCodeCache2) {  // Need to add a new flag
     ResourceMark rm;
     if (size == 0)  size = cb->size();
-    tty->print_cr("CodeCache %s:  addr: " INTPTR_FORMAT ", size: 0x%x", event, p2i(cb), size);
+    //tty->print_cr("CodeCache %s:  addr: " INTPTR_FORMAT ", size: 0x%x", event, p2i(cb), size);
+    tty->print_cr("CodeCache %s:  addr: " INTPTR_FORMAT ", size: %d", event, p2i(cb), size);
   }
 }
 
@@ -1209,9 +1210,10 @@ void CodeCache::print_internals() {
   int max_nm_size = 0;
   ResourceMark rm;
 
+  tty->print_cr("low_bound: %p, high bound: %p", _low_bound, high_bound);
   int i = 0;
   FOR_ALL_HEAPS(heap) {
-    if (SegmentedCodeCache && Verbose) {
+    if ((_heaps->length() >= 1) && Verbose) {
       tty->print_cr("-- %s --", (*heap)->name());
     }
     FOR_ALL_BLOBS(cb, *heap) {
@@ -1360,7 +1362,7 @@ void CodeCache::print_summary(outputStream* st, bool detailed) {
   FOR_ALL_HEAPS(heap_iterator) {
     CodeHeap* heap = (*heap_iterator);
     size_t total = (heap->high_boundary() - heap->low_boundary());
-    if (SegmentedCodeCache) {
+    if (_heaps->length() >= 1) {
       st->print("%s:", heap->name());
     } else {
       st->print("CodeCache:");
@@ -1397,7 +1399,7 @@ void CodeCache::print_codelist(outputStream* st) {
     nmethod* nm = iter.method();
     ResourceMark rm;
     char *method_name = nm->method()->name_and_sig_as_C_string();
-    st->print_cr("%d %d %s ["INTPTR_FORMAT", "INTPTR_FORMAT" - "INTPTR_FORMAT"]",
+    st->print_cr("%d %d %s [" INTPTR_FORMAT ", " INTPTR_FORMAT " - " INTPTR_FORMAT "]",
                  nm->compile_id(), nm->comp_level(), method_name, (intptr_t)nm->header_begin(),
                  (intptr_t)nm->code_begin(), (intptr_t)nm->code_end());
   }

@@ -38,6 +38,7 @@
 #include "opto/rootnode.hpp"
 #include "opto/runtime.hpp"
 #include "opto/subnode.hpp"
+#include "opto/superword.hpp"
 #include "opto/vectornode.hpp"
 
 //------------------------------is_loop_exit-----------------------------------
@@ -279,6 +280,10 @@ bool IdealLoopTree::policy_peeling( PhaseIdealLoop *phase ) const {
       || (body_size * body_size + phase->C->live_nodes()) > phase->C->max_node_limit() ) {
     return false;           // too large to safely clone
   }
+
+  // check for vectorized loops, any peeling done was already applied
+  if (_head->is_CountedLoop() && _head->as_CountedLoop()->do_unroll_only()) return false;
+
   while( test != _head ) {      // Scan till run off top of loop
     if( test->is_If() ) {       // Test?
       Node *ctrl = phase->get_ctrl(test->in(1));
@@ -640,7 +645,7 @@ bool IdealLoopTree::policy_maximally_unroll( PhaseIdealLoop *phase ) const {
 //------------------------------policy_unroll----------------------------------
 // Return TRUE or FALSE if the loop should be unrolled or not.  Unroll if
 // the loop is a CountedLoop and the body is small enough.
-bool IdealLoopTree::policy_unroll( PhaseIdealLoop *phase ) const {
+bool IdealLoopTree::policy_unroll(PhaseIdealLoop *phase) {
 
   CountedLoopNode *cl = _head->as_CountedLoop();
   assert(cl->is_normal_loop() || cl->is_main_loop(), "");
@@ -652,8 +657,15 @@ bool IdealLoopTree::policy_unroll( PhaseIdealLoop *phase ) const {
   // After split at least one iteration will be executed in pre-loop.
   if (cl->trip_count() <= (uint)(cl->is_normal_loop() ? 2 : 1)) return false;
 
+  _local_loop_unroll_limit = LoopUnrollLimit;
+  _local_loop_unroll_factor = 4;
   int future_unroll_ct = cl->unrolled_count() * 2;
-  if (future_unroll_ct > LoopMaxUnroll) return false;
+  if (!cl->do_unroll_only()) {
+    if (future_unroll_ct > LoopMaxUnroll) return false;
+  } else {
+    // obey user constraints on vector mapped loops with additional unrolling applied
+    if ((future_unroll_ct / cl->slp_max_unroll()) > LoopMaxUnroll) return false;
+  }
 
   // Check for initial stride being a small enough constant
   if (abs(cl->stride_con()) > (1<<2)*future_unroll_ct) return false;
@@ -747,15 +759,67 @@ bool IdealLoopTree::policy_unroll( PhaseIdealLoop *phase ) const {
     } // switch
   }
 
+  if (UseSuperWord) {
+    if (!cl->is_reduction_loop()) {
+      phase->mark_reductions(this);
+    }
+
+    // Only attempt slp analysis when user controls do not prohibit it
+    if (LoopMaxUnroll > _local_loop_unroll_factor) {
+      // Once policy_slp_analysis succeeds, mark the loop with the
+      // maximal unroll factor so that we minimize analysis passes
+      if (future_unroll_ct >= _local_loop_unroll_factor) {
+        policy_unroll_slp_analysis(cl, phase, future_unroll_ct);
+      }
+    }
+  }
+
+  int slp_max_unroll_factor = cl->slp_max_unroll();
+  if (cl->has_passed_slp()) {
+    if (slp_max_unroll_factor >= future_unroll_ct) return true;
+    // Normal case: loop too big
+    return false;
+  }
+
   // Check for being too big
-  if (body_size > (uint)LoopUnrollLimit) {
+  if (body_size > (uint)_local_loop_unroll_limit) {
     if (xors_in_loop >= 4 && body_size < (uint)LoopUnrollLimit*4) return true;
     // Normal case: loop too big
     return false;
   }
 
+  if(cl->do_unroll_only()) {
+    NOT_PRODUCT(if (TraceSuperWordLoopUnrollAnalysis) tty->print_cr("policy_unroll passed vector loop(vlen=%d,factor = %d)\n", slp_max_unroll_factor, future_unroll_ct));
+  }
+
   // Unroll once!  (Each trip will soon do double iterations)
   return true;
+}
+
+void IdealLoopTree::policy_unroll_slp_analysis(CountedLoopNode *cl, PhaseIdealLoop *phase, int future_unroll_ct) {
+  // Enable this functionality target by target as needed
+  if (SuperWordLoopUnrollAnalysis) {
+    if (!cl->was_slp_analyzed()) {
+      SuperWord sw(phase);
+      sw.transform_loop(this, false);
+
+      // If the loop is slp canonical analyze it
+      if (sw.early_return() == false) {
+        sw.unrolling_analysis(_local_loop_unroll_factor);
+      }
+    }
+
+    if (cl->has_passed_slp()) {
+      int slp_max_unroll_factor = cl->slp_max_unroll();
+      if (slp_max_unroll_factor >= future_unroll_ct) {
+        int new_limit = cl->node_count_before_unroll() * slp_max_unroll_factor;
+        if (new_limit > LoopUnrollLimit) {
+          NOT_PRODUCT(if (TraceSuperWordLoopUnrollAnalysis) tty->print_cr("slp analysis unroll=%d, default limit=%d\n", new_limit, _local_loop_unroll_limit));
+          _local_loop_unroll_limit = new_limit;
+        }
+      }
+    }
+  }
 }
 
 //------------------------------policy_align-----------------------------------
@@ -780,6 +844,9 @@ bool IdealLoopTree::policy_range_check( PhaseIdealLoop *phase ) const {
   // make a new pre-loop, or we gotta disallow RCE.
   if (cl->is_main_no_pre_loop()) return false; // Disallowed for now.
   Node *trip_counter = cl->phi();
+
+  // check for vectorized loops, some opts are no longer needed
+  if (cl->do_unroll_only()) return false;
 
   // Check loop body for tests of trip-counter plus loop-invariant vs
   // loop-invariant.
@@ -831,6 +898,8 @@ bool IdealLoopTree::policy_range_check( PhaseIdealLoop *phase ) const {
 // Return TRUE or FALSE if the loop should NEVER be RCE'd or aligned.  Useful
 // for unrolling loops with NO array accesses.
 bool IdealLoopTree::policy_peel_only( PhaseIdealLoop *phase ) const {
+  // check for vectorized loops, any peeling done was already applied
+  if (_head->is_CountedLoop() && _head->as_CountedLoop()->do_unroll_only()) return false;
 
   for( uint i = 0; i < _body.size(); i++ )
     if( _body[i]->is_Mem() )
@@ -1611,6 +1680,7 @@ void PhaseIdealLoop::mark_reductions(IdealLoopTree *loop) {
               // iff the uses conform
               if (ok) {
                 def_node->add_flag(Node::Flag_is_reduction);
+                loop_head->mark_has_reductions();
               }
             }
           }
@@ -2517,7 +2587,6 @@ bool IdealLoopTree::iteration_split_impl( PhaseIdealLoop *phase, Node_List &old_
     // and we'd rather unroll the post-RCE'd loop SO... do not unroll if
     // peeling.
     if (should_unroll && !should_peel) {
-      phase->mark_reductions(this);
       phase->do_unroll(this, old_new, true);
     }
 
@@ -2892,13 +2961,6 @@ bool PhaseIdealLoop::intrinsify_fill(IdealLoopTree* lpt) {
     _igvn.register_new_node_with_optimizer(store_value);
   }
 
-  if (CCallingConventionRequiresIntsAsLongs &&
-      // See StubRoutines::select_fill_function for types. FLOAT has been converted to INT.
-      (t == T_FLOAT || t == T_INT ||  is_subword_type(t))) {
-    store_value = new ConvI2LNode(store_value);
-    _igvn.register_new_node_with_optimizer(store_value);
-  }
-
   Node* mem_phi = store->in(MemNode::Memory);
   Node* result_ctrl;
   Node* result_mem;
@@ -2908,9 +2970,6 @@ bool PhaseIdealLoop::intrinsify_fill(IdealLoopTree* lpt) {
   uint cnt = 0;
   call->init_req(TypeFunc::Parms + cnt++, from);
   call->init_req(TypeFunc::Parms + cnt++, store_value);
-  if (CCallingConventionRequiresIntsAsLongs) {
-    call->init_req(TypeFunc::Parms + cnt++, C->top());
-  }
 #ifdef _LP64
   len = new ConvI2LNode(len);
   _igvn.register_new_node_with_optimizer(len);

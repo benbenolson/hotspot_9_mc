@@ -31,6 +31,7 @@
 #include "interpreter/interpreter.hpp"
 #include "memory/resourceArea.hpp"
 #include "memory/universe.hpp"
+#include "oops/klass.inline.hpp"
 #include "prims/methodHandles.hpp"
 #include "runtime/biasedLocking.hpp"
 #include "runtime/interfaceSupport.hpp"
@@ -1781,6 +1782,7 @@ void MacroAssembler::fast_lock(Register objReg, Register boxReg, Register tmpReg
        cmpxchgptr(scrReg, Address(boxReg, OM_OFFSET_NO_MONITOR_VALUE_TAG(owner)));
     } else
     if ((EmitSync & 128) == 0) {                      // avoid ST-before-CAS
+       // register juggle because we need tmpReg for cmpxchgptr below
        movptr(scrReg, boxReg);
        movptr(boxReg, tmpReg);                   // consider: LEA box, [tmp-2]
 
@@ -1814,7 +1816,10 @@ void MacroAssembler::fast_lock(Register objReg, Register boxReg, Register tmpReg
        }
        cmpxchgptr(scrReg, Address(boxReg, OM_OFFSET_NO_MONITOR_VALUE_TAG(owner)));
        movptr(Address(scrReg, 0), 3);          // box->_displaced_header = 3
+       // If we weren't able to swing _owner from NULL to the BasicLock
+       // then take the slow path.
        jccb  (Assembler::notZero, DONE_LABEL);
+       // update _owner from BasicLock to thread
        get_thread (scrReg);                    // beware: clobbers ICCs
        movptr(Address(boxReg, OM_OFFSET_NO_MONITOR_VALUE_TAG(owner)), scrReg);
        xorptr(boxReg, boxReg);                 // set icc.ZFlag = 1 to indicate success
@@ -2083,6 +2088,9 @@ void MacroAssembler::fast_unlock(Register objReg, Register boxReg, Register tmpR
        xorptr(boxReg, boxReg);                  // box is really EAX
        if (os::is_MP()) { lock(); }
        cmpxchgptr(rsp, Address(tmpReg, OM_OFFSET_NO_MONITOR_VALUE_TAG(owner)));
+       // There's no successor so we tried to regrab the lock with the
+       // placeholder value. If that didn't work, then another thread
+       // grabbed the lock so we're done (and exit was a success).
        jccb  (Assembler::notEqual, LSuccess);
        // Since we're low on registers we installed rsp as a placeholding in _owner.
        // Now install Self over rsp.  This is safe as we're transitioning from
@@ -2190,6 +2198,9 @@ void MacroAssembler::fast_unlock(Register objReg, Register boxReg, Register tmpR
       movptr(boxReg, (int32_t)NULL_WORD);
       if (os::is_MP()) { lock(); }
       cmpxchgptr(r15_thread, Address(tmpReg, OM_OFFSET_NO_MONITOR_VALUE_TAG(owner)));
+      // There's no successor so we tried to regrab the lock.
+      // If that didn't work, then another thread grabbed the
+      // lock so we're done (and exit was a success).
       jccb  (Assembler::notEqual, LSuccess);
       // Intentional fall-through into slow-path
 
@@ -4260,30 +4271,23 @@ void MacroAssembler::g1_write_barrier_post(Register store_addr,
 //////////////////////////////////////////////////////////////////////////////////
 
 
-void MacroAssembler::store_check(Register obj) {
-  // Does a store check for the oop in register obj. The content of
-  // register obj is destroyed afterwards.
-  store_check_part_1(obj);
-  store_check_part_2(obj);
-}
-
 void MacroAssembler::store_check(Register obj, Address dst) {
   store_check(obj);
 }
 
+void MacroAssembler::store_check(Register obj) {
+  // Does a store check for the oop in register obj. The content of
+  // register obj is destroyed afterwards.
 
-// split the store check operation so that other instructions can be scheduled inbetween
-void MacroAssembler::store_check_part_1(Register obj) {
   BarrierSet* bs = Universe::heap()->barrier_set();
   assert(bs->kind() == BarrierSet::CardTableModRef, "Wrong barrier set kind");
-  shrptr(obj, CardTableModRefBS::card_shift);
-}
 
-void MacroAssembler::store_check_part_2(Register obj) {
-  BarrierSet* bs = Universe::heap()->barrier_set();
-  assert(bs->kind() == BarrierSet::CardTableModRef, "Wrong barrier set kind");
   CardTableModRefBS* ct = barrier_set_cast<CardTableModRefBS>(bs);
   assert(sizeof(*ct->byte_map_base) == sizeof(jbyte), "adjust this code");
+
+  shrptr(obj, CardTableModRefBS::card_shift);
+
+  Address card_addr;
 
   // The calculation for byte_map_base is as follows:
   // byte_map_base = _byte_map - (uintptr_t(low_bound) >> card_shift);
@@ -4292,8 +4296,7 @@ void MacroAssembler::store_check_part_2(Register obj) {
   // large for a 32bit displacement.
   intptr_t disp = (intptr_t) ct->byte_map_base;
   if (is_simm32(disp)) {
-    Address cardtable(noreg, obj, Address::times_1, disp);
-    movb(cardtable, 0);
+    card_addr = Address(noreg, obj, Address::times_1, disp);
   } else {
     // By doing it as an ExternalAddress 'disp' could be converted to a rip-relative
     // displacement and done in a single instruction given favorable mapping and a
@@ -4301,7 +4304,21 @@ void MacroAssembler::store_check_part_2(Register obj) {
     // entry and that entry is not properly handled by the relocation code.
     AddressLiteral cardtable((address)ct->byte_map_base, relocInfo::none);
     Address index(noreg, obj, Address::times_1);
-    movb(as_Address(ArrayAddress(cardtable, index)), 0);
+    card_addr = as_Address(ArrayAddress(cardtable, index));
+  }
+
+  int dirty = CardTableModRefBS::dirty_card_val();
+  if (UseCondCardMark) {
+    Label L_already_dirty;
+    if (UseConcMarkSweepGC) {
+      membar(Assembler::StoreLoad);
+    }
+    cmpb(card_addr, dirty);
+    jcc(Assembler::equal, L_already_dirty);
+    movb(card_addr, dirty);
+    bind(L_already_dirty);
+  } else {
+    movb(card_addr, dirty);
   }
 }
 
@@ -5172,7 +5189,7 @@ RegisterOrConstant MacroAssembler::delayed_value_impl(intptr_t* delayed_value_ad
       {
         ResourceMark rm;
         stringStream ss;
-        ss.print("DelayedValue="INTPTR_FORMAT, delayed_value_addr[1]);
+        ss.print("DelayedValue=" INTPTR_FORMAT, delayed_value_addr[1]);
         buf = code_string(ss.as_string());
       }
       jcc(Assembler::notZero, L);

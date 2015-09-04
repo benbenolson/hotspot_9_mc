@@ -92,7 +92,7 @@ public:
     regions_at_put(_curr_index, NULL);
     assert(hr->reclaimable_bytes() <= _remaining_reclaimable_bytes,
            err_msg("remaining reclaimable bytes inconsistent "
-                   "from region: "SIZE_FORMAT" remaining: "SIZE_FORMAT,
+                   "from region: " SIZE_FORMAT " remaining: " SIZE_FORMAT,
                    hr->reclaimable_bytes(), _remaining_reclaimable_bytes));
     _remaining_reclaimable_bytes -= hr->reclaimable_bytes();
     _curr_index += 1;
@@ -103,13 +103,12 @@ public:
   void sort_regions();
 
   // Determine whether to add the given region to the CSet chooser or
-  // not. Currently, we skip humongous regions (we never add them to
-  // the CSet, we only reclaim them during cleanup) and regions whose
-  // live bytes are over the threshold.
+  // not. Currently, we skip pinned regions and regions whose live
+  // bytes are over the threshold. Humongous regions may be reclaimed during cleanup.
   bool should_add(HeapRegion* hr) {
     assert(hr->is_marked(), "pre-condition");
     assert(!hr->is_young(), "should never consider young regions");
-    return !hr->is_humongous() &&
+    return !hr->is_pinned() &&
             hr->live_bytes() < _region_live_threshold_bytes;
   }
 

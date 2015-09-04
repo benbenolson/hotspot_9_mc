@@ -102,6 +102,8 @@ address OptoRuntime::_g1_wb_pre_Java                              = NULL;
 address OptoRuntime::_g1_wb_post_Java                             = NULL;
 address OptoRuntime::_vtable_must_compile_Java                    = NULL;
 address OptoRuntime::_complete_monitor_locking_Java               = NULL;
+address OptoRuntime::_monitor_notify_Java                         = NULL;
+address OptoRuntime::_monitor_notifyAll_Java                      = NULL;
 address OptoRuntime::_rethrow_Java                                = NULL;
 
 address OptoRuntime::_slow_arraycopy_Java                         = NULL;
@@ -156,6 +158,8 @@ bool OptoRuntime::generate(ciEnv* env) {
   gen(env, _g1_wb_pre_Java                 , g1_wb_pre_Type               , SharedRuntime::g1_wb_pre        ,    0 , false, false, false);
   gen(env, _g1_wb_post_Java                , g1_wb_post_Type              , SharedRuntime::g1_wb_post       ,    0 , false, false, false);
   gen(env, _complete_monitor_locking_Java  , complete_monitor_enter_Type  , SharedRuntime::complete_monitor_locking_C, 0, false, false, false);
+  gen(env, _monitor_notify_Java            , monitor_notify_Type          , monitor_notify_C                ,    0 , false, false, false);
+  gen(env, _monitor_notifyAll_Java         , monitor_notify_Type          , monitor_notifyAll_C             ,    0 , false, false, false);
   gen(env, _rethrow_Java                   , rethrow_Type                 , rethrow_C                       ,    2 , true , false, true );
 
   gen(env, _slow_arraycopy_Java            , slow_arraycopy_Type          , SharedRuntime::slow_arraycopy_C ,    0 , false, false, false);
@@ -200,6 +204,45 @@ const char* OptoRuntime::stub_name(address entry) {
 // Opto compiler runtime routines
 //=============================================================================
 
+JRT_BLOCK_ENTRY(void, OptoRuntime::monitor_notify_C(oopDesc* obj, JavaThread *thread))
+
+  // Very few notify/notifyAll operations find any threads on the waitset, so
+  // the dominant fast-path is to simply return.
+  // Relatedly, it's critical that notify/notifyAll be fast in order to
+  // reduce lock hold times.
+  if (!SafepointSynchronize::is_synchronizing()) {
+    if (ObjectSynchronizer::quick_notify(obj, thread, false)) {
+      return;
+    }
+  }
+
+  // This is the case the fast-path above isn't provisioned to handle.
+  // The fast-path is designed to handle frequently arising cases in an efficient manner.
+  // (The fast-path is just a degenerate variant of the slow-path).
+  // Perform the dreaded state transition and pass control into the slow-path.
+  JRT_BLOCK;
+  Handle h_obj(THREAD, obj);
+  ObjectSynchronizer::notify(h_obj, CHECK);
+  JRT_BLOCK_END;
+JRT_END
+
+JRT_BLOCK_ENTRY(void, OptoRuntime::monitor_notifyAll_C(oopDesc* obj, JavaThread *thread))
+
+  if (!SafepointSynchronize::is_synchronizing() ) {
+    if (ObjectSynchronizer::quick_notify(obj, thread, true)) {
+      return;
+    }
+  }
+
+  // This is the case the fast-path above isn't provisioned to handle.
+  // The fast-path is designed to handle frequently arising cases in an efficient manner.
+  // (The fast-path is just a degenerate variant of the slow-path).
+  // Perform the dreaded state transition and pass control into the slow-path.
+  JRT_BLOCK;
+  Handle h_obj(THREAD, obj);
+  ObjectSynchronizer::notifyall(h_obj, CHECK);
+  JRT_BLOCK_END;
+JRT_END
 
 //=============================allocation======================================
 // We failed the fast-path allocation.  Now we need to do a scavenge or GC
@@ -918,14 +961,26 @@ const TypeFunc *OptoRuntime::complete_monitor_exit_Type() {
   fields[TypeFunc::Parms+0] = TypeInstPtr::NOTNULL;  // Object to be Locked
   fields[TypeFunc::Parms+1] = TypeRawPtr::BOTTOM;    // Address of stack location for lock - BasicLock
   fields[TypeFunc::Parms+2] = TypeRawPtr::BOTTOM;    // Thread pointer (Self)
-  const TypeTuple *domain = TypeTuple::make(TypeFunc::Parms+3,fields);
+  const TypeTuple *domain = TypeTuple::make(TypeFunc::Parms+3, fields);
 
   // create result type (range)
   fields = TypeTuple::fields(0);
 
-  const TypeTuple *range = TypeTuple::make(TypeFunc::Parms+0,fields);
+  const TypeTuple *range = TypeTuple::make(TypeFunc::Parms+0, fields);
 
-  return TypeFunc::make(domain,range);
+  return TypeFunc::make(domain, range);
+}
+
+const TypeFunc *OptoRuntime::monitor_notify_Type() {
+  // create input type (domain)
+  const Type **fields = TypeTuple::fields(1);
+  fields[TypeFunc::Parms+0] = TypeInstPtr::NOTNULL;  // Object to be Locked
+  const TypeTuple *domain = TypeTuple::make(TypeFunc::Parms+1, fields);
+
+  // create result type (range)
+  fields = TypeTuple::fields(0);
+  const TypeTuple *range = TypeTuple::make(TypeFunc::Parms+0, fields);
+  return TypeFunc::make(domain, range);
 }
 
 const TypeFunc* OptoRuntime::flush_windows_Type() {
@@ -1093,18 +1148,10 @@ const TypeFunc* OptoRuntime::generic_arraycopy_Type() {
 const TypeFunc* OptoRuntime::array_fill_Type() {
   const Type** fields;
   int argp = TypeFunc::Parms;
-  if (CCallingConventionRequiresIntsAsLongs) {
   // create input type (domain): pointer, int, size_t
-    fields = TypeTuple::fields(3 LP64_ONLY( + 2));
-    fields[argp++] = TypePtr::NOTNULL;
-    fields[argp++] = TypeLong::LONG;
-    fields[argp++] = Type::HALF;
-  } else {
-    // create input type (domain): pointer, int, size_t
-    fields = TypeTuple::fields(3 LP64_ONLY( + 1));
-    fields[argp++] = TypePtr::NOTNULL;
-    fields[argp++] = TypeInt::INT;
-  }
+  fields = TypeTuple::fields(3 LP64_ONLY( + 1));
+  fields[argp++] = TypePtr::NOTNULL;
+  fields[argp++] = TypeInt::INT;
   fields[argp++] = TypeX_X;               // size in whatevers (size_t)
   LP64_ONLY(fields[argp++] = Type::HALF); // other half of long length
   const TypeTuple *domain = TypeTuple::make(argp, fields);
@@ -1155,6 +1202,29 @@ const TypeFunc* OptoRuntime::updateBytesCRC32_Type() {
   fields[argp++] = TypeInt::INT;        // crc
   fields[argp++] = TypePtr::NOTNULL;    // src
   fields[argp++] = TypeInt::INT;        // len
+  assert(argp == TypeFunc::Parms+argcnt, "correct decoding");
+  const TypeTuple* domain = TypeTuple::make(TypeFunc::Parms+argcnt, fields);
+
+  // result type needed
+  fields = TypeTuple::fields(1);
+  fields[TypeFunc::Parms+0] = TypeInt::INT; // crc result
+  const TypeTuple* range = TypeTuple::make(TypeFunc::Parms+1, fields);
+  return TypeFunc::make(domain, range);
+}
+
+/**
+ * int updateBytesCRC32C(int crc, byte* buf, int len, int* table)
+ */
+const TypeFunc* OptoRuntime::updateBytesCRC32C_Type() {
+  // create input type (domain)
+  int num_args      = 4;
+  int argcnt = num_args;
+  const Type** fields = TypeTuple::fields(argcnt);
+  int argp = TypeFunc::Parms;
+  fields[argp++] = TypeInt::INT;        // crc
+  fields[argp++] = TypePtr::NOTNULL;    // buf
+  fields[argp++] = TypeInt::INT;        // len
+  fields[argp++] = TypePtr::NOTNULL;    // table
   assert(argp == TypeFunc::Parms+argcnt, "correct decoding");
   const TypeTuple* domain = TypeTuple::make(TypeFunc::Parms+argcnt, fields);
 
@@ -1301,7 +1371,72 @@ const TypeFunc* OptoRuntime::mulAdd_Type() {
   return TypeFunc::make(domain, range);
 }
 
+const TypeFunc* OptoRuntime::montgomeryMultiply_Type() {
+  // create input type (domain)
+  int num_args      = 7;
+  int argcnt = num_args;
+  const Type** fields = TypeTuple::fields(argcnt);
+  int argp = TypeFunc::Parms;
+  fields[argp++] = TypePtr::NOTNULL;    // a
+  fields[argp++] = TypePtr::NOTNULL;    // b
+  fields[argp++] = TypePtr::NOTNULL;    // n
+  fields[argp++] = TypeInt::INT;        // len
+  fields[argp++] = TypeLong::LONG;      // inv
+  fields[argp++] = Type::HALF;
+  fields[argp++] = TypePtr::NOTNULL;    // result
+  assert(argp == TypeFunc::Parms+argcnt, "correct decoding");
+  const TypeTuple* domain = TypeTuple::make(TypeFunc::Parms+argcnt, fields);
 
+  // result type needed
+  fields = TypeTuple::fields(1);
+  fields[TypeFunc::Parms+0] = TypePtr::NOTNULL;
+
+  const TypeTuple* range = TypeTuple::make(TypeFunc::Parms, fields);
+  return TypeFunc::make(domain, range);
+}
+
+const TypeFunc* OptoRuntime::montgomerySquare_Type() {
+  // create input type (domain)
+  int num_args      = 6;
+  int argcnt = num_args;
+  const Type** fields = TypeTuple::fields(argcnt);
+  int argp = TypeFunc::Parms;
+  fields[argp++] = TypePtr::NOTNULL;    // a
+  fields[argp++] = TypePtr::NOTNULL;    // n
+  fields[argp++] = TypeInt::INT;        // len
+  fields[argp++] = TypeLong::LONG;      // inv
+  fields[argp++] = Type::HALF;
+  fields[argp++] = TypePtr::NOTNULL;    // result
+  assert(argp == TypeFunc::Parms+argcnt, "correct decoding");
+  const TypeTuple* domain = TypeTuple::make(TypeFunc::Parms+argcnt, fields);
+
+  // result type needed
+  fields = TypeTuple::fields(1);
+  fields[TypeFunc::Parms+0] = TypePtr::NOTNULL;
+
+  const TypeTuple* range = TypeTuple::make(TypeFunc::Parms, fields);
+  return TypeFunc::make(domain, range);
+}
+
+// GHASH block processing
+const TypeFunc* OptoRuntime::ghash_processBlocks_Type() {
+    int argcnt = 4;
+
+    const Type** fields = TypeTuple::fields(argcnt);
+    int argp = TypeFunc::Parms;
+    fields[argp++] = TypePtr::NOTNULL;    // state
+    fields[argp++] = TypePtr::NOTNULL;    // subkeyH
+    fields[argp++] = TypePtr::NOTNULL;    // data
+    fields[argp++] = TypeInt::INT;        // blocks
+    assert(argp == TypeFunc::Parms+argcnt, "correct decoding");
+    const TypeTuple* domain = TypeTuple::make(TypeFunc::Parms+argcnt, fields);
+
+    // result type needed
+    fields = TypeTuple::fields(1);
+    fields[TypeFunc::Parms+0] = NULL; // void
+    const TypeTuple* range = TypeTuple::make(TypeFunc::Parms, fields);
+    return TypeFunc::make(domain, range);
+}
 
 //------------- Interpreter state access for on stack replacement
 const TypeFunc* OptoRuntime::osr_end_Type() {

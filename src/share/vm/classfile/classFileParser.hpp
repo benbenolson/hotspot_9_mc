@@ -130,6 +130,7 @@ class ClassFileParser VALUE_OBJ_CLASS_SPEC {
       _method_InjectedProfile,
       _method_LambdaForm_Compiled,
       _method_LambdaForm_Hidden,
+      _method_HotSpotIntrinsicCandidate,
       _sun_misc_Contended,
       _field_Stable,
       _annotation_LIMIT
@@ -295,8 +296,7 @@ class ClassFileParser VALUE_OBJ_CLASS_SPEC {
   int skip_annotation_value(u1* buffer, int limit, int index);
   void parse_annotations(u1* buffer, int limit,
                          /* Results (currently, only one result is supported): */
-                         AnnotationCollector* result,
-                         TRAPS);
+                         AnnotationCollector* result);
 
   // Final setup
   unsigned int compute_oop_map_count(instanceKlassHandle super,

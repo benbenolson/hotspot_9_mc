@@ -526,7 +526,7 @@ void ConnectionGraph::add_node_to_connection_graph(Node *n, Unique_Node_List *de
         if (adr->is_BoxLock())
           break;
         // Stored value escapes in unsafe access.
-        if ((opcode == Op_StoreP) && (adr_type == TypeRawPtr::BOTTOM)) {
+        if ((opcode == Op_StoreP) && adr_type->isa_rawptr()) {
           // Pointer stores in G1 barriers looks like unsafe access.
           // Ignore such stores to be able scalar replace non-escaping
           // allocations.
@@ -540,11 +540,11 @@ void ConnectionGraph::add_node_to_connection_graph(Node *n, Unique_Node_List *de
                 int offs = (int)igvn->find_intptr_t_con(adr->in(AddPNode::Offset), Type::OffsetBot);
                 if (offs == in_bytes(JavaThread::satb_mark_queue_offset() +
                                      PtrQueue::byte_offset_of_buf())) {
-                  break; // G1 pre barier previous oop value store.
+                  break; // G1 pre barrier previous oop value store.
                 }
                 if (offs == in_bytes(JavaThread::dirty_card_queue_offset() +
                                      PtrQueue::byte_offset_of_buf())) {
-                  break; // G1 post barier card address store.
+                  break; // G1 post barrier card address store.
                 }
               }
             }
@@ -725,7 +725,7 @@ void ConnectionGraph::add_final_edges(Node *n) {
         assert(ptn != NULL, "node should be registered");
         add_edge(adr_ptn, ptn);
         break;
-      } else if ((opcode == Op_StoreP) && (adr_type == TypeRawPtr::BOTTOM)) {
+      } else if ((opcode == Op_StoreP) && adr_type->isa_rawptr()) {
         // Stored value escapes in unsafe access.
         Node *val = n->in(MemNode::ValueIn);
         PointsToNode* ptn = ptnode_adr(val->_idx);
@@ -962,10 +962,12 @@ void ConnectionGraph::process_call_arguments(CallNode *call) {
                  (strcmp(call->as_CallLeaf()->_name, "g1_wb_pre")  == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "g1_wb_post") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "updateBytesCRC32") == 0 ||
+                  strcmp(call->as_CallLeaf()->_name, "updateBytesCRC32C") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "aescrypt_encryptBlock") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "aescrypt_decryptBlock") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "cipherBlockChaining_encryptAESCrypt") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "cipherBlockChaining_decryptAESCrypt") == 0 ||
+                  strcmp(call->as_CallLeaf()->_name, "ghash_processBlocks") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "sha1_implCompress") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "sha1_implCompressMB") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "sha256_implCompress") == 0 ||
@@ -974,8 +976,10 @@ void ConnectionGraph::process_call_arguments(CallNode *call) {
                   strcmp(call->as_CallLeaf()->_name, "sha512_implCompressMB") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "multiplyToLen") == 0 ||
                   strcmp(call->as_CallLeaf()->_name, "squareToLen") == 0 ||
-                  strcmp(call->as_CallLeaf()->_name, "mulAdd") == 0)
-                  ))) {
+                  strcmp(call->as_CallLeaf()->_name, "mulAdd") == 0 ||
+                  strcmp(call->as_CallLeaf()->_name, "montgomery_multiply") == 0 ||
+                  strcmp(call->as_CallLeaf()->_name, "montgomery_square") == 0)
+                 ))) {
             call->dump();
             fatal(err_msg_res("EA unexpected CallLeaf %s", call->as_CallLeaf()->_name));
           }

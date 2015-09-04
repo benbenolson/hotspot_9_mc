@@ -27,6 +27,7 @@
 #include "classfile/compactHashtable.hpp"
 #include "gc/shared/vmGCOperations.hpp"
 #include "oops/oop.inline.hpp"
+#include "runtime/globals.hpp"
 #include "runtime/javaCalls.hpp"
 #include "runtime/os.hpp"
 #include "services/diagnosticArgument.hpp"
@@ -73,6 +74,7 @@ void DCmdRegistrant::register_dcmds(){
   DCmdFactory::register_DCmdFactory(new DCmdFactoryImpl<CompileQueueDCmd>(full_export, true, false));
   DCmdFactory::register_DCmdFactory(new DCmdFactoryImpl<CodeListDCmd>(full_export, true, false));
   DCmdFactory::register_DCmdFactory(new DCmdFactoryImpl<CodeCacheDCmd>(full_export, true, false));
+  DCmdFactory::register_DCmdFactory(new DCmdFactoryImpl<TouchedMethodsDCmd>(full_export, true, false));
 
   // Enhanced JMX Agent Support
   // These commands won't be exported via the DiagnosticCommandMBean until an
@@ -221,7 +223,7 @@ void SetVMFlagDCmd::execute(DCmdSource source, TRAPS) {
   FormatBuffer<80> err_msg("%s", "");
   int ret = WriteableFlags::set_flag(_flag.value(), val, Flag::MANAGEMENT, err_msg);
 
-  if (ret != WriteableFlags::SUCCESS) {
+  if (ret != Flag::SUCCESS) {
     output()->print_cr("%s", err_msg.buffer());
   }
 }
@@ -807,3 +809,35 @@ int ClassHierarchyDCmd::num_arguments() {
 }
 
 #endif
+
+class VM_DumpTouchedMethods : public VM_Operation {
+private:
+  outputStream* _out;
+public:
+  VM_DumpTouchedMethods(outputStream* out) {
+    _out = out;
+  }
+
+  virtual VMOp_Type type() const { return VMOp_DumpTouchedMethods; }
+
+  virtual void doit() {
+    Method::print_touched_methods(_out);
+  }
+};
+
+TouchedMethodsDCmd::TouchedMethodsDCmd(outputStream* output, bool heap) :
+                                       DCmdWithParser(output, heap)
+{}
+
+void TouchedMethodsDCmd::execute(DCmdSource source, TRAPS) {
+  if (!UnlockDiagnosticVMOptions) {
+    output()->print_cr("VM.touched_methods command requires -XX:+UnlockDiagnosticVMOptions");
+    return;
+  }
+  VM_DumpTouchedMethods dumper(output());
+  VMThread::execute(&dumper);
+}
+
+int TouchedMethodsDCmd::num_arguments() {
+  return 0;
+}

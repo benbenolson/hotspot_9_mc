@@ -63,6 +63,7 @@ Monitor* StringDedupQueue_lock        = NULL;
 Mutex*   StringDedupTable_lock        = NULL;
 Monitor* CodeCache_lock               = NULL;
 Mutex*   MethodData_lock              = NULL;
+Mutex*   TouchedMethodLog_lock        = NULL;
 Mutex*   RetData_lock                 = NULL;
 Monitor* VMOperationQueue_lock        = NULL;
 Monitor* VMOperationRequest_lock      = NULL;
@@ -82,7 +83,6 @@ Mutex*   DirtyCardQ_FL_lock           = NULL;
 Monitor* DirtyCardQ_CBL_mon           = NULL;
 Mutex*   Shared_DirtyCardQ_lock       = NULL;
 Mutex*   ParGCRareEvent_lock          = NULL;
-Mutex*   EvacFailureStack_lock        = NULL;
 Mutex*   DerivedPointerTableGC_lock   = NULL;
 Mutex*   Compile_lock                 = NULL;
 Monitor* MethodCompileQueue_lock      = NULL;
@@ -100,6 +100,8 @@ Mutex*   ProfilePrint_lock            = NULL;
 Mutex*   ExceptionCache_lock          = NULL;
 Monitor* ObjAllocPost_lock            = NULL;
 Mutex*   OsrList_lock                 = NULL;
+Mutex*   ImageFileReaderTable_lock    = NULL;
+
 #ifndef PRODUCT
 Mutex*   FullGCALot_lock              = NULL;
 #endif
@@ -206,7 +208,6 @@ void mutex_init() {
     def(OldSets_lock               , Mutex  , leaf     ,   true,  Monitor::_safepoint_check_never);
     def(RootRegionScan_lock        , Monitor, leaf     ,   true,  Monitor::_safepoint_check_never);
     def(MMUTracker_lock            , Mutex  , leaf     ,   true,  Monitor::_safepoint_check_never);
-    def(EvacFailureStack_lock      , Mutex  , nonleaf  ,   true,  Monitor::_safepoint_check_never);
 
     def(StringDedupQueue_lock      , Monitor, leaf,        true,  Monitor::_safepoint_check_never);
     def(StringDedupTable_lock      , Mutex  , leaf,        true,  Monitor::_safepoint_check_never);
@@ -235,6 +236,7 @@ void mutex_init() {
   def(ProfilePrint_lock            , Mutex  , leaf,        false, Monitor::_safepoint_check_always);     // serial profile printing
   def(ExceptionCache_lock          , Mutex  , leaf,        false, Monitor::_safepoint_check_always);     // serial profile printing
   def(OsrList_lock                 , Mutex  , leaf,        true,  Monitor::_safepoint_check_never);
+  def(ImageFileReaderTable_lock    , Mutex  , nonleaf,     false, Monitor::_safepoint_check_always);     // synchronize image readers open/close
   def(Debug1_lock                  , Mutex  , leaf,        true,  Monitor::_safepoint_check_never);
 #ifndef PRODUCT
   def(FullGCALot_lock              , Mutex  , leaf,        false, Monitor::_safepoint_check_always);     // a lock to make FullGCALot MT safe
@@ -279,6 +281,7 @@ void mutex_init() {
 
   def(Compile_lock                 , Mutex  , nonleaf+3,   true,  Monitor::_safepoint_check_sometimes);
   def(MethodData_lock              , Mutex  , nonleaf+3,   false, Monitor::_safepoint_check_always);
+  def(TouchedMethodLog_lock        , Mutex  , nonleaf+3,   false, Monitor::_safepoint_check_always);
 
   def(MethodCompileQueue_lock      , Monitor, nonleaf+4,   true,  Monitor::_safepoint_check_always);
   def(Debug2_lock                  , Mutex  , nonleaf+4,   true,  Monitor::_safepoint_check_never);

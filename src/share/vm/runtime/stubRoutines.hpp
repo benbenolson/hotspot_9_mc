@@ -185,6 +185,7 @@ class StubRoutines: AllStatic {
   static address _aescrypt_decryptBlock;
   static address _cipherBlockChaining_encryptAESCrypt;
   static address _cipherBlockChaining_decryptAESCrypt;
+  static address _ghash_processBlocks;
 
   static address _sha1_implCompress;
   static address _sha1_implCompressMB;
@@ -196,9 +197,13 @@ class StubRoutines: AllStatic {
   static address _updateBytesCRC32;
   static address _crc_table_adr;
 
+  static address _updateBytesCRC32C;
+
   static address _multiplyToLen;
   static address _squareToLen;
   static address _mulAdd;
+  static address _montgomeryMultiply;
+  static address _montgomerySquare;
 
   // These are versions of the java.lang.Math methods which perform
   // the same operations as the intrinsic version.  They are used for
@@ -346,6 +351,7 @@ class StubRoutines: AllStatic {
   static address aescrypt_decryptBlock()                { return _aescrypt_decryptBlock; }
   static address cipherBlockChaining_encryptAESCrypt()  { return _cipherBlockChaining_encryptAESCrypt; }
   static address cipherBlockChaining_decryptAESCrypt()  { return _cipherBlockChaining_decryptAESCrypt; }
+  static address ghash_processBlocks() { return _ghash_processBlocks; }
 
   static address sha1_implCompress()     { return _sha1_implCompress; }
   static address sha1_implCompressMB()   { return _sha1_implCompressMB; }
@@ -357,9 +363,13 @@ class StubRoutines: AllStatic {
   static address updateBytesCRC32()    { return _updateBytesCRC32; }
   static address crc_table_addr()      { return _crc_table_adr; }
 
+  static address updateBytesCRC32C()   { return _updateBytesCRC32C; }
+
   static address multiplyToLen()       {return _multiplyToLen; }
   static address squareToLen()         {return _squareToLen; }
   static address mulAdd()              {return _mulAdd; }
+  static address montgomeryMultiply()  { return _montgomeryMultiply; }
+  static address montgomerySquare()    { return _montgomerySquare; }
 
   static address select_fill_function(BasicType t, bool aligned, const char* &name);
 

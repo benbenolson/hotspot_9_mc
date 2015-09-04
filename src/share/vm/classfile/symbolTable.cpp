@@ -58,14 +58,14 @@ Symbol* SymbolTable::allocate_symbol(const u1* name, int len, bool c_heap, TRAPS
 
   if (DumpSharedSpaces) {
     // Allocate all symbols to CLD shared metaspace
-    sym = new (len, ClassLoaderData::the_null_class_loader_data(), THREAD) Symbol(name, len, -1);
+    sym = new (len, ClassLoaderData::the_null_class_loader_data(), THREAD) Symbol(name, len, PERM_REFCOUNT);
   } else if (c_heap) {
     // refcount starts as 1
     sym = new (len, THREAD) Symbol(name, len, 1);
     assert(sym != NULL, "new should call vm_exit_out_of_memory if C_HEAP is exhausted");
   } else {
     // Allocate to global arena
-    sym = new (len, arena(), THREAD) Symbol(name, len, -1);
+    sym = new (len, arena(), THREAD) Symbol(name, len, PERM_REFCOUNT);
   }
   return sym;
 }
@@ -539,7 +539,8 @@ void SymbolTable::dump(outputStream* st, bool verbose) {
 
 bool SymbolTable::copy_compact_table(char** top, char*end) {
 #if INCLUDE_CDS
-  CompactHashtableWriter ch_table("symbol", the_table()->number_of_entries(),
+  CompactHashtableWriter ch_table(CompactHashtable<Symbol*, char>::_symbol_table,
+                                  the_table()->number_of_entries(),
                                   &MetaspaceShared::stats()->symbol);
   if (*top + ch_table.get_required_bytes() > end) {
     // not enough space left
@@ -556,7 +557,6 @@ bool SymbolTable::copy_compact_table(char** top, char*end) {
     }
   }
 
-  char* old_top = *top;
   ch_table.dump(top, end);
 
   *top = (char*)align_pointer_up(*top, sizeof(void*));
@@ -565,7 +565,8 @@ bool SymbolTable::copy_compact_table(char** top, char*end) {
 }
 
 const char* SymbolTable::init_shared_table(const char* buffer) {
-  const char* end = _shared_table.init(buffer);
+  const char* end = _shared_table.init(
+          CompactHashtable<Symbol*, char>::_symbol_table, buffer);
   return (const char*)align_pointer_up(end, sizeof(void*));
 }
 

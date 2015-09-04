@@ -111,7 +111,7 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
   }
 
 
-  inline static PSPromotionManager* manager_array(int index);
+  inline static PSPromotionManager* manager_array(uint index);
   template <class T> inline void claim_or_forward_internal_depth(T* p);
 
   // On the task queues we push reference locations as well as
@@ -177,7 +177,7 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
   static void set_object_organize(bool org) { _object_organize = org;  }
   static bool object_organize()             { return _object_organize; }
 
-  static PSPromotionManager* gc_thread_promotion_manager(int index);
+  static PSPromotionManager* gc_thread_promotion_manager(uint index);
   static PSPromotionManager* vm_thread_promotion_manager();
 
   static bool steal_depth(int queue_num, int* seed, StarTask& t);

@@ -220,10 +220,13 @@ class AgentLibraryList VALUE_OBJ_CLASS_SPEC {
   }
 };
 
+// Helper class for controlling the lifetime of JavaVMInitArgs objects.
+class ScopedVMInitArgs;
 
 class Arguments : AllStatic {
   friend class VMStructs;
   friend class JvmtiExport;
+  friend class CodeCacheExtensions;
  public:
   // Operation modi
   enum Mode {
@@ -349,7 +352,6 @@ class Arguments : AllStatic {
 
   // Tiered
   static void set_tiered_flags();
-  static int  get_min_number_of_compiler_threads();
   // CMS/ParNew garbage collectors
   static void set_parnew_gc_flags();
   static void set_cms_and_parnew_gc_flags();
@@ -367,17 +369,10 @@ class Arguments : AllStatic {
   // limits the given memory size by the maximum amount of memory this process is
   // currently allowed to allocate or reserve.
   static julong limit_by_allocatable_memory(julong size);
+  // Set up runtime image flags
+  static void set_runtime_image_flags();
   // Setup heap size
   static void set_heap_size();
-
-#if 0
-  // Setup heap color
-  static void set_heap_mem_color();
-
-  /* setup (either tenured or permanent) generation tray mask */
-  static void setup_gen_tray_masks();
-  static void setup_code_cache_tray_mask();
-#endif
 
   /* traymask parsing */
   static unsigned long get_nr(const char *s, char **end, traymask_t *tm, int rel);
@@ -408,10 +403,12 @@ class Arguments : AllStatic {
   static bool process_argument(const char* arg, jboolean ignore_unrecognized, Flag::Flags origin);
   static void process_java_launcher_argument(const char*, void*);
   static void process_java_compiler_argument(char* arg);
-  static jint parse_options_environment_variable(const char* name, SysClassPath* scp_p, bool* scp_assembly_required_p);
-  static jint parse_java_tool_options_environment_variable(SysClassPath* scp_p, bool* scp_assembly_required_p);
-  static jint parse_java_options_environment_variable(SysClassPath* scp_p, bool* scp_assembly_required_p);
-  static jint parse_vm_init_args(const JavaVMInitArgs* args);
+  static jint parse_options_environment_variable(const char* name, ScopedVMInitArgs* vm_args);
+  static jint parse_java_tool_options_environment_variable(ScopedVMInitArgs* vm_args);
+  static jint parse_java_options_environment_variable(ScopedVMInitArgs* vm_args);
+  static jint parse_vm_init_args(const JavaVMInitArgs *java_tool_options_args,
+                                 const JavaVMInitArgs *java_options_args,
+                                 const JavaVMInitArgs *cmd_line_args);
   static jint parse_each_vm_init_arg(const JavaVMInitArgs* args, SysClassPath* scp_p, bool* scp_assembly_required_p, Flag::Flags origin);
   static jint finalize_vm_init_args(SysClassPath* scp_p, bool scp_assembly_required);
   static bool is_bad_option(const JavaVMOption* option, jboolean ignore, const char* option_type);
@@ -420,14 +417,6 @@ class Arguments : AllStatic {
     return is_bad_option(option, ignore, NULL);
   }
 
-  static bool is_percentage(uintx val) {
-    return val <= 100;
-  }
-
-  static bool verify_interval(uintx val, uintx min,
-                              uintx max, const char* name);
-  static bool verify_min_value(intx val, intx min, const char* name);
-  static bool verify_percentage(uintx value, const char* name);
   static void describe_range_error(ArgsRange errcode);
   static ArgsRange check_memory_size(julong size, julong min_size);
   static ArgsRange parse_memory_size(const char* s, julong* long_arg,
@@ -501,26 +490,18 @@ class Arguments : AllStatic {
   static jint apply_ergo();
   // Adjusts the arguments after the OS have adjusted the arguments
   static jint adjust_after_os();
+  // Set any arguments that need to be set after the 'CommandLineFlagConstraint::AfterErgo' constraint check
+  static void post_after_ergo_constraint_check(bool check_passed);
 
   static void set_gc_specific_flags();
   static inline bool gc_selected(); // whether a gc has been selected
   static void select_gc_ergonomically();
-
-  // Verifies that the given value will fit as a MinHeapFreeRatio. If not, an error
-  // message is returned in the provided buffer.
-  static bool verify_MinHeapFreeRatio(FormatBuffer<80>& err_msg, uintx min_heap_free_ratio);
-
-  // Verifies that the given value will fit as a MaxHeapFreeRatio. If not, an error
-  // message is returned in the provided buffer.
-  static bool verify_MaxHeapFreeRatio(FormatBuffer<80>& err_msg, uintx max_heap_free_ratio);
 
   // Check for consistency in the selection of the garbage collector.
   static bool check_gc_consistency();        // Check user-selected gc
   static void check_deprecated_gc_flags();
   // Check consistency or otherwise of VM argument settings
   static bool check_vm_args_consistency();
-  // Check stack pages settings
-  static bool check_stack_pages();
   // Used by os_solaris
   static bool process_settings_file(const char* file_name, bool should_exist, jboolean ignore_unrecognized);
 
@@ -538,6 +519,7 @@ class Arguments : AllStatic {
 
   // print jvm_flags, jvm_args and java_command
   static void print_on(outputStream* st);
+  static void print_summary_on(outputStream* st);
 
   // convenient methods to obtain / print jvm_flags and jvm_args
   static const char* jvm_flags()           { return build_resource_string(_jvm_flags_array, _num_jvm_flags); }

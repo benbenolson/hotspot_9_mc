@@ -680,15 +680,41 @@ void VM_Version::get_processor_features() {
     FLAG_SET_DEFAULT(UseAESIntrinsics, false);
   }
 
+  // GHASH/GCM intrinsics
+  if (UseCLMUL && (UseSSE > 2)) {
+    if (FLAG_IS_DEFAULT(UseGHASHIntrinsics)) {
+      UseGHASHIntrinsics = true;
+    }
+  } else if (UseGHASHIntrinsics) {
+    if (!FLAG_IS_DEFAULT(UseGHASHIntrinsics))
+      warning("GHASH intrinsic requires CLMUL and SSE2 instructions on this CPU");
+    FLAG_SET_DEFAULT(UseGHASHIntrinsics, false);
+  }
+
   if (UseSHA) {
     warning("SHA instructions are not available on this CPU");
     FLAG_SET_DEFAULT(UseSHA, false);
   }
-  if (UseSHA1Intrinsics || UseSHA256Intrinsics || UseSHA512Intrinsics) {
-    warning("SHA intrinsics are not available on this CPU");
+
+  if (UseSHA1Intrinsics) {
+    warning("Intrinsics for SHA-1 crypto hash functions not available on this CPU.");
     FLAG_SET_DEFAULT(UseSHA1Intrinsics, false);
+  }
+
+  if (UseSHA256Intrinsics) {
+    warning("Intrinsics for SHA-224 and SHA-256 crypto hash functions not available on this CPU.");
     FLAG_SET_DEFAULT(UseSHA256Intrinsics, false);
+  }
+
+  if (UseSHA512Intrinsics) {
+    warning("Intrinsics for SHA-384 and SHA-512 crypto hash functions not available on this CPU.");
     FLAG_SET_DEFAULT(UseSHA512Intrinsics, false);
+  }
+
+  if (UseCRC32CIntrinsics) {
+    if (!FLAG_IS_DEFAULT(UseCRC32CIntrinsics))
+      warning("CRC32C intrinsics are not available on this CPU");
+    FLAG_SET_DEFAULT(UseCRC32CIntrinsics, false);
   }
 
   // Adjust RTM (Restricted Transactional Memory) flags
@@ -799,12 +825,30 @@ void VM_Version::get_processor_features() {
   if (FLAG_IS_DEFAULT(UseMulAddIntrinsic)) {
     UseMulAddIntrinsic = true;
   }
+  if (FLAG_IS_DEFAULT(UseMontgomeryMultiplyIntrinsic)) {
+    UseMontgomeryMultiplyIntrinsic = true;
+  }
+  if (FLAG_IS_DEFAULT(UseMontgomerySquareIntrinsic)) {
+    UseMontgomerySquareIntrinsic = true;
+  }
 #else
   if (UseMultiplyToLenIntrinsic) {
     if (!FLAG_IS_DEFAULT(UseMultiplyToLenIntrinsic)) {
       warning("multiplyToLen intrinsic is not available in 32-bit VM");
     }
     FLAG_SET_DEFAULT(UseMultiplyToLenIntrinsic, false);
+  }
+  if (UseMontgomeryMultiplyIntrinsic) {
+    if (!FLAG_IS_DEFAULT(UseMontgomeryMultiplyIntrinsic)) {
+      warning("montgomeryMultiply intrinsic is not available in 32-bit VM");
+    }
+    FLAG_SET_DEFAULT(UseMontgomeryMultiplyIntrinsic, false);
+  }
+  if (UseMontgomerySquareIntrinsic) {
+    if (!FLAG_IS_DEFAULT(UseMontgomerySquareIntrinsic)) {
+      warning("montgomerySquare intrinsic is not available in 32-bit VM");
+    }
+    FLAG_SET_DEFAULT(UseMontgomerySquareIntrinsic, false);
   }
   if (UseSquareToLenIntrinsic) {
     if (!FLAG_IS_DEFAULT(UseSquareToLenIntrinsic)) {

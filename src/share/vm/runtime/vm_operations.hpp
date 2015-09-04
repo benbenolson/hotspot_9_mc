@@ -107,6 +107,7 @@
   template(WhiteBoxOperation)                     \
   template(ClassLoaderStatsOperation)             \
   template(DumpHashtable)                         \
+  template(DumpTouchedMethods)                    \
   template(MarkActiveNMethods)                    \
   template(PrintCompileQueue)                     \
   template(PrintCodeList)                         \

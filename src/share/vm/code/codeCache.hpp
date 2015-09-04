@@ -78,6 +78,7 @@ class CodeCache : AllStatic {
   friend class VMStructs;
   friend class NMethodIterator;
   friend class WhiteBox;
+  friend class CodeCacheLoader;
  private:
   // CodeHeaps of the cache
   static GrowableArray<CodeHeap*>* _heaps;
@@ -190,7 +191,12 @@ class CodeCache : AllStatic {
   static void set_needs_cache_clean(bool v)           { _needs_cache_clean = v;    }
   static void clear_inline_caches();                  // clear all inline caches
 
-  // Returns the CodeBlobType for nmethods of the given compilation level
+  // Returns the CodeBlobType for the given nmethod
+  static int get_code_blob_type(nmethod* nm) {
+    return get_code_heap(nm)->code_blob_type();
+  }
+
+  // Returns the CodeBlobType for the given compilation level
   static int get_code_blob_type(int comp_level) {
     if (comp_level == CompLevel_none ||
         comp_level == CompLevel_simple ||
@@ -287,7 +293,7 @@ private:
       // Iterate over all CodeBlobs
       _code_blob_type = CodeBlobType::All;
     } else if (nm != NULL) {
-      _code_blob_type = CodeCache::get_code_blob_type(nm->comp_level());
+      _code_blob_type = CodeCache::get_code_blob_type(nm);
     } else {
       // Only iterate over method code heaps, starting with non-profiled
       _code_blob_type = CodeBlobType::MethodNonProfiled;

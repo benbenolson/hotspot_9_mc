@@ -39,7 +39,6 @@
 define_pd_global(bool, DontYieldALot,               true);  // yield no more than 100 times per second
 define_pd_global(bool, ConvertSleepToYield,         false); // do not convert sleep(0) to yield. Helps GUI
 define_pd_global(bool, ShareVtableStubs,            false); // improves performance markedly for mtrt and compress
-define_pd_global(bool, CountInterpCalls,            false); // not implemented in the interpreter
 define_pd_global(bool, NeedsDeoptSuspend,           true); // register window machines need this
 
 define_pd_global(bool, ImplicitNullChecks,          true);  // Generate code for implicit null checks
@@ -67,8 +66,6 @@ define_pd_global(intx, StackShadowPages, 3 DEBUG_ONLY(+1));
 define_pd_global(intx, StackYellowPages, 2);
 define_pd_global(intx, StackRedPages, 1);
 
-define_pd_global(intx, PreInflateSpin,       40);  // Determined by running design center
-
 define_pd_global(bool, RewriteBytecodes,     true);
 define_pd_global(bool, RewriteFrequentPairs, true);
 
@@ -81,7 +78,7 @@ define_pd_global(size_t, CMSYoungGenPerWorker, 16*M);  // default max size of CM
 
 define_pd_global(uintx, TypeProfileLevel, 111);
 
-#define ARCH_FLAGS(develop, product, diagnostic, experimental, notproduct) \
+#define ARCH_FLAGS(develop, product, diagnostic, experimental, notproduct, range, constraint) \
                                                                             \
   product(intx, UseVIS, 99,                                                 \
           "Highest supported VIS instructions set on Sparc")                \

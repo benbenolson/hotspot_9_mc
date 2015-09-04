@@ -1421,7 +1421,7 @@ void nmethod::flush() {
   Events::log(JavaThread::current(), "flushing nmethod " INTPTR_FORMAT, this);
   if (PrintMethodFlushing) {
     tty->print_cr("*flushing nmethod %3d/" INTPTR_FORMAT ". Live blobs:" UINT32_FORMAT "/Free CodeCache:" SIZE_FORMAT "Kb",
-        _compile_id, this, CodeCache::nof_blobs(), CodeCache::unallocated_capacity(CodeCache::get_code_blob_type(_comp_level))/1024);
+        _compile_id, this, CodeCache::nof_blobs(), CodeCache::unallocated_capacity(CodeCache::get_code_blob_type(this))/1024);
   }
 
   // We need to deallocate any ExceptionCache data.
@@ -2118,7 +2118,7 @@ public:
   void maybe_print(oop* p) {
     if (_print_nm == NULL)  return;
     if (!_detected_scavenge_root)  _print_nm->print_on(tty, "new scavenge root");
-    tty->print_cr(""PTR_FORMAT"[offset=%d] detected scavengable oop "PTR_FORMAT" (found at "PTR_FORMAT")",
+    tty->print_cr("" PTR_FORMAT "[offset=%d] detected scavengable oop " PTR_FORMAT " (found at " PTR_FORMAT ")",
                   _print_nm, (int)((intptr_t)p - (intptr_t)_print_nm),
                   (void *)(*p), (intptr_t)p);
     (*p)->print();
@@ -2518,7 +2518,7 @@ public:
       _nm->print_nmethod(true);
       _ok = false;
     }
-    tty->print_cr("*** non-oop "PTR_FORMAT" found at "PTR_FORMAT" (offset %d)",
+    tty->print_cr("*** non-oop " PTR_FORMAT " found at " PTR_FORMAT " (offset %d)",
                   (void *)(*p), (intptr_t)p, (int)((intptr_t)p - (intptr_t)_nm));
   }
   virtual void do_oop(narrowOop* p) { ShouldNotReachHere(); }
@@ -2642,7 +2642,7 @@ public:
       _nm->print_nmethod(true);
       _ok = false;
     }
-    tty->print_cr("*** scavengable oop "PTR_FORMAT" found at "PTR_FORMAT" (offset %d)",
+    tty->print_cr("*** scavengable oop " PTR_FORMAT " found at " PTR_FORMAT " (offset %d)",
                   (void *)(*p), (intptr_t)p, (int)((intptr_t)p - (intptr_t)_nm));
     (*p)->print();
   }
@@ -2687,7 +2687,7 @@ void nmethod::print() const {
   print_on(tty, NULL);
 
   if (WizardMode) {
-    tty->print("((nmethod*) "INTPTR_FORMAT ") ", this);
+    tty->print("((nmethod*) " INTPTR_FORMAT ") ", this);
     tty->print(" for method " INTPTR_FORMAT , (address)method());
     tty->print(" { ");
     if (is_in_use())      tty->print("in_use ");

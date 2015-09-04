@@ -25,33 +25,43 @@
 
 package java.lang;
 
+import jdk.internal.HotSpotIntrinsicCandidate;
+
 /**
  * Slightly modified version of java.lang.Object that replaces
  * finalize() by finalizeObject() to avoid overriding in subclasses.
  */
 public class Object {
 
+    @HotSpotIntrinsicCandidate
+    public Object() {}
+
     private static native void registerNatives();
     static {
         registerNatives();
     }
 
+    @HotSpotIntrinsicCandidate
     public final native Class<?> getClass();
 
+    @HotSpotIntrinsicCandidate
     public native int hashCode();
 
     public boolean equals(Object obj) {
         return (this == obj);
     }
 
+    @HotSpotIntrinsicCandidate
     protected native Object clone() throws CloneNotSupportedException;
 
     public String toString() {
         return getClass().getName() + "@" + Integer.toHexString(hashCode());
     }
 
+    @HotSpotIntrinsicCandidate
     public final native void notify();
 
+    @HotSpotIntrinsicCandidate
     public final native void notifyAll();
 
     public final native void wait(long timeout) throws InterruptedException;

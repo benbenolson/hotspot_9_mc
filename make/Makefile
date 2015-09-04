@@ -86,7 +86,7 @@ endif
 
 # Typical C1/C2 targets made available with this Makefile
 C1_VM_TARGETS=product1 fastdebug1 optimized1 debug1
-C2_VM_TARGETS=product  fastdebug  optimized  debug objprofile objprofile2 colorededen coloredtlabs objaddr
+C2_VM_TARGETS=product  fastdebug  optimized  debug coloredtlabs objaddr
 CORE_VM_TARGETS=productcore fastdebugcore optimizedcore debugcore
 ZERO_VM_TARGETS=productzero fastdebugzero optimizedzero debugzero
 SHARK_VM_TARGETS=productshark fastdebugshark optimizedshark debugshark

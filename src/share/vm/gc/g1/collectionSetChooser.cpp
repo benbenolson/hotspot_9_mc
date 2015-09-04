@@ -107,7 +107,8 @@ void CollectionSetChooser::verify() {
     HeapRegion *curr = regions_at(index++);
     guarantee(curr != NULL, "Regions in _regions array cannot be NULL");
     guarantee(!curr->is_young(), "should not be young!");
-    guarantee(!curr->is_humongous(), "should not be humongous!");
+    guarantee(!curr->is_pinned(),
+              err_msg("Pinned region should not be in collection set (index %u)", curr->hrm_index()));
     if (prev != NULL) {
       guarantee(order_regions(prev, curr) != 1,
                 err_msg("GC eff prev: %1.4f GC eff curr: %1.4f",
@@ -118,7 +119,7 @@ void CollectionSetChooser::verify() {
   }
   guarantee(sum_of_reclaimable_bytes == _remaining_reclaimable_bytes,
             err_msg("reclaimable bytes inconsistent, "
-                    "remaining: "SIZE_FORMAT" sum: "SIZE_FORMAT,
+                    "remaining: " SIZE_FORMAT " sum: " SIZE_FORMAT,
                     _remaining_reclaimable_bytes, sum_of_reclaimable_bytes));
 }
 #endif // !PRODUCT
@@ -149,8 +150,8 @@ void CollectionSetChooser::sort_regions() {
 
 
 void CollectionSetChooser::add_region(HeapRegion* hr) {
-  assert(!hr->is_humongous(),
-         "Humongous regions shouldn't be added to the collection set");
+  assert(!hr->is_pinned(),
+         err_msg("Pinned region shouldn't be added to the collection set (index %u)", hr->hrm_index()));
   assert(!hr->is_young(), "should not be young!");
   _regions.append(hr);
   _length++;

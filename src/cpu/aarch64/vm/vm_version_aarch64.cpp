@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2015, Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2015, Red Hat Inc. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -43,6 +43,10 @@
 
 #ifndef HWCAP_AES
 #define HWCAP_AES   (1<<3)
+#endif
+
+#ifndef HWCAP_PMULL
+#define HWCAP_PMULL (1<<4)
 #endif
 
 #ifndef HWCAP_SHA1
@@ -194,6 +198,15 @@ void VM_Version::get_processor_features() {
     UseCRC32Intrinsics = true;
   }
 
+  if (auxv & HWCAP_CRC32) {
+    if (FLAG_IS_DEFAULT(UseCRC32CIntrinsics)) {
+      FLAG_SET_DEFAULT(UseCRC32CIntrinsics, true);
+    }
+  } else if (UseCRC32CIntrinsics) {
+    warning("CRC32C is not available on the CPU");
+    FLAG_SET_DEFAULT(UseCRC32CIntrinsics, false);
+  }
+
   if (auxv & (HWCAP_SHA1 | HWCAP_SHA2)) {
     if (FLAG_IS_DEFAULT(UseSHA)) {
       FLAG_SET_DEFAULT(UseSHA, true);
@@ -203,34 +216,40 @@ void VM_Version::get_processor_features() {
     FLAG_SET_DEFAULT(UseSHA, false);
   }
 
-  if (!UseSHA) {
+  if (UseSHA && (auxv & HWCAP_SHA1)) {
+    if (FLAG_IS_DEFAULT(UseSHA1Intrinsics)) {
+      FLAG_SET_DEFAULT(UseSHA1Intrinsics, true);
+    }
+  } else if (UseSHA1Intrinsics) {
+    warning("Intrinsics for SHA-1 crypto hash functions not available on this CPU.");
     FLAG_SET_DEFAULT(UseSHA1Intrinsics, false);
+  }
+
+  if (UseSHA && (auxv & HWCAP_SHA2)) {
+    if (FLAG_IS_DEFAULT(UseSHA256Intrinsics)) {
+      FLAG_SET_DEFAULT(UseSHA256Intrinsics, true);
+    }
+  } else if (UseSHA256Intrinsics) {
+    warning("Intrinsics for SHA-224 and SHA-256 crypto hash functions not available on this CPU.");
     FLAG_SET_DEFAULT(UseSHA256Intrinsics, false);
+  }
+
+  if (UseSHA512Intrinsics) {
+    warning("Intrinsics for SHA-384 and SHA-512 crypto hash functions not available on this CPU.");
     FLAG_SET_DEFAULT(UseSHA512Intrinsics, false);
-  } else {
-    if (auxv & HWCAP_SHA1) {
-      if (FLAG_IS_DEFAULT(UseSHA1Intrinsics)) {
-        FLAG_SET_DEFAULT(UseSHA1Intrinsics, true);
-      }
-    } else if (UseSHA1Intrinsics) {
-      warning("SHA1 instruction is not available on this CPU.");
-      FLAG_SET_DEFAULT(UseSHA1Intrinsics, false);
+  }
+
+  if (!(UseSHA1Intrinsics || UseSHA256Intrinsics || UseSHA512Intrinsics)) {
+    FLAG_SET_DEFAULT(UseSHA, false);
+  }
+
+  if (auxv & HWCAP_PMULL) {
+    if (FLAG_IS_DEFAULT(UseGHASHIntrinsics)) {
+      FLAG_SET_DEFAULT(UseGHASHIntrinsics, true);
     }
-    if (auxv & HWCAP_SHA2) {
-      if (FLAG_IS_DEFAULT(UseSHA256Intrinsics)) {
-        FLAG_SET_DEFAULT(UseSHA256Intrinsics, true);
-      }
-    } else if (UseSHA256Intrinsics) {
-      warning("SHA256 instruction (for SHA-224 and SHA-256) is not available on this CPU.");
-      FLAG_SET_DEFAULT(UseSHA256Intrinsics, false);
-    }
-    if (UseSHA512Intrinsics) {
-      warning("SHA512 instruction (for SHA-384 and SHA-512) is not available on this CPU.");
-      FLAG_SET_DEFAULT(UseSHA512Intrinsics, false);
-    }
-    if (!(UseSHA1Intrinsics || UseSHA256Intrinsics || UseSHA512Intrinsics)) {
-      FLAG_SET_DEFAULT(UseSHA, false);
-    }
+  } else if (UseGHASHIntrinsics) {
+    warning("GHASH intrinsics are not available on this CPU");
+    FLAG_SET_DEFAULT(UseGHASHIntrinsics, false);
   }
 
   // This machine allows unaligned memory accesses
@@ -244,6 +263,17 @@ void VM_Version::get_processor_features() {
 
   if (FLAG_IS_DEFAULT(UseBarriersForVolatile)) {
     UseBarriersForVolatile = (_cpuFeatures & CPU_DMB_ATOMICS) != 0;
+  }
+
+  if (FLAG_IS_DEFAULT(UsePopCountInstruction)) {
+    UsePopCountInstruction = true;
+  }
+
+  if (FLAG_IS_DEFAULT(UseMontgomeryMultiplyIntrinsic)) {
+    UseMontgomeryMultiplyIntrinsic = true;
+  }
+  if (FLAG_IS_DEFAULT(UseMontgomerySquareIntrinsic)) {
+    UseMontgomerySquareIntrinsic = true;
   }
 
 #ifdef COMPILER2

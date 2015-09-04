@@ -950,8 +950,7 @@ void ClassFileParser::parse_field_attributes(u2 attributes_count,
         assert(runtime_visible_annotations != NULL, "null visible annotations");
         parse_annotations(runtime_visible_annotations,
                           runtime_visible_annotations_length,
-                          parsed_annotations,
-                          CHECK);
+                          parsed_annotations);
         cfs->skip_u1(runtime_visible_annotations_length, CHECK);
       } else if (attribute_name == vmSymbols::tag_runtime_invisible_annotations()) {
         if (runtime_invisible_annotations_exists) {
@@ -1644,7 +1643,6 @@ int ClassFileParser::skip_annotation_value(u1* buffer, int limit, int index) {
     index = skip_annotation(buffer, limit, index);
     break;
   default:
-    assert(false, "annotation tag");
     return limit;  //  bad tag byte
   }
   return index;
@@ -1652,8 +1650,7 @@ int ClassFileParser::skip_annotation_value(u1* buffer, int limit, int index) {
 
 // Sift through annotations, looking for those significant to the VM:
 void ClassFileParser::parse_annotations(u1* buffer, int limit,
-                                        ClassFileParser::AnnotationCollector* coll,
-                                        TRAPS) {
+                                        ClassFileParser::AnnotationCollector* coll) {
   // annotations := do(nann:u2) {annotation}
   int index = 0;
   if ((index += 2) >= limit)  return;  // read nann
@@ -1755,6 +1752,10 @@ ClassFileParser::AnnotationCollector::annotation_index(ClassLoaderData* loader_d
     if (_location != _in_method)  break;  // only allow for methods
     if (!privileged)              break;  // only allow in privileged code
     return _method_LambdaForm_Hidden;
+  case vmSymbols::VM_SYMBOL_ENUM_NAME(jdk_internal_HotSpotIntrinsicCandidate_signature):
+    if (_location != _in_method)  break;  // only allow for methods
+    if (!privileged)              break;  // only allow in privileged code
+    return _method_HotSpotIntrinsicCandidate;
   case vmSymbols::VM_SYMBOL_ENUM_NAME(java_lang_invoke_Stable_signature):
     if (_location != _in_field)   break;  // only allow for fields
     if (!privileged)              break;  // only allow in privileged code
@@ -1794,6 +1795,8 @@ void ClassFileParser::MethodAnnotationCollector::apply_to(methodHandle m) {
     m->set_intrinsic_id(vmIntrinsics::_compiledLambdaForm);
   if (has_annotation(_method_LambdaForm_Hidden))
     m->set_hidden(true);
+  if (has_annotation(_method_HotSpotIntrinsicCandidate) && !m->is_synthetic())
+    m->set_intrinsic_candidate(true);
 }
 
 void ClassFileParser::ClassAnnotationCollector::apply_to(instanceKlassHandle k) {
@@ -2021,10 +2024,10 @@ methodHandle ClassFileParser::parse_method(bool is_interface,
   bool lvt_allocated = false;
   u2 max_lvt_cnt = INITIAL_MAX_LVT_NUMBER;
   u2 max_lvtt_cnt = INITIAL_MAX_LVT_NUMBER;
-  u2* localvariable_table_length;
-  u2** localvariable_table_start;
-  u2* localvariable_type_table_length;
-  u2** localvariable_type_table_start;
+  u2* localvariable_table_length = NULL;
+  u2** localvariable_table_start = NULL;
+  u2* localvariable_type_table_length = NULL;
+  u2** localvariable_type_table_start = NULL;
   int method_parameters_length = -1;
   u1* method_parameters_data = NULL;
   bool method_parameters_seen = false;
@@ -2287,8 +2290,7 @@ methodHandle ClassFileParser::parse_method(bool is_interface,
         runtime_visible_annotations = cfs->get_u1_buffer();
         assert(runtime_visible_annotations != NULL, "null visible annotations");
         parse_annotations(runtime_visible_annotations,
-            runtime_visible_annotations_length, &parsed_annotations,
-            CHECK_(nullHandle));
+            runtime_visible_annotations_length, &parsed_annotations);
         cfs->skip_u1(runtime_visible_annotations_length, CHECK_(nullHandle));
       } else if (method_attribute_name == vmSymbols::tag_runtime_invisible_annotations()) {
         if (runtime_invisible_annotations_exists) {
@@ -2710,8 +2712,7 @@ u2 ClassFileParser::parse_classfile_inner_classes_attribute(u1* inner_classes_at
     // Inner class index
     u2 inner_class_info_index = cfs->get_u2_fast();
     check_property(
-      inner_class_info_index == 0 ||
-        valid_klass_reference_at(inner_class_info_index),
+      valid_klass_reference_at(inner_class_info_index),
       "inner_class_info_index %u has bad constant type in class file %s",
       inner_class_info_index, CHECK_0);
     // Outer class index
@@ -2965,8 +2966,7 @@ void ClassFileParser::parse_classfile_attributes(ClassFileParser::ClassAnnotatio
         assert(runtime_visible_annotations != NULL, "null visible annotations");
         parse_annotations(runtime_visible_annotations,
                           runtime_visible_annotations_length,
-                          parsed_annotations,
-                          CHECK);
+                          parsed_annotations);
         cfs->skip_u1(runtime_visible_annotations_length, CHECK);
       } else if (tag == vmSymbols::tag_runtime_invisible_annotations()) {
         if (runtime_invisible_annotations_exists) {
@@ -4151,11 +4151,85 @@ instanceKlassHandle ClassFileParser::parseClassFile(Symbol* name,
     // (We used to do this lazily, but now we query it in Rewriter,
     // which is eagerly done for every method, so we might as well do it now,
     // when everything is fresh in memory.)
-    if (Method::klass_id_for_intrinsics(this_klass()) != vmSymbols::NO_SID) {
+    vmSymbols::SID klass_id = Method::klass_id_for_intrinsics(this_klass());
+    if (klass_id != vmSymbols::NO_SID) {
       for (int j = 0; j < methods->length(); j++) {
-        methods->at(j)->init_intrinsic_id();
+        Method* method = methods->at(j);
+        method->init_intrinsic_id();
+
+        if (CheckIntrinsics) {
+          // Check if an intrinsic is defined for method 'method',
+          // but the method is not annotated with @HotSpotIntrinsicCandidate.
+          if (method->intrinsic_id() != vmIntrinsics::_none &&
+              !method->intrinsic_candidate()) {
+            tty->print("Compiler intrinsic is defined for method [%s], "
+                       "but the method is not annotated with @HotSpotIntrinsicCandidate.%s",
+                       method->name_and_sig_as_C_string(),
+                       NOT_DEBUG(" Method will not be inlined.") DEBUG_ONLY(" Exiting.")
+                       );
+            tty->cr();
+            DEBUG_ONLY(vm_exit(1));
+          }
+          // Check is the method 'method' is annotated with @HotSpotIntrinsicCandidate,
+          // but there is no intrinsic available for it.
+          if (method->intrinsic_candidate() &&
+              method->intrinsic_id() == vmIntrinsics::_none) {
+            tty->print("Method [%s] is annotated with @HotSpotIntrinsicCandidate, "
+                       "but no compiler intrinsic is defined for the method.%s",
+                       method->name_and_sig_as_C_string(),
+                       NOT_DEBUG("") DEBUG_ONLY(" Exiting.")
+                       );
+            tty->cr();
+            DEBUG_ONLY(vm_exit(1));
+          }
+        }
       }
+
+#ifdef ASSERT
+      if (CheckIntrinsics) {
+        // Check for orphan methods in the current class. A method m
+        // of a class C is orphan if an intrinsic is defined for method m,
+        // but class C does not declare m.
+        // The check is potentially expensive, therefore it is available
+        // only in debug builds.
+
+        for (int id = vmIntrinsics::FIRST_ID; id < (int)vmIntrinsics::ID_LIMIT; id++) {
+          if (id == vmIntrinsics::_compiledLambdaForm) {
+            // The _compiledLamdbdaForm intrinsic is a special marker for bytecode
+            // generated for the JVM from a LambdaForm and therefore no method
+            // is defined for it.
+            continue;
+          }
+
+          if (vmIntrinsics::class_for(vmIntrinsics::ID_from(id)) == klass_id) {
+            // Check if the current class contains a method with the same
+            // name, flags, signature.
+            bool match = false;
+            for (int j = 0; j < methods->length(); j++) {
+              Method* method = methods->at(j);
+              if (id == method->intrinsic_id()) {
+                match = true;
+                break;
+              }
+            }
+
+            if (!match) {
+              char buf[1000];
+              tty->print("Compiler intrinsic is defined for method [%s], "
+                         "but the method is not available in class [%s].%s",
+                         vmIntrinsics::short_name_as_C_string(vmIntrinsics::ID_from(id), buf, sizeof(buf)),
+                         this_klass->name()->as_C_string(),
+                         NOT_DEBUG("") DEBUG_ONLY(" Exiting.")
+                         );
+              tty->cr();
+              DEBUG_ONLY(vm_exit(1));
+            }
+          }
+        }
+      }
+#endif // ASSERT
     }
+
 
     if (cached_class_file != NULL) {
       // JVMTI: we have an InstanceKlass now, tell it about the cached bytes
@@ -5117,8 +5191,8 @@ int ClassFileParser::verify_legal_method_signature(Symbol* name, Symbol* signatu
     // The first non-signature thing better be a ')'
     if ((length > 0) && (*p++ == JVM_SIGNATURE_ENDFUNC)) {
       length--;
-      if (name->utf8_length() > 0 && name->byte_at(0) == '<') {
-        // All internal methods must return void
+      if (name == vmSymbols::object_initializer_name()) {
+        // All "<init>" methods must return void
         if ((length == 1) && (p[0] == JVM_SIGNATURE_VOID)) {
           return args_size;
         }

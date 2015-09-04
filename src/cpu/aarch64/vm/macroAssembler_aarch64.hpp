@@ -36,6 +36,7 @@
 class MacroAssembler: public Assembler {
   friend class LIR_Assembler;
 
+ public:
   using Assembler::mov;
   using Assembler::movi;
 
@@ -463,9 +464,20 @@ public:
     mov(dst, (long)i);
   }
 
+  void mov(Register dst, RegisterOrConstant src) {
+    if (src.is_register())
+      mov(dst, src.as_register());
+    else
+      mov(dst, src.as_constant());
+  }
+
   void movptr(Register r, uintptr_t imm64);
 
   void mov(FloatRegister Vd, SIMD_Arrangement T, u_int32_t imm32);
+
+  void mov(FloatRegister Vd, SIMD_Arrangement T, FloatRegister Vn) {
+    orr(Vd, T, Vn, Vn);
+  }
 
   // macro instructions for accessing and updating floating point
   // status register
@@ -719,10 +731,6 @@ public:
 
 #endif // INCLUDE_ALL_GCS
 
-  // split store_check(Register obj) to enhance instruction interleaving
-  void store_check_part_1(Register obj);
-  void store_check_part_2(Register obj);
-
   // oop manipulations
   void load_klass(Register dst, Register src);
   void store_klass(Register dst, Register src);
@@ -970,6 +978,10 @@ public:
   void kernel_crc32(Register crc, Register buf, Register len,
         Register table0, Register table1, Register table2, Register table3,
         Register tmp, Register tmp2, Register tmp3);
+  // CRC32 code for java.util.zip.CRC32C::updateBytes() instrinsic.
+  void kernel_crc32c(Register crc, Register buf, Register len,
+        Register table0, Register table1, Register table2, Register table3,
+        Register tmp, Register tmp2, Register tmp3);
 
 #undef VIRTUAL
 
@@ -1044,6 +1056,7 @@ public:
 
   void add(Register Rd, Register Rn, RegisterOrConstant increment);
   void addw(Register Rd, Register Rn, RegisterOrConstant increment);
+  void sub(Register Rd, Register Rn, RegisterOrConstant decrement);
 
   void adrp(Register reg1, const Address &dest, unsigned long &byte_offset);
 
@@ -1160,6 +1173,46 @@ private:
   // Uses rscratch2.
   Address offsetted_address(Register r, Register r1, Address::extend ext,
                             int offset, int size);
+
+private:
+  // Returns an address on the stack which is reachable with a ldr/str of size
+  // Uses rscratch2 if the address is not directly reachable
+  Address spill_address(int size, int offset, Register tmp=rscratch2);
+
+public:
+  void spill(Register Rx, bool is64, int offset) {
+    if (is64) {
+      str(Rx, spill_address(8, offset));
+    } else {
+      strw(Rx, spill_address(4, offset));
+    }
+  }
+  void spill(FloatRegister Vx, SIMD_RegVariant T, int offset) {
+    str(Vx, T, spill_address(1 << (int)T, offset));
+  }
+  void unspill(Register Rx, bool is64, int offset) {
+    if (is64) {
+      ldr(Rx, spill_address(8, offset));
+    } else {
+      ldrw(Rx, spill_address(4, offset));
+    }
+  }
+  void unspill(FloatRegister Vx, SIMD_RegVariant T, int offset) {
+    ldr(Vx, T, spill_address(1 << (int)T, offset));
+  }
+  void spill_copy128(int src_offset, int dst_offset,
+                     Register tmp1=rscratch1, Register tmp2=rscratch2) {
+    if (src_offset < 512 && (src_offset & 7) == 0 &&
+        dst_offset < 512 && (dst_offset & 7) == 0) {
+      ldp(tmp1, tmp2, Address(sp, src_offset));
+      stp(tmp1, tmp2, Address(sp, dst_offset));
+    } else {
+      unspill(tmp1, true, src_offset);
+      spill(tmp1, true, dst_offset);
+      unspill(tmp1, true, src_offset+8);
+      spill(tmp1, true, dst_offset+8);
+    }
+  }
 };
 
 #ifdef ASSERT

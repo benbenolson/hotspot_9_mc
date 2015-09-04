@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -191,7 +191,7 @@ public:
     return CPUVisitor::visit(nodeh, state);
   }
 
-  PICL(bool is_fujitsu) : _L1_data_cache_line_size(0), _L2_data_cache_line_size(0), _dl_handle(NULL) {
+  PICL(bool is_fujitsu, bool is_sun4v) : _L1_data_cache_line_size(0), _L2_data_cache_line_size(0), _dl_handle(NULL) {
     if (!open_library()) {
       return;
     }
@@ -203,7 +203,7 @@ public:
         if (is_fujitsu) {
           cpu_class = "core";
         }
-        CPUVisitor cpu_visitor(this, os::processor_count());
+        CPUVisitor cpu_visitor(this, (is_sun4v && !is_fujitsu) ? 1 : os::processor_count());
         _picl_walk_tree_by_class(rooth, cpu_class, &cpu_visitor, PICL_visit_cpu_helper);
         if (cpu_visitor.l1_visitor()->is_assigned()) { // Is there a value?
           _L1_data_cache_line_size = cpu_visitor.l1_visitor()->value();
@@ -363,6 +363,11 @@ int VM_Version::platform_features(int features) {
 #endif
   if (av & AV_SPARC_CBCOND)       features |= cbcond_instructions_m;
 
+#ifndef AV_SPARC_CRC32C
+#define AV_SPARC_CRC32C 0x20000000  /* crc32c instruction supported */
+#endif
+  if (av & AV_SPARC_CRC32C)       features |= crc32c_instruction_m;
+
 #ifndef AV_SPARC_AES
 #define AV_SPARC_AES 0x00020000  /* aes instrs supported */
 #endif
@@ -442,7 +447,7 @@ int VM_Version::platform_features(int features) {
   }
 
   // Figure out cache line sizes using PICL
-  PICL picl((features & sparc64_family_m) != 0);
+  PICL picl((features & sparc64_family_m) != 0, (features & sun4v_m) != 0);
   _L1_data_cache_line_size = picl.L1_data_cache_line_size();
   _L2_data_cache_line_size = picl.L2_data_cache_line_size();
 

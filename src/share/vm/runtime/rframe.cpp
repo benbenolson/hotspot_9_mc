@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -52,12 +52,12 @@ InterpretedRFrame::InterpretedRFrame(frame fr, JavaThread* thread, RFrame*const 
 : RFrame(fr, thread, callee) {
   RegisterMap map(thread, false);
   _vf     = javaVFrame::cast(vframe::new_vframe(&_fr, &map, thread));
-  _method = methodHandle(thread, _vf->method());
+  _method = _vf->method();
   assert(   _vf->is_interpreted_frame(), "must be interpreted");
   init();
 }
 
-InterpretedRFrame::InterpretedRFrame(frame fr, JavaThread* thread, methodHandle m)
+InterpretedRFrame::InterpretedRFrame(frame fr, JavaThread* thread, Method* m)
 : RFrame(fr, thread, NULL) {
   RegisterMap map(thread, false);
   _vf     = javaVFrame::cast(vframe::new_vframe(&_fr, &map, thread));
@@ -81,7 +81,7 @@ DeoptimizedRFrame::DeoptimizedRFrame(frame fr, JavaThread* thread, RFrame*const 
 : InterpretedRFrame(fr, thread, callee) {}
 
 RFrame* RFrame::new_RFrame(frame fr, JavaThread* thread, RFrame*const  callee) {
-  RFrame* rf;
+  RFrame* rf = NULL;
   int dist = callee ? callee->distance() : -1;
   if (fr.is_interpreted_frame()) {
     rf = new InterpretedRFrame(fr, thread, callee);
@@ -93,8 +93,10 @@ RFrame* RFrame::new_RFrame(frame fr, JavaThread* thread, RFrame*const  callee) {
   } else {
     assert(false, "Unhandled frame type");
   }
-  rf->set_distance(dist);
-  rf->init();
+  if (rf != NULL) {
+    rf->set_distance(dist);
+    rf->init();
+  }
   return rf;
 }
 
@@ -140,8 +142,8 @@ void CompiledRFrame::init() {
   _nm = compiledVFrame::cast(vf)->code();
   vf = vf->top();
   _vf = javaVFrame::cast(vf);
-  _method = methodHandle(thread(), CodeCache::find_nmethod(_fr.pc())->method());
-  assert(_method(), "should have found a method");
+  _method = CodeCache::find_nmethod(_fr.pc())->method();
+  assert(_method, "should have found a method");
 #ifndef PRODUCT
   _invocations = _method->compiled_invocation_count();
 #endif

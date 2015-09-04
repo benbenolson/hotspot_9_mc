@@ -199,6 +199,17 @@ void G1NewTracer::send_g1_young_gc_event() {
   }
 }
 
+void G1MMUTracer::send_g1_mmu_event(const GCId& gcId, double timeSlice, double gcTime, double maxTime) {
+  EventGCG1MMU e;
+  if (e.should_commit()) {
+    e.set_gcId(gcId.id());
+    e.set_timeSlice(timeSlice);
+    e.set_gcTime(gcTime);
+    e.set_maxGcTime(maxTime);
+    e.commit();
+  }
+}
+
 void G1NewTracer::send_evacuation_info_event(EvacuationInfo* info) {
   EventEvacuationInfo e;
   if (e.should_commit()) {
@@ -259,6 +270,20 @@ class GCHeapSummaryEventSender : public GCHeapSummaryVisitor {
       e.set_when((u1)_when);
       e.set_heapSpace(to_trace_struct(heap_space));
       e.set_heapUsed(heap_summary->used());
+      e.commit();
+    }
+  }
+
+  void visit(const G1HeapSummary* g1_heap_summary) const {
+    visit((GCHeapSummary*)g1_heap_summary);
+
+    EventG1HeapSummary e;
+    if (e.should_commit()) {
+      e.set_gcId(_gc_id.id());
+      e.set_when((u1)_when);
+      e.set_edenUsedSize(g1_heap_summary->edenUsed());
+      e.set_edenTotalSize(g1_heap_summary->edenCapacity());
+      e.set_survivorUsedSize(g1_heap_summary->survivorUsed());
       e.commit();
     }
   }

@@ -33,6 +33,7 @@
 #include "compiler/disassembler.hpp"
 #include "memory/resourceArea.hpp"
 #include "nativeInst_aarch64.hpp"
+#include "oops/klass.inline.hpp"
 #include "opto/compile.hpp"
 #include "opto/node.hpp"
 #include "runtime/biasedLocking.hpp"
@@ -2008,6 +2009,14 @@ void MacroAssembler::addw(Register Rd, Register Rn, RegisterOrConstant increment
   }
 }
 
+void MacroAssembler::sub(Register Rd, Register Rn, RegisterOrConstant decrement) {
+  if (decrement.is_register()) {
+    sub(Rd, Rn, decrement.as_register());
+  } else {
+    sub(Rd, Rn, decrement.as_constant());
+  }
+}
+
 void MacroAssembler::reinit_heapbase()
 {
   if (UseCompressedOops) {
@@ -2304,6 +2313,28 @@ Address MacroAssembler::offsetted_address(Register r, Register r1,
   } else {
     return Address(r, r1, ext);
   }
+}
+
+Address MacroAssembler::spill_address(int size, int offset, Register tmp)
+{
+  assert(offset >= 0, "spill to negative address?");
+  // Offset reachable ?
+  //   Not aligned - 9 bits signed offset
+  //   Aligned - 12 bits unsigned offset shifted
+  Register base = sp;
+  if ((offset & (size-1)) && offset >= (1<<8)) {
+    add(tmp, base, offset & ((1<<12)-1));
+    base = tmp;
+    offset &= -1<<12;
+  }
+
+  if (offset >= (1<<12) * size) {
+    add(tmp, base, offset & (((1<<12)-1)<<12));
+    base = tmp;
+    offset &= ~(((1<<12)-1)<<12);
+  }
+
+  return Address(base, offset);
 }
 
 /**
@@ -2914,6 +2945,65 @@ void MacroAssembler::kernel_crc32(Register crc, Register buf, Register len,
     ornw(crc, zr, crc);
 }
 
+/**
+ * @param crc   register containing existing CRC (32-bit)
+ * @param buf   register pointing to input byte buffer (byte*)
+ * @param len   register containing number of bytes
+ * @param table register that will contain address of CRC table
+ * @param tmp   scratch register
+ */
+void MacroAssembler::kernel_crc32c(Register crc, Register buf, Register len,
+        Register table0, Register table1, Register table2, Register table3,
+        Register tmp, Register tmp2, Register tmp3) {
+  Label L_exit;
+  Label CRC_by64_loop, CRC_by4_loop, CRC_by1_loop;
+
+    subs(len, len, 64);
+    br(Assembler::GE, CRC_by64_loop);
+    adds(len, len, 64-4);
+    br(Assembler::GE, CRC_by4_loop);
+    adds(len, len, 4);
+    br(Assembler::GT, CRC_by1_loop);
+    b(L_exit);
+
+  BIND(CRC_by4_loop);
+    ldrw(tmp, Address(post(buf, 4)));
+    subs(len, len, 4);
+    crc32cw(crc, crc, tmp);
+    br(Assembler::GE, CRC_by4_loop);
+    adds(len, len, 4);
+    br(Assembler::LE, L_exit);
+  BIND(CRC_by1_loop);
+    ldrb(tmp, Address(post(buf, 1)));
+    subs(len, len, 1);
+    crc32cb(crc, crc, tmp);
+    br(Assembler::GT, CRC_by1_loop);
+    b(L_exit);
+
+    align(CodeEntryAlignment);
+  BIND(CRC_by64_loop);
+    subs(len, len, 64);
+    ldp(tmp, tmp3, Address(post(buf, 16)));
+    crc32cx(crc, crc, tmp);
+    crc32cx(crc, crc, tmp3);
+    ldp(tmp, tmp3, Address(post(buf, 16)));
+    crc32cx(crc, crc, tmp);
+    crc32cx(crc, crc, tmp3);
+    ldp(tmp, tmp3, Address(post(buf, 16)));
+    crc32cx(crc, crc, tmp);
+    crc32cx(crc, crc, tmp3);
+    ldp(tmp, tmp3, Address(post(buf, 16)));
+    crc32cx(crc, crc, tmp);
+    crc32cx(crc, crc, tmp3);
+    br(Assembler::GE, CRC_by64_loop);
+    adds(len, len, 64-4);
+    br(Assembler::GE, CRC_by4_loop);
+    adds(len, len, 4);
+    br(Assembler::GT, CRC_by1_loop);
+  BIND(L_exit);
+    return;
+}
+
 SkipIfEqual::SkipIfEqual(
     MacroAssembler* masm, const bool* flag_addr, bool value) {
   _masm = masm;
@@ -2934,41 +3024,40 @@ void MacroAssembler::cmpptr(Register src1, Address src2) {
   cmp(src1, rscratch1);
 }
 
-void MacroAssembler::store_check(Register obj) {
-  // Does a store check for the oop in register obj. The content of
-  // register obj is destroyed afterwards.
-  store_check_part_1(obj);
-  store_check_part_2(obj);
-}
-
 void MacroAssembler::store_check(Register obj, Address dst) {
   store_check(obj);
 }
 
+void MacroAssembler::store_check(Register obj) {
+  // Does a store check for the oop in register obj. The content of
+  // register obj is destroyed afterwards.
 
-// split the store check operation so that other instructions can be scheduled inbetween
-void MacroAssembler::store_check_part_1(Register obj) {
   BarrierSet* bs = Universe::heap()->barrier_set();
   assert(bs->kind() == BarrierSet::CardTableModRef, "Wrong barrier set kind");
-  lsr(obj, obj, CardTableModRefBS::card_shift);
-}
 
-void MacroAssembler::store_check_part_2(Register obj) {
-  BarrierSet* bs = Universe::heap()->barrier_set();
-  assert(bs->kind() == BarrierSet::CardTableModRef, "Wrong barrier set kind");
-  CardTableModRefBS* ct = (CardTableModRefBS*)bs;
+  CardTableModRefBS* ct = barrier_set_cast<CardTableModRefBS>(bs);
   assert(sizeof(*ct->byte_map_base) == sizeof(jbyte), "adjust this code");
 
-  // The calculation for byte_map_base is as follows:
-  // byte_map_base = _byte_map - (uintptr_t(low_bound) >> card_shift);
-  // So this essentially converts an address to a displacement and
-  // it will never need to be relocated.
+  lsr(obj, obj, CardTableModRefBS::card_shift);
 
-  // FIXME: It's not likely that disp will fit into an offset so we
-  // don't bother to check, but it could save an instruction.
-  intptr_t disp = (intptr_t) ct->byte_map_base;
-  mov(rscratch1, disp);
-  strb(zr, Address(obj, rscratch1));
+  assert(CardTableModRefBS::dirty_card_val() == 0, "must be");
+
+  {
+    ExternalAddress cardtable((address) ct->byte_map_base);
+    unsigned long offset;
+    adrp(rscratch1, cardtable, offset);
+    assert(offset == 0, "byte_map_base is misaligned");
+  }
+
+  if (UseCondCardMark) {
+    Label L_already_dirty;
+    ldrb(rscratch2,  Address(obj, rscratch1));
+    cbz(rscratch2, L_already_dirty);
+    strb(zr, Address(obj, rscratch1));
+    bind(L_already_dirty);
+  } else {
+    strb(zr, Address(obj, rscratch1));
+  }
 }
 
 void MacroAssembler::load_klass(Register dst, Register src) {
@@ -3733,8 +3822,8 @@ void MacroAssembler::eden_allocate(Register obj,
     br(Assembler::HI, slow_case);
 
     // If heap_top hasn't been changed by some other thread, update it.
-    stlxr(rscratch1, end, rscratch1);
-    cbnzw(rscratch1, retry);
+    stlxr(rscratch2, end, rscratch1);
+    cbnzw(rscratch2, retry);
   }
 }
 

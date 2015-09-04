@@ -1619,6 +1619,9 @@ void LIRGenerator::CardTableModRef_post_barrier(LIR_OprDesc* addr, LIR_OprDesc* 
   LIR_Opr dirty = LIR_OprFact::intConst(CardTableModRefBS::dirty_card_val());
   if (UseCondCardMark) {
     LIR_Opr cur_value = new_register(T_INT);
+    if (UseConcMarkSweepGC) {
+      __ membar_storeload();
+    }
     __ move(card_addr, cur_value);
 
     LabelObj* L_already_dirty = new LabelObj();
@@ -2205,7 +2208,15 @@ void LIRGenerator::do_UnsafePutRaw(UnsafePutRaw* x) {
   if (log2_scale != 0) {
     // temporary fix (platform dependent code without shift on Intel would be better)
     // TODO: ARM also allows embedded shift in the address
-    __ shift_left(index_op, log2_scale, index_op);
+    LIR_Opr tmp = new_pointer_register();
+    if (TwoOperandLIRForm) {
+      __ move(index_op, tmp);
+      index_op = tmp;
+    }
+    __ shift_left(index_op, log2_scale, tmp);
+    if (!TwoOperandLIRForm) {
+      index_op = tmp;
+    }
   }
 
   LIR_Address* addr = new LIR_Address(base_op, index_op, x->basic_type());

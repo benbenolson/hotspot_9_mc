@@ -209,7 +209,7 @@ HeapWord* PSOldGen::allocate(size_t word_size) {
   // Allocations in the old generation need to be reported
   if (res != NULL) {
     ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
-    heap->size_policy()->tenured_allocation(word_size);
+    heap->size_policy()->tenured_allocation(word_size * HeapWordSize);
   }
 
   return res;

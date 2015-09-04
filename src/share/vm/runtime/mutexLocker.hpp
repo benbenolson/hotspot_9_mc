@@ -55,6 +55,7 @@ extern Monitor* StringDedupQueue_lock;           // a lock on the string dedupli
 extern Mutex*   StringDedupTable_lock;           // a lock on the string deduplication table
 extern Monitor* CodeCache_lock;                  // a lock on the CodeCache, rank is special, use MutexLockerEx
 extern Mutex*   MethodData_lock;                 // a lock on installation of method data
+extern Mutex*   TouchedMethodLog_lock;           // a lock on allocation of LogExecutedMethods info
 extern Mutex*   RetData_lock;                    // a lock on installation of RetData inside method data
 extern Mutex*   DerivedPointerTableGC_lock;      // a lock to protect the derived pointer table
 extern Monitor* VMOperationQueue_lock;           // a lock on queue of vm_operations waiting to execute
@@ -86,7 +87,6 @@ extern Mutex*   Shared_DirtyCardQ_lock;          // Lock protecting dirty card
                                                  // non-Java threads.
                                                  // (see option ExplicitGCInvokesConcurrent)
 extern Mutex*   ParGCRareEvent_lock;             // Synchronizes various (rare) parallel GC ops.
-extern Mutex*   EvacFailureStack_lock;           // guards the evac failure scan stack
 extern Mutex*   Compile_lock;                    // a lock held when Compilation is updating code (used to block CodeCache traversal, CHA updates, etc)
 extern Monitor* MethodCompileQueue_lock;         // a lock held when method compilations are enqueued, dequeued
 extern Monitor* CompileThread_lock;              // a lock held by compile threads during compilation system initialization
@@ -102,6 +102,7 @@ extern Monitor* ProfileVM_lock;                  // a lock used for profiling th
 extern Mutex*   ProfilePrint_lock;               // a lock used to serialize the printing of profiles
 extern Mutex*   ExceptionCache_lock;             // a lock used to synchronize exception cache updates
 extern Mutex*   OsrList_lock;                    // a lock used to serialize access to OSR queues
+extern Mutex*   ImageFileReaderTable_lock;       // a lock used to synchronize image readers open/close
 
 #ifndef PRODUCT
 extern Mutex*   FullGCALot_lock;                 // a lock to make FullGCALot MT safe

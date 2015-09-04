@@ -56,6 +56,7 @@
 #include "prims/jvmtiRedefineClassesTrace.hpp"
 #include "runtime/arguments.hpp"
 #include "runtime/atomic.inline.hpp"
+#include "runtime/commandLineFlagConstraintList.hpp"
 #include "runtime/deoptimization.hpp"
 #include "runtime/fprofiler.hpp"
 #include "runtime/handles.inline.hpp"
@@ -319,6 +320,7 @@ void Universe::genesis(TRAPS) {
              SystemDictionary::Cloneable_klass(), "u3");
       assert(_the_array_interfaces_array->at(1) ==
              SystemDictionary::Serializable_klass(), "u3");
+      MetaspaceShared::fixup_shared_string_regions();
     } else {
       // Set up shared interfaces array.  (Do this before supers are set up.)
       _the_array_interfaces_array->at_put(0, SystemDictionary::Cloneable_klass());
@@ -663,6 +665,11 @@ jint universe_init() {
 
   Metaspace::global_initialize();
 
+  // Checks 'AfterMemoryInit' constraints.
+  if (!CommandLineFlagConstraintList::check_constraints(CommandLineFlagConstraint::AfterMemoryInit)) {
+    return JNI_EINVAL;
+  }
+
   // Create memory for metadata.  Must be after initializing heap for
   // DumpSharedSpaces.
   ClassLoaderData::init_null_class_loader_data();
@@ -762,7 +769,7 @@ jint Universe::initialize_heap() {
     Universe::set_narrow_ptrs_base(Universe::narrow_oop_base());
 
     if (PrintCompressedOopsMode || (PrintMiscellaneous && Verbose)) {
-      Universe::print_compressed_oops_mode();
+      Universe::print_compressed_oops_mode(tty);
     }
 
     // Tell tests in which mode we run.
@@ -789,33 +796,30 @@ jint Universe::initialize_heap() {
   return JNI_OK;
 }
 
-void Universe::print_compressed_oops_mode() {
-  tty->cr();
-  tty->print("heap address: " PTR_FORMAT ", size: " SIZE_FORMAT " MB",
+void Universe::print_compressed_oops_mode(outputStream* st) {
+  st->print("heap address: " PTR_FORMAT ", size: " SIZE_FORMAT " MB",
               p2i(Universe::heap()->base()), Universe::heap()->reserved_region().byte_size()/M);
 
-  tty->print(", Compressed Oops mode: %s", narrow_oop_mode_to_string(narrow_oop_mode()));
+  st->print(", Compressed Oops mode: %s", narrow_oop_mode_to_string(narrow_oop_mode()));
 
   if (Universe::narrow_oop_base() != 0) {
-    tty->print(": " PTR_FORMAT, p2i(Universe::narrow_oop_base()));
+    st->print(": " PTR_FORMAT, p2i(Universe::narrow_oop_base()));
   }
 
   if (Universe::narrow_oop_shift() != 0) {
-    tty->print(", Oop shift amount: %d", Universe::narrow_oop_shift());
+    st->print(", Oop shift amount: %d", Universe::narrow_oop_shift());
   }
 
   if (!Universe::narrow_oop_use_implicit_null_checks()) {
-    tty->print(", no protected page in front of the heap");
+    st->print(", no protected page in front of the heap");
   }
-
-  tty->cr();
-  tty->cr();
+  st->cr();
 }
 
 ReservedSpace Universe::reserve_heap(size_t heap_size, size_t alignment) {
 
   assert(alignment <= Arguments::conservative_max_heap_alignment(),
-      err_msg("actual alignment "SIZE_FORMAT" must be within maximum heap alignment "SIZE_FORMAT,
+      err_msg("actual alignment " SIZE_FORMAT " must be within maximum heap alignment " SIZE_FORMAT,
           alignment, Arguments::conservative_max_heap_alignment()));
 
   size_t total_reserved = align_size_up(heap_size, alignment);

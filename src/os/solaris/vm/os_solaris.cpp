@@ -60,6 +60,7 @@
 #include "runtime/threadCritical.hpp"
 #include "runtime/timer.hpp"
 #include "runtime/vm_version.hpp"
+#include "semaphore_posix.hpp"
 #include "services/attachListener.hpp"
 #include "services/memTracker.hpp"
 #include "services/runtimeService.hpp"
@@ -1627,7 +1628,8 @@ typedef int (*dladdr1_func_type)(void *, Dl_info *, void **, int);
 static dladdr1_func_type dladdr1_func = NULL;
 
 bool os::dll_address_to_function_name(address addr, char *buf,
-                                      int buflen, int * offset) {
+                                      int buflen, int * offset,
+                                      bool demangle) {
   // buf is not optional, but offset is optional
   assert(buf != NULL, "sanity check");
 
@@ -1655,7 +1657,7 @@ bool os::dll_address_to_function_name(address addr, char *buf,
       if (dlinfo.dli_saddr != NULL &&
           (char *)dlinfo.dli_saddr + info->st_size > (char *)addr) {
         if (dlinfo.dli_sname != NULL) {
-          if (!Decoder::demangle(dlinfo.dli_sname, buf, buflen)) {
+          if (!(demangle && Decoder::demangle(dlinfo.dli_sname, buf, buflen))) {
             jio_snprintf(buf, buflen, "%s", dlinfo.dli_sname);
           }
           if (offset != NULL) *offset = addr - (address)dlinfo.dli_saddr;
@@ -1665,7 +1667,7 @@ bool os::dll_address_to_function_name(address addr, char *buf,
       // no matching symbol so try for just file info
       if (dlinfo.dli_fname != NULL && dlinfo.dli_fbase != NULL) {
         if (Decoder::decode((address)(addr - (address)dlinfo.dli_fbase),
-                            buf, buflen, offset, dlinfo.dli_fname)) {
+                            buf, buflen, offset, dlinfo.dli_fname, demangle)) {
           return true;
         }
       }
@@ -1679,7 +1681,7 @@ bool os::dll_address_to_function_name(address addr, char *buf,
   if (dladdr((void *)addr, &dlinfo) != 0) {
     // see if we have a matching symbol
     if (dlinfo.dli_saddr != NULL && dlinfo.dli_sname != NULL) {
-      if (!Decoder::demangle(dlinfo.dli_sname, buf, buflen)) {
+      if (!(demangle && Decoder::demangle(dlinfo.dli_sname, buf, buflen))) {
         jio_snprintf(buf, buflen, dlinfo.dli_sname);
       }
       if (offset != NULL) *offset = addr - (address)dlinfo.dli_saddr;
@@ -1688,7 +1690,7 @@ bool os::dll_address_to_function_name(address addr, char *buf,
     // no matching symbol so try for just file info
     if (dlinfo.dli_fname != NULL && dlinfo.dli_fbase != NULL) {
       if (Decoder::decode((address)(addr - (address)dlinfo.dli_fbase),
-                          buf, buflen, offset, dlinfo.dli_fname)) {
+                          buf, buflen, offset, dlinfo.dli_fname, demangle)) {
         return true;
       }
     }
@@ -1969,6 +1971,26 @@ void os::Solaris::print_distro_info(outputStream* st) {
   st->cr();
 }
 
+void os::get_summary_os_info(char* buf, size_t buflen) {
+  strncpy(buf, "Solaris", buflen);  // default to plain solaris
+  FILE* fp = fopen("/etc/release", "r");
+  if (fp != NULL) {
+    char tmp[256];
+    // Only get the first line and chop out everything but the os name.
+    if (fgets(tmp, sizeof(tmp), fp)) {
+      char* ptr = tmp;
+      // skip past whitespace characters
+      while (*ptr != '\0' && (*ptr == ' ' || *ptr == '\t' || *ptr == '\n')) ptr++;
+      if (*ptr != '\0') {
+        char* nl = strchr(ptr, '\n');
+        if (nl != NULL) *nl = '\0';
+        strncpy(buf, ptr, buflen);
+      }
+    }
+    fclose(fp);
+  }
+}
+
 void os::Solaris::print_libversion_info(outputStream* st) {
   st->print("  (T2 libthread)");
   st->cr();
@@ -1996,7 +2018,23 @@ static bool check_addr0(outputStream* st) {
   return status;
 }
 
-void os::pd_print_cpu_info(outputStream* st) {
+void os::get_summary_cpu_info(char* buf, size_t buflen) {
+  // Get MHz with system call. We don't seem to already have this.
+  processor_info_t stats;
+  processorid_t id = getcpuid();
+  int clock = 0;
+  if (processor_info(id, &stats) != -1) {
+    clock = stats.pi_clock;  // pi_processor_type isn't more informative than below
+  }
+#ifdef AMD64
+  snprintf(buf, buflen, "x86 64 bit %d MHz", clock);
+#else
+  // must be sparc
+  snprintf(buf, buflen, "Sparcv9 64 bit %d MHz", clock);
+#endif
+}
+
+void os::pd_print_cpu_info(outputStream* st, char* buf, size_t buflen) {
   // Nothing to do for now.
 }
 
@@ -2262,55 +2300,11 @@ void* os::user_handler() {
   return CAST_FROM_FN_PTR(void*, UserHandler);
 }
 
-class Semaphore : public StackObj {
- public:
-  Semaphore();
-  ~Semaphore();
-  void signal();
-  void wait();
-  bool trywait();
-  bool timedwait(unsigned int sec, int nsec);
- private:
-  sema_t _semaphore;
-};
-
-
-Semaphore::Semaphore() {
-  sema_init(&_semaphore, 0, NULL, NULL);
-}
-
-Semaphore::~Semaphore() {
-  sema_destroy(&_semaphore);
-}
-
-void Semaphore::signal() {
-  sema_post(&_semaphore);
-}
-
-void Semaphore::wait() {
-  sema_wait(&_semaphore);
-}
-
-bool Semaphore::trywait() {
-  return sema_trywait(&_semaphore) == 0;
-}
-
-bool Semaphore::timedwait(unsigned int sec, int nsec) {
+struct timespec PosixSemaphore::create_timespec(unsigned int sec, int nsec) {
   struct timespec ts;
   unpackTime(&ts, false, (sec * NANOSECS_PER_SEC) + nsec);
 
-  while (1) {
-    int result = sema_timedwait(&_semaphore, &ts);
-    if (result == 0) {
-      return true;
-    } else if (errno == EINTR) {
-      continue;
-    } else if (errno == ETIME) {
-      return false;
-    } else {
-      return false;
-    }
-  }
+  return ts;
 }
 
 extern "C" {
@@ -3710,7 +3704,7 @@ static void suspend_save_context(OSThread *osthread, ucontext_t* context) {
   osthread->set_ucontext(context);
 }
 
-static Semaphore sr_semaphore;
+static PosixSemaphore sr_semaphore;
 
 void os::Solaris::SR_handler(Thread* thread, ucontext_t* uc) {
   // Save and restore errno to avoid confusing native code with EINTR

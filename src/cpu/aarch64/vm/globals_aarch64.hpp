@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2014, Red Hat Inc. All rights reserved.
+ * Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, Red Hat Inc. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -34,7 +34,6 @@
 
 define_pd_global(bool, ConvertSleepToYield,      true);
 define_pd_global(bool, ShareVtableStubs,         true);
-define_pd_global(bool, CountInterpCalls,         true);
 define_pd_global(bool, NeedsDeoptSuspend,        false); // only register window machines need this
 
 define_pd_global(bool, ImplicitNullChecks,       true);  // Generate code for implicit null checks
@@ -61,8 +60,6 @@ define_pd_global(intx, StackRedPages, 1);
 
 define_pd_global(intx, StackShadowPages, 4 DEBUG_ONLY(+5));
 
-define_pd_global(intx, PreInflateSpin,           10);
-
 define_pd_global(bool, RewriteBytecodes,     true);
 define_pd_global(bool, RewriteFrequentPairs, true);
 
@@ -84,7 +81,7 @@ define_pd_global(intx, InlineSmallCode,          1000);
 
 #ifdef BUILTIN_SIM
 #define UseBuiltinSim           true
-#define ARCH_FLAGS(develop, product, diagnostic, experimental, notproduct) \
+#define ARCH_FLAGS(develop, product, diagnostic, experimental, notproduct, range, constraint) \
                                                                         \
   product(bool, NotifySimulator, UseBuiltinSim,                         \
          "tell the AArch64 sim where we are in method code")            \
@@ -112,7 +109,7 @@ define_pd_global(intx, InlineSmallCode,          1000);
 #define NotifySimulator         false
 #define UseSimulatorCache       false
 #define DisableBCCheck          true
-#define ARCH_FLAGS(develop, product, diagnostic, experimental, notproduct) \
+#define ARCH_FLAGS(develop, product, diagnostic, experimental, notproduct, range, constraint) \
                                                                         \
   product(bool, NearCpool, true,                                        \
          "constant pool is close to instructions")                      \

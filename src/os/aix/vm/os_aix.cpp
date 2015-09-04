@@ -1439,7 +1439,8 @@ static address resolve_function_descriptor_to_code_pointer(address p) {
 }
 
 bool os::dll_address_to_function_name(address addr, char *buf,
-                                      int buflen, int *offset) {
+                                      int buflen, int *offset,
+                                      bool demangle) {
   if (offset) {
     *offset = -1;
   }
@@ -1454,7 +1455,7 @@ bool os::dll_address_to_function_name(address addr, char *buf,
   }
 
   // Go through Decoder::decode to call getFuncName which reads the name from the traceback table.
-  return Decoder::decode(addr, buf, buflen, offset);
+  return Decoder::decode(addr, buf, buflen, offset, demangle);
 }
 
 static int getModuleName(codeptr_t pc,                    // [in] program counter
@@ -1547,6 +1548,13 @@ void* os::get_default_process_handle() {
 void os::print_dll_info(outputStream *st) {
   st->print_cr("Dynamic libraries:");
   LoadedLibraries::print(st);
+}
+
+void os::get_summary_os_info(char* buf, size_t buflen) {
+  // There might be something more readable than uname results for AIX.
+  struct utsname name;
+  uname(&name);
+  snprintf(buf, buflen, "%s %s", name.release, name.version);
 }
 
 void os::print_os_info(outputStream* st) {
@@ -1653,14 +1661,18 @@ void os::print_memory_info(outputStream* st) {
   }
 }
 
-void os::pd_print_cpu_info(outputStream* st) {
-  // cpu
-  st->print("CPU:");
-  st->print("total %d", os::processor_count());
-  // It's not safe to query number of active processors after crash
-  // st->print("(active %d)", os::active_processor_count());
-  st->print(" %s", VM_Version::cpu_features());
-  st->cr();
+// Get a string for the cpuinfo that is a summary of the cpu type
+void os::get_summary_cpu_info(char* buf, size_t buflen) {
+  // This looks good
+  os::Aix::cpuinfo_t ci;
+  if (os::Aix::get_cpuinfo(&ci)) {
+    strncpy(buf, ci.version, buflen);
+  } else {
+    strncpy(buf, "AIX", buflen);
+  }
+}
+
+void os::pd_print_cpu_info(outputStream* st, char* buf, size_t buflen) {
 }
 
 void os::print_siginfo(outputStream* st, void* siginfo) {
@@ -3482,7 +3494,6 @@ void os::init(void) {
   // For now UseLargePages is just ignored.
   FLAG_SET_ERGO(bool, UseLargePages, false);
   _page_sizes[0] = 0;
-  _large_page_size = -1;
 
   // debug trace
   trcVerbose("os::vm_page_size %s\n", describe_pagesize(os::vm_page_size()));
@@ -3760,10 +3771,6 @@ ExtendedPC os::get_thread_pc(Thread* thread) {
   fetcher.run();
   return fetcher.result();
 }
-
-// Not neede on Aix.
-// int os::Aix::safe_cond_timedwait(pthread_cond_t *_cond, pthread_mutex_t *_mutex, const struct timespec *_abstime) {
-// }
 
 ////////////////////////////////////////////////////////////////////////////////
 // debug support

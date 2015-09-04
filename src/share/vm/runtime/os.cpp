@@ -698,8 +698,8 @@ void* os::realloc(void *memblock, size_t size, MEMFLAGS memflags, const NativeCa
   }
   // always move the block
   void* ptr = os::malloc(size, memflags, stack);
-  if (PrintMalloc) {
-    tty->print_cr("os::remalloc " SIZE_FORMAT " bytes, " PTR_FORMAT " --> " PTR_FORMAT, size, memblock, ptr);
+  if (PrintMalloc && tty != NULL) {
+    tty->print_cr("os::realloc " SIZE_FORMAT " bytes, " PTR_FORMAT " --> " PTR_FORMAT, size, memblock, ptr);
   }
   // Copy to new memory if malloc didn't fail
   if ( ptr != NULL ) {
@@ -860,7 +860,7 @@ void os::print_environment_variables(outputStream* st, const char** env_list) {
   }
 }
 
-void os::print_cpu_info(outputStream* st) {
+void os::print_cpu_info(outputStream* st, char* buf, size_t buflen) {
   // cpu
   st->print("CPU:");
   st->print("total %d", os::processor_count());
@@ -868,17 +868,52 @@ void os::print_cpu_info(outputStream* st) {
   // st->print("(active %d)", os::active_processor_count());
   st->print(" %s", VM_Version::cpu_features());
   st->cr();
-  pd_print_cpu_info(st);
+  pd_print_cpu_info(st, buf, buflen);
 }
 
-void os::print_date_and_time(outputStream *st) {
+// Print a one line string summarizing the cpu, number of cores, memory, and operating system version
+void os::print_summary_info(outputStream* st, char* buf, size_t buflen) {
+  st->print("Host: ");
+#ifndef PRODUCT
+  if (get_host_name(buf, buflen)) {
+    st->print("%s, ", buf);
+  }
+#endif // PRODUCT
+  get_summary_cpu_info(buf, buflen);
+  st->print("%s, ", buf);
+  size_t mem = physical_memory()/G;
+  if (mem == 0) {  // for low memory systems
+    mem = physical_memory()/M;
+    st->print("%d cores, %dM, ", processor_count(), mem);
+  } else {
+    st->print("%d cores, %dG, ", processor_count(), mem);
+  }
+  get_summary_os_info(buf, buflen);
+  st->print_raw(buf);
+  st->cr();
+}
+
+void os::print_date_and_time(outputStream *st, char* buf, size_t buflen) {
   const int secs_per_day  = 86400;
   const int secs_per_hour = 3600;
   const int secs_per_min  = 60;
 
   time_t tloc;
   (void)time(&tloc);
-  st->print("time: %s", ctime(&tloc));  // ctime adds newline.
+  char* timestring = ctime(&tloc);  // ctime adds newline.
+  // edit out the newline
+  char* nl = strchr(timestring, '\n');
+  if (nl != NULL) {
+    *nl = '\0';
+  }
+
+  struct tm tz;
+  if (localtime_pd(&tloc, &tz) != NULL) {
+    ::strftime(buf, buflen, "%Z", &tz);
+    st->print("Time: %s %s", timestring, buf);
+  } else {
+    st->print("Time: %s", timestring);
+  }
 
   double t = os::elapsedTime();
   // NOTE: It tends to crash after a SEGV if we want to printf("%f",...) in
@@ -894,7 +929,7 @@ void os::print_date_and_time(outputStream *st) {
   int elmins = (eltime - day_secs - hour_secs) / secs_per_min;
   int minute_secs = elmins * secs_per_min;
   int elsecs = (eltime - day_secs - hour_secs - minute_secs);
-  st->print_cr("elapsed time: %d seconds (%dd %dh %dm %ds)", eltime, eldays, elhours, elmins, elsecs);
+  st->print_cr(" elapsed time: %d seconds (%dd %dh %dm %ds)", eltime, eldays, elhours, elmins, elsecs);
 }
 
 // moved from debug.cpp (used to be find()) but still called from there
@@ -1259,7 +1294,7 @@ bool os::set_boot_path(char fileSep, char pathSep) {
   struct stat st;
 
   // modular image if bootmodules.jimage exists
-  char* jimage = format_boot_path("%/lib/modules/bootmodules.jimage", home, home_len, fileSep, pathSep);
+  char* jimage = format_boot_path("%/lib/modules/" BOOT_IMAGE_NAME, home, home_len, fileSep, pathSep);
   if (jimage == NULL) return false;
   bool has_jimage = (os::stat(jimage, &st) == 0);
   if (has_jimage) {

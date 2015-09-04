@@ -24,6 +24,7 @@
 
 #include "precompiled.hpp"
 #include "classfile/vmSymbols.hpp"
+#include "memory/metaspaceShared.hpp"
 #include "memory/padded.hpp"
 #include "memory/resourceArea.hpp"
 #include "memory/heapInspection.hpp"
@@ -40,6 +41,7 @@
 #include "runtime/stubRoutines.hpp"
 #include "runtime/synchronizer.hpp"
 #include "runtime/thread.inline.hpp"
+#include "runtime/vframe.hpp"
 #include "utilities/dtrace.hpp"
 #include "utilities/events.hpp"
 #include "utilities/preserveException.hpp"
@@ -85,6 +87,8 @@ PRAGMA_FORMAT_MUTE_WARNINGS_FOR_GCC
     }                                                                      \
   }
 
+#define HOTSPOT_MONITOR_PROBE_notify HOTSPOT_MONITOR_NOTIFY
+#define HOTSPOT_MONITOR_PROBE_notifyAll HOTSPOT_MONITOR_NOTIFYALL
 #define HOTSPOT_MONITOR_PROBE_waited HOTSPOT_MONITOR_WAITED
 
 #define DTRACE_MONITOR_PROBE(probe, monitor, obj, thread)                  \
@@ -145,6 +149,58 @@ static volatile int gMonitorPopulation = 0;  // # Extant -- in circulation
 // operators: safepoints or indefinite blocking (blocking that might span a
 // safepoint) are forbidden. Generally the thread_state() is _in_Java upon
 // entry.
+//
+// Consider: An interesting optimization is to have the JIT recognize the
+// following common idiom:
+//   synchronized (someobj) { .... ; notify(); }
+// That is, we find a notify() or notifyAll() call that immediately precedes
+// the monitorexit operation.  In that case the JIT could fuse the operations
+// into a single notifyAndExit() runtime primitive.
+
+bool ObjectSynchronizer::quick_notify(oopDesc * obj, Thread * self, bool all) {
+  assert(!SafepointSynchronize::is_at_safepoint(), "invariant");
+  assert(self->is_Java_thread(), "invariant");
+  assert(((JavaThread *) self)->thread_state() == _thread_in_Java, "invariant");
+  No_Safepoint_Verifier nsv;
+  if (obj == NULL) return false;  // slow-path for invalid obj
+  const markOop mark = obj->mark();
+
+  if (mark->has_locker() && self->is_lock_owned((address)mark->locker())) {
+    // Degenerate notify
+    // stack-locked by caller so by definition the implied waitset is empty.
+    return true;
+  }
+
+  if (mark->has_monitor()) {
+    ObjectMonitor * const mon = mark->monitor();
+    assert(mon->object() == obj, "invariant");
+    if (mon->owner() != self) return false;  // slow-path for IMS exception
+
+    if (mon->first_waiter() != NULL) {
+      // We have one or more waiters. Since this is an inflated monitor
+      // that we own, we can transfer one or more threads from the waitset
+      // to the entrylist here and now, avoiding the slow-path.
+      if (all) {
+        DTRACE_MONITOR_PROBE(notifyAll, mon, obj, self);
+      } else {
+        DTRACE_MONITOR_PROBE(notify, mon, obj, self);
+      }
+      int tally = 0;
+      do {
+        mon->INotify(self);
+        ++tally;
+      } while (mon->first_waiter() != NULL && all);
+      if (ObjectMonitor::_sync_Notifications != NULL) {
+        ObjectMonitor::_sync_Notifications->inc(tally);
+      }
+    }
+    return true;
+  }
+
+  // biased locking and any other IMS exception states take the slow-path
+  return false;
+}
+
 
 // The LockNode emitted directly at the synchronization site would have
 // been too big if it were to have included support for the cases of inflated
@@ -639,11 +695,11 @@ intptr_t ObjectSynchronizer::FastHashCode(Thread * Self, oop obj) {
 
   // hashCode() is a heap mutator ...
   // Relaxing assertion for bug 6320749.
-  assert(Universe::verify_in_progress() ||
+  assert(Universe::verify_in_progress() || DumpSharedSpaces ||
          !SafepointSynchronize::is_at_safepoint(), "invariant");
-  assert(Universe::verify_in_progress() ||
+  assert(Universe::verify_in_progress() || DumpSharedSpaces ||
          Self->is_Java_thread() , "invariant");
-  assert(Universe::verify_in_progress() ||
+  assert(Universe::verify_in_progress() || DumpSharedSpaces ||
          ((JavaThread *)Self)->thread_state() != _thread_blocked, "invariant");
 
   ObjectMonitor* monitor = NULL;
@@ -927,8 +983,9 @@ static void InduceScavenge(Thread * Self, const char * Whence) {
 
   if (ForceMonitorScavenge == 0 && Atomic::xchg (1, &ForceMonitorScavenge) == 0) {
     if (ObjectMonitor::Knob_Verbose) {
-      ::printf ("Monitor scavenge - Induced STW @%s (%d)\n", Whence, ForceMonitorScavenge) ;
-      ::fflush(stdout);
+      tty->print_cr("INFO: Monitor scavenge - Induced STW @%s (%d)",
+                    Whence, ForceMonitorScavenge) ;
+      tty->flush();
     }
     // Induce a 'null' safepoint to scavenge monitors
     // Must VM_Operation instance be heap allocated as the op will be enqueue and posted
@@ -937,8 +994,9 @@ static void InduceScavenge(Thread * Self, const char * Whence) {
     VMThread::execute(new VM_ForceAsyncSafepoint());
 
     if (ObjectMonitor::Knob_Verbose) {
-      ::printf ("Monitor scavenge - STW posted @%s (%d)\n", Whence, ForceMonitorScavenge) ;
-      ::fflush(stdout);
+      tty->print_cr("INFO: Monitor scavenge - STW posted @%s (%d)",
+                    Whence, ForceMonitorScavenge) ;
+      tty->flush();
     }
   }
 }
@@ -1448,8 +1506,7 @@ ObjectMonitor * NOINLINE ObjectSynchronizer::inflate(Thread * Self,
 // This is an unfortunate aspect of this design.
 
 enum ManifestConstants {
-  ClearResponsibleAtSTW   = 0,
-  MaximumRecheckInterval  = 1000
+  ClearResponsibleAtSTW = 0
 };
 
 // Deflate a single monitor if not in-use
@@ -1603,10 +1660,11 @@ void ObjectSynchronizer::deflate_idle_monitors() {
   // Consider: audit gFreeList to ensure that gMonitorFreeCount and list agree.
 
   if (ObjectMonitor::Knob_Verbose) {
-    ::printf("Deflate: InCirc=%d InUse=%d Scavenged=%d ForceMonitorScavenge=%d : pop=%d free=%d\n",
-             nInCirculation, nInuse, nScavenged, ForceMonitorScavenge,
-             gMonitorPopulation, gMonitorFreeCount);
-    ::fflush(stdout);
+    tty->print_cr("INFO: Deflate: InCirc=%d InUse=%d Scavenged=%d "
+                  "ForceMonitorScavenge=%d : pop=%d free=%d",
+                  nInCirculation, nInuse, nScavenged, ForceMonitorScavenge,
+                  gMonitorPopulation, gMonitorFreeCount);
+    tty->flush();
   }
 
   ForceMonitorScavenge = 0;    // Reset
@@ -1643,6 +1701,14 @@ class ReleaseJavaMonitorsClosure: public MonitorClosure {
   ReleaseJavaMonitorsClosure(Thread* thread) : THREAD(thread) {}
   void do_monitor(ObjectMonitor* mid) {
     if (mid->owner() == THREAD) {
+      if (ObjectMonitor::Knob_VerifyMatch != 0) {
+        Handle obj((oop) mid->object());
+        tty->print("INFO: unexpected locked object:");
+        javaVFrame::print_locked_object_class_name(tty, obj, "locked");
+        fatal(err_msg("exiting JavaThread=" INTPTR_FORMAT
+                      " unexpectedly owns ObjectMonitor=" INTPTR_FORMAT,
+                      THREAD, mid));
+      }
       (void)mid->complete_exit(CHECK);
     }
   }

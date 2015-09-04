@@ -130,8 +130,7 @@ void PSAdaptiveSizePolicy::major_collection_end(size_t amount_live,
   // Update the pause time.
   _major_timer.stop();
 
-  if (!GCCause::is_user_requested_gc(gc_cause) ||
-      UseAdaptiveSizePolicyWithSystemGC) {
+  if (should_update_promo_stats(gc_cause)) {
     double major_pause_in_seconds = _major_timer.seconds();
     double major_pause_in_ms = major_pause_in_seconds * MILLIUNITS;
 
@@ -1304,7 +1303,7 @@ void PSAdaptiveSizePolicy::update_averages(bool is_survivor_overflow,
     size_t survived_guess = survived + promoted;
     _avg_survived->sample(survived_guess);
   }
-  avg_promoted()->sample(promoted + _avg_pretenured->padded_average());
+  avg_promoted()->sample(promoted);
 
   if (PrintAdaptiveSizePolicy) {
     gclog_or_tty->print_cr(

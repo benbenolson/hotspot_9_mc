@@ -2317,7 +2317,11 @@ void PhaseIdealLoop::build_and_optimize(bool do_split_ifs, bool skip_loop_opts) 
     // Reassociate invariants and prep for split_thru_phi
     for (LoopTreeIterator iter(_ltree_root); !iter.done(); iter.next()) {
       IdealLoopTree* lpt = iter.current();
-      if (!lpt->is_counted() || !lpt->is_inner()) continue;
+      bool is_counted = lpt->is_counted();
+      if (!is_counted || !lpt->is_inner()) continue;
+
+      // check for vectorized loops, any reassociation of invariants was already done
+      if (is_counted && lpt->_head->as_CountedLoop()->do_unroll_only()) continue;
 
       lpt->reassociate_invariants(this);
 
@@ -2408,7 +2412,7 @@ void PhaseIdealLoop::build_and_optimize(bool do_split_ifs, bool skip_loop_opts) 
     for (LoopTreeIterator iter(_ltree_root); !iter.done(); iter.next()) {
       IdealLoopTree* lpt = iter.current();
       if (lpt->is_counted()) {
-        sw.transform_loop(lpt);
+        sw.transform_loop(lpt, true);
       }
     }
   }
@@ -3678,7 +3682,6 @@ void PhaseIdealLoop::dump( ) const {
 }
 
 void PhaseIdealLoop::dump( IdealLoopTree *loop, uint idx, Node_List &rpo_list ) const {
-  CloneMap& cm = C->clone_map();
   loop->dump_head();
 
   // Now scan for CFG nodes in the same loop
@@ -3710,7 +3713,6 @@ void PhaseIdealLoop::dump( IdealLoopTree *loop, uint idx, Node_List &rpo_list ) 
         cached_idom = find_non_split_ctrl(cached_idom);
       }
       tty->print(" ID:%d",computed_idom->_idx);
-      cm.dump(n->_idx);
       n->dump();
       if( cached_idom != computed_idom ) {
         tty->print_cr("*** BROKEN IDOM!  Computed as: %d, cached as: %d",
@@ -3730,7 +3732,6 @@ void PhaseIdealLoop::dump( IdealLoopTree *loop, uint idx, Node_List &rpo_list ) 
           for( uint j = 0; j < loop->_nest; j++ )
             tty->print("  ");
           tty->print(" ");
-          cm.dump(m->_idx);
           m->dump();
         }
       }

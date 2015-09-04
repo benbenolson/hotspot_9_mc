@@ -39,57 +39,33 @@ class G1Allocator : public CHeapObj<mtGC> {
 protected:
   G1CollectedHeap* _g1h;
 
-  // Outside of GC pauses, the number of bytes used in all regions other
-  // than the current allocation region.
-  size_t _summary_bytes_used;
-
 public:
-   G1Allocator(G1CollectedHeap* heap) :
-     _g1h(heap), _summary_bytes_used(0) { }
+  G1Allocator(G1CollectedHeap* heap) : _g1h(heap) { }
 
-   static G1Allocator* create_allocator(G1CollectedHeap* g1h);
+  static G1Allocator* create_allocator(G1CollectedHeap* g1h);
 
-   virtual void init_mutator_alloc_region() = 0;
-   virtual void release_mutator_alloc_region() = 0;
+  virtual void init_mutator_alloc_region() = 0;
+  virtual void release_mutator_alloc_region() = 0;
 
-   virtual void init_gc_alloc_regions(EvacuationInfo& evacuation_info) = 0;
-   virtual void release_gc_alloc_regions(uint no_of_gc_workers, EvacuationInfo& evacuation_info) = 0;
-   virtual void abandon_gc_alloc_regions() = 0;
+  virtual void init_gc_alloc_regions(EvacuationInfo& evacuation_info) = 0;
+  virtual void release_gc_alloc_regions(EvacuationInfo& evacuation_info) = 0;
+  virtual void abandon_gc_alloc_regions() = 0;
 
-   virtual MutatorAllocRegion*    mutator_alloc_region(AllocationContext_t context) = 0;
-   virtual SurvivorGCAllocRegion* survivor_gc_alloc_region(AllocationContext_t context) = 0;
-   virtual OldGCAllocRegion*      old_gc_alloc_region(AllocationContext_t context) = 0;
-   virtual size_t                 used() = 0;
-   virtual bool                   is_retained_old_region(HeapRegion* hr) = 0;
+  virtual MutatorAllocRegion*    mutator_alloc_region(AllocationContext_t context) = 0;
+  virtual SurvivorGCAllocRegion* survivor_gc_alloc_region(AllocationContext_t context) = 0;
+  virtual OldGCAllocRegion*      old_gc_alloc_region(AllocationContext_t context) = 0;
+  virtual size_t                 used_in_alloc_regions() = 0;
+  virtual bool                   is_retained_old_region(HeapRegion* hr) = 0;
 
-   void                           reuse_retained_old_region(EvacuationInfo& evacuation_info,
-                                                            OldGCAllocRegion* old,
-                                                            HeapRegion** retained);
+  void                           reuse_retained_old_region(EvacuationInfo& evacuation_info,
+                                                           OldGCAllocRegion* old,
+                                                           HeapRegion** retained);
 
-   size_t used_unlocked() const {
-     return _summary_bytes_used;
-   }
-
-   void increase_used(size_t bytes) {
-     _summary_bytes_used += bytes;
-   }
-
-   void decrease_used(size_t bytes) {
-     assert(_summary_bytes_used >= bytes,
-            err_msg("invariant: _summary_bytes_used: "SIZE_FORMAT" should be >= bytes: "SIZE_FORMAT,
-                _summary_bytes_used, bytes));
-     _summary_bytes_used -= bytes;
-   }
-
-   void set_used(size_t bytes) {
-     _summary_bytes_used = bytes;
-   }
-
-   virtual HeapRegion* new_heap_region(uint hrs_index,
-                                       G1BlockOffsetSharedArray* sharedOffsetArray,
-                                       MemRegion mr) {
-     return new HeapRegion(hrs_index, sharedOffsetArray, mr);
-   }
+  virtual HeapRegion* new_heap_region(uint hrs_index,
+                                      G1BlockOffsetSharedArray* sharedOffsetArray,
+                                      MemRegion mr) {
+    return new HeapRegion(hrs_index, sharedOffsetArray, mr);
+  }
 };
 
 // The default allocator for G1.
@@ -114,7 +90,7 @@ public:
   virtual void release_mutator_alloc_region();
 
   virtual void init_gc_alloc_regions(EvacuationInfo& evacuation_info);
-  virtual void release_gc_alloc_regions(uint no_of_gc_workers, EvacuationInfo& evacuation_info);
+  virtual void release_gc_alloc_regions(EvacuationInfo& evacuation_info);
   virtual void abandon_gc_alloc_regions();
 
   virtual bool is_retained_old_region(HeapRegion* hr) {
@@ -133,10 +109,10 @@ public:
     return &_old_gc_alloc_region;
   }
 
-  virtual size_t used() {
+  virtual size_t used_in_alloc_regions() {
     assert(Heap_lock->owner() != NULL,
            "Should be owned on this thread's behalf.");
-    size_t result = _summary_bytes_used;
+    size_t result = 0;
 
     // Read only once in case it is set to NULL concurrently
     HeapRegion* hr = mutator_alloc_region(AllocationContext::current())->get();
@@ -227,7 +203,7 @@ public:
                           size_t word_sz,
                           AllocationContext_t context) {
     G1PLAB* buffer = alloc_buffer(dest, context);
-    if (_survivor_alignment_bytes == 0) {
+    if (_survivor_alignment_bytes == 0 || !dest.is_young()) {
       return buffer->allocate(word_sz);
     } else {
       return buffer->allocate_aligned(word_sz, _survivor_alignment_bytes);
@@ -267,6 +243,74 @@ public:
   virtual void retire_alloc_buffers();
 
   virtual void waste(size_t& wasted, size_t& undo_wasted);
+};
+
+// G1ArchiveAllocator is used to allocate memory in archive
+// regions. Such regions are not modifiable by GC, being neither
+// scavenged nor compacted, or even marked in the object header.
+// They can contain no pointers to non-archive heap regions,
+class G1ArchiveAllocator : public CHeapObj<mtGC> {
+
+protected:
+  G1CollectedHeap* _g1h;
+
+  // The current allocation region
+  HeapRegion* _allocation_region;
+
+  // Regions allocated for the current archive range.
+  GrowableArray<HeapRegion*> _allocated_regions;
+
+  // The number of bytes used in the current range.
+  size_t _summary_bytes_used;
+
+  // Current allocation window within the current region.
+  HeapWord* _bottom;
+  HeapWord* _top;
+  HeapWord* _max;
+
+  // Allocate a new region for this archive allocator.
+  // Allocation is from the top of the reserved heap downward.
+  bool alloc_new_region();
+
+public:
+  G1ArchiveAllocator(G1CollectedHeap* g1h) :
+    _g1h(g1h),
+    _allocation_region(NULL),
+    _allocated_regions((ResourceObj::set_allocation_type((address) &_allocated_regions,
+                                                         ResourceObj::C_HEAP),
+                        2), true /* C_Heap */),
+    _summary_bytes_used(0),
+    _bottom(NULL),
+    _top(NULL),
+    _max(NULL) { }
+
+  virtual ~G1ArchiveAllocator() {
+    assert(_allocation_region == NULL, "_allocation_region not NULL");
+  }
+
+  static G1ArchiveAllocator* create_allocator(G1CollectedHeap* g1h);
+
+  // Allocate memory for an individual object.
+  HeapWord* archive_mem_allocate(size_t word_size);
+
+  // Return the memory ranges used in the current archive, after
+  // aligning to the requested alignment.
+  void complete_archive(GrowableArray<MemRegion>* ranges,
+                        size_t end_alignment_in_bytes);
+
+  // The number of bytes allocated by this allocator.
+  size_t used() {
+    return _summary_bytes_used;
+  }
+
+  // Clear the count of bytes allocated in prior G1 regions. This
+  // must be done when recalculate_use is used to reset the counter
+  // for the generic allocator, since it counts bytes in all G1
+  // regions, including those still associated with this allocator.
+  void clear_used() {
+    _summary_bytes_used = 0;
+  }
+
 };
 
 #endif // SHARE_VM_GC_G1_G1ALLOCATOR_HPP

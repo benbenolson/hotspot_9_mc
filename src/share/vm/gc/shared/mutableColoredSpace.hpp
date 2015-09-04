@@ -63,7 +63,7 @@
 class MutableColoredSpace : public MutableSpace {
   friend class VMStructs;
 
-  class ColoredSpace : public CHeapObj {
+  class ColoredSpace : public CHeapObj<mtInternal> {
     HeapColor _color;
     MutableSpace* _space;
     MemRegion _invalid_region;

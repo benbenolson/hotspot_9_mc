@@ -182,6 +182,8 @@
 #include "runtime/vmStructs_trace.hpp"
 #endif
 
+#include "runtime/vmStructs_ext.hpp"
+
 #ifdef COMPILER2
 #include "opto/addnode.hpp"
 #include "opto/block.hpp"
@@ -545,7 +547,6 @@ typedef CompactHashtable<Symbol*, char>       SymbolCompactHashTable;
                                                                                                                                      \
   nonstatic_field(Generation,                  _reserved,                                     MemRegion)                             \
   nonstatic_field(Generation,                  _virtual_space,                                VirtualSpace)                          \
-  nonstatic_field(Generation,                  _level,                                        int)                                   \
   nonstatic_field(Generation,                  _stat_record,                                  Generation::StatRecord)                \
                                                                                                                                      \
   nonstatic_field(Generation::StatRecord,      invocations,                                   int)                                   \
@@ -828,8 +829,10 @@ typedef CompactHashtable<Symbol*, char>       SymbolCompactHashTable;
      static_field(StubRoutines,                _aescrypt_decryptBlock,                        address)                               \
      static_field(StubRoutines,                _cipherBlockChaining_encryptAESCrypt,          address)                               \
      static_field(StubRoutines,                _cipherBlockChaining_decryptAESCrypt,          address)                               \
+     static_field(StubRoutines,                _ghash_processBlocks,                          address)                               \
      static_field(StubRoutines,                _updateBytesCRC32,                             address)                               \
      static_field(StubRoutines,                _crc_table_adr,                                address)                               \
+     static_field(StubRoutines,                _updateBytesCRC32C,                            address)                               \
      static_field(StubRoutines,                _multiplyToLen,                                address)                               \
      static_field(StubRoutines,                _squareToLen,                                  address)                               \
      static_field(StubRoutines,                _mulAdd,                                       address)                               \
@@ -2964,6 +2967,9 @@ VMStructEntry VMStructs::localHotSpotVMStructs[] = {
                 GENERATE_STATIC_VM_STRUCT_ENTRY)
 #endif
 
+  VM_STRUCTS_EXT(GENERATE_NONSTATIC_VM_STRUCT_ENTRY,
+                 GENERATE_STATIC_VM_STRUCT_ENTRY)
+
   VM_STRUCTS_CPU(GENERATE_NONSTATIC_VM_STRUCT_ENTRY,
                  GENERATE_STATIC_VM_STRUCT_ENTRY,
                  GENERATE_UNCHECKED_NONSTATIC_VM_STRUCT_ENTRY,
@@ -3013,6 +3019,9 @@ VMTypeEntry VMStructs::localHotSpotVMTypes[] = {
   VM_TYPES_TRACE(GENERATE_VM_TYPE_ENTRY,
               GENERATE_TOPLEVEL_VM_TYPE_ENTRY)
 #endif
+
+  VM_TYPES_EXT(GENERATE_VM_TYPE_ENTRY,
+               GENERATE_TOPLEVEL_VM_TYPE_ENTRY)
 
   VM_TYPES_CPU(GENERATE_VM_TYPE_ENTRY,
                GENERATE_TOPLEVEL_VM_TYPE_ENTRY,
@@ -3123,6 +3132,9 @@ VMStructs::init() {
                 CHECK_STATIC_VM_STRUCT_ENTRY);
 #endif
 
+  VM_STRUCTS_EXT(CHECK_NONSTATIC_VM_STRUCT_ENTRY,
+                 CHECK_STATIC_VM_STRUCT_ENTRY);
+
   VM_STRUCTS_CPU(CHECK_NONSTATIC_VM_STRUCT_ENTRY,
                  CHECK_STATIC_VM_STRUCT_ENTRY,
                  CHECK_NO_OP,
@@ -3168,6 +3180,9 @@ VMStructs::init() {
   VM_TYPES_TRACE(CHECK_VM_TYPE_ENTRY,
               CHECK_SINGLE_ARG_VM_TYPE_NO_OP);
 #endif
+
+  VM_TYPES_EXT(CHECK_VM_TYPE_ENTRY,
+               CHECK_SINGLE_ARG_VM_TYPE_NO_OP);
 
   VM_TYPES_CPU(CHECK_VM_TYPE_ENTRY,
                CHECK_SINGLE_ARG_VM_TYPE_NO_OP,
@@ -3236,6 +3251,9 @@ VMStructs::init() {
   debug_only(VM_STRUCTS_TRACE(ENSURE_FIELD_TYPE_PRESENT,
                            ENSURE_FIELD_TYPE_PRESENT));
 #endif
+
+  debug_only(VM_STRUCTS_EXT(ENSURE_FIELD_TYPE_PRESENT,
+                            ENSURE_FIELD_TYPE_PRESENT));
 
   debug_only(VM_STRUCTS_CPU(ENSURE_FIELD_TYPE_PRESENT,
                             ENSURE_FIELD_TYPE_PRESENT,

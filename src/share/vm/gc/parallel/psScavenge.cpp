@@ -324,8 +324,7 @@ bool PSScavenge::invoke_no_policy() {
 
   AdaptiveSizePolicyOutput(size_policy, heap->total_collections());
 
-  if (!GCCause::is_user_requested_gc(gc_cause) ||
-       UseAdaptiveSizePolicyWithSystemGC) {
+  if (AdaptiveSizePolicy::should_update_eden_stats(gc_cause)) {
     // Gather the feedback data for eden occupancy.
     young_gen->eden_space()->accumulate_statistics();
   }
@@ -658,9 +657,7 @@ bool PSScavenge::invoke_no_policy() {
         // Don't check if the size_policy is ready at this
         // level.  Let the size_policy check that internally.
         if (UseAdaptiveGenerationSizePolicyAtMinorCollection &&
-            ((gc_cause != GCCause::_java_lang_system_gc) ||
-              UseAdaptiveSizePolicyWithSystemGC)) {
-
+            (AdaptiveSizePolicy::should_update_eden_stats(gc_cause))) {
           // Calculate optimal free space amounts
           assert(young_gen->max_size() >
             young_gen->from_space()->capacity_in_bytes() +
@@ -1000,9 +997,9 @@ void PSScavenge::initialize() {
   _ref_processor =
     new ReferenceProcessor(mr,                         // span
                            ParallelRefProcEnabled && (ParallelGCThreads > 1), // mt processing
-                           (uint) ParallelGCThreads,   // mt processing degree
+                           ParallelGCThreads,          // mt processing degree
                            true,                       // mt discovery
-                           (uint) ParallelGCThreads,   // mt discovery degree
+                           ParallelGCThreads,          // mt discovery degree
                            true,                       // atomic_discovery
                            NULL);                      // header provides liveness info
 
