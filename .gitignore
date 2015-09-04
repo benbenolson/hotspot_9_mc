@@ -1,0 +1,6 @@
+*.[oa]
+*.rej
+*.orig
+results/*
+build/*
+tags
