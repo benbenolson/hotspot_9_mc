@@ -29,7 +29,6 @@
 #include "gc/shared/collectedHeap.hpp"
 #include "gc/shared/threadLocalAllocBuffer.inline.hpp"
 #include "memory/universe.hpp"
-//#include "memory/heapInspection.hpp"
 #include "memory/profileObjectInfo.hpp"
 #include "oops/arrayOop.hpp"
 #include "prims/jvmtiExport.hpp"
@@ -67,6 +66,14 @@ void CollectedHeap::post_allocation_install_obj_klass(KlassHandle klass,
   assert(klass() == NULL || klass()->is_klass(), "not a klass");
   assert(obj != NULL, "NULL object pointer");
   obj->set_klass(klass());
+#ifdef PROFILE_OBJECT_INFO
+  /* we call profile_object_alloc here and one other spot -- in
+   * cpCacheKlass.cpp
+   */
+  if (ProfileObjectInfo) {
+    SharedRuntime::profile_object_alloc((oop)obj, size, klass());
+  }
+#endif
   assert(!Universe::is_fully_initialized() || obj->klass() != NULL,
          "missing klass");
 }
@@ -343,14 +350,13 @@ oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS) {
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
   HeapWord* obj = common_mem_allocate_init(klass, size, CHECK_NULL);
+  post_allocation_setup_obj(klass, obj, size);
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+    oait->insert((oop)obj, size, klass());
   }
 #endif
-  post_allocation_setup_obj(klass, obj, size);
-  //tty->print_cr("obj_alloc");
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   return (oop)obj;
 }
@@ -361,13 +367,13 @@ oop CollectedHeap::obj_allocate(KlassHandle klass, int size, HeapColor color, TR
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
   HeapWord* obj = common_mem_allocate_init(klass, size, color, CHECK_NULL);
+  post_allocation_setup_obj(klass, obj, size, color);
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+    oait->insert((oop)obj, size, klass());
   }
 #endif
-  post_allocation_setup_obj(klass, obj, size, color);
   //tty->print_cr("colored obj_alloc");
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   return (oop)obj;
@@ -385,10 +391,9 @@ oop CollectedHeap::array_allocate(KlassHandle klass,
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+    oait->insert((oop)obj, size, klass());
   }
 #endif
-  //tty->print_cr("array_alloc");
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   return (oop)obj;
 }
@@ -402,14 +407,13 @@ oop CollectedHeap::array_allocate(KlassHandle klass,
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
   HeapWord* obj = common_mem_allocate_init(klass, size, color, CHECK_NULL);
+  post_allocation_setup_array(klass, obj, size, length, color);
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+    oait->insert((oop)obj, size, klass());
   }
 #endif
-  post_allocation_setup_array(klass, obj, size, length, color);
-  //tty->print_cr("colored array_alloc");
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   return (oop)obj;
 }
@@ -423,13 +427,13 @@ oop CollectedHeap::large_typearray_allocate(KlassHandle klass,
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
   HeapWord* obj = common_mem_allocate_init(klass, size, color, CHECK_NULL);
+  post_allocation_setup_array(klass, obj, size, length, color);
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-    oait->insert((oop)obj, size, klass(), VM_OBJECT);
+    oait->insert((oop)obj, size, klass());
   }
 #endif
-  post_allocation_setup_array(klass, obj, size, length, color);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   return (oop)obj;
 }
@@ -444,6 +448,13 @@ oop CollectedHeap::array_allocate_nozero(KlassHandle klass,
   HeapWord* obj = common_mem_allocate_noinit(klass, size, CHECK_NULL);
   ((oop)obj)->set_klass_gap(0);
   post_allocation_setup_array(klass, obj, length);
+  /* XXX: this should not have any initialization references */
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->insert((oop)obj, size, klass());
+  }
+#endif
 #ifndef PRODUCT
   const size_t hs = oopDesc::header_size()+1;
   Universe::heap()->check_for_non_bad_heap_word_value(obj+hs, size-hs);

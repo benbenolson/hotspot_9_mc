@@ -238,12 +238,16 @@ class fdStream : public outputStream {
 extern fileStream* objinfo_log;
 extern fileStream* objalloc_log;
 extern fileStream* apmap_log;
+extern fileStream* klassmap_log;
 extern fileStream* apinfo_log;
 extern fileStream* deadobj_log;
 extern fileStream* addrinfo_log;
-extern fileStream* fieldinfo_log;
-extern FILE* addrtable_log;
-//extern FILE* addrups_log;
+extern fileStream* krinfo_log;
+extern fileStream* mkals_log;
+extern fileStream* stacks_log;
+extern FILE* addrinfo_bin;
+extern FILE* apinfo_bin;
+extern FILE* krinfo_bin;
 
 class gcLogFileStream : public fileStream {
  protected:

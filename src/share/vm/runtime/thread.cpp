@@ -66,6 +66,7 @@
 #include "runtime/javaCalls.hpp"
 #include "runtime/jniPeriodicChecker.hpp"
 #include "runtime/memprofiler.hpp"
+#include "runtime/hotMethodSampler.hpp"
 #include "runtime/mutexLocker.hpp"
 #include "runtime/objectMonitor.hpp"
 #include "runtime/orderAccess.inline.hpp"
@@ -111,8 +112,6 @@
 #if INCLUDE_RTM_OPT
 #include "runtime/rtmLocking.hpp"
 #endif
-
-#include "runtime/jr_vm_operations.hpp"
 
 PRAGMA_FORMAT_MUTE_WARNINGS_FOR_GCC
 
@@ -816,6 +815,7 @@ void Thread::print_on_error(outputStream* st, char* buf, int buflen) const {
   else if (is_Java_thread())          st->print("JavaThread");
   else if (is_GC_task_thread())       st->print("GCTaskThread");
   else if (is_Watcher_thread())       st->print("WatcherThread");
+  else if (is_Sampler_thread())       st->print("SamplerThread");
   else if (is_ConcurrentGC_thread())  st->print("ConcurrentGCThread");
   else                                st->print("Thread");
 
@@ -1383,6 +1383,89 @@ void WatcherThread::unpark() {
 }
 
 void WatcherThread::print_on(outputStream* st) const {
+  st->print("\"%s\" ", name());
+  Thread::print_on(st);
+  st->cr();
+}
+
+// ======= SamplerThread ========
+
+SamplerThread* SamplerThread::_sampler_thread   = NULL;
+volatile bool  SamplerThread::_should_terminate = false;
+
+SamplerThread::SamplerThread() : Thread() {
+  assert(sampler_thread() == NULL, "we can only allocate one SamplerThread");
+  if (os::create_thread(this, os::sampler_thread)) {
+    _sampler_thread = this;
+
+    // Set the sampler thread to the highest OS priority which should not be
+    // used, unless a Java thread with priority java.lang.Thread.MAX_PRIORITY
+    // is created. The only normal thread using this priority is the reference
+    // handler thread, which runs for very short intervals only.
+    // If the VMThread's priority is not lower than the SamplerThread profiling
+    // will be inaccurate.
+    os::set_priority(this, MaxPriority);
+    if (!DisableStartThread) {
+      os::start_thread(this);
+    }
+  }
+}
+
+void SamplerThread::run() {
+  assert(this == sampler_thread(), "just checking");
+
+  this->record_stack_base_and_size();
+  this->initialize_thread_local_storage();
+  this->set_active_handles(JNIHandleBlock::allocate_block());
+  while(!_should_terminate) {
+    assert(sampler_thread() == Thread::current(),  "thread consistency check");
+    assert(sampler_thread() == this,  "thread consistency check");
+    HotMethodSampler::do_stack();
+  }
+
+  // Signal that it is terminated
+  {
+    MutexLockerEx mu(Terminator_lock, Mutex::_no_safepoint_check_flag);
+    _sampler_thread = NULL;
+    Terminator_lock->notify();
+  }
+
+  // Thread destructor usually does this..
+  ThreadLocalStorage::set_thread(NULL);
+}
+
+void SamplerThread::start() {
+  if (sampler_thread() == NULL) {
+    _should_terminate = false;
+    // Create the single instance of SamplerThread
+    new SamplerThread();
+  }
+}
+
+void SamplerThread::stop() {
+  // it is ok to take late safepoints here, if needed
+  MutexLocker mu(Terminator_lock);
+  _should_terminate = true;
+  OrderAccess::fence();  // ensure SamplerThread sees update in main loop
+
+  Thread* sampler = sampler_thread();
+  while(sampler_thread() != NULL) {
+    // This wait should make safepoint checks, wait without a timeout,
+    // and wait as a suspend-equivalent condition.
+    //
+    // Note: If the FlatProfiler is running, then this thread is waiting
+    // for the SamplerThread to terminate and the SamplerThread, via the
+    // FlatProfiler task, is waiting for the external suspend request on
+    // this thread to complete. wait_for_ext_suspend_completion() will
+    // eventually timeout, but that takes time. Making this wait a
+    // suspend-equivalent condition solves that timeout problem.
+    //
+    Terminator_lock->wait(!Mutex::_no_safepoint_check_flag, 0,
+                          Mutex::_as_suspend_equivalent_flag);
+  }
+}
+
+void SamplerThread::print_on(outputStream* st) const {
   st->print("\"%s\" ", name());
   Thread::print_on(st);
   st->cr();
@@ -3001,6 +3084,354 @@ oop JavaThread::current_park_blocker() {
   return NULL;
 }
 
+/* The following code is from share/vm/prims/forte.cpp. We duplicate it here
+ * for our asynchronous method profiling framework
+ */
+// Determine if 'fr' is a decipherable compiled frame. We are already
+// assured that fr is for a java nmethod.
+
+static bool mrj_is_decipherable_compiled_frame(JavaThread* thread, frame* fr, nmethod* nm) {
+  assert(nm->is_java_method(), "invariant");
+
+  if (thread->has_last_Java_frame() && thread->last_Java_pc() == fr->pc()) {
+    // We're stopped at a call into the JVM so look for a PcDesc with
+    // the actual pc reported by the frame.
+    PcDesc* pc_desc = nm->pc_desc_at(fr->pc());
+
+    // Did we find a useful PcDesc?
+    if (pc_desc != NULL &&
+        pc_desc->scope_decode_offset() != DebugInformationRecorder::serialized_null) {
+      return true;
+    }
+  }
+
+  // We're at some random pc in the nmethod so search for the PcDesc
+  // whose pc is greater than the current PC.  It's done this way
+  // because the extra PcDescs that are recorded for improved debug
+  // info record the end of the region covered by the ScopeDesc
+  // instead of the beginning.
+  PcDesc* pc_desc = nm->pc_desc_near(fr->pc() + 1);
+
+  // Now do we have a useful PcDesc?
+  if (pc_desc == NULL ||
+      pc_desc->scope_decode_offset() == DebugInformationRecorder::serialized_null) {
+    // No debug information is available for this PC.
+    //
+    // vframeStreamCommon::fill_from_frame() will decode the frame depending
+    // on the state of the thread.
+    //
+    // Case #1: If the thread is in Java (state == _thread_in_Java), then
+    // the vframeStreamCommon object will be filled as if the frame were a native
+    // compiled frame. Therefore, no debug information is needed.
+    //
+    // Case #2: If the thread is in any other state, then two steps will be performed:
+    // - if asserts are enabled, found_bad_method_frame() will be called and
+    //   the assert in found_bad_method_frame() will be triggered;
+    // - if asserts are disabled, the vframeStreamCommon object will be filled
+    //   as if it were a native compiled frame.
+    //
+    // Case (2) is similar to the way interpreter frames are processed in
+    // vframeStreamCommon::fill_from_interpreter_frame in case no valid BCI
+    // was found for an interpreted frame. If asserts are enabled, the assert
+    // in found_bad_method_frame() will be triggered. If asserts are disabled,
+    // the vframeStreamCommon object will be filled afterwards as if the
+    // interpreter were at the point of entering into the method.
+    return false;
+  }
+
+  // This PcDesc is useful however we must adjust the frame's pc
+  // so that the vframeStream lookups will use this same pc
+  fr->set_pc(pc_desc->real_pc(nm));
+  return true;
+}
+
+
+// Determine if 'fr' is a walkable interpreted frame. Returns false
+// if it is not. *method_p, and *bci_p are not set when false is
+// returned. *method_p is non-NULL if frame was executing a Java
+// method. *bci_p is != -1 if a valid BCI in the Java method could
+// be found.
+// Note: this method returns true when a valid Java method is found
+// even if a valid BCI cannot be found.
+
+static bool mrj_is_decipherable_interpreted_frame(JavaThread* thread,
+                                              frame* fr,
+                                              Method** method_p,
+                                              int* bci_p) {
+  assert(fr->is_interpreted_frame(), "just checking");
+
+  // top frame is an interpreted frame
+  // check if it is walkable (i.e. valid Method* and valid bci)
+
+  // Because we may be racing a gc thread the method and/or bci
+  // of a valid interpreter frame may look bad causing us to
+  // fail the is_interpreted_frame_valid test. If the thread
+  // is in any of the following states we are assured that the
+  // frame is in fact valid and we must have hit the race.
+
+  JavaThreadState state = thread->thread_state();
+  bool known_valid = (state == _thread_in_native ||
+                      state == _thread_in_vm ||
+                      state == _thread_blocked );
+
+  if (known_valid || fr->is_interpreted_frame_valid(thread)) {
+
+    // The frame code should completely validate the frame so that
+    // references to Method* and bci are completely safe to access
+    // If they aren't the frame code should be fixed not this
+    // code. However since gc isn't locked out the values could be
+    // stale. This is a race we can never completely win since we can't
+    // lock out gc so do one last check after retrieving their values
+    // from the frame for additional safety
+
+    Method* method = fr->interpreter_frame_method();
+
+    // We've at least found a method.
+    // NOTE: there is something to be said for the approach that
+    // if we don't find a valid bci then the method is not likely
+    // a valid method. Then again we may have caught an interpreter
+    // frame in the middle of construction and the bci field is
+    // not yet valid.
+    if (!method->is_valid_method()) return false;
+    *method_p = method; // If the Method* found is invalid, it is
+                        // ignored by forte_fill_call_trace_given_top().
+                        // So set method_p only if the Method is valid.
+
+    address bcp = fr->interpreter_frame_bcp();
+    int bci = method->validate_bci_from_bcp(bcp);
+
+    // note: bci is set to -1 if not a valid bci
+    *bci_p = bci;
+    return true;
+  }
+
+  return false;
+}
+
+
+// Determine if a Java frame can be found starting with the frame 'fr'.
+//
+// Check the return value of find_initial_Java_frame and the value of
+// 'method_p' to decide on how use the results returned by this method.
+//
+// If 'method_p' is not NULL, an initial Java frame has been found and
+// the stack can be walked starting from that initial frame. In this case,
+// 'method_p' points to the Method that the initial frame belongs to and
+// the initial Java frame is returned in initial_frame_p.
+//
+// find_initial_Java_frame() returns true if a Method has been found (i.e.,
+// 'method_p' is not NULL) and the initial frame that belongs to that Method
+// is decipherable.
+//
+// A frame is considered to be decipherable:
+//
+// - if the frame is a compiled frame and a PCDesc is available;
+//
+// - if the frame is an interpreter frame that is valid or the thread is
+//   state (_thread_in_native || state == _thread_in_vm || state == _thread_blocked).
+//
+// Note that find_initial_Java_frame() can return false even if an initial
+// Java method was found (e.g., there is no PCDesc available for the method).
+//
+// If 'method_p' is NULL, it was not possible to find a Java frame when
+// walking the stack starting from 'fr'. In this case find_initial_Java_frame
+// returns false.
+
+static bool mrj_find_initial_Java_frame(JavaThread* thread,
+                                    frame* fr,
+                                    frame* initial_frame_p,
+                                    Method** method_p,
+                                    int* bci_p) {
+
+  // It is possible that for a frame containing an nmethod
+  // we can capture the method but no bci. If we get no
+  // bci the frame isn't walkable but the method is usable.
+  // Therefore we init the returned Method* to NULL so the
+  // caller can make the distinction.
+
+  *method_p = NULL;
+
+  // On the initial call to this method the frame we get may not be
+  // recognizable to us. This should only happen if we are in a JRT_LEAF
+  // or something called by a JRT_LEAF method.
+
+  frame candidate = *fr;
+
+  // If the starting frame we were given has no codeBlob associated with
+  // it see if we can find such a frame because only frames with codeBlobs
+  // are possible Java frames.
+
+  if (fr->cb() == NULL) {
+
+    // See if we can find a useful frame
+    int loop_count;
+    int loop_max = MaxJavaStackTraceDepth * 2;
+    RegisterMap map(thread, false);
+
+    for (loop_count = 0; loop_count < loop_max; loop_count++) {
+      if (!candidate.safe_for_sender(thread)) return false;
+      candidate = candidate.sender(&map);
+      if (candidate.cb() != NULL) break;
+    }
+    if (candidate.cb() == NULL) return false;
+  }
+
+  // We have a frame known to be in the codeCache
+  // We will hopefully be able to figure out something to do with it.
+  int loop_count;
+  int loop_max = MaxJavaStackTraceDepth * 2;
+  RegisterMap map(thread, false);
+
+  for (loop_count = 0; loop_count < loop_max; loop_count++) {
+
+    if (candidate.is_entry_frame()) {
+      // jcw is NULL if the java call wrapper couldn't be found
+      JavaCallWrapper *jcw = candidate.entry_frame_call_wrapper_if_safe(thread);
+      // If initial frame is frame from StubGenerator and there is no
+      // previous anchor, there are no java frames associated with a method
+      if (jcw == NULL || jcw->is_first_frame()) {
+        return false;
+      }
+    }
+
+    if (candidate.is_interpreted_frame()) {
+      if (mrj_is_decipherable_interpreted_frame(thread, &candidate, method_p, bci_p)) {
+        *initial_frame_p = candidate;
+        return true;
+      }
+
+      // Hopefully we got some data
+      return false;
+    }
+
+    if (candidate.cb()->is_nmethod()) {
+
+      nmethod* nm = (nmethod*) candidate.cb();
+      *method_p = nm->method();
+
+      // If the frame is not decipherable, then the value of -1
+      // for the BCI is used to signal that no BCI is available.
+      // Furthermore, the method returns false in this case.
+      //
+      // If a decipherable frame is available, the BCI value will
+      // not be used.
+
+      *bci_p = -1;
+
+      *initial_frame_p = candidate;
+
+      // Native wrapper code is trivial to decode by vframeStream
+
+      if (nm->is_native_method()) return true;
+
+      // If the frame is not decipherable, then a PC was found
+      // that does not have a PCDesc from which a BCI can be obtained.
+      // Nevertheless, a Method was found.
+
+      if (!mrj_is_decipherable_compiled_frame(thread, &candidate, nm)) {
+        return false;
+      }
+
+      // mrj_is_decipherable_compiled_frame may modify candidate's pc
+      *initial_frame_p = candidate;
+
+      assert(nm->pc_desc_at(candidate.pc()) != NULL, "debug information must be available if the frame is decipherable");
+
+      return true;
+    }
+
+    // Must be some stub frame that we don't care about
+
+    if (!candidate.safe_for_sender(thread)) return false;
+    candidate = candidate.sender(&map);
+
+    // If it isn't in the code cache something is wrong
+    // since once we find a frame in the code cache they
+    // all should be there.
+
+    if (candidate.cb() == NULL) return false;
+
+  }
+
+  return false;
+
+}
+
+void JavaThread::sample_stack(outputStream *out) {
+  NoHandleMark nhm;
+
+  frame top_frame;
+  frame initial_Java_frame;
+  Method* method;
+  int bci;
+  int count;
+  bool fully_decipherable;
+  int bail;
+
+  HotMethodSampler::total_stack_samples++;
+  if (in_deopt_handler() || Universe::heap()->is_gc_active()) {
+    return;
+  }
+
+  switch (_thread_state) {
+  case _thread_new:
+  case _thread_uninitialized:
+  case _thread_new_trans:
+    break;
+  case _thread_in_native:
+  case _thread_in_native_trans:
+  case _thread_in_vm:
+  case _thread_in_vm_trans:
+  case _thread_in_Java:
+  case _thread_in_Java_trans:
+  case _thread_blocked:
+  case _thread_blocked_trans:
+    {
+      if (has_last_Java_frame()) {
+        top_frame = my_pd_last_frame();
+      }
+    }
+  default:
+    break;
+  }
+
+  fully_decipherable = mrj_find_initial_Java_frame(this, &top_frame, 
+                                                   &initial_Java_frame,
+                                                   &method, &bci);
+
+  // The frame might not be walkable but still recovered a method
+  // (e.g. an nmethod with no scope info for the pc)
+  if (method == NULL || !method->is_valid_method()) {
+    return;
+  }
+
+  HotMethodSampler::valid_stack_samples++;
+  method->inc_hot_sample_count();
+  if (PrintStackSamples) {
+    guarantee(out != NULL, "bad output file");
+    out->print("      ");
+    method->method_holder()->name()->print_symbol_on(out);
+    out->print(".");
+    method->name()->print_symbol_on(out);
+    out->print(" ");
+    method->signature()->print_symbol_on(out);
+    out->print("\n");
+  }
+
+  if (HotMethodAllocate) {
+    method->mark_hot();
+  }
+
+  if (HotKlassAllocate || HotKlassOrganize) {
+    GrowableArray <Klass*>* kal = method->klass_access_list();
+    guarantee(kal, "null klass_access_list");
+    for (int i = 0; i < kal->length(); i++) {
+      kal->at(i)->mark_hot();
+    }
+  }
+
+  return;
+}
 
 void JavaThread::print_stack_on(outputStream* st) {
   if (!has_last_Java_frame()) return;
@@ -3319,6 +3750,13 @@ void Threads::initialize_jsr292_core_classes(TRAPS) {
   initialize_class(vmSymbols::java_lang_invoke_MethodHandleNatives(), CHECK);
 }
 
+void Threads::java_threads_do(ThreadClosure* tc) {
+  // ALL_JAVA_THREADS iterates through all JavaThreads
+  ALL_JAVA_THREADS(p) {
+    tc->do_thread(p);
+  }
+}
+
 jint Threads::create_vm(JavaVMInitArgs* args, bool* canTryAgain) {
   extern void JDK_Version_init();
 
@@ -3610,6 +4048,7 @@ jint Threads::create_vm(JavaVMInitArgs* args, bool* canTryAgain) {
 
   if (Arguments::has_profile())       FlatProfiler::engage(main_thread, true);
   if (MemProfiling)                   MemProfiler::engage();
+  if (SampleCallStacksAtInterval)     HotMethodSampler::engage();
   StatSampler::engage();
   if (CheckJNICalls)                  JniPeriodicChecker::engage();
 #ifdef PROFILE_OBJECT_INFO
@@ -3621,12 +4060,6 @@ jint Threads::create_vm(JavaVMInitArgs* args, bool* canTryAgain) {
   if (PrintObjectAddressInfoAtInterval || PrintObjectAddressInfoAtGC)
     ObjectAddressInfoCollection::engage();
 #endif
-
-  if (MethodSampleColors) {
-    JRHotMethodSamplerTaskManager::engage(MethodSamplerInterval);
-    JRCoolDownMethodsTaskManager::engage(CoolDownInterval);
-    //RegularScavenge::engage();
-  }
 
   BiasedLocking::init();
 
@@ -3655,6 +4088,10 @@ jint Threads::create_vm(JavaVMInitArgs* args, bool* canTryAgain) {
     if (PeriodicTask::num_tasks() > 0) {
       WatcherThread::start();
     }
+  }
+
+  if (SampleCallStacksContinuous) {
+    SamplerThread::start();
   }
 
   CodeCacheExtensions::complete_step(CodeCacheExtensionsSteps::CreateVM);
@@ -4099,6 +4536,18 @@ void Threads::remove(JavaThread* p) {
     p->set_terminated_value();
   } // unlock Threads_lock
 
+  if (PrintThreadTimes) {
+    pid_t tid = 0;
+    os::ThreadType ttype = os::os_thread;
+    jlong cpu_time = os::thread_cpu_time(p);
+    if (p->osthread()) {
+      ttype = (os::ThreadType)p->osthread()->thread_type();
+      tid = p->osthread()->thread_id();
+    }
+    tty->print_cr("Thread exit: %7d Type: %14s CPU time: %14ld",
+      tid, os::thread_type_str(ttype), cpu_time);
+  }
+
   // Since Events::log uses a lock, we grab it outside the Threads_lock
   Events::log(p, "Thread exited: " INTPTR_FORMAT, p);
 }
@@ -4374,6 +4823,10 @@ void Threads::print_on(outputStream* st, bool print_stacks,
     wt->print_on(st);
     st->cr();
   }
+
+  SamplerThread* pt = SamplerThread::sampler_thread();
+  if (pt != NULL) pt->print_on(st);
+
   CompileBroker::print_compiler_threads_on(st);
   st->flush();
 }

@@ -140,13 +140,14 @@ extern Mutex*   JfrThreadGroups_lock;            // protects JFR access to Threa
 extern Mutex*   UnsafeJlong_lock;                // provides Unsafe atomic updates to jlongs on platforms that don't support cx8
 #endif
 
+extern Mutex*   AllocPointInfoTable_lock;        // a lock on the AllocPointInfoTable
 #ifdef PROFILE_OBJECT_INFO
 extern Mutex*   ObjectInfoTable_lock;            // a lock on the PersistentObjectInfoTable
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-extern Mutex*   ObjectAddressInfoTable_lock;            // a lock on the PersistentObjectInfoTable
+extern Mutex*   ObjectAddressInfoTable_lock;            // a lock on the ObjectAddressInfoTable
 #endif
-extern Mutex*   JRMethodInfoManager_lock;
+extern Mutex*   HotMethodSampler_lock;
 
 // A MutexLocker provides mutual exclusion with respect to a given mutex
 // for the scope which contains the locker.  The lock is an OS lock, not

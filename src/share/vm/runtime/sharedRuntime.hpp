@@ -307,16 +307,12 @@ class SharedRuntime: AllStatic {
 
 #ifdef PROFILE_OBJECT_INFO
 #if PROFILE_OBJECT_INFO
-  // profile info
-  static void interp_profile_object_alloc(oopDesc* o, Method* method, address bcp);
-  static void profile_object_alloc(oopDesc* o, Method* method, int bci);
-
-  // profile info
-  static void color_object_alloc(oopDesc* o, Method* method, address bcp);
+  static void mark_alloc_point(oopDesc* o, methodOopDesc *method, address bcp);
+  static void profile_object_alloc(oopDesc* o, int size, klassOop klass);
 #endif
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-  static void profile_object_address_alloc(oopDesc *o);
+  static void profile_object_address_alloc(oopDesc *o, Method *method, address bcp);
 #endif
 
   // Utility method for retrieving the Java thread id, returns 0 if the

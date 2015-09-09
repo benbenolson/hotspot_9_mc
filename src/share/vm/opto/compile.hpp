@@ -42,7 +42,7 @@
 #include "runtime/vmThread.hpp"
 #include "trace/tracing.hpp"
 #include "utilities/ticks.hpp"
-#include "runtime/jrMethodInfo.hpp"
+#include "runtime/hotMethodSampler.hpp"
 
 class Block;
 class Bundle;

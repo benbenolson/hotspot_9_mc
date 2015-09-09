@@ -369,14 +369,18 @@ outputStream* gclog_or_tty;
 fileStream* objinfo_log;
 fileStream* objalloc_log;
 fileStream* apmap_log;
+fileStream* klassmap_log;
 fileStream* apinfo_log;
 fileStream* deadobj_log;
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
 fileStream* addrinfo_log;
-fileStream* fieldinfo_log;
-FILE* addrtable_log;
-//FILE* addrups_log;
+fileStream* krinfo_log;
+FILE* addrinfo_bin;
 #endif
+fileStream* mkals_log;
+fileStream* stacks_log;
+FILE* apinfo_bin;
+FILE* krinfo_bin;
 CDS_ONLY(fileStream* classlist_file;) // Only dump the classes that can be stored into the CDS archive
 extern Mutex* tty_lock;
 
@@ -1245,18 +1249,27 @@ void ostream_init_log() {
       } else {
         deadobj_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("deadobj.log");
       }
-      if (Arguments::apmap_log_filename() != NULL) {
-        apmap_log = new(ResourceObj::C_HEAP, mtInternal)
-                     fileStream(Arguments::apmap_log_filename());
-      } else {
-        apmap_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("apmap.log");
-      }
+    }
+  }
+  if (PrintAPInfoAtInterval) {
+    if (Arguments::apmap_log_filename() != NULL) {
+      apmap_log = new(ResourceObj::C_HEAP, mtInternal)
+                   fileStream(Arguments::apmap_log_filename());
+    } else {
+      apmap_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("apmap.log");
+    }
+    if (PrintTextAPInfo) {
       if (Arguments::apinfo_log_filename() != NULL) {
         apinfo_log = new(ResourceObj::C_HEAP, mtInternal)
                      fileStream(Arguments::apinfo_log_filename());
       } else {
         apinfo_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("apinfo.log");
       }
+    }
+    if (Arguments::apinfo_bin_filename() != NULL) {
+      apinfo_bin = fopen( Arguments::apinfo_bin_filename(), "w" );
+    } else {
+      apinfo_bin = fopen( "apinfo.bin", "rw" );
     }
   }
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
@@ -1267,21 +1280,48 @@ void ostream_init_log() {
     } else {
       addrinfo_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("addrinfo.log");
     }
-    if (Arguments::addrtable_log_filename() != NULL) {
-      addrtable_log = fopen( Arguments::addrtable_log_filename(), "w" );
+    if (Arguments::addrinfo_bin_filename() != NULL) {
+      addrinfo_bin = fopen( Arguments::addrinfo_bin_filename(), "w" );
     } else {
-      addrtable_log = fopen( "addrtable.log", "rw" );
+      addrinfo_bin = fopen( "addrinfo.bin", "rw" );
     }
-  }
-  if (ProfileObjectFieldInfo) {
-    if (Arguments::fieldinfo_log_filename() != NULL) {
-      fieldinfo_log = new(ResourceObj::C_HEAP, mtInternal)
-                   fileStream(Arguments::fieldinfo_log_filename());
+    if (PrintTextKRInfo) {
+      if (Arguments::krinfo_log_filename() != NULL) {
+        krinfo_log = new(ResourceObj::C_HEAP, mtInternal)
+                     fileStream(Arguments::krinfo_log_filename());
+      } else {
+        krinfo_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("krinfo.log");
+      }
+    }
+    if (Arguments::krinfo_bin_filename() != NULL) {
+      krinfo_bin = fopen( Arguments::krinfo_bin_filename(), "w" );
     } else {
-      fieldinfo_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("fieldinfo.log");
+      krinfo_bin = fopen( "krinfo.bin", "rw" );
+    }
+    if (Arguments::klassmap_log_filename() != NULL) {
+      klassmap_log = new(ResourceObj::C_HEAP, mtInternal)
+                   fileStream(Arguments::klassmap_log_filename());
+    } else {
+      klassmap_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("klassmap.log");
     }
   }
 #endif
+  if (PrintKlassAccessLists) {
+    if (Arguments::mkals_log_filename() != NULL) {
+      mkals_log = new(ResourceObj::C_HEAP, mtInternal)
+                   fileStream(Arguments::mkals_log_filename());
+    } else {
+      mkals_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("mkals.log");
+    }
+  }
+  if (PrintStackSamples) {
+    if (Arguments::stacks_log_filename() != NULL) {
+      stacks_log = new(ResourceObj::C_HEAP, mtInternal)
+                   fileStream(Arguments::stacks_log_filename());
+    } else {
+      stacks_log = new(ResourceObj::C_HEAP, mtInternal) fileStream("stacks.log");
+    }
+  }
 
 #if INCLUDE_CDS
   // For -XX:DumpLoadedClassList=<file> option

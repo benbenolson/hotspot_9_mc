@@ -110,17 +110,13 @@ inline oop PSPromotionManager::copy_to_survivor_space(oop o) {
 
 #ifdef PROFILE_OBJECT_INFO
   if (ProfileObjectInfo) {
-    if (!(PSScavenge::obj_is_initialized(o))) {
-      AllocPointInfoTable *apit = Universe::alloc_point_info_table();
-      AllocPointInfo *api = apit->get(NULL, -1);
-      PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
-      PersistentObjectInfo* poi = poit->append_instance(o, api, HC_BLUE);
-      PSScavenge::obj_set_poi(o, poi);
-      if (poi) {
-        poi->batch_mark_store(o->size());
-      }
-      if (api) {
-        api->mark_new_object(o->size());
+    if (o->blueprint()->oop_is_instance() || o->blueprint()->oop_is_array()) {
+      if (!(PSScavenge::obj_is_initialized(o))) {
+        PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
+        PersistentObjectInfo* poi = poit->append_instance(o, o->size(), o->klass());
+        guarantee (poi != NULL, "null poi");
+        PSScavenge::obj_set_poi(o, poi);
+        poi->mark_alloc();
       }
     }
   }
@@ -285,14 +281,10 @@ inline oop PSPromotionManager::copy_to_survivor_space(oop o) {
     ObjectAddressInfo *oai;
     if ((oai = oait->lookup(o))) {
       ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
-      Klass *klass = ProfileObjectFieldInfo ?
-                     oai->klass_record()->klass() : NULL;
       ObjectAddressInfo *alt_oai = alt_oait->insert(new_obj, oai->size(),
-                                                    klass, oai->type());
-      if (alt_oai) {
-        alt_oai->set_type(oai->type());
-      }
-      //tty->print_cr(alt_oait->lookup(new_obj)?"good":"bad");
+                                                    oai->klass_record(),
+                                                    oai->alloc_point(),
+                                                    oai->type());
     }
   }
 #endif

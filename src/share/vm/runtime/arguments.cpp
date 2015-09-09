@@ -81,14 +81,18 @@ const char*  Arguments::_gc_log_filename        = NULL;
 const char*  Arguments::_objinfo_log_filename   = NULL;
 const char*  Arguments::_objalloc_log_filename  = NULL;
 const char*  Arguments::_apmap_log_filename     = NULL;
+const char*  Arguments::_klassmap_log_filename  = NULL;
 const char*  Arguments::_apinfo_log_filename    = NULL;
+const char*  Arguments::_apinfo_bin_filename    = NULL;
 const char*  Arguments::_deadobj_log_filename   = NULL;
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
 const char*  Arguments::_addrinfo_log_filename  = NULL;
-const char*  Arguments::_addrtable_log_filename = NULL;
-//const char*  Arguments::_addrups_log_filename   = NULL;
-const char*  Arguments::_fieldinfo_log_filename = NULL;
+const char*  Arguments::_addrinfo_bin_filename  = NULL;
+const char*  Arguments::_krinfo_log_filename    = NULL;
+const char*  Arguments::_krinfo_bin_filename    = NULL;
 #endif
+const char*  Arguments::_mkals_log_filename     = NULL;
+const char*  Arguments::_stacks_log_filename    = NULL;
 bool   Arguments::_has_profile                  = false;
 size_t Arguments::_conservative_max_heap_alignment = 0;
 size_t Arguments::_min_heap_size                = 0;
@@ -4062,22 +4066,28 @@ jint Arguments::apply_ergo() {
                             ObjectAllocationLog   : "objalloc.log";
   _apmap_log_filename     = AllocPointMapLog      != NULL ?
                             AllocPointMapLog      : "apmap.log";
+  _klassmap_log_filename  = KlassMapLog           != NULL ?
+                            KlassMapLog           : "klassmap.log";
   _apinfo_log_filename    = AllocPointInfoLog     != NULL ?
                             AllocPointInfoLog     : "apinfo.log";
+  _apinfo_bin_filename    = AllocPointInfoBin     != NULL ?
+                            AllocPointInfoBin     : "apinfo.bin";
   _deadobj_log_filename   = DeadObjectLog         != NULL ?
                             DeadObjectLog         : "deadobj.log";
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   _addrinfo_log_filename  = ObjectAddressInfoLog  != NULL ?
                             ObjectAddressInfoLog  : "addrinfo.log";
-  _addrtable_log_filename = ObjectAddressTableLog != NULL ?
-                            ObjectAddressTableLog : "addrtable.log";
-                            /*
-  _addrups_log_filename   = UnknownPagesLog       != NULL ?
-                            UnknownPagesLog       : "addrups.log";
-                            */
-  _fieldinfo_log_filename = ObjectFieldInfoLog    != NULL ?
-                            ObjectFieldInfoLog    : "fieldinfo.log";
+  _addrinfo_bin_filename  = ObjectAddressInfoBin  != NULL ?
+                            ObjectAddressInfoBin  : "addrinfo.bin";
+  _krinfo_log_filename    = KlassRecordInfoLog    != NULL ?
+                            KlassRecordInfoLog    : "krinfo.log";
+  _krinfo_bin_filename    = KlassRecordInfoBin    != NULL ?
+                            KlassRecordInfoBin    : "krinfo.bin";
 #endif
+  _mkals_log_filename     = MethodKlassAccessListsLog != NULL ?
+                            MethodKlassAccessListsLog : "mkals.log";
+  _stacks_log_filename    = StackSampleLog != NULL ?
+                            StackSampleLog : "stacks.log";
 
 #ifdef PROFILE_OBJECT_INFO
   if (ProfileObjectInfo) {

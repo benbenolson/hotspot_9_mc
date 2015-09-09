@@ -130,6 +130,7 @@ oop Universe::_arithmetic_exception_instance          = NULL;
 oop Universe::_virtual_machine_error_instance         = NULL;
 oop Universe::_vm_exception                           = NULL;
 oop Universe::_allocation_context_notification_obj    = NULL;
+sigjmp_buf* Universe::_sample_thread_env              = NULL;
 
 Array<int>* Universe::_the_empty_int_array            = NULL;
 Array<u2>* Universe::_the_empty_short_array           = NULL;
@@ -151,9 +152,12 @@ size_t          Universe::_heap_capacity_at_last_gc;
 size_t          Universe::_heap_used_at_last_gc = 0;
 
 CollectedHeap*             Universe::_collectedHeap = NULL;
+#if defined (PROFILE_OBJECT_ADDRESS_INFO) or defined (PROFILE_OBJECT_INFO)
+AllocPointInfoTable* Universe::_alloc_point_info_table = NULL;
+KlassRecordTable* Universe::_klass_record_table = NULL;
+#endif
 #ifdef PROFILE_OBJECT_INFO
 PersistentObjectInfoTable* Universe::_persistent_object_info_table = NULL;
-AllocPointInfoTable* Universe::_alloc_point_info_table = NULL;
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
 ObjectAddressInfoTable* Universe::_object_address_info_table = NULL;
@@ -304,6 +308,8 @@ void Universe::genesis(TRAPS) {
         _the_empty_klass_array      = MetadataFactory::new_array<Klass*>(null_cld, 0, CHECK);
       }
     }
+
+    _sample_thread_env = (sigjmp_buf*)malloc(sizeof(sigjmp_buf));
 
     vmSymbols::initialize(CHECK);
 

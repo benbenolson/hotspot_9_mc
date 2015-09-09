@@ -239,7 +239,7 @@ void VM_GC_ObjectAddressInfoCollection::doit() {
                                  // not happen (e.g. due to GC_locker)
 
   ObjectAddressInfoCollection::collect_object_address_info(_addrinfo_log,
-    _fieldinfo_log, _reason);
+    _krinfo_log, _reason);
 }
 #endif
 

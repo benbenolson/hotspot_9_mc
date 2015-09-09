@@ -513,7 +513,7 @@ CollectedHeap::fill_with_array(HeapWord* start, size_t words, bool zap)
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-    oait->insert((oop)start, words, FILLER_KLASS, FILLER_OBJECT);
+    oait->insert((oop)start, words, FILLER_KLASS);
     oait->mark_filler((oop)start, words);
     //oait->mark_known_free(((oop)start));
     //tty->print_cr("marked uninitialized space: %p, %d bytes",
@@ -535,7 +535,7 @@ CollectedHeap::fill_with_object_impl(HeapWord* start, size_t words, bool zap)
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
     if (ProfileObjectAddressInfo) {
       ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-      oait->insert((oop)start, words, FILLER_KLASS, FILLER_OBJECT);
+      oait->insert((oop)start, words, FILLER_KLASS);
       oait->mark_filler((oop)start, words);
       //oait->mark_known_free(((oop)start));
       //tty->print_cr("marked uninitialized space: %p, %d bytes",

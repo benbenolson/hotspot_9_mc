@@ -128,13 +128,14 @@ Monitor* GCTaskManager_lock           = NULL;
 Mutex*   Management_lock              = NULL;
 Monitor* Service_lock                 = NULL;
 
+Mutex*   AllocPointInfoTable_lock     = NULL;
 #ifdef PROFILE_OBJECT_INFO
 Mutex*   ObjectInfoTable_lock         = NULL;
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
 Mutex*   ObjectAddressInfoTable_lock  = NULL;
 #endif
-Mutex*   JRMethodInfoManager_lock     = NULL;
+Mutex*   HotMethodSampler_lock        = NULL;
 Monitor* PeriodicTask_lock            = NULL;
 
 #ifdef INCLUDE_TRACE
@@ -288,13 +289,14 @@ void mutex_init() {
   def(Debug3_lock                  , Mutex  , nonleaf+4,   true,  Monitor::_safepoint_check_never);
   def(ProfileVM_lock               , Monitor, special,     false, Monitor::_safepoint_check_never);      // used for profiling of the VMThread
   def(CompileThread_lock           , Monitor, nonleaf+5,   false, Monitor::_safepoint_check_always);
+  def(AllocPointInfoTable_lock     , Mutex  , leaf,        true,  Monitor::_safepoint_check_never );
 #ifdef PROFILE_OBJECT_INFO
-  def(ObjectInfoTable_lock         , Mutex  , leaf,        true,  Monitor::_safepoint_check_never);
+  def(ObjectInfoTable_lock         , Mutex  , leaf,        true,  Monitor::_safepoint_check_never );
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-  def(ObjectAddressInfoTable_lock  , Mutex  , leaf,        true,  Monitor::_safepoint_check_never);
+  def(ObjectAddressInfoTable_lock  , Mutex  , leaf,        true,  Monitor::_safepoint_check_never );
 #endif
-  def(JRMethodInfoManager_lock     , Mutex  , leaf,        true,  Monitor::_safepoint_check_never);
+  def(HotMethodSampler_lock        , Mutex  , leaf,        true, Monitor::_safepoint_check_never );
   def(PeriodicTask_lock            , Monitor, nonleaf+5,   true,  Monitor::_safepoint_check_sometimes);
   if (WhiteBoxAPI) {
     def(Compilation_lock           , Monitor, leaf,        false, Monitor::_safepoint_check_never);

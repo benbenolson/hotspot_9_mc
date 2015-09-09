@@ -40,6 +40,14 @@
     }
   }
 
+  frame my_pd_last_frame() {
+    if (_anchor.last_Java_pc() != NULL) {
+      return frame(_anchor.last_Java_sp(), _anchor.last_Java_fp(), _anchor.last_Java_pc());
+    } else {
+      return frame(_anchor.last_Java_sp(), _anchor.last_Java_fp());
+    }
+  }
+
  public:
   // Mutators are highly dangerous....
   intptr_t* last_Java_fp()                       { return _anchor.last_Java_fp(); }

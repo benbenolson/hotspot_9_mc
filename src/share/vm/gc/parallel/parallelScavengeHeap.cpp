@@ -115,29 +115,37 @@ jint ParallelScavengeHeap::initialize() {
 
 #ifdef PROFILE_OBJECT_INFO
   if (ProfileObjectInfo) {
-    /*
+    AllocPointInfoTable *apit = new AllocPointInfoTable(AllocPointInfoTable::apit_size);
+    guarantee(!apit->allocation_failed(), "apm allocation failed");
+    Universe::set_alloc_point_info_table(apit);
+
     PersistentObjectInfoTable *poit = new PersistentObjectInfoTable(
       PersistentObjectInfoTable::oit_size,
       _perm_gen->object_space()->used_region().start());
     guarantee(!poit->allocation_failed(), "poit allocation failed");
     Universe::set_persistent_object_info_table(poit);
-    */
-
-    AllocPointInfoTable *apit = new AllocPointInfoTable(AllocPointInfoTable::apit_size);
-    guarantee(!apit->allocation_failed(), "apm allocation failed");
-    Universe::set_alloc_point_info_table(apit);
   }
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
     unsigned int oait_size = OAIT_SIZE;
     unsigned int kt_size = KLASS_TABLE_SIZE;
 
-    ObjectAddressInfoTable *oait = new ObjectAddressInfoTable(oait_size, kt_size);
+    KlassRecordTable *krt = new KlassRecordTable(kt_size);
+    guarantee(!krt->allocation_failed(), "krt allocation failed");
+    Universe::set_klass_record_table(krt);
+
+    AllocPointInfoTable *apit = new AllocPointInfoTable(AllocPointInfoTable::apit_size);
+    guarantee(!apit->allocation_failed(), "apit allocation failed");
+    Universe::set_alloc_point_info_table(apit);
+
+    ObjectAddressInfoTable *oait = new ObjectAddressInfoTable(oait_size, krt, apit);
     guarantee(!oait->allocation_failed(), "oait allocation failed");
     Universe::set_object_address_info_table(oait);
-    ObjectAddressInfoTable *alt_oait = new ObjectAddressInfoTable(oait_size, kt_size);
+    ObjectAddressInfoTable *alt_oait = new ObjectAddressInfoTable(oait_size, krt, apit);
     guarantee(!oait->allocation_failed(), "oait allocation failed");
     Universe::set_alt_oait(alt_oait);
+  }
 #endif
 
   return JNI_OK;

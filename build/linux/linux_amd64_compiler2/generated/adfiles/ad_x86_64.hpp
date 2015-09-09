@@ -41375,7 +41375,7 @@ public:
 
 //HeaderForm
 
-#line 1524 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1524 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
 // Header information of the source block.
 // Method declarations/definitions which are used outside
@@ -41534,7 +41534,7 @@ inline const RegMask &ANY_REG_WITH_RBP_mask() { return _ANY_REG_WITH_RBP_mask; }
 extern const RegMask _ANY_REG_NO_RBP_mask;
 inline const RegMask &ANY_REG_NO_RBP_mask() { return _ANY_REG_NO_RBP_mask; }
 inline const RegMask &ANY_REG_mask() { return (
-#line 210 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 210 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41540 "../generated/adfiles/ad_x86_64.hpp"
 ) ? ANY_REG_NO_RBP_mask() : ANY_REG_WITH_RBP_mask(); }
@@ -41547,12 +41547,12 @@ inline const RegMask &PTR_REG_NO_RBP_mask() { return _PTR_REG_NO_RBP_mask; }
 extern const RegMask _STACK_OR_PTR_REG_NO_RBP_mask;
 inline const RegMask &STACK_OR_PTR_REG_NO_RBP_mask() { return _STACK_OR_PTR_REG_NO_RBP_mask; }
 inline const RegMask &PTR_REG_mask() { return (
-#line 242 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 242 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41553 "../generated/adfiles/ad_x86_64.hpp"
 ) ? PTR_REG_NO_RBP_mask() : PTR_REG_WITH_RBP_mask(); }
 inline const RegMask &STACK_OR_PTR_REG_mask() { return (
-#line 242 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 242 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41558 "../generated/adfiles/ad_x86_64.hpp"
 ) ? STACK_OR_PTR_REG_NO_RBP_mask() : STACK_OR_PTR_REG_WITH_RBP_mask(); }
@@ -41561,7 +41561,7 @@ inline const RegMask &PTR_NO_RAX_REG_WITH_RBP_mask() { return _PTR_NO_RAX_REG_WI
 extern const RegMask _PTR_NO_RAX_REG_NO_RBP_mask;
 inline const RegMask &PTR_NO_RAX_REG_NO_RBP_mask() { return _PTR_NO_RAX_REG_NO_RBP_mask; }
 inline const RegMask &PTR_NO_RAX_REG_mask() { return (
-#line 272 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 272 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41567 "../generated/adfiles/ad_x86_64.hpp"
 ) ? PTR_NO_RAX_REG_NO_RBP_mask() : PTR_NO_RAX_REG_WITH_RBP_mask(); }
@@ -41570,7 +41570,7 @@ inline const RegMask &PTR_NO_RAX_RBX_REG_WITH_RBP_mask() { return _PTR_NO_RAX_RB
 extern const RegMask _PTR_NO_RAX_RBX_REG_NO_RBP_mask;
 inline const RegMask &PTR_NO_RAX_RBX_REG_NO_RBP_mask() { return _PTR_NO_RAX_RBX_REG_NO_RBP_mask; }
 inline const RegMask &PTR_NO_RAX_RBX_REG_mask() { return (
-#line 300 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 300 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41576 "../generated/adfiles/ad_x86_64.hpp"
 ) ? PTR_NO_RAX_RBX_REG_NO_RBP_mask() : PTR_NO_RAX_RBX_REG_WITH_RBP_mask(); }
@@ -41595,12 +41595,12 @@ inline const RegMask &LONG_REG_NO_RBP_mask() { return _LONG_REG_NO_RBP_mask; }
 extern const RegMask _STACK_OR_LONG_REG_NO_RBP_mask;
 inline const RegMask &STACK_OR_LONG_REG_NO_RBP_mask() { return _STACK_OR_LONG_REG_NO_RBP_mask; }
 inline const RegMask &LONG_REG_mask() { return (
-#line 350 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 350 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41601 "../generated/adfiles/ad_x86_64.hpp"
 ) ? LONG_REG_NO_RBP_mask() : LONG_REG_WITH_RBP_mask(); }
 inline const RegMask &STACK_OR_LONG_REG_mask() { return (
-#line 350 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 350 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41606 "../generated/adfiles/ad_x86_64.hpp"
 ) ? STACK_OR_LONG_REG_NO_RBP_mask() : STACK_OR_LONG_REG_WITH_RBP_mask(); }
@@ -41609,7 +41609,7 @@ inline const RegMask &LONG_NO_RAX_RDX_REG_WITH_RBP_mask() { return _LONG_NO_RAX_
 extern const RegMask _LONG_NO_RAX_RDX_REG_NO_RBP_mask;
 inline const RegMask &LONG_NO_RAX_RDX_REG_NO_RBP_mask() { return _LONG_NO_RAX_RDX_REG_NO_RBP_mask; }
 inline const RegMask &LONG_NO_RAX_RDX_REG_mask() { return (
-#line 378 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 378 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41615 "../generated/adfiles/ad_x86_64.hpp"
 ) ? LONG_NO_RAX_RDX_REG_NO_RBP_mask() : LONG_NO_RAX_RDX_REG_WITH_RBP_mask(); }
@@ -41618,7 +41618,7 @@ inline const RegMask &LONG_NO_RCX_REG_WITH_RBP_mask() { return _LONG_NO_RCX_REG_
 extern const RegMask _LONG_NO_RCX_REG_NO_RBP_mask;
 inline const RegMask &LONG_NO_RCX_REG_NO_RBP_mask() { return _LONG_NO_RCX_REG_NO_RBP_mask; }
 inline const RegMask &LONG_NO_RCX_REG_mask() { return (
-#line 408 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 408 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41624 "../generated/adfiles/ad_x86_64.hpp"
 ) ? LONG_NO_RCX_REG_NO_RBP_mask() : LONG_NO_RCX_REG_WITH_RBP_mask(); }
@@ -41637,12 +41637,12 @@ inline const RegMask &INT_REG_NO_RBP_mask() { return _INT_REG_NO_RBP_mask; }
 extern const RegMask _STACK_OR_INT_REG_NO_RBP_mask;
 inline const RegMask &STACK_OR_INT_REG_NO_RBP_mask() { return _STACK_OR_INT_REG_NO_RBP_mask; }
 inline const RegMask &INT_REG_mask() { return (
-#line 449 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 449 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41643 "../generated/adfiles/ad_x86_64.hpp"
 ) ? INT_REG_NO_RBP_mask() : INT_REG_WITH_RBP_mask(); }
 inline const RegMask &STACK_OR_INT_REG_mask() { return (
-#line 449 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 449 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41648 "../generated/adfiles/ad_x86_64.hpp"
 ) ? STACK_OR_INT_REG_NO_RBP_mask() : STACK_OR_INT_REG_WITH_RBP_mask(); }
@@ -41651,7 +41651,7 @@ inline const RegMask &INT_NO_RCX_REG_WITH_RBP_mask() { return _INT_NO_RCX_REG_WI
 extern const RegMask _INT_NO_RCX_REG_NO_RBP_mask;
 inline const RegMask &INT_NO_RCX_REG_NO_RBP_mask() { return _INT_NO_RCX_REG_NO_RBP_mask; }
 inline const RegMask &INT_NO_RCX_REG_mask() { return (
-#line 479 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 479 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41657 "../generated/adfiles/ad_x86_64.hpp"
 ) ? INT_NO_RCX_REG_NO_RBP_mask() : INT_NO_RCX_REG_WITH_RBP_mask(); }
@@ -41660,7 +41660,7 @@ inline const RegMask &INT_NO_RAX_RDX_REG_WITH_RBP_mask() { return _INT_NO_RAX_RD
 extern const RegMask _INT_NO_RAX_RDX_REG_NO_RBP_mask;
 inline const RegMask &INT_NO_RAX_RDX_REG_NO_RBP_mask() { return _INT_NO_RAX_RDX_REG_NO_RBP_mask; }
 inline const RegMask &INT_NO_RAX_RDX_REG_mask() { return (
-#line 507 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 507 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 PreserveFramePointer 
 #line 41666 "../generated/adfiles/ad_x86_64.hpp"
 ) ? INT_NO_RAX_RDX_REG_NO_RBP_mask() : INT_NO_RAX_RDX_REG_WITH_RBP_mask(); }
@@ -41685,12 +41685,12 @@ inline const RegMask &FLOAT_REG_EVEX_mask() { return _FLOAT_REG_EVEX_mask; }
 extern const RegMask _STACK_OR_FLOAT_REG_EVEX_mask;
 inline const RegMask &STACK_OR_FLOAT_REG_EVEX_mask() { return _STACK_OR_FLOAT_REG_EVEX_mask; }
 inline const RegMask &FLOAT_REG_mask() { return (
-#line 1178 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1178 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 VM_Version::supports_evex() 
 #line 41691 "../generated/adfiles/ad_x86_64.hpp"
 ) ? FLOAT_REG_EVEX_mask() : FLOAT_REG_LEGACY_mask(); }
 inline const RegMask &STACK_OR_FLOAT_REG_mask() { return (
-#line 1178 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1178 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 VM_Version::supports_evex() 
 #line 41696 "../generated/adfiles/ad_x86_64.hpp"
 ) ? STACK_OR_FLOAT_REG_EVEX_mask() : STACK_OR_FLOAT_REG_LEGACY_mask(); }
@@ -41703,12 +41703,12 @@ inline const RegMask &DOUBLE_REG_EVEX_mask() { return _DOUBLE_REG_EVEX_mask; }
 extern const RegMask _STACK_OR_DOUBLE_REG_EVEX_mask;
 inline const RegMask &STACK_OR_DOUBLE_REG_EVEX_mask() { return _STACK_OR_DOUBLE_REG_EVEX_mask; }
 inline const RegMask &DOUBLE_REG_mask() { return (
-#line 1238 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1238 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 VM_Version::supports_evex() 
 #line 41709 "../generated/adfiles/ad_x86_64.hpp"
 ) ? DOUBLE_REG_EVEX_mask() : DOUBLE_REG_LEGACY_mask(); }
 inline const RegMask &STACK_OR_DOUBLE_REG_mask() { return (
-#line 1238 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1238 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 VM_Version::supports_evex() 
 #line 41714 "../generated/adfiles/ad_x86_64.hpp"
 ) ? STACK_OR_DOUBLE_REG_EVEX_mask() : STACK_OR_DOUBLE_REG_LEGACY_mask(); }
@@ -41717,7 +41717,7 @@ inline const RegMask &VECTORS_REG_LEGACY_mask() { return _VECTORS_REG_LEGACY_mas
 extern const RegMask _VECTORS_REG_EVEX_mask;
 inline const RegMask &VECTORS_REG_EVEX_mask() { return _VECTORS_REG_EVEX_mask; }
 inline const RegMask &VECTORS_REG_mask() { return (
-#line 1298 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1298 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 VM_Version::supports_evex() 
 #line 41723 "../generated/adfiles/ad_x86_64.hpp"
 ) ? VECTORS_REG_EVEX_mask() : VECTORS_REG_LEGACY_mask(); }
@@ -41726,7 +41726,7 @@ inline const RegMask &VECTORD_REG_LEGACY_mask() { return _VECTORD_REG_LEGACY_mas
 extern const RegMask _VECTORD_REG_EVEX_mask;
 inline const RegMask &VECTORD_REG_EVEX_mask() { return _VECTORD_REG_EVEX_mask; }
 inline const RegMask &VECTORD_REG_mask() { return (
-#line 1358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 VM_Version::supports_evex() 
 #line 41732 "../generated/adfiles/ad_x86_64.hpp"
 ) ? VECTORD_REG_EVEX_mask() : VECTORD_REG_LEGACY_mask(); }
@@ -41735,7 +41735,7 @@ inline const RegMask &VECTORX_REG_LEGACY_mask() { return _VECTORX_REG_LEGACY_mas
 extern const RegMask _VECTORX_REG_EVEX_mask;
 inline const RegMask &VECTORX_REG_EVEX_mask() { return _VECTORX_REG_EVEX_mask; }
 inline const RegMask &VECTORX_REG_mask() { return (
-#line 1418 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1418 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 VM_Version::supports_evex() 
 #line 41741 "../generated/adfiles/ad_x86_64.hpp"
 ) ? VECTORX_REG_EVEX_mask() : VECTORX_REG_LEGACY_mask(); }
@@ -41744,7 +41744,7 @@ inline const RegMask &VECTORY_REG_LEGACY_mask() { return _VECTORY_REG_LEGACY_mas
 extern const RegMask _VECTORY_REG_EVEX_mask;
 inline const RegMask &VECTORY_REG_EVEX_mask() { return _VECTORY_REG_EVEX_mask; }
 inline const RegMask &VECTORY_REG_mask() { return (
-#line 1478 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1478 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 VM_Version::supports_evex() 
 #line 41750 "../generated/adfiles/ad_x86_64.hpp"
 ) ? VECTORY_REG_EVEX_mask() : VECTORY_REG_LEGACY_mask(); }

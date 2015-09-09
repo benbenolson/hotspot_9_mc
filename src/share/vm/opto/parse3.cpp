@@ -416,7 +416,7 @@ void Parse::do_multianewarray() {
   const jint expand_limit = MIN2((juint)MultiArrayExpandLimit, (juint)100);
   jint expand_count = 1;        // count of allocations in the expansion
   jint expand_fanout = 1;       // running total fanout
-  if(ColorObjectAllocations || MethodSampleColors) {
+  if(ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
     // get the lengths from the stack (first dimension is on top)
     Node* mth_node = makecon(TypeMetadataPtr::make(method()));
     Node* bci_node = intcon(bci());
@@ -476,19 +476,19 @@ void Parse::do_multianewarray() {
   address fun = NULL;
   switch (ndimensions) {
   case 1: ShouldNotReachHere(); break;
-  case 2: fun = (ColorObjectAllocations || MethodSampleColors) ?
+  case 2: fun = (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) ?
                   OptoRuntime::colored_multianewarray2_Java() :
                   OptoRuntime::multianewarray2_Java();
                 break;
-  case 3: fun = (ColorObjectAllocations || MethodSampleColors) ?
+  case 3: fun = (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) ?
                   OptoRuntime::colored_multianewarray3_Java() :
                   OptoRuntime::multianewarray3_Java();
                 break;
-  case 4: fun = (ColorObjectAllocations || MethodSampleColors) ?
+  case 4: fun = (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) ?
                   OptoRuntime::colored_multianewarray4_Java() :
                   OptoRuntime::multianewarray4_Java();
                 break;
-  case 5: fun = (ColorObjectAllocations || MethodSampleColors) ?
+  case 5: fun = (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) ?
                   OptoRuntime::colored_multianewarray5_Java() :
                   OptoRuntime::multianewarray5_Java();
                 break;
@@ -496,7 +496,7 @@ void Parse::do_multianewarray() {
   Node* c = NULL;
 
   if (fun != NULL) {
-    if (ColorObjectAllocations || MethodSampleColors) {
+    if (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
       c = make_runtime_call(RC_NO_LEAF | RC_NO_IO,
                             OptoRuntime::colored_multianewarray_Type(ndimensions),
                             fun, NULL, TypeRawPtr::BOTTOM,

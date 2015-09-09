@@ -334,19 +334,18 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_instance_C(Klass* klass,
   }
 
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        color = klass->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method->is_hot() || klass->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = klass->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
+
   if (klass != NULL) {
     // Scavenge and allocate an instance.
     oop result = InstanceKlass::cast(klass)->allocate_instance(color, THREAD);
@@ -465,16 +464,14 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_C(Klass* array_type,
   oop result;
 
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        color = InstanceKlass::cast(array_type)->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method->is_hot() || InstanceKlass::cast(array_type)->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = InstanceKlass::cast(array_type)->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
@@ -533,19 +530,18 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray2_C(Klass* elem_type,
   dims[0] = len1;
   dims[1] = len2;
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method->is_hot() || ArrayKlass::cast(elem_type)->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
+
   oop obj = ArrayKlass::cast(elem_type)->multi_allocate(2, dims, color, THREAD);
   deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
   thread->set_vm_result(obj);
@@ -578,20 +574,20 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray3_C(Klass* elem_type,
   dims[0] = len1;
   dims[1] = len2;
   dims[2] = len3;
+
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method->is_hot() || ArrayKlass::cast(elem_type)->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
+
   oop obj = ArrayKlass::cast(elem_type)->multi_allocate(3, dims, color, THREAD);
   deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
   thread->set_vm_result(obj);
@@ -627,20 +623,20 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray4_C(Klass* elem_type,
   dims[1] = len2;
   dims[2] = len3;
   dims[3] = len4;
+
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method->is_hot() || ArrayKlass::cast(elem_type)->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
+
   oop obj = ArrayKlass::cast(elem_type)->multi_allocate(4, dims, color, THREAD);
   deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
   thread->set_vm_result(obj);
@@ -695,20 +691,20 @@ JRT_ENTRY(void, OptoRuntime::colored_multianewarray5_C(Klass* elem_type,
   dims[2] = len3;
   dims[3] = len4;
   dims[4] = len5;
+
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method->is_hot() || ArrayKlass::cast(elem_type)->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
+
   oop obj = ArrayKlass::cast(elem_type)->multi_allocate(5, dims, color, THREAD);
   deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
   thread->set_vm_result(obj);

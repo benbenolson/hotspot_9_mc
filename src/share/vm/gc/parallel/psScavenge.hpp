@@ -242,7 +242,9 @@ class PSScavenge: AllStatic {
   }
 
   static inline jint obj_refs(oop obj) {
-    return (obj_poi(obj)->val_load_cnt() + obj_poi(obj)->val_store_cnt());
+    return (obj_poi(obj)->val_load_cnt()  +
+            obj_poi(obj)->val_store_cnt() +
+            obj_poi(obj)->val_init_cnt()  );
   }
 
   inline static bool obj_is_hot(oop obj) {

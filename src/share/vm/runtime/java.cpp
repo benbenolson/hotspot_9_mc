@@ -52,6 +52,7 @@
 #include "runtime/interfaceSupport.hpp"
 #include "runtime/java.hpp"
 #include "runtime/memprofiler.hpp"
+#include "runtime/hotMethodSampler.hpp"
 #include "runtime/sharedRuntime.hpp"
 #include "runtime/statSampler.hpp"
 #include "runtime/sweeper.hpp"
@@ -83,8 +84,6 @@
 #endif
 #include "gc/shared/vmGCOperations.hpp"
 
-#include "runtime/jr_vm_operations.hpp"
-
 PRAGMA_FORMAT_MUTE_WARNINGS_FOR_GCC
 
 GrowableArray<Method*>* collected_profiled_methods;
@@ -95,16 +94,21 @@ int compare_methods(Method** a, Method** b) {
        - ((*a)->invocation_count() + (*a)->compiled_invocation_count());
 }
 
+int compare_methods2(Method** a, Method** b) {
+  // %%% there can be 32-bit overflow here
+  return ((*b)->our_invocation_count() + (*b)->our_backedge_count())
+    - ((*a)->our_invocation_count() + (*a)->our_backedge_count());
+}
+
 int compare_methods3(Method** a, Method** b) {
   // %%% there can be 32-bit overflow here
   return (*b)->interpreter_invocation_count() -
          (*a)->interpreter_invocation_count();
 }
 
-int compare_methods2(Method** a, Method** b) {
+int compare_methods4(Method** a, Method** b) {
   // %%% there can be 32-bit overflow here
-  return ((*b)->our_invocation_count() + (*b)->our_backedge_count())
-    - ((*a)->our_invocation_count() + (*a)->our_backedge_count());
+  return (*b)->hot_sample_count() - (*a)->hot_sample_count();
 }
 
 void collect_profiled_methods(Method* m) {
@@ -214,6 +218,72 @@ void print_bytecode_count() {
   }
 }
 
+void print_method_sample_data() {
+  ResourceMark rm;
+  HandleMark hm;
+
+  collected_invoked_methods = new GrowableArray<Method*>(1024);
+  SystemDictionary::methods_do(collect_invoked_methods);
+  collected_invoked_methods->sort(&compare_methods4);
+
+  jint total_samples = 0;
+  for (int index = 0; index < collected_invoked_methods->length(); index++) {
+    Method* m = collected_invoked_methods->at(index);
+    total_samples += m->hot_sample_count();
+  }
+
+  HotMethodSampler::avg_threads_sampled =
+    (float(HotMethodSampler::tot_threads_sampled) /
+           HotMethodSampler::total_sampler_invs);
+
+  /* avg_threads_sampled has always jumped around a lot -- just take it out
+   * for now
+   */
+  tty->cr();
+  tty->print_cr("Stack sample data:");
+  tty->cr();
+  tty->print_cr("total_stack_samples: %8d\n"
+                "valid_stack_samples: %8d\n"
+                "segfault_samples:    %8d\n"
+                "max_threads_sampled: %8d\n",
+                HotMethodSampler::total_stack_samples,
+                HotMethodSampler::valid_stack_samples,
+                HotMethodSampler::segfault_samples,
+                HotMethodSampler::max_threads_sampled);
+  tty->cr();
+
+  tty->cr();
+  tty->print_cr("%5s | %5s | %5s | %8s | %s",
+                "rank", "self", "acc", "count", "method");
+  jint running_samples = 0;
+  for (int index = 0; index < collected_invoked_methods->length(); index++) {
+    Method* m = collected_invoked_methods->at(index);
+    running_samples += m->hot_sample_count();
+    m->print_hot_sample_count(index+1, running_samples, total_samples);
+    if ( (m->hot_sample_count() == 0) ||
+         ((100.0 * float(running_samples) / total_samples) > StackSampleCutoff) )
+      break;
+  }
+}
+
+void print_klass_access_lists() {
+  ResourceMark rm;
+  HandleMark hm;
+
+  mkals_log->cr();
+  mkals_log->print_cr("klass access lists:");
+  mkals_log->cr();
+
+  collected_invoked_methods = new GrowableArray<Method*>(1024);
+  SystemDictionary::methods_do(collect_invoked_methods);
+  collected_invoked_methods->sort(&compare_methods3);
+  for (int index = 0; index < collected_invoked_methods->length(); index++) {
+    Method* m = collected_invoked_methods->at(index);
+    m->print_klass_access_list(mkals_log, index);
+  }
+}
+
+
 AllocStats alloc_stats;
 
 
@@ -241,6 +311,10 @@ void print_statistics() {
 
   if (MemProfiling) {
     MemProfiler::disengage();
+  }
+
+  if (SampleCallStacksAtInterval) {
+    HotMethodSampler::disengage();
   }
 
   if (CITime) {
@@ -284,6 +358,16 @@ void print_statistics() {
 #endif // COMPILER2
   if (CountCompiledCalls) {
     print_method_invocation_histogram();
+  }
+
+  if (PrintThreadTimes) {
+    os::print_thread_times(true);
+  }
+  if (SampleCallStacksAtInterval || SampleCallStacksContinuous) {
+    print_method_sample_data();
+  }
+  if (PrintKlassAccessLists) {
+    print_klass_access_lists();
   }
 
   print_method_profiling_data();
@@ -460,32 +544,11 @@ void before_exit(JavaThread * thread) {
 
 #ifdef PROFILE_OBJECT_INFO
   if (PrintObjectInfoAtInterval || PrintAPInfoAtInterval) {
-    VM_GC_ObjectInfoCollection collector(objinfo_log, apinfo_log, "end-of-run");
-    /* XXX -- may need to comment this out to get some benchmarks (e.g.
-     * tradesoap-small)
-     */
-#if 0
-    collector.doit();
+    //VM_GC_ObjectInfoCollection collector(objinfo_log, apinfo_log, "end-of-run");
+    //collector.doit();
     ObjectInfoCollection::disengage();
-#endif
-  }
-#if 0
-  } else if (PrintObjectInfoBeforeFullGC || 
-             PrintObjectInfoAfterFullGC) {
-    VM_GC_ObjectInfoCollection collector(objinfo_log, false /* ! full gc */,
-                                         false /* ! prologue */, "end-of-run");
-    collector.doit();
   }
 #endif
-#endif
-
-  // JR Custom Content - begin
-  if (MethodSampleColors) {
-    JRHotMethodSamplerTaskManager::disengage();
-    JRCoolDownMethodsTaskManager::disengage();
-    RegularScavenge::disengage();
-  }
-  // JR Custom Content - end
 
   if (OrganizeObjects) {
     ObjectLayout::disengage();
@@ -503,13 +566,17 @@ void before_exit(JavaThread * thread) {
 
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (PrintObjectAddressInfoAtInterval || PrintObjectAddressInfoAtGC) {
-    VM_GC_ObjectAddressInfoCollection collector(addrinfo_log, fieldinfo_log, "end-of-run");
+    VM_GC_ObjectAddressInfoCollection collector(addrinfo_log, krinfo_log, "end-of-run");
 
     VMThread::execute(&collector);
-    //collector.doit();
     ObjectAddressInfoCollection::disengage();
-    fclose(addrtable_log);
-    //fclose(addrups_log);
+    fclose(addrinfo_bin);
+
+    AllocPointInfoTable *apit = Universe::alloc_point_info_table();
+    apit->print_map_on(apmap_log);
+
+    KlassRecordTable *krt = Universe::klass_record_table();
+    krt->print_map_on(klassmap_log);
   }
 #endif
 

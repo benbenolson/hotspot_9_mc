@@ -222,6 +222,7 @@ oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, TRAPS) {
       for (int index = 0; index < length; index++) {
         ArrayKlass* ak = ArrayKlass::cast(h_lower_dimension());
         oop sub_array = ak->multi_allocate(rank-1, &sizes[1], CHECK_NULL);
+#if 0
 #ifdef PROFILE_OBJECT_INFO
         if (ProfileObjectInfo) {
           JavaThread *thread = (JavaThread*)THREAD;
@@ -234,6 +235,7 @@ oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, TRAPS) {
         if (ProfileObjectAddressInfo) {
           SharedRuntime::profile_object_address_alloc(sub_array);
         }
+#endif
 #endif
         h_array->obj_at_put(index, sub_array);
       }
@@ -267,6 +269,7 @@ oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS)
         ArrayKlass* ak = ArrayKlass::cast(h_lower_dimension());
         oop sub_array = ak->multi_allocate(rank-1, &sizes[1], color, CHECK_NULL);
         //assert(sub_array->is_parsable(), "Don't publish until parsable");
+#if 0
 #ifdef PROFILE_OBJECT_INFO
         if (ProfileObjectInfo) {
           JavaThread *thread = (JavaThread*)THREAD;
@@ -279,6 +282,7 @@ oop ObjArrayKlass::multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS)
         if (ProfileObjectAddressInfo) {
           SharedRuntime::profile_object_address_alloc(sub_array);
         }
+#endif
 #endif
         h_array->obj_at_put(index, sub_array);
       }

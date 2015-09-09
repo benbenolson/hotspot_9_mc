@@ -2516,16 +2516,18 @@ methodHandle ClassFileParser::parse_method(bool is_interface,
 
   NOT_PRODUCT(m->verify());
 
-  if (MethodSampleColors) {
-    JRMethodInfoManager_lock->lock_without_safepoint_check();
-    JRMethodInfoManager::add_method(m);
-    JRMethodInfoManager_lock->unlock();
+  if (HotMethodAllocate) {
+    HotMethodSampler_lock->lock_without_safepoint_check();
+    HotMethodSampler::add_method(m);
+    HotMethodSampler_lock->unlock();
     m->set_temperature(0);
   }
 
-  if (HotKlassOrganize) {
-      GrowableArray<Klass*>* kal = new (ResourceObj::C_HEAP, mtInternal) GrowableArray<Klass*>(10, true);
-      m->set_klass_access_list(kal);
+  if (HotKlassAllocate || HotKlassOrganize || PrintKlassAccessLists) {
+    GrowableArray<Klass*>* kal = new (ResourceObj::C_HEAP, mtInternal) GrowableArray<Klass*>(10, true);
+    m->set_klass_access_list(kal); 
+  } else {
+    m->set_klass_access_list(NULL);
   }
 
   return m;

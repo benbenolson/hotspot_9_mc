@@ -143,14 +143,10 @@ template <class T> inline void MarkSweep::adjust_pointer(T* p) {
         ObjectAddressInfo *oai;
         if ((oai = oait->lookup(obj))) {
           ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
-          //tty->print_cr("ay: %p", oai->klass_record()->klass());
-          Klass *klass = ProfileObjectFieldInfo ?
-                         oai->klass_record()->klass() : NULL;
           ObjectAddressInfo *alt_oai = alt_oait->insert(new_obj, oai->size(),
-                                                        klass, oai->type());
-          if (alt_oai) {
-            alt_oai->set_type(oai->type());
-          }
+                                                        oai->klass_record(),
+                                                        oai->alloc_point(),
+                                                        oai->type());
         }
       }
 #endif

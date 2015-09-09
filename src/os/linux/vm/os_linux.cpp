@@ -772,6 +772,12 @@ static void *java_start(Thread *thread) {
     }
   }
 
+  // MJ: Print out the thread types that are created
+  if(PrintThreadTimes){
+    tty->print("MJ thread created: %d %s\n", osthread->thread_id(),
+      os::thread_type_str((os::ThreadType)osthread->thread_type()));
+  }
+
   // call one more level start routine
   thread->run();
 
@@ -824,6 +830,7 @@ bool os::create_thread(Thread* thread, ThreadType thr_type,
       case os::pgc_thread:
       case os::cgc_thread:
       case os::watcher_thread:
+      case os::sampler_thread:
         if (VMThreadStackSize > 0) stack_size = (size_t)(VMThreadStackSize * K);
         break;
       }
@@ -866,6 +873,29 @@ bool os::create_thread(Thread* thread, ThreadType thr_type,
       while ((state = osthread->get_state()) == ALLOCATED) {
         sync_with_child->wait(Mutex::_no_safepoint_check_flag);
       }
+    }
+
+    if (SampleCallStacksContinuous && IsolateSamplerThread) {
+      long total_cpus;
+      cpu_set_t *thread_cpus;
+      int i;
+
+      total_cpus  = active_processor_count();
+      thread_cpus = thr_type == os::sampler_thread ? _sampler_cpus : _jvm_cpus;
+      pthread_setaffinity_np(tid, CPU_ALLOC_SIZE(total_cpus), thread_cpus);
+
+      /*
+      tty->print("set %7s thread affinity: ",
+                 thr_type == os::sampler_thread ? "sampler" : "jvm", tid);
+      for (i = 0; i < total_cpus; i++) {
+        if (CPU_ISSET(i, thread_cpus)) {
+          tty->print("1");
+        } else {
+          tty->print("0");
+        }
+      }
+      tty->print_cr("");
+      */
     }
   }
 
@@ -945,6 +975,12 @@ bool os::create_attached_thread(JavaThread* thread) {
   // initialize signal mask for this thread
   // and save the caller's signal mask
   os::Linux::hotspot_sigmask(thread);
+
+  // MJ: Print out the thread types that are created
+  if(PrintThreadTimes){
+    tty->print("MJ thread created: %d %s\n", osthread->thread_id(),
+      os::thread_type_str((os::ThreadType)osthread->thread_type()));
+  }
 
   return true;
 }
@@ -4991,6 +5027,76 @@ jint os::init_2(void) {
 
   // initialize thread priority policy
   prio_init();
+
+  if (SampleCallStacksContinuous && IsolateSamplerThread) {
+    long total_cpus, total_valid;
+    cpu_set_t *_valid_cpus;
+    int i, first_valid_idx;
+    pthread_t main_thread;
+
+    main_thread = pthread_self();
+    total_cpus  = active_processor_count();
+
+    total_valid = 0;
+    first_valid_idx = -1;
+
+    _valid_cpus   = CPU_ALLOC(total_cpus);
+    _sampler_cpus = CPU_ALLOC(total_cpus);
+    _jvm_cpus     = CPU_ALLOC(total_cpus);
+    CPU_ZERO(_valid_cpus);
+    CPU_ZERO(_sampler_cpus);
+    CPU_ZERO(_jvm_cpus);
+
+    pthread_getaffinity_np(main_thread, CPU_ALLOC_SIZE(total_cpus), _valid_cpus);
+    for (i = 0; i < total_cpus; i++) {
+      if (CPU_ISSET(i, _valid_cpus)) {
+        total_valid++;
+        if (first_valid_idx < 0) {
+          first_valid_idx = i;
+        }
+      }
+    }
+
+    //tty->print_cr("total_valid_cpus: %-4d", total_valid);
+    //tty->print_cr("first_valid_idx:  %-4d", first_valid_idx);
+
+    for (i = 0; i < total_cpus; i++) {
+      if (CPU_ISSET(i, _valid_cpus)) {
+        if (i == first_valid_idx) {
+          CPU_CLR(i, _jvm_cpus);
+          CPU_SET(i, _sampler_cpus);
+        } else {
+          CPU_SET(i, _jvm_cpus);
+          CPU_CLR(i, _sampler_cpus);
+        }
+      } else {
+        CPU_CLR(i, _jvm_cpus);
+        CPU_CLR(i, _sampler_cpus);
+      }
+    }  
+
+    /*
+    tty->print("jvm_cpus:         ");
+    for (i = 0; i < total_cpus; i++) {
+      if (CPU_ISSET(i, _jvm_cpus)) {
+        tty->print("1");
+      } else {
+        tty->print("0");
+      }
+    }
+    tty->print_cr("");
+
+    tty->print("sampler_cpus:     ");
+    for (i = 0; i < total_cpus; i++) {
+      if (CPU_ISSET(i, _sampler_cpus)) {
+        tty->print("1");
+      } else {
+        tty->print("0");
+      }
+    }
+    tty->print_cr("");
+    */
+  }
 
   return JNI_OK;
 }

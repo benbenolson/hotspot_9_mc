@@ -46,7 +46,7 @@ inline void frame::init(intptr_t* sp, intptr_t* fp, address pc) {
   _unextended_sp = sp;
   _fp = fp;
   _pc = pc;
-  assert(pc != NULL, "no pc?");
+  assert((pc != NULL), "no pc?");
   _cb = CodeCache::find_blob(pc);
   adjust_unextended_sp();
 
@@ -68,7 +68,7 @@ inline frame::frame(intptr_t* sp, intptr_t* unextended_sp, intptr_t* fp, address
   _unextended_sp = unextended_sp;
   _fp = fp;
   _pc = pc;
-  assert(pc != NULL, "no pc?");
+  assert((pc != NULL), "no pc?");
   _cb = CodeCache::find_blob(pc);
   adjust_unextended_sp();
 

@@ -1546,12 +1546,12 @@ void PhaseMacroExpand::expand_allocate_common(
   call->init_req(TypeFunc::Parms+0, klass_node);
   if (length != NULL) {
     call->init_req(TypeFunc::Parms+1, length);
-    if (ColorObjectAllocations || MethodSampleColors) {
+    if (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
       call->init_req(TypeFunc::Parms+2, method_node);
       call->init_req(TypeFunc::Parms+3, bci_node);
     }
   } else {
-    if (ColorObjectAllocations || MethodSampleColors) {
+    if (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
       call->init_req(TypeFunc::Parms+1, method_node);
       call->init_req(TypeFunc::Parms+2, bci_node);
     }
@@ -1917,7 +1917,7 @@ Node* PhaseMacroExpand::prefetch_allocation(Node* i_o, Node*& needgc_false,
 
 
 void PhaseMacroExpand::expand_allocate(AllocateNode *alloc) {
-  if (ColorObjectAllocations || MethodSampleColors) {
+    if (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
     expand_allocate_common(alloc, NULL,
                            OptoRuntime::new_colored_instance_Type(),
                            OptoRuntime::new_colored_instance_Java());
@@ -1942,7 +1942,7 @@ void PhaseMacroExpand::expand_allocate_array(AllocateArrayNode *alloc) {
   } else {
     slow_call_address = OptoRuntime::new_array_Java();
   }
-  if (ColorObjectAllocations || MethodSampleColors) {
+  if (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
     expand_allocate_common(alloc, length,
                            OptoRuntime::new_colored_array_Type(),
                            OptoRuntime::new_colored_array_Java());

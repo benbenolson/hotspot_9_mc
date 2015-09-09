@@ -627,19 +627,17 @@ JVM_ENTRY(jobject, JVM_Clone(JNIEnv* env, jobject handle))
         color = method->get_ap_color(bci, UnknownAPHeapColor);
       }
       new_obj_oop = CollectedHeap::array_allocate(klass, size, length, color, CHECK_NULL);
-    } else if (MethodSampleColors) {
+    } else if (HotMethodAllocate || HotKlassAllocate) {
       JavaThread *thread = (JavaThread*)THREAD;
-      HeapColor color = HC_BLUE;
+      HeapColor color = UnknownAPHeapColor;
       if (thread->last_frame().is_interpreted_frame()) {
         Method* method = thread->last_frame().interpreter_frame_method();
-        if (method->is_hot()) {
-          color = HC_RED;
-        } else {
-          if (HotKlassAllocate) {
-            color = klass->is_hot() ? HC_RED : HC_BLUE;
-          } else {
-            color = HC_BLUE;
-          }
+        if (HotMethodAllocate && HotKlassAllocate) {
+          color = (method->is_hot() || klass->is_hot()) ? HC_RED : HC_BLUE;
+        } else if (HotMethodAllocate) {
+          color = method->is_hot() ? HC_RED : HC_BLUE;
+        } else if (HotKlassAllocate) {
+          color = klass->is_hot() ? HC_RED : HC_BLUE;
         }
       }
       new_obj_oop = CollectedHeap::array_allocate(klass, size, length, color, CHECK_NULL);
@@ -656,19 +654,17 @@ JVM_ENTRY(jobject, JVM_Clone(JNIEnv* env, jobject handle))
         color = method->get_ap_color(bci, UnknownAPHeapColor);
       }
       new_obj_oop = CollectedHeap::obj_allocate(klass, size, color, CHECK_NULL);
-    } else if (MethodSampleColors) {
+    } else if (HotMethodAllocate || HotKlassAllocate) {
       JavaThread *thread = (JavaThread*)THREAD;
-      HeapColor color = HC_BLUE;
+      HeapColor color = UnknownAPHeapColor;
       if (thread->last_frame().is_interpreted_frame()) {
         Method* method = thread->last_frame().interpreter_frame_method();
-        if (method->is_hot()) {
-          color = HC_RED;
-        } else {
-          if (HotKlassAllocate) {
-            color = klass->is_hot() ? HC_RED : HC_BLUE;
-          } else {
-            color = HC_BLUE;
-          }
+        if (HotMethodAllocate && HotKlassAllocate) {
+          color = (method->is_hot() || klass->is_hot()) ? HC_RED : HC_BLUE;
+        } else if (HotMethodAllocate) {
+          color = method->is_hot() ? HC_RED : HC_BLUE;
+        } else if (HotKlassAllocate) {
+          color = klass->is_hot() ? HC_RED : HC_BLUE;
         }
       }
       new_obj_oop = CollectedHeap::obj_allocate(klass, size, color, CHECK_NULL);

@@ -108,11 +108,8 @@ void PSPromotionLAB::flush() {
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
-    //alt_oait->mark_known_free(filler_oop);
-    alt_oait->insert(filler_oop, filler_oop->size(), FILLER_KLASS, FILLER_OBJECT);
+    alt_oait->insert(filler_oop, filler_oop->size(), FILLER_KLASS);
     alt_oait->mark_filler(filler_oop, filler_oop->size());
-    //tty->print_cr("marked filler oop %p %d bytes",
-    //  filler_oop, (filler_oop->size()*HeapWordSize));
   }
 #endif
 

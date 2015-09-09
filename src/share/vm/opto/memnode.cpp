@@ -43,7 +43,7 @@
 #include "opto/regmask.hpp"
 #include "utilities/copy.hpp"
 
-#include "runtime/jrMethodInfo.hpp"
+#include "runtime/hotMethodSampler.hpp"
 
 // Portions of code courtesy of Clifford Click
 
@@ -4548,65 +4548,59 @@ bool MergeMemStream::match_memory(Node* mem, const MergeMemNode* mm, int idx) {
 #endif // !PRODUCT
 
 
-// JR Custom Content - this method (used to be in headder file)
 LoadNode::LoadNode( Node *c, Node *mem, Node *adr, const TypePtr* at, const Type *rt, MemOrd mo, ControlDependency control_dependency)
   : MemNode(c,mem,adr,at), _type(rt), _mo(mo), _depends_only_on_test(control_dependency == DependsOnlyOnTest) {
   init_class_id(Class_Load);
 
-  if (HotKlassOrganize) {
+  if (HotKlassAllocate || HotKlassOrganize || PrintKlassAccessLists) {
     Compile* C = Compile::current();
-    GrowableArray<Klass *>* cur_kal = C->cur_klass_access_list();
+    GrowableArray<Klass*>* cur_kal = C->cur_klass_access_list();
     if (cur_kal) {
       const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
-      if (adr_type1 != NULL) {
-        Klass *k = adr_type1->klass()->mj_get_Klass();
-        if (!JRMethodInfoManager::kal_contains( cur_kal, k ) ) {
+      if (adr_type1 != NULL && adr_type1->klass() != NULL) {
+        Klass* k = adr_type1->klass()->mj_get_Klass();
+        if (!HotMethodSampler::kal_contains( cur_kal, k ) ) {
           cur_kal->append(k);
         }
       }
     }
   }
-  // JR Custom Content - end
 }
 
-// JR Custom Content - this method (used to be in headder file)
 StoreNode::StoreNode(Node *c, Node *mem, Node *adr, const TypePtr* at, Node *val, MemOrd mo)
   : MemNode(c, mem, adr, at, val), _mo(mo) {
   init_class_id(Class_Store);
 
-  if (HotKlassOrganize) {
+  if (HotKlassAllocate || HotKlassOrganize || PrintKlassAccessLists) {
     Compile* C = Compile::current();
     GrowableArray<Klass*>* cur_kal = C->cur_klass_access_list();
     if (cur_kal) {
       const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
-      if (adr_type1 != NULL) {
+      if (adr_type1 != NULL && adr_type1->klass() != NULL) {
         Klass* k = adr_type1->klass()->mj_get_Klass();
-        if (!JRMethodInfoManager::kal_contains( cur_kal, k ) ) {
+        if (!HotMethodSampler::kal_contains( cur_kal, k ) ) {
           cur_kal->append(k);
         }
       }
     }
   }
-  // JR Custom Content - end
 }
 
-// JR Custom Content - this method (used to be in headder file)
 StoreNode::StoreNode(Node *c, Node *mem, Node *adr, const TypePtr* at, Node *val, Node *oop_store, MemOrd mo)
   : MemNode(c, mem, adr, at, val, oop_store), _mo(mo) {
   init_class_id(Class_Store);
 
-  if (HotKlassOrganize) {
+  if (HotKlassAllocate || HotKlassOrganize || PrintKlassAccessLists) {
     Compile* C = Compile::current();
     GrowableArray<Klass*>* cur_kal = C->cur_klass_access_list();
     if (cur_kal) {
       const TypeOopPtr *adr_type1 = adr->bottom_type()->isa_oopptr();
-      if (adr_type1 != NULL) {
+      if (adr_type1 != NULL && adr_type1->klass() != NULL) {
         Klass* k = adr_type1->klass()->mj_get_Klass();
-        if (!JRMethodInfoManager::kal_contains( cur_kal, k ) ) {
+        if (!HotMethodSampler::kal_contains( cur_kal, k ) ) {
           cur_kal->append(k);
         }
       }
     }
   }
-  // JR Custom Content - end
 }

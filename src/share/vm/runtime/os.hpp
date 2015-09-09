@@ -119,6 +119,9 @@ class os: AllStatic {
   static traymask_t       * _traymask_all_trays_ptr;
   static traymask_t       * _traymask_no_trays_ptr;
   static traymask_t       * _default_traymask_ptr;
+
+  static cpu_set_t        * _sampler_cpus;
+  static cpu_set_t        * _jvm_cpus;
  public:
   static size_t             _page_sizes[page_sizes_max];
 
@@ -462,8 +465,24 @@ class os: AllStatic {
     java_thread,
     compiler_thread,
     watcher_thread,
+    sampler_thread,
     os_thread
   };
+
+  static const char * thread_type_str(ThreadType t) {
+    switch(t){
+    case vm_thread:       return "VMThread";
+    case cgc_thread:      return "ConcGCThread";
+    case pgc_thread:      return "ParGCThread";
+    case java_thread:     return "JavaThread";
+    case compiler_thread: return "CompilerThread";
+    case watcher_thread:  return "WatcherThread";
+    case sampler_thread:  return "SamplerThread";
+    default:              return "UnknownThread";
+    }
+  }
+
+  static void print_thread_times(bool exiting);
 
   static bool create_thread(Thread* thread,
                             ThreadType thr_type,
@@ -914,6 +933,9 @@ class os: AllStatic {
   static traymask_t * traymask_all_trays() { return _traymask_all_trays_ptr; }
   static traymask_t * traymask_no_trays()  { return _traymask_no_trays_ptr;  }
   static traymask_t * default_traymask()   { return _default_traymask_ptr;   }
+
+  static cpu_set_t *sampler_cpus()         { return _sampler_cpus; }
+  static cpu_set_t *jvm_cpus()             { return _jvm_cpus;     }
 
   // Builds a platform dependent Agent_OnLoad_<libname> function name
   // which is used to find statically linked in agents.

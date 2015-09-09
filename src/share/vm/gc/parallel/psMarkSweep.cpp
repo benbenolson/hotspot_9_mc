@@ -159,7 +159,7 @@ bool PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
 
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (PrintObjectAddressInfoAtGC) {
-    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "pre-major-gc");
+    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, krinfo_log, "pre-major-gc");
 
     VMThread::execute(&op1);
   }
@@ -450,7 +450,7 @@ bool PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
 
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (PrintObjectAddressInfoAtGC) {
-    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "post-major-gc");
+    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, krinfo_log, "post-major-gc");
 
     VMThread::execute(&op1);
   }

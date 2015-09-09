@@ -334,6 +334,7 @@ class Thread: public ThreadShadow {
   // threads.
   virtual bool is_GC_task_thread() const             { return false; }
   virtual bool is_Watcher_thread() const             { return false; }
+  virtual bool is_Sampler_thread() const             { return false; }
   virtual bool is_ConcurrentGC_thread() const        { return false; }
   virtual bool is_Named_thread() const               { return false; }
   virtual bool is_Worker_thread() const              { return false; }
@@ -821,6 +822,34 @@ class WatcherThread: public Thread {
   int sleep() const;
 };
 
+// A single SamplerThread is used for continuous sampling
+class SamplerThread: public Thread {
+  friend class VMStructs;
+ public:
+  virtual void run();
+
+ private:
+  static SamplerThread* _sampler_thread;
+  volatile static bool _should_terminate; // updated without holding lock
+ public:
+  // Constructor
+  SamplerThread();
+
+  // Tester
+  bool is_Sampler_thread() const { return true; }
+
+  // Printing
+  char* name() const { return (char*)"VM Sampler Thread"; }
+  void print_on(outputStream* st) const;
+  void print() const { print_on(tty); }
+
+  // Returns the single instance of SamplerThread
+  static SamplerThread* sampler_thread()         { return _sampler_thread; }
+
+  // Create and start the single instance of SamplerThread, or stop it on shutdown
+  static void start();
+  static void stop();
+};
 
 class CompilerThread;
 
@@ -1532,6 +1561,12 @@ class JavaThread: public Thread {
     _anchor.make_walkable(this);
     return pd_last_frame();
   }
+
+  frame my_last_frame() {
+    _anchor.make_walkable(this);
+    return my_pd_last_frame();
+  }
+
   javaVFrame* last_java_vframe(RegisterMap* reg_map);
 
   // Returns method at 'depth' java or native frames down the stack
@@ -1541,6 +1576,8 @@ class JavaThread: public Thread {
   // Print stack trace in external format
   void print_stack_on(outputStream* st);
   void print_stack() { print_stack_on(tty); }
+
+  void sample_stack(outputStream *out=NULL);
 
   // Print stack traces in various internal formats
   void trace_stack()                             PRODUCT_RETURN;
@@ -1954,6 +1991,7 @@ class Threads: AllStatic {
   static bool includes(JavaThread* p);
   static JavaThread* first()                     { return _thread_list; }
   static void threads_do(ThreadClosure* tc);
+  static void java_threads_do(ThreadClosure* tc);
 
   // Initializes the vm and creates the vm thread
   static jint create_vm(JavaVMInitArgs* args, bool* canTryAgain);

@@ -179,16 +179,14 @@ IRT_ENTRY(void, InterpreterRuntime::_colored_new(JavaThread* thread,
   klass->initialize(CHECK);
 
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method(thread)->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        color = k_oop->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method(thread)->is_hot() || k_oop->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method(thread)->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = k_oop->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method(thread)->get_ap_color(bci(thread), UnknownAPHeapColor);
   }
@@ -204,18 +202,16 @@ IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::colored_newarray(JavaThread* thread, BasicType type, jint size))
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method(thread)->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        Klass* type_asKlassOop = Universe::typeArrayKlassObj(type);
-        TypeArrayKlass* type_asArrayKlass = TypeArrayKlass::cast(type_asKlassOop);
-        color = type_asArrayKlass->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    Klass* k = Universe::typeArrayKlassObj(type);
+    color = (method(thread)->is_hot() || k->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method(thread)->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    Klass* k = Universe::typeArrayKlassObj(type);
+    color = k->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method(thread)->get_ap_color(bci(thread), UnknownAPHeapColor);
   }
@@ -237,16 +233,14 @@ IRT_ENTRY(void, InterpreterRuntime::colored_anewarray(JavaThread* thread, Consta
   Klass*  klass = pool->klass_at(index, CHECK);
 
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method(thread)->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        color = klass->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method(thread)->is_hot() || klass->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method(thread)->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = klass->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method(thread)->get_ap_color(bci(thread), UnknownAPHeapColor);
   }
@@ -307,16 +301,14 @@ IRT_ENTRY(void, InterpreterRuntime::colored_multianewarray(JavaThread* thread,
   }
 
   HeapColor color;
-  if (MethodSampleColors) {
-    if (method(thread)->is_hot()) {
-      color = HC_RED;
-    } else {
-      if (HotKlassAllocate) {
-        color = ArrayKlass::cast(klass)->is_hot() ? HC_RED : HC_BLUE;
-      } else {
-        color = HC_BLUE;
-      }
-    }
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method(thread)->is_hot() || ArrayKlass::cast(klass)->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method(thread)->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = ArrayKlass::cast(klass)->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method(thread)->get_ap_color(bci(thread), UnknownAPHeapColor);
   }

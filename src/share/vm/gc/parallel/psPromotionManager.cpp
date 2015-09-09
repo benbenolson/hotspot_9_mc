@@ -536,6 +536,7 @@ oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
   assert(PSScavenge::should_scavenge(&o, _safe_scavenge), "Sanity");
   //guarantee(PSScavenge::should_scavenge(&o, _safe_scavenge, true),"wat wat");
   assert(color == HC_RED || color == HC_BLUE, "bad color!");
+#if 0
 #ifdef PROFILE_OBJECT_INFO
   if (ProfileObjectInfo) {
     if (!(PSScavenge::obj_is_initialized(o))) {
@@ -552,6 +553,7 @@ oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
       }
     }
   }
+#endif
 #endif
   //static int running_size = 0;
 

@@ -712,32 +712,10 @@ Compile::Compile( ciEnv* ci_env, C2Compiler* compiler, ciMethod* target, int osr
   Init(::AliasLevel);
 
 
-  // JR Custom Content - begin
-  if (HotKlassOrganize) {
+  if (HotKlassAllocate || HotKlassOrganize || PrintKlassAccessLists) {
     _cur_klass_access_list = _method->klass_access_list();
     guarantee(_cur_klass_access_list != NULL, "NULL klass_access_list!");
-#if 0
-    if (!_cur_klass_access_list) {
-      _cur_klass_access_list = new (ResourceObj::C_HEAP) GrowableArray<klassOop>(10, true);
-      _method->set_klass_access_list(_cur_klass_access_list);
-    }
-#endif
   }
-#if 0
-  if (JRFieldTracker) {
-    // Lookup method to see if we should bother collecting field data
-    const JRMethodInfo* method_info = JRMethodInfoManager::getMethodInfo(_method->holder()->name(), _method->name(), _method->signature()->as_symbol());
-    
-    if (method_info == NULL) {
-      // Method is unique so we should collect
-      _jr_access_list = new JRMethodInfoAccessList();
-    }
-    else {
-      _jr_access_list = NULL;
-    }
-  }
-#endif
-  // JR Custom Content - end
 
   print_compile_messages();
 
@@ -950,18 +928,6 @@ Compile::Compile( ciEnv* ci_env, C2Compiler* compiler, ciMethod* target, int osr
     if (log() != NULL) // Print code cache state into compiler log
       log()->code_cache_state();
   }
-#if 0
-  if (JRFieldTracker) {
-    _method->holder()->set_klass_access_list(_cur_klass_access_list);
-  }
-#endif
-#if 0
-  // JR Custom Content - begin
-  if (JRFieldTracker && should_collect_fields()) {
-    _cur_klass_access_list = NULL;
-  }
-  // JR Custom Content - end
-#endif
 }
 
 //------------------------------Compile----------------------------------------

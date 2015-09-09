@@ -113,6 +113,7 @@ class Method : public Metadata {
 
   jint _temperature;
   GrowableArray<Klass*>* _klass_access_list;
+  jint _hot_sample_count;
 
   // Constructor
   Method(ConstMethod* xconst, AccessFlags access_flags, int size);
@@ -411,11 +412,17 @@ class Method : public Metadata {
   bool is_hot()                                  { return (_temperature > 0);            }
   void set_temperature(jint temp)                { _temperature = temp;                  }
   jint temperature()                             { return _temperature;                  }
+
+  void inc_hot_sample_count()                    { _hot_sample_count++;      }
+  void set_hot_sample_count(jint cnt)            { _hot_sample_count = cnt;  }
+  jint hot_sample_count()                        { return _hot_sample_count; } 
  
   GrowableArray<Klass*>* klass_access_list () { return _klass_access_list; }
   void set_klass_access_list(GrowableArray<Klass*>* kal) {
     _klass_access_list = kal;
   }
+
+  void print_klass_access_list(outputStream *out, int mcnt);
 
   GrowableArray<MethodAllocPointInfo*>* aps()             { return _aps; }
   void set_aps(GrowableArray<MethodAllocPointInfo*>* aps) { _aps = aps; }
@@ -547,6 +554,7 @@ class Method : public Metadata {
 
   // operations on invocation counter
   void print_invocation_count();
+  void print_hot_sample_count(jint rank, jint running_samples, jint total_samples);
 
   // byte codes
   void    set_code(address code)      { return constMethod()->set_code(code); }

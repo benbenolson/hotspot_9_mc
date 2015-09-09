@@ -32,6 +32,7 @@
 #include "memory/resourceArea.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/os.hpp"
+#include "runtime/hotMethodSampler.hpp"
 #include "utilities/globalDefinitions.hpp"
 #include "utilities/macros.hpp"
 #include "utilities/stack.inline.hpp"
@@ -46,8 +47,13 @@ static const int INITIAL_KNOWN_FREE_SIZE  = 200;
 #ifdef PROFILE_OBJECT_INFO
 bool PersistentObjectInfoTable::_printing = false;
 #endif
-#ifdef PROFILE_OBJECT_ADDRESS_INFO
-int ObjectAddressInfoTable::_klass_print_order = 0;
+#if defined (PROFILE_OBJECT_ADDRESS_INFO) or defined (PROFILE_OBJECT_INFO)
+int  KlassRecordTable::_cur_klass_id = 0;
+jint KlassRecordTable::_klass_totals[NR_OBJECT_TYPES][KlassRecordTable::NR_KS_TOTALS] = {
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+};
 #endif
 
 // ObjectLayout needs to know about the colored spaces
@@ -855,7 +861,9 @@ void HeapInspection::find_instances_at_safepoint(Klass* k, GrowableArray<oop>* r
 // Implementation of ObjectInfoCollectionTask
 ObjectInfoCollectionTask* ObjectInfoCollection::_task = NULL;
 bool                      ObjectInfoCollection::_collecting = false;
-jlong                     ObjectInfoCollection::_val_start   = 0;
+bool                      ObjectInfoCollection::_exiting = false;
+jlong                     ObjectInfoCollection::_val_start = 0;
+jint                      ObjectInfoCollection::_tracker_val = 0;
 
 /*
  * The engage() method is called at initialization time via
@@ -864,7 +872,8 @@ jlong                     ObjectInfoCollection::_val_start   = 0;
  */
 void ObjectInfoCollection::engage() {
   if (!is_active()) {
-    ObjectInfoCollection::_val_start = os::javaTimeMillis();
+    ObjectInfoCollection::_val_start   = os::javaTimeMillis();
+    ObjectInfoCollection::_tracker_val = 0;
     objinfo_log->print_cr("start time = %14ld", ObjectInfoCollection::_val_start);
     // start up the periodic task
     _task = new ObjectInfoCollectionTask((int)ObjectInfoInterval);
@@ -884,6 +893,7 @@ void ObjectInfoCollection::disengage() {
     _task->disenroll();
     delete _task;
     _task = NULL;
+    _exiting = true;
   }
 }
 
@@ -1362,13 +1372,12 @@ class AppendInstanceClosure : public ObjectClosure {
   }
 
   static inline bool referenced(oop obj) {
-    //tty->print_cr("referenced: %p", obj);
     return (PSScavenge::obj_poi(obj)->val_load_cnt()  > 0 || 
-            PSScavenge::obj_poi(obj)->val_store_cnt() > 0);
+            PSScavenge::obj_poi(obj)->val_store_cnt() > 0 ||
+            PSScavenge::obj_poi(obj)->val_init_cnt()  > 0);
   }
 
   static inline jint obj_refs(oop obj) {
-    //tty->print_cr("obj_refs: %p", obj);
     return (PSScavenge::obj_refs(obj));
   }
 
@@ -1378,7 +1387,12 @@ class AppendInstanceClosure : public ObjectClosure {
 
   void do_object(oop obj) {
     if (should_include(obj)) {
-      PSScavenge::obj_poi(obj)->alloc_point()->mark_val(obj);
+      PersistentObjectInfo *poi = PSScavenge::obj_poi(obj);
+      AllocPointInfo *api = poi->alloc_point();
+
+      api->add_to_val(poi);
+      poi->set_mark();
+
       if (referenced(obj)) {
         if (obj_refs(obj) < 0) {
           tty->print_cr("negative refs! obj=%p, id=%7d, refs=0x%x\n",
@@ -1422,10 +1436,6 @@ class AllocPointInfoClosure : public ObjectClosure {
     _only_unmarked = only_unmarked;
   }
 
-  static inline AllocPointInfo *alloc_point(oop obj) {
-    return PSScavenge::obj_poi(obj)->alloc_point();
-  }
-
   static inline bool should_include(oop obj) {
     if (!obj->is_oop()) {
       tty->print("should_include got bad obj: %p", obj); tty->flush();
@@ -1435,6 +1445,11 @@ class AllocPointInfoClosure : public ObjectClosure {
 
     if (!PSScavenge::obj_is_initialized(obj)) {
       return false;
+    }
+
+    if (PSScavenge::obj_is_initialized(obj) && PSScavenge::obj_poi(obj) == NULL) {
+      tty->print_cr(" xxx: oop: "INTPTR_FORMAT" id: %d", obj,
+                     PSScavenge::obj_id(obj));
     }
 
     if (_only_unmarked && PSScavenge::obj_poi(obj)->mark()) {
@@ -1447,6 +1462,11 @@ class AllocPointInfoClosure : public ObjectClosure {
   void do_object(oop obj) {
     if (should_include(obj)) {
       alloc_point(obj)->mark_val(obj);
+      PersistentObjectInfo *poi = PSScavenge::obj_poi(obj);
+      AllocPointInfo *api = poi->alloc_point();
+
+      api->add_to_val(poi);
+      poi->set_mark();
     }
   }
 };
@@ -1821,6 +1841,17 @@ void PersistentObjectInfo::mark_store() {
   Atomic::inc(&_tot_store_cnt);
 }
 
+void PersistentObjectInfo::mark_alloc() {
+  if (UseColoredSpaces) {
+    Atomic::add(_size, &_colored_init_cnt[(int)_color]);
+  }
+  Atomic::add(_size, &_val_init_cnt);
+  Atomic::add(_size, &_tot_init_cnt);
+
+  guarantee(_alloc_point != NULL, "poi: null _alloc_point");
+  _alloc_point->mark_new_object(_size);
+}
+
 void PersistentObjectInfo::batch_mark_load(int n) {
   guarantee(_tot_load_cnt >= 0,"ruh roh");
   if (UseColoredSpaces) {
@@ -1931,28 +1962,34 @@ void PersistentObjectInfoEntry::print_poi(outputStream *st,
   jlong cnt_a, cnt_b;
 
   if (UseColoredSpaces) {
-    cnt_a = (jlong)cur_poi->_colored_load_cnt[HC_RED] +
-            (jlong)cur_poi->_colored_store_cnt[HC_RED];
-    cnt_b = (jlong)cur_poi->_colored_load_cnt[HC_BLUE] +
-            (jlong)cur_poi->_colored_store_cnt[HC_BLUE];
+    cnt_a = (jlong)cur_poi->_colored_load_cnt[HC_RED]   +
+            (jlong)cur_poi->_colored_store_cnt[HC_RED]  +
+            (jlong)cur_poi->_colored_init_cnt[HC_RED];
+    cnt_b = (jlong)cur_poi->_colored_load_cnt[HC_BLUE]  +
+            (jlong)cur_poi->_colored_store_cnt[HC_BLUE] +
+            (jlong)cur_poi->_colored_init_cnt[HC_BLUE];
+    st->print_cr(INT64_FORMAT_W(12)   " " INT64_FORMAT_W(8)  " "
+                 INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
+                 INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12),
+                 //INT64_FORMAT_W(8) ") {"INTPTR_FORMAT"}",
+                 (jlong)cur_poi->id(),
+                 (jlong)cur_poi->cval(),
+                 (cur_poi->size()*HeapWordSize),
+                 cnt_a, cnt_b,
+                 (jlong)cur_poi->alloc_point()->id());
   } else {
-    if (TotalRefCounts) {
-      cnt_a = (jlong)cur_poi->_tot_load_cnt + (jlong)cur_poi->_tot_store_cnt;
-      cnt_b = 0;
-    } else {
-      cnt_a = (jlong)cur_poi->_tot_load_cnt;
-      cnt_b = (jlong)cur_poi->_tot_store_cnt;
-    }
+    cnt_a = (jlong)cur_poi->_tot_load_cnt  +
+            (jlong)cur_poi->_tot_store_cnt +
+            (jlong)cur_poi->_tot_init_cnt;
+    st->print_cr(INT64_FORMAT_W(12)   " " INT64_FORMAT_W(8)  " "
+                 INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
+                 INT64_FORMAT_W(12),
+                 //INT64_FORMAT_W(8) ") {"INTPTR_FORMAT"}",
+                 (jlong)cur_poi->id(),
+                 (jlong)cur_poi->cval(),
+                 (cur_poi->size()*HeapWordSize),
+                 cnt_a, (jlong)cur_poi->alloc_point()->id());
   }
-  st->print_cr(INT64_FORMAT_W(12)   " " INT64_FORMAT_W(8)  " "
-               INT32_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
-               INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12),
-               //INT64_FORMAT_W(8) ") {"INTPTR_FORMAT"}",
-               (jlong)cur_poi->id(),
-               (jlong)cur_poi->cval(),
-               (cur_poi->size()*HeapWordSize),
-               cnt_a, cnt_b,
-               (jlong)cur_poi->alloc_point()->id());
 }
 
 void PersistentObjectInfoEntry::print_on(outputStream* st) const {
@@ -2042,40 +2079,66 @@ PersistentObjectInfoEntry* PersistentObjectInfoTable::lookup(Klass* k) {
   return oie;
 }
 
-// Return false if the entry could not be recorded on account
-// of running out of space required to create a new entry.
 PersistentObjectInfo* PersistentObjectInfoTable::append_instance(const oop obj,
-  AllocPointInfo *api, HeapColor color) {
-  Klass*      k = obj->klass();
-  if (k != NULL && k->name() != NULL) {
-    PersistentObjectInfoEntry* poie = lookup(k);
-    // poie may be NULL if it's a new klass for which we
-    // could not allocate space for a new entry in the hashtable.
-    if (poie != NULL) {
-      CollectedHeap *heap = Universe::heap();
-      PersistentObjectInfo *poi = NULL;
-      /* add a poi if this oop has not been seen before */
-      if (obj->is_instance()) {
-        ObjectInfoTable_lock->lock_without_safepoint_check();
-        instanceOop inst_oop = ((instanceOop)obj);
-        inst_oop->initialize(heap->fresh_oop_id(), _cur_val);
-        poi = poie->append_new_poi(inst_oop->id(), _cur_val, obj->size(),
-                                   api, color, (intptr_t)obj);
-        if (poi == NULL) return NULL;
-        guarantee (heap->valid_id(inst_oop->id()), "invalid id!!");
-        ObjectInfoTable_lock->unlock();
-      } else if (obj->is_array()) {
-        ObjectInfoTable_lock->lock_without_safepoint_check();
-        arrayOop arr_oop = ((arrayOop)obj);
-        arr_oop->initialize(heap->fresh_oop_id(), _cur_val);
-        poi = poie->append_new_poi(arr_oop->id(), _cur_val, obj->size(),
-                                   api, color, (intptr_t)obj);
-        if (poi == NULL) return NULL;
-        guarantee (heap->valid_id(arr_oop->id()), "invalid id!!");
-        ObjectInfoTable_lock->unlock();
-      }
-      return poi;
+  int size, Klass* klass) {
+
+  if (klass != NULL) {
+    CollectedHeap *heap = Universe::heap();
+    AllocPointInfoTable *apit = Universe::alloc_point_info_table();
+
+    PersistentObjectInfoEntry* poie = lookup(klass);
+    guarantee(poie != NULL, "null poie");
+    PersistentObjectInfo *poi = NULL;
+    AllocPointInfo *api = apit->get(NULL, -1);
+    /* add a poi if this oop has not been seen before */
+    if (klass->oop_is_instance()) {
+      ObjectInfoTable_lock->lock_without_safepoint_check();
+      instanceOop inst_oop = ((instanceOop)obj);
+      inst_oop->initialize(heap->fresh_oop_id(), _cur_val);
+#if 0
+      objinfo_log->print_cr("oop:   "INTPTR_FORMAT"  "
+                            "klass: "INTPTR_FORMAT"  "
+                            "mname: "INTPTR_FORMAT"  "
+                            "msig:  "INTPTR_FORMAT"  "
+                            "--> %s.%s %s %d  ",
+                            ap_method, ap_method->method_holder()->klass_part()->name(),
+                            ap_method->name(), ap_method->signature(),
+                            ap_method->method_holder()->klass_part()->name()->as_C_string(),
+                            ap_method->name()->as_C_string(),
+                            ap_method->signature()->as_C_string(), ap_bci);
+#endif
+      poi = poie->append_new_poi(inst_oop->id(), _cur_val, size,
+                                 api, HC_NOT_COLORED, (intptr_t)obj);
+      //tty->print_cr("oop: "INTPTR_FORMAT"  id: %7d poi: "INTPTR_FORMAT"",
+      //              inst_oop, inst_oop->id(), poi);
+      if (poi == NULL) return false;
+      guarantee (heap->valid_id(inst_oop->id()), "invalid id!!");
+      ObjectInfoTable_lock->unlock();
+    } else if (klass->oop_is_array()) {
+      ObjectInfoTable_lock->lock_without_safepoint_check();
+      arrayOop arr_oop = ((arrayOop)obj);
+      arr_oop->initialize(heap->fresh_oop_id(), _cur_val);
+#if 0
+      objinfo_log->print_cr("oop:   "INTPTR_FORMAT"  "
+                            "klass: "INTPTR_FORMAT"  "
+                            "mname: "INTPTR_FORMAT"  "
+                            "msig:  "INTPTR_FORMAT"  "
+                            "--> %s.%s %s %d  ",
+                            ap_method, ap_method->method_holder()->klass_part()->name(),
+                            ap_method->name(), ap_method->signature(),
+                            ap_method->method_holder()->klass_part()->name()->as_C_string(),
+                            ap_method->name()->as_C_string(),
+                            ap_method->signature()->as_C_string(), ap_bci);
+#endif
+      poi = poie->append_new_poi(arr_oop->id(), _cur_val, size,
+                                 api, HC_NOT_COLORED, (intptr_t)obj);
+      //tty->print_cr("oop: "INTPTR_FORMAT"  id: %7d poi: "INTPTR_FORMAT"",
+      //              arr_oop, arr_oop->id(), poi);
+      if (poi == NULL) return false;
+      guarantee (heap->valid_id(arr_oop->id()), "invalid id!!");
+      ObjectInfoTable_lock->unlock();
     }
+    return poi;
   }
   return NULL;
 }
@@ -2215,7 +2278,7 @@ class ResetRefCntClosure : public ObjectClosure {
       PersistentObjectInfo *poi = PSScavenge::obj_poi(obj);
       poi->reset_val_load_cnt();
       poi->reset_val_store_cnt();
-      poi->reset_is_new();
+      poi->reset_val_init_cnt();
       poi->reset_mark();
     }
   }
@@ -2252,80 +2315,138 @@ void ObjectInfoCollection::collect_object_info(outputStream *objlog,
   assert(Universe::heap()->kind() == CollectedHeap::ParallelScavengeHeap,
          "organize_objects: must be parallel scavenge heap");
 
+  if (ObjectInfoCollection::_exiting) {
+    return;
+  }
+
   ParallelScavengeHeap* heap = ((ParallelScavengeHeap*)Universe::heap());
   PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
   guarantee(poit != NULL, "no persistent object info table!");
 
   ObjectInfoCollection::_collecting = true;
   cur_time = os::javaTimeMillis();
-  guarantee(ObjectInfoCollection::_val_start != 0, "_val_start not started!");
 
-  objlog->print("%10s ObjectInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
-                      reason, poit->cur_val(), cur_time,
-                      cur_time-ObjectInfoCollection::_val_start);
-  objlog->flush();
-
-  skip_gc = false;
-  if ( (strcmp(reason, "before-GC") == 0) || (strcmp(reason, "after-GC") == 0) ) {
-    skip_gc = true;
+  bool collect_objects = true;
+  if (PrintStackSamples) {
+    ObjectInfoCollection::_tracker_val += 1;
+    if ((ObjectInfoCollection::_tracker_val % StackHeapSampleRatio) != 0) {
+      collect_objects = false;
+    } else {
+      ObjectInfoCollection::_tracker_val = 0;
+    }
   }
 
-  if (PrintAPInfoAtInterval) {
-    apit = Universe::alloc_point_info_table();
-    guarantee(apit != NULL, "no alloc point info table!");
+  if (collect_objects) {
+    guarantee(ObjectInfoCollection::_val_start != 0, "_val_start not started!");
 
-    aplog->print("%10s APInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
+    objlog->print("%10s ObjectInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
+                        reason, poit->cur_val(), cur_time,
+                        cur_time-ObjectInfoCollection::_val_start);
+    objlog->flush();
+
+    skip_gc = false;
+    if ( (strcmp(reason, "before-GC") == 0) || (strcmp(reason, "after-GC") == 0) ) {
+      skip_gc = true;
+    }
+
+    if (PrintAPInfoAtInterval) {
+      apit = Universe::alloc_point_info_table();
+      guarantee(apit != NULL, "no alloc point info table!");
+
+      if (PrintTextAPInfo) {
+        aplog->print("%10s APInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
+                           reason, poit->cur_val(), cur_time,
+                           cur_time-ObjectInfoCollection::_val_start);
+        aplog->flush();
+      }
+    }
+
+    if (ObjectInfoWithGC && !skip_gc) {
+      /* print_object_info will collect all the alloc point info */
+      ObjectInfoCollection::print_object_info(objlog, false, "pre-gc", false);
+
+      /* GC can find new objects -- don't print out the alloc point info just yet */
+      heap->young_collect_as_vm_thread(GCCause::_object_info_collection);
+
+      /* another scan to just get the new objects from the GC */
+      collect_alloc_point_info(true);
+      if (PrintAPInfoAtInterval) {
+        struct apinfo_record api_rec;
+        api_rec.id      = PRE_GC_REC;
+        api_rec.ref_cnt = poit->cur_val();
+        fwrite(&api_rec, sizeof(struct apinfo_record), 1, apinfo_bin);
+        
+        if (PrintTextAPInfo) {
+          aplog->print_cr("    allocation point info %-5d pre-gc:", poit->cur_val());
+        }
+
+        apit->print_val_info(apinfo_bin, aplog);
+        apit->reset_val_cnts();
+
+        if (PrintTextAPInfo) {
+          aplog->print_cr(""); aplog->flush();
+        }
+      }
+
+      /* the GC will discover objects that don't have a known AP -- print those
+       * out and reset again
+       */
+      ObjectInfoCollection::print_object_info(objlog, true, "post-GC", true);
+
+      if (PrintAPInfoAtInterval) {
+        struct apinfo_record api_rec;
+        api_rec.id      = POST_GC_REC;
+        api_rec.ref_cnt = poit->cur_val();
+
+        if (PrintTextAPInfo) {
+          aplog->print_cr("    allocation point info %-5d post-gc:", poit->cur_val());
+        }
+
+        apit->print_val_info(apinfo_bin, aplog);
+        apit->reset_val_cnts();
+
+        if (PrintTextAPInfo) {
+          aplog->print_cr(""); aplog->flush();
+        }
+      }
+
+      ObjectLayout::reset_ref_cnts();
+
+    } else {
+      ObjectInfoCollection::print_object_info(objlog, false, reason, false);
+      if (PrintAPInfoAtInterval) {
+        if (PrintTextAPInfo) {
+          aplog->print_cr("    allocation point info %-5d:", poit->cur_val());
+        }
+
+        apit->print_val_info(apinfo_bin, aplog);
+        apit->reset_val_cnts();
+
+        if (PrintTextAPInfo) {
+          aplog->print_cr(""); aplog->flush();
+        }
+      }
+      ObjectLayout::reset_ref_cnts();
+    }
+  }
+
+  if (PrintStackSamples) {
+    if (collect_objects) {
+      stacks_log->print("%-10s HotMethodSample: %-5d ( time: %-14ld  duration: %-8ld )\n",
                        reason, poit->cur_val(), cur_time,
                        cur_time-ObjectInfoCollection::_val_start);
-    aplog->flush();
+    }
+    stacks_log->flush();
+    HotMethodSampler::do_stack(stacks_log);
+    stacks_log->print_cr("");
   }
 
-  if (ObjectInfoWithGC && !skip_gc) {
-    /* print_object_info will collect all the alloc point info */
-    ObjectInfoCollection::print_object_info(objlog, false, "pre-gc", false);
-
-    /* GC can find new objects -- don't print out the alloc point info just yet */
-    heap->young_collect_as_vm_thread(GCCause::_object_info_collection);
-
-    /* another scan to just get the new objects from the GC */
-    collect_alloc_point_info(true);
-    if (PrintAPInfoAtInterval) {
-      aplog->print_cr("    allocation point info %-5d pre-gc:", poit->cur_val());
-      apit->print_val_info(aplog);
-      apit->reset_val_cnts();
-      aplog->print_cr(" "); aplog->flush();
-    }
-
-    /* the GC will discover objects that don't have a known AP -- print those
-     * out and reset again
-     */
-    ObjectInfoCollection::print_object_info(objlog, true, "post-GC", true);
-
-    if (PrintAPInfoAtInterval) {
-      aplog->print_cr("    allocation point info %-5d post-gc:", poit->cur_val());
-      apit->print_val_info(aplog);
-      apit->reset_val_cnts();
-      aplog->print_cr(" "); aplog->flush();
-    }
-#if 1
-    ObjectLayout::reset_ref_cnts(); // ref_cnts should always be 0 -- but do this anyway
-#endif
-
-  } else {
-    //collect_alloc_point_info(false);
-    ObjectInfoCollection::print_object_info(objlog, false, reason, false);
-    ObjectLayout::reset_ref_cnts();
-    if (PrintAPInfoAtInterval) {
-      aplog->print_cr("    allocation point info %-5d:", poit->cur_val());
-      apit->print_val_info(aplog);
-      apit->reset_val_cnts();
-      aplog->print_cr(" "); aplog->flush();
-    }
+  if (collect_objects) {
+    poit->inc_cur_val();
+    ObjectInfoCollection::_val_start = os::javaTimeMillis();
   }
 
   ObjectInfoCollection::task()->reset_counter();
-  poit->inc_cur_val();
-  ObjectInfoCollection::_val_start = os::javaTimeMillis();
   ObjectInfoCollection::_collecting = false;
 }
 #endif /* PROFILE_OBJECT_INFO */
@@ -2371,136 +2492,679 @@ void ObjectLayout::organize_objects(outputStream *out, const char *reason)
   ObjectLayout::_organizing = false;
 }
 
-#ifdef PROFILE_OBJECT_INFO
-void AllocPointInfo::mark_val(oop o) {
-  guarantee(_tot_store_cnt >= 0,"ruh roh");
-  PersistentObjectInfo *poi = PSScavenge::obj_poi(o);
-  guarantee(poi != NULL, "mark_val bad oop");
-  jint obj_loads  = poi->val_load_cnt();
-  jint obj_stores = poi->val_store_cnt();
-  jint obj_is_new = poi->is_new();
-  jint mark       = poi->mark();
-  jint obj_size   = o->size();
+#if defined (PROFILE_OBJECT_ADDRESS_INFO) or defined (PROFILE_OBJECT_INFO)
+KlassRecord::KlassRecord(char *name, int instance_size,
+  enum klass_type ktype) : _klass_name(name), _instance_size(instance_size),
+  _klass_type(ktype)
+{
+  ResourceMark rm;
+  int i;
 
-  _val_objects += 1;
-  _val_size    += obj_size;
-  if (obj_loads > 0) {
-    _val_load_cnt += obj_loads;
-    if (!mark) {
-      _tot_load_cnt += obj_loads;
+  _klass_id = KlassRecordTable::next_klass_id();
+  _fields   = NULL;
+  //tty->print_cr("  kr_construct: %d %s", _klass_id, _klass_name);
+  if (ProfileObjectFieldInfo) {
+    if (_instance_size > 0) {
+      _nr_fields = (_instance_size * HeapWordSize) - OOP_HEADER_SIZE;
+      _fields = new (ResourceObj::C_HEAP, mtInternal)
+        GrowableArray<FieldRecord*>(_nr_fields,true);
+
+      for (i = 0; i < _nr_fields; i++) {
+        FieldRecord *field = new FieldRecord();
+        _fields->append(field);
+      }
     }
   }
 
-  if (obj_stores > 0) {
-    _val_store_cnt += obj_stores;
-    if (!mark) {
-      _tot_store_cnt += obj_stores;
+  reset_klass_stats();
+}
+
+void KlassRecord::add_to_klass_stats(ObjectAddressInfo *oai, enum heap_space hs)
+{
+  enum obj_type type = oai->type();
+  jint refs = (oai->init_cnt() < 0) ? 
+              (oai->load_cnt() + oai->store_cnt()) :
+              (oai->load_cnt() + oai->store_cnt() + oai->init_cnt());
+
+  _stats[hs][type][KS_LIVE_OBJECTS] += 1;
+  _stats[hs][type][KS_LIVE_SIZE]    += oai->size();
+  _stats[hs][type][KS_LIVE_REFS]    += refs;
+
+  if (refs) {
+    _stats[hs][type][KS_HOT_OBJECTS] += 1;
+    _stats[hs][type][KS_HOT_SIZE]    += oai->size();
+    _stats[hs][type][KS_HOT_REFS]    += refs;
+  }
+
+  if ((oai->init_cnt() > 0) || oai->init_cnt() == NEW_MARKER) {
+    _stats[hs][type][KS_NEW_OBJECTS] += 1;
+    _stats[hs][type][KS_NEW_SIZE]    += oai->size();
+    _stats[hs][type][KS_NEW_REFS]    += (oai->init_cnt() == NEW_MARKER) ? 0 :
+                                        oai->init_cnt();
+  }
+}
+
+void KlassRecord::reset_klass_stats()
+{
+  int i, j, k;
+  for (i = 0 ; i < HS_NR_SPACES; i++) {
+    for (j = 0 ; j < NR_OBJECT_TYPES; j++) {
+      for (k = 0; k < NR_KLASS_STATS; k++) {
+        _stats[i][j][k] = 0;
+      }
     }
   }
+}
+
+void KlassRecord::reset_ref_cnts()
+{
+  int i, j;
+  if (ProfileObjectFieldInfo) {
+    if (_instance_size > 0) {
+      for (i = 0; i < _fields->length(); i++) {
+        _fields->at(i)->reset_ref_cnts();
+      }
+    }
+  }
+
+  for (i = 0 ; i < HS_NR_SPACES; i++) {
+    for (j = 0 ; j < NR_OBJECT_TYPES; j++) {
+      _stats[i][j][KS_LIVE_REFS] = 0;
+      _stats[i][j][KS_HOT_REFS]  = 0;
+      _stats[i][j][KS_NEW_REFS]  = 0;
+    }
+  }
+}
+
+void KlassRecord::mark_field_load(int field_offset, int size)
+{
+  for (int i = field_offset; i < (size+field_offset); i++) {
+    _fields->at(i)->inc_load_cnt();
+  }
+}
+
+void KlassRecord::mark_field_store(int field_offset, int size)
+{
+  for (int i = field_offset; i < (size+field_offset); i++) {
+    _fields->at(i)->inc_store_cnt();
+  }
+}
+
+void KlassRecord::print_bin_on(FILE *binout, outputStream *textout)
+{
+  if (binout) {
+    struct klass_record_record krr;
+    krr.klass_id = _klass_id;
+    for (int i = 0; i < NR_OBJECT_TYPES; i++) {
+      enum obj_type ot = (enum obj_type)i;
+      krr.live_objects[ot] = get_type_stat(ot, KS_LIVE_OBJECTS);
+      krr.live_size[ot]    = (get_type_stat(ot, KS_LIVE_SIZE) * HeapWordSize);
+      krr.live_refs[ot]    = get_type_stat(ot, KS_LIVE_REFS);
+      krr.hot_objects[ot]  = get_type_stat(ot, KS_HOT_OBJECTS);
+      krr.hot_size[ot]     = (get_type_stat(ot, KS_HOT_SIZE)  * HeapWordSize);
+      krr.hot_refs[ot]     = get_type_stat(ot, KS_HOT_REFS);
+      krr.new_objects[ot]  = get_type_stat(ot, KS_NEW_OBJECTS);
+      krr.new_size[ot]     = (get_type_stat(ot, KS_NEW_SIZE)  * HeapWordSize);
+      krr.new_refs[ot]     = get_type_stat(ot, KS_NEW_REFS);
+    }
+    fwrite(&krr, sizeof(struct klass_record_record), 1, binout);
+  }
+
+  if (PrintTextKRInfo) {
+    char sizebuf[14];
+    if (_instance_size >= 0) {
+      sprintf(sizebuf, "%12d", (_instance_size*HeapWordSize));
+    } else {
+      sprintf(sizebuf, "%12s", "-");
+    }
+
+    textout->print_cr("%-9d | %s\t\t%s : %s",
+                  _klass_id, sizebuf, _klass_name,
+                  klass_type_str(_klass_type));
+    textout->print_cr("%-9s | %12d %12d %12d", "",
+                  get_total_stat(KS_LIVE_OBJECTS),
+                  (get_total_stat(KS_LIVE_SIZE) * HeapWordSize),
+                  get_total_stat(KS_LIVE_REFS));
+    textout->print_cr("%-9s | %12d %12d %12d", "",
+                  get_total_stat(KS_HOT_OBJECTS),
+                  (get_total_stat(KS_HOT_SIZE) * HeapWordSize),
+                  get_total_stat(KS_HOT_REFS));
+    textout->print_cr("%-9s | %12d %12d %12d", "",
+                  get_total_stat(KS_NEW_OBJECTS),
+                  (get_total_stat(KS_NEW_SIZE) * HeapWordSize),
+                  get_total_stat(KS_NEW_REFS));
+  }
+
+  if (ProfileObjectFieldInfo) {
+    if (_instance_size > 0) {
+      bool first = true;
+      for (int i = 0; i < _fields->length(); i++) {
+        FieldRecord *cur    = _fields->at(i);
+        jlong field_refs    = (jlong)cur->load_cnt() + (jlong)cur->store_cnt();
+        if (field_refs > 0) {
+          if (first) {
+            textout->print_cr(" fields:");
+            first = false;
+          }
+          textout->print_cr("           %12d %12ld", (i+OOP_HEADER_SIZE), field_refs);
+        }
+      }
+    }
+  }
+}
+
+void KlassRecord::print_map_on(outputStream *out)
+{
+  out->print_cr("%-9d %s", _klass_id, _klass_name);
+}
+
+KlassRecordEntry::KlassRecordEntry(const char *key, int instance_size,
+  enum klass_type ktype, KlassRecordEntry *next) {
+	unsigned int key_len;
+
+  key_len = strlen(key);
+	_key    = NEW_C_HEAP_ARRAY( char, key_len+1, mtInternal );
+  strcpy(_key, key);
+
+  _value  = new KlassRecord(_key, instance_size, ktype);
+  _next   = next;
+}
+
+KlassRecordEntry::~KlassRecordEntry()
+{
+  _next = NULL;
+}
+
+void KlassRecordEntry::add_to_klass_totals(KlassRecordTable *oait)
+{
+  oait->add_to_klass_totals(_value);
+}
+
+KlassRecordEntry* KlassRecordBucket::get_kre(const char *key)
+{
+	KlassRecordEntry *kre;
+
+	kre = _kres;
+	while (kre != NULL) {
+    if ((strcmp(kre->key(), key)) == 0) {
+      return kre;
+    }
+    kre = kre->next();
+	}
+	return NULL;
+}
+
+void KlassRecordEntry::reset_klass_stats()
+{
+  _value->reset_klass_stats();
+}
+
+void KlassRecordEntry::reset_ref_cnts()
+{
+  _value->reset_ref_cnts();
+}
+
+void KlassRecordEntry::print_bin_on(FILE *binout, outputStream *textout)
+{
+  _value->print_bin_on(binout, textout);
+}
+
+void KlassRecordEntry::print_map_on(outputStream *out)
+{
+  _value->print_map_on(out);
+}
+
+int KlassRecordEntry::compare(KlassRecordEntry* e1, KlassRecordEntry* e2) {
+  if(e1->value()->get_total_stat(KlassRecord::KS_LIVE_SIZE) >
+     e2->value()->get_total_stat(KlassRecord::KS_LIVE_SIZE)) {
+    return -1;
+  } else if(e1->value()->get_total_stat(KlassRecord::KS_LIVE_SIZE) <
+            e2->value()->get_total_stat(KlassRecord::KS_LIVE_SIZE)) {
+    return 1;
+  }
+  return 0;
+}
+
+void KlassRecordBucket::reset_klass_stats() {
+  KlassRecordEntry* kre = _kres;
+  while (kre != NULL) {
+    kre->reset_klass_stats();
+    kre = kre->next();
+  }
+}
+
+void KlassRecordBucket::reset_ref_cnts() {
+  KlassRecordEntry* kre = _kres;
+  while (kre != NULL) {
+    kre->reset_ref_cnts();
+    kre = kre->next();
+  }
+}
+
+void KlassRecordBucket::empty() {
+  KlassRecordEntry* kre = _kres;
+  _kres = NULL;
+  while (kre != NULL) {
+    KlassRecordEntry* next = kre->next();
+    delete kre;
+    kre = next;
+  }
+}
+
+KlassRecordEntry* KlassRecordBucket::insert(const char *key,
+  int instance_size, enum klass_type ktype)
+{
+	/* Check if we can handle insertion by simply replacing
+	 * an existing value in a key-value pair in the bucket.
+	 */
+  KlassRecordEntry *kre = get_kre(key);
+  guarantee(kre == NULL, "inserting klass that's already there!");
+
+  KlassRecordEntry *new_kre = new KlassRecordEntry(key, instance_size,
+                                                   ktype, _kres);
+  _kres = new_kre;
+
+  return new_kre;
+}
+
+void KlassRecordBucket::accumulate_klass_totals(KlassRecordTable *krt)
+{
+	KlassRecordEntry *kre = _kres;
+	while (kre != NULL) {
+    kre->add_to_klass_totals(krt);
+    kre = kre->next();
+	}
+}
+
+void KlassRecordBucket::print_bin_on(FILE *binout, outputStream *textout)
+{
+	KlassRecordEntry *kre = _kres;
+	while (kre != NULL) {
+    kre->print_bin_on(binout, textout);
+    kre = kre->next();
+	}
+}
+
+void KlassRecordBucket::print_map_on(outputStream *out)
+{
+	KlassRecordEntry *kre = _kres;
+	while (kre != NULL) {
+    kre->print_map_on(out);
+    kre = kre->next();
+	}
+}
+
+KlassRecordTable::KlassRecordTable(unsigned int klass_table_size)
+{
+	_size = 0;
+  _buckets = NEW_C_HEAP_ARRAY(KlassRecordBucket, klass_table_size, mtInternal);
+  if (_buckets != NULL) {
+    _size = klass_table_size;
+    for (unsigned int index = 0; index < _size; index++) {
+      _buckets[index].initialize();
+    }
+  }
+}
+
+KlassRecordTable::~KlassRecordTable()
+{
+  if (_buckets != NULL) {
+    for (unsigned int index = 0; index < _size; index++) {
+      _buckets[index].empty();
+    }
+    FREE_C_HEAP_ARRAY(KlassRecordBucket, _buckets);
+    _size = 0;
+  }
+}
+
+void KlassRecordTable::get_klass_name(char *buf, Klass* klass)
+{
+  const char *name;
+  if (klass && klass != FILLER_KLASS) {
+    if (klass->name() != NULL) {
+      name = klass->external_name();
+    } else {
+      if (klass == Universe::boolArrayKlassObj())         name = "<boolArrayKlass>";         else
+      if (klass == Universe::charArrayKlassObj())         name = "<charArrayKlass>";         else
+      if (klass == Universe::singleArrayKlassObj())       name = "<singleArrayKlass>";       else
+      if (klass == Universe::doubleArrayKlassObj())       name = "<doubleArrayKlass>";       else
+      if (klass == Universe::byteArrayKlassObj())         name = "<byteArrayKlass>";         else
+      if (klass == Universe::shortArrayKlassObj())        name = "<shortArrayKlass>";        else
+      if (klass == Universe::intArrayKlassObj())          name = "<intArrayKlass>";          else
+      if (klass == Universe::longArrayKlassObj())         name = "<longArrayKlass>";         else
+        name = "<no name>";
+    }
+  } else {
+    if (klass == FILLER_KLASS) {
+      name = "filler-klass";
+    } else {
+      name = "unknown-klass";
+    }
+  }
+  strcpy(buf, name);
+  return;
+}
+
+void KlassRecordTable::get_klass_size_type(Klass* klass, int instance_size,
+  enum klass_type klass_type, int *isize, enum klass_type *ktype)
+{
+  if (klass_type == KT_UNSPECIFIED) {
+    if (klass && klass != FILLER_KLASS) {
+      if (klass->oop_is_instance()) {
+        *ktype = KT_VM_INSTANCE;
+        *isize = instance_size;
+      } else if (klass->oop_is_array()) {
+        *ktype = KT_VM_ARRAY;
+        *isize = -1;
+      } else {
+        *ktype = KT_VM_OTHER;
+        *isize = -1;
+      }
+    } else {
+      *ktype = (klass == FILLER_KLASS) ? KT_VM_FILLER : KT_VM_OTHER;
+      *isize = -1;
+    }
+  } else {
+    /* we are copying this record */
+    *ktype = klass_type;
+    *isize = instance_size;
+  }
+}
+
+KlassRecord *KlassRecordTable::insert(Klass* klass, int instance_size,
+  enum klass_type klass_type)
+{
+  ResourceMark rm;
+	unsigned int index;
+  int isize;
+  enum klass_type ktype;
+	KlassRecordEntry *kre;
+  char key[MAXPATHLEN];
+
+  assert(_buckets != NULL, "KlassRecordTable::_buckets is null");
+  get_klass_name(key, klass);
+  //tty->print_cr("  krt_insert: %p %s", klass, key);
+  get_klass_size_type(klass, instance_size, klass_type, &isize, &ktype);
+
+	index = hash(key) % _size;
+  kre = _buckets[index].insert(key, isize, ktype);
+  guarantee ((strcmp(kre->key(), key) == 0), "bad KlassRecord initialize");
+
+	return kre->value();
+}
+
+KlassRecord *KlassRecordTable::lookup(Klass* k)
+{
+  ResourceMark rm;
+	unsigned int index;
+	KlassRecordEntry *kre;
+  char key[MAXPATHLEN];
+
+  get_klass_name(key, k);
+  //tty->print_cr("  krt_lookup: %p %s", k, key);
+	index = hash(key) % _size;
+  kre = _buckets[index].get_kre(key);
   
-  if ((obj_loads > 0) || (obj_stores > 0)) {
+  if (kre) {
+    return kre->value();
+  }
+
+  return NULL;
+}
+
+unsigned long KlassRecordTable::hash(const char *str)
+{
+	unsigned long hash = 5381;
+	int c;
+
+	while (c = *str++) {
+		hash = ((hash << 5) + hash) + c;
+	}
+	return hash;
+}
+#if 0
+void KlassRecordTable::print_header_table(FILE *binout,
+  outputStream *textout, const char *title, jint (* kstf) (enum klass_stat_total) )
+#endif
+void KlassRecordTable::print_header_table(FILE *binout,
+  outputStream *textout, const char *title, kst_sum_fn kstf )
+{
+  if (PrintTextKRInfo) {
+    textout->print_cr("%-9s | %12s %12s %12s", title, "objects", "size", "refs");
+    textout->print_cr( "%9s | %12d %12d %12d", "alive",
+                  kstf(KST_LIVE_OBJECTS),
+                  (kstf(KST_LIVE_SIZE) * HeapWordSize),
+                  kstf(KST_LIVE_REFS));
+    textout->print_cr( "%9s | %12d %12d %12d", "hot",
+                  kstf(KST_HOT_OBJECTS),
+                  (kstf(KST_HOT_SIZE)  * HeapWordSize),
+                  kstf(KST_HOT_REFS));
+    textout->print_cr( "%9s | %12d %12d %12d", "new",
+                  kstf(KST_NEW_OBJECTS),
+                  (kstf(KST_NEW_SIZE)  * HeapWordSize),
+                  kstf(KST_NEW_REFS));
+    textout->print("\n");
+  }
+}
+
+void KlassRecordTable::print_bin_header(FILE *binout, outputStream *textout)
+{
+  kst_sum_fn kstf[NR_OBJECT_TYPES] = { get_app_total, get_unknown_total, get_sum_total };
+  int kids[NR_OBJECT_TYPES] = { APP_TOTAL_REC, UNKNOWN_REC, SUM_TOTAL_REC };
+
+  struct klass_record_record krr;
+  krr.klass_id = APP_TOTAL_REC;
+  for (int i = 0; i < NR_OBJECT_TYPES; i++) {
+    krr.live_objects[i] = kstf[i](KST_LIVE_OBJECTS);
+    krr.live_size[i]    = (kstf[i](KST_LIVE_SIZE) * HeapWordSize);
+    krr.live_refs[i]    = kstf[i](KST_LIVE_REFS);
+    krr.hot_objects[i]  = kstf[i](KST_HOT_OBJECTS);
+    krr.hot_size[i]     = (kstf[i](KST_HOT_SIZE)  * HeapWordSize);
+    krr.hot_refs[i]     = kstf[i](KST_HOT_REFS);
+    krr.new_objects[i]  = kstf[i](KST_NEW_OBJECTS);
+    krr.new_size[i]     = (kstf[i](KST_NEW_SIZE)  * HeapWordSize);
+    krr.new_refs[i]     = kstf[i](KST_NEW_REFS);
+  }
+  fwrite(&krr, sizeof(struct klass_record_record), 1, binout);
+
+  if (PrintTextKRInfo) {
+    textout->print_cr("klasses   | " INT32_FORMAT_W(12),
+      get_app_total(KST_NR_KLASSES));
+    textout->print("\n");
+  }
+
+  print_header_table(binout, textout, "app-total", kstf[0]);
+  print_header_table(binout, textout, "unknown",   kstf[1]);
+  print_header_table(binout, textout, "sum-total", kstf[2]);
+
+  if (PrintTextKRInfo) {
+    textout->print("\n");
+  }
+}
+
+void KlassRecordTable::print_bin_table(FILE *binout, outputStream *textout)
+{
+  for(unsigned int i=0; i < _size; i++) {
+    _buckets[i].print_bin_on(binout, textout);
+  }
+  if (PrintTextKRInfo) {
+    textout->print("\n");
+  }
+}
+
+void KlassRecordTable::print_bin_on(FILE *binout, outputStream *textout)
+{
+  print_bin_header(binout, textout);
+  print_bin_table(binout, textout);
+}
+
+void KlassRecordTable::print_map_on(outputStream *out)
+{
+  for(unsigned int i=0; i < _size; i++) {
+    _buckets[i].print_map_on(out);
+  }
+}
+
+void KlassRecordTable::reset_klass_totals()
+{
+  for (unsigned int i = 0; i < NR_OBJECT_TYPES; i++) {
+    for (unsigned int j = 0; j < NR_KS_TOTALS; j++) {
+      _klass_totals[i][j] = 0;
+    }
+  }
+}
+
+void KlassRecordTable::reset_klass_cnts()
+{
+  if (_buckets != NULL) {
+    for (unsigned int index = 0; index < _size; index++) {
+      _buckets[index].reset_klass_stats();
+    }
+    for (unsigned int index = 0; index < _size; index++) {
+      _buckets[index].reset_ref_cnts();
+    }
+  }
+
+  reset_klass_totals();
+}
+
+#if 0
+void KlassRecordTable::reset_klass_stats()
+{
+}
+
+void KlassRecordTable::reset_klass_records()
+{
+  if (_buckets != NULL) {
+    for (unsigned int index = 0; index < _size; index++) {
+      _buckets[index].empty();
+    }
+  }
+}
+#endif
+
+void KlassRecordTable::add_to_klass_totals(KlassRecord *kr)
+{
+#if 0
+  enum obj_type ot = kt2ot(kr->klass_type());
+  ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+  if (oait->cur_val() == 0) {
+    tty->print_cr("  kr: %p kr_type: %d type: %d live; %d", kr, kr->klass_type(), ot,
+      kr->get_type_stat(ot, KlassRecord::KS_LIVE_OBJECTS));
+  }
+#endif
+  for (int i = 0; i < NR_OBJECT_TYPES; i++) {
+    enum obj_type ot = (enum obj_type)i;
+    _klass_totals[ot][KST_NR_KLASSES]   += 1;
+    _klass_totals[ot][KST_LIVE_OBJECTS] += kr->get_type_stat(ot, KlassRecord::KS_LIVE_OBJECTS);
+    _klass_totals[ot][KST_LIVE_SIZE]    += kr->get_type_stat(ot, KlassRecord::KS_LIVE_SIZE);
+    _klass_totals[ot][KST_LIVE_REFS]    += kr->get_type_stat(ot, KlassRecord::KS_LIVE_REFS);
+    _klass_totals[ot][KST_HOT_OBJECTS]  += kr->get_type_stat(ot, KlassRecord::KS_HOT_OBJECTS);
+    _klass_totals[ot][KST_HOT_SIZE]     += kr->get_type_stat(ot, KlassRecord::KS_HOT_SIZE);
+    _klass_totals[ot][KST_HOT_REFS]     += kr->get_type_stat(ot, KlassRecord::KS_HOT_REFS);
+    _klass_totals[ot][KST_NEW_OBJECTS]  += kr->get_type_stat(ot, KlassRecord::KS_NEW_OBJECTS);
+    _klass_totals[ot][KST_NEW_SIZE]     += kr->get_type_stat(ot, KlassRecord::KS_NEW_SIZE);
+    _klass_totals[ot][KST_NEW_REFS]     += kr->get_type_stat(ot, KlassRecord::KS_NEW_REFS);
+  }
+#if 0
+  if (oait->cur_val() == 0) {
+    for (int i = 0; i < NR_OBJECT_TYPES; i++) {
+      for (int j = 0; j < NR_KS_TOTALS; j++) {
+        tty->print("  %d", _klass_totals[i][j]);
+      }
+      tty->print_cr("");
+    }
+  }
+#endif
+}
+
+void KlassRecordTable::compute_klass_stats()
+{
+  for(unsigned int i=0; i < _size; i++) {
+    _buckets[i].accumulate_klass_totals(this);
+  }
+}
+
+
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+void AllocPointInfo::add_to_val(ObjectAddressInfo *oai) {
+  jint obj_load_cnt  = oai->load_cnt();
+  jint obj_store_cnt = oai->store_cnt();
+  jint obj_init_cnt  = oai->init_cnt();
+  jint obj_size      = oai->size();
+  jint obj_refs      = (obj_init_cnt < 0) ?
+                        (obj_load_cnt + obj_store_cnt) :
+                        (obj_load_cnt + obj_store_cnt + obj_init_cnt);
+
+  _val_objects  += 1;
+  _val_size     += obj_size;
+
+  if (obj_refs > 0) {
     _val_hot_objects += 1;
     _val_hot_size    += obj_size;
   }
 
-  if (obj_is_new) {
+  if (obj_init_cnt > 0 || (obj_init_cnt == NEW_MARKER)) {
     _val_new_objects += 1;
     _val_new_size    += obj_size;
   }
 
-  jlong val_cnt = _val_load_cnt + _val_store_cnt;
-  poi->set_mark();
-#if 0
-  Atomic::inc(&_val_objects);
-  Atomic::add(o->size(), &_val_size);
-
-  if (obj_loads > 0) {
-    Atomic::add(obj_loads, &_val_load_cnt);
-    Atomic::add(obj_loads, &_tot_load_cnt);
+  _val_load_cnt  += obj_load_cnt;
+  _val_store_cnt += obj_store_cnt;
+  if (obj_init_cnt > 0) {
+    _val_init_cnt  += obj_init_cnt;
   }
-
-  if (obj_stores > 0) {
-    Atomic::add(obj_stores, &_val_store_cnt);
-    Atomic::add(obj_stores, &_tot_store_cnt);
-  }
-  
-  if ((obj_loads > 0) || (obj_stores > 0)) {
-    Atomic::inc(&_val_hot_objects);
-    Atomic::add(o->size(), &_val_hot_size);
-  }
-
-  if (obj_is_new) {
-    Atomic::inc(&_val_new_objects);
-    Atomic::add(o->size(), &_val_new_size);
-  }
-  poi->set_mark();
+}
 #endif
-}
 
-#if 0
-void AllocPointInfo::mark_load(HeapColor color) {
-  guarantee(_tot_load_cnt >= 0,"ruh roh");
-  if (UseColoredSpaces) {
-    Atomic::inc(&_colored_store_cnt[(int)_color]);
+#ifdef PROFILE_OBJECT_INFO
+void AllocPointInfo::add_to_val(PersistentObjectInfo *poi) {
+  jint obj_load_cnt  = poi->val_load_cnt();
+  jint obj_store_cnt = poi->val_store_cnt();
+  jint obj_init_cnt  = poi->val_init_cnt();
+  jint obj_size      = poi->size();
+  jint obj_refs      = obj_load_cnt + obj_store_cnt + obj_init_cnt;
+
+  _val_objects  += 1;
+  _val_size     += obj_size;
+
+  if (obj_refs > 0) {
+    _val_hot_objects += 1;
+    _val_hot_size    += obj_size;
   }
-  Atomic::inc(&_val_store_cnt);
-  Atomic::inc(&_tot_store_cnt);
-}
 
-void AllocPointInfo::mark_store(HeapColor color) {
-  guarantee(_tot_store_cnt >= 0,"ruh roh");
-  if (UseColoredSpaces) {
-    Atomic::inc(&_colored_store_cnt[(int)_color]);
+  if (obj_init_cnt > 0) {
+    _val_new_objects += 1;
+    _val_new_size    += obj_size;
   }
-  Atomic::inc(&_val_store_cnt);
-  Atomic::inc(&_tot_store_cnt);
-}
 
-void AllocPointInfo::mark_hot(oop o) {
-  Atomic::inc(&_val_hot_objects);
-  Atomic::add(o->size(), &_val_hot_size);
+  _val_load_cnt  += obj_load_cnt;
+  _val_store_cnt += obj_store_cnt;
+  _val_init_cnt  += obj_init_cnt;
 }
 #endif
 
 void AllocPointInfo::mark_new_object(int size) {
-  guarantee(_tot_store_cnt >= 0,"ruh roh");
-#if 0
-  if (UseColoredSpaces) {
-    Atomic::add(size, &_colored_store_cnt[(int)_color]);
-  }
-  Atomic::add(size, &_val_store_cnt);
-  Atomic::add(size, &_tot_store_cnt);
-
-  Atomic::add(size, &_val_hot_size);
-  Atomic::inc(&_val_hot_objects);
-#endif
-#if 0
-  Atomic::add(size, &_total_size);
-  Atomic::inc(&_total_objects);
-#endif
   _total_objects += 1;
   _total_size    += size;
-
-#if 0
-  Atomic::add(size, &_val_new_size);
-  Atomic::inc(&_val_new_objects);
-#endif
 }
 
 void AllocPointInfo::add_val_to_totals(AllocPointInfoTable *apit) {
   apit->add_val_total_size(_val_size);
   apit->add_val_total_objects(_val_objects);
-  apit->add_val_total_new_size(_val_new_size);
-  apit->add_val_total_new_objects(_val_new_objects);
   apit->add_val_total_hot_size(_val_hot_size);
   apit->add_val_total_hot_objects(_val_hot_objects);
+  apit->add_val_total_new_size(_val_new_size);
+  apit->add_val_total_new_objects(_val_new_objects);
   apit->add_val_total_load_cnt(_val_load_cnt);
   apit->add_val_total_store_cnt(_val_store_cnt);
+  apit->add_val_total_init_cnt(_val_init_cnt);
 }
 
 void AllocPointInfo::reset_ref_cnts() {
   _val_load_cnt    = 0;
   _val_store_cnt   = 0;
+  _val_init_cnt    = 0;
   _val_hot_size    = 0;
   _val_hot_objects = 0;
   _val_new_size    = 0;
@@ -2518,7 +3182,7 @@ AllocPointInfoEntry::AllocPointInfoEntry(const char *key, unsigned int id,
 	unsigned int key_len;
 
   key_len = strlen(key);
-	_key    = NEW_C_HEAP_ARRAY(char, key_len+1, mtInternal);
+	_key    = NEW_C_HEAP_ARRAY(char, key_len+1, mtInternal );
   strcpy(_key, key);
 
   _value  = new AllocPointInfo(id, color);
@@ -2559,38 +3223,65 @@ void AllocPointInfoEntry::print_map_on(outputStream *out)
 {
   jlong total_objects = _value->total_objects();
   jlong total_size    = (_value->total_size()*HeapWordSize);
-  jlong total_cnt     = _value->tot_load_cnt() + _value->tot_store_cnt();
+  jlong total_cnt     = _value->tot_load_cnt()  +
+                        _value->tot_store_cnt() +
+                        _value->tot_init_cnt();
+  jint klass_id = -1;
+  if (_value->klass_record()) {
+    klass_id = _value->klass_record()->klass_id();
+  }
 
   guarantee(total_objects >= 0, "total objects overflowed");
   guarantee(total_size    >= 0, "total size overflowed");
   guarantee(total_cnt     >= 0, "total ref cnt overflowed");
 
-  out->print_cr("%-7d %-16ld %-16ld %-16ld %s", _value->id(),
-    total_objects, total_size, total_cnt, _key);
+  out->print_cr("%-7d %-7d %-16ld %-16ld %-16ld %s", _value->id(),
+    klass_id, total_objects, total_size, total_cnt, _key);
 }
 
-void AllocPointInfoEntry::print_val_info(outputStream *out)
+void AllocPointInfoEntry::print_val_info(FILE *binout, outputStream *textout)
 {
+#if 0
+  /* MRJ -- I'd rather filter this out in postprocessing */
+  if ((strcmp(_key, "unknown-AP")) == 0) {
+    return;
+  }
+#endif
+
   jlong val_objects     = _value->val_objects();
   jlong val_size        = (_value->val_size()*HeapWordSize);
-  jlong val_new_objects = _value->val_new_objects();
-  jlong val_new_size    = (_value->val_new_size()*HeapWordSize);
   jlong val_hot_objects = _value->val_hot_objects();
   jlong val_hot_size    = (_value->val_hot_size()*HeapWordSize);
-  jlong val_cnt         = _value->val_load_cnt() + _value->val_store_cnt();
+  jlong val_new_objects = _value->val_new_objects();
+  jlong val_new_size    = (_value->val_new_size()*HeapWordSize);
+  jlong val_cnt         = _value->val_load_cnt()  +
+                          _value->val_store_cnt() +
+                          _value->val_init_cnt();
 
   guarantee(val_objects     >= 0, "val objects overflowed");
   guarantee(val_size        >= 0, "val size overflowed");
-  guarantee(val_new_objects >= 0, "val new objects overflowed");
-  guarantee(val_new_size    >= 0, "val new size overflowed");
   guarantee(val_hot_objects >= 0, "val hot objects overflowed");
   guarantee(val_hot_size    >= 0, "val hot size overflowed");
+  guarantee(val_new_objects >= 0, "val new objects overflowed");
+  guarantee(val_new_size    >= 0, "val new size overflowed");
   guarantee(val_cnt         >= 0, "val ref cnt overflowed");
 
-  out->print_cr("%-7d | %16ld %16ld |  %16ld %16ld |  %16ld %16ld |  %16ld",
-    _value->id(),
-    val_objects, val_size, val_hot_objects, val_hot_size,
-    val_new_objects, val_new_size, val_cnt);
+  struct apinfo_record api_rec;
+  api_rec.id            = _value->id();
+  api_rec.total_objects = val_objects;
+  api_rec.total_size    = val_size;
+  api_rec.hot_objects   = val_hot_objects;
+  api_rec.hot_size      = val_hot_size;
+  api_rec.new_objects   = val_new_objects;
+  api_rec.new_size      = val_new_size;
+  api_rec.ref_cnt       = val_cnt;
+  fwrite(&api_rec, sizeof(struct apinfo_record), 1, binout);
+
+  if (PrintTextAPInfo) {
+    textout->print_cr("%-9d | %16ld %16ld |  %16ld %16ld |  %16ld %16ld |  %16ld",
+                      _value->id(), val_objects, val_size, val_hot_objects,
+                      val_hot_size, val_new_objects, val_new_size, val_cnt);
+  }
 }
 
 #if 0
@@ -2663,11 +3354,11 @@ void AllocPointInfoBucket::print_map_on(outputStream *out)
 	}
 }
 
-void AllocPointInfoBucket::print_val_info(outputStream *out)
+void AllocPointInfoBucket::print_val_info(FILE *binout, outputStream *textout)
 {
 	AllocPointInfoEntry *apie = _aps;
 	while (apie != NULL) {
-    apie->print_val_info(out);
+    apie->print_val_info(binout, textout);
     apie = apie->next();
 	}
 }
@@ -2766,7 +3457,7 @@ AllocPointInfo *AllocPointInfoTable::get(Method *ap_method, int ap_bci,
   }
 
 	index = hash(key) % _size;
-  ObjectInfoTable_lock->lock_without_safepoint_check();
+  AllocPointInfoTable_lock->lock_without_safepoint_check();
 	apie  = _buckets[index].get_apie(key);
 
   if (apie == NULL) {
@@ -2776,7 +3467,7 @@ AllocPointInfo *AllocPointInfoTable::get(Method *ap_method, int ap_bci,
   }
 
   guarantee ((strcmp(apie->key(), key) == 0), "bad AllocPointInfoTable insert");
-  ObjectInfoTable_lock->unlock();
+  AllocPointInfoTable_lock->unlock();
 	return apie->value();
 }
 
@@ -2793,30 +3484,92 @@ unsigned long AllocPointInfoTable::hash(const char *str)
 
 void AllocPointInfoTable::print_map_on(outputStream *out)
 {
-  out->print_cr("%-7s %-16s %-16s %-16s %s",
-    "ID", "Objects", "Size", "Refs", "Allocation Point");
+  out->print_cr("%-7s %-7s %-16s %-16s %-16s %s",
+    "ID", "Klass", "Objects", "Size", "Refs", "Allocation Point");
 
   for(unsigned int i=0; i < _size; i++) {
     _buckets[i].print_map_on(out);
   }
-  out->print_cr(" ");
+  out->print("\n");
 }
 
-void AllocPointInfoTable::print_val_info(outputStream *out)
+void AllocPointInfoTable::print_val_info(FILE *binout, outputStream *textout)
 {
-  out->print_cr("%-7s | %16s %16s |  %16s %16s |  %16s %16s |  %16s",
-    "id", "alive_objs", "alive_size", "hot_objs", "hot_size",
-    "new_objs", "new_size", "refs");
+  struct apinfo_record api_rec;
+  AllocPointInfo *unknown = unknown_alloc_point();
 
   compute_val_totals();
-  out->print_cr("total   | %16lu %16lu |  %16lu %16lu |  %16lu %16lu |  %16lu",
-    _val_total_objects,     _val_total_size*HeapWordSize,
-    _val_total_hot_objects, _val_total_hot_size*HeapWordSize,
-    _val_total_new_objects, _val_total_new_size*HeapWordSize,
-    _val_total_load_cnt   + _val_total_store_cnt);
+  jlong sum_refs = (_val_total_load_cnt  +
+                   _val_total_store_cnt +
+                   _val_total_init_cnt);
+  jlong unk_refs = (unknown->val_load_cnt()  +
+                    unknown->val_store_cnt() +
+                    unknown->val_init_cnt());
+
+  jlong app_tot_objs = _val_total_objects       - unknown->val_objects();
+  jlong app_tot_size = _val_total_size          - unknown->val_size();
+  jlong app_hot_objs = _val_total_hot_objects   - unknown->val_hot_objects();
+  jlong app_hot_size = _val_total_hot_size      - unknown->val_hot_size();
+  jlong app_new_objs = _val_total_new_objects   - unknown->val_new_objects();
+  jlong app_new_size = _val_total_new_size      - unknown->val_new_size();
+  jlong app_refs     = sum_refs                 - unk_refs;
+
+  api_rec.id            = APP_TOTAL_REC;
+  api_rec.total_objects = app_tot_objs;
+  api_rec.total_size    = (app_tot_size*HeapWordSize);
+  api_rec.hot_objects   = app_hot_objs;
+  api_rec.hot_size      = (app_hot_size*HeapWordSize);
+  api_rec.new_objects   = app_new_objs;
+  api_rec.new_size      = (app_new_size*HeapWordSize);
+  api_rec.ref_cnt       = app_refs;
+  fwrite(&api_rec, sizeof(struct apinfo_record), 1, apinfo_bin);
+
+  api_rec.id            = UNKNOWN_REC;
+  api_rec.total_objects = unknown->val_objects();
+  api_rec.total_size    = (unknown->val_size()*HeapWordSize);
+  api_rec.hot_objects   = unknown->val_hot_objects();
+  api_rec.hot_size      = (unknown->val_hot_size()*HeapWordSize);
+  api_rec.new_objects   = unknown->val_new_objects();
+  api_rec.new_size      = (unknown->val_new_size()*HeapWordSize);
+  api_rec.ref_cnt       = unk_refs;
+  fwrite(&api_rec, sizeof(struct apinfo_record), 1, apinfo_bin);
+
+  api_rec.id            = SUM_TOTAL_REC;
+  api_rec.total_objects = _val_total_objects;
+  api_rec.total_size    = (_val_total_size*HeapWordSize);
+  api_rec.hot_objects   = _val_total_hot_objects;
+  api_rec.hot_size      = (_val_total_hot_size*HeapWordSize);
+  api_rec.new_objects   = _val_total_new_objects;
+  api_rec.new_size      = (_val_total_new_size*HeapWordSize);
+  api_rec.ref_cnt       = sum_refs;
+  fwrite(&api_rec, sizeof(struct apinfo_record), 1, apinfo_bin);
+
+  if (PrintTextAPInfo) {
+    textout->print_cr("%-9s | %16s %16s |  %16s %16s |  %16s %16s |  %16s",
+      "id", "alive_objs", "alive_size", "hot_objs", "hot_size",
+      "new_objs", "new_size", "refs");
+
+
+    textout->print_cr("app-total | %16ld %16ld |  %16ld %16ld |  %16ld %16ld |  %16ld",
+      app_tot_objs, app_tot_size*HeapWordSize, app_hot_objs,
+      app_hot_size*HeapWordSize, app_new_objs, app_new_size*HeapWordSize,
+      app_refs);
+
+    textout->print_cr("unknown   | %16ld %16ld |  %16ld %16ld |  %16ld %16ld |  %16ld",
+      unknown->val_objects(),     unknown->val_size()*HeapWordSize,
+      unknown->val_hot_objects(), unknown->val_hot_size()*HeapWordSize,
+      unknown->val_new_objects(), unknown->val_new_size()*HeapWordSize,
+      unk_refs);
+
+    textout->print_cr("sum-total | %16ld %16ld |  %16ld %16ld |  %16ld %16ld |  %16ld",
+      _val_total_objects,     _val_total_size*HeapWordSize,
+      _val_total_hot_objects, _val_total_hot_size*HeapWordSize,
+      _val_total_new_objects, _val_total_new_size*HeapWordSize,
+      sum_refs);
+  }
 
   for(unsigned int i=0; i < _size; i++) {
-    _buckets[i].print_val_info(out);
+    _buckets[i].print_val_info(binout, textout);
   }
 }
 
@@ -2830,6 +3583,7 @@ void AllocPointInfoTable::reset_val_totals()
   _val_total_hot_size    = 0;
   _val_total_load_cnt    = 0;
   _val_total_store_cnt   = 0;
+  _val_total_init_cnt    = 0;
 }
 
 void AllocPointInfoTable::compute_val_totals()
@@ -2853,13 +3607,14 @@ void AllocPointInfoTable::reset_ref_cnts()
     _buckets[i].reset_ref_cnts();
   }
 }
-#endif /* PROFILE_OBJECT_INFO */
+#endif /* PROFILE_OBJECT_ADDRESS_INFO or PROFILE_OBJECT_INFO */
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
 //----------------------------------------------------------
 // Implementation of ObjectAddressInfoCollectionTask
 ObjectAddressInfoCollectionTask* ObjectAddressInfoCollection::_task = NULL;
 bool                      ObjectAddressInfoCollection::_collecting  = false;
 jlong                     ObjectAddressInfoCollection::_val_start   = 0;
+jint                      ObjectAddressInfoCollection::_tracker_val = 0;
 
 /*
  * The engage() method is called at initialization time via
@@ -2869,6 +3624,7 @@ jlong                     ObjectAddressInfoCollection::_val_start   = 0;
 void ObjectAddressInfoCollection::engage() {
   if (!is_active()) {
     ObjectAddressInfoCollection::_val_start = os::javaTimeMillis();
+    ObjectAddressInfoCollection::_tracker_val = 0;
     addrinfo_log->print_cr("start time = %14ld", ObjectAddressInfoCollection::_val_start);
     // start up the periodic task
     _task = new ObjectAddressInfoCollectionTask((int)ObjectAddressInfoInterval);
@@ -2895,8 +3651,8 @@ void ObjectAddressInfoCollectionTask::task() {
   }
 }
 
-void ObjectAddressInfoCollection::collect_object_address_info(outputStream *addrlog, 
-  outputStream *fieldlog, const char *reason)
+void ObjectAddressInfoCollection::collect_object_address_info(outputStream *addrinfo_log, 
+  outputStream *krinfo_log, const char *reason)
 {
   ResourceMark rm;
   assert(Universe::heap()->kind() == CollectedHeap::ParallelScavengeHeap,
@@ -2912,420 +3668,153 @@ void ObjectAddressInfoCollection::collect_object_address_info(outputStream *addr
   }
 
   ObjectAddressInfoCollection::_collecting = true;
-  guarantee(ObjectAddressInfoCollection::_val_start != 0, "_val_start not started!");
-
   jlong cur_time = os::javaTimeMillis();
-  addrlog->print("%10s ObjectAddressInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
-                  reason, oait->cur_val(), cur_time,
-                  cur_time-ObjectAddressInfoCollection::_val_start);
-  addrlog->flush();
 
-  tty->print("%10s ObjectAddressInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
-                  reason, oait->cur_val(), cur_time,
-                  cur_time-ObjectAddressInfoCollection::_val_start);
-  tty->flush();
+  bool collect_objects = true;
+  if (PrintStackSamples) {
+    ObjectAddressInfoCollection::_tracker_val += 1;
+    if ((ObjectAddressInfoCollection::_tracker_val % StackHeapSampleRatio) != 0) {
+      collect_objects = false;
+    } else {
+      ObjectAddressInfoCollection::_tracker_val = 0;
+    }
 
-  if (ProfileObjectFieldInfo) {
-    fieldlog->print("%10s ObjectAddressInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
+    if (!collect_objects) {
+      if (strstr(reason, "-gc")) {
+        collect_objects = true;
+        ObjectAddressInfoCollection::_tracker_val = 0;
+      }
+    }
+  }
+
+  if (collect_objects) {
+    guarantee(ObjectAddressInfoCollection::_val_start != 0, "_val_start not started!");
+    addrinfo_log->print("%10s ObjectAddressInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
                     reason, oait->cur_val(), cur_time,
                     cur_time-ObjectAddressInfoCollection::_val_start);
-    fieldlog->flush();
-  }
+    addrinfo_log->flush();
 
-  /* try to determine if fields on objects created at different times will
-   * have different rates of access
-   *
-   * will need: an interval field on ObjectAddressInfo
-   *
-   * the profile run does not need to print ref counts at every interval --
-   * but it needs to print before every GC so no information is lost
-   *
-   * at the start of every interval then, create a new record on the
-   * KlassRecord object that represents references to new objects created in
-   * that interval
-   */
-  if (strstr(reason, "post-")) {
-    alt_oait->use_from_space();
-    //UnknownPagesClosure upc(alt_oait, alt_oait->cur_val());
-    //heap->object_iterate(&upc);
-  } else {
-    oait->record_heap_boundaries();
-    //UnknownPagesClosure upc(oait, oait->cur_val());
-    //heap->object_iterate(&upc);
-  }
+    tty->print("%10s ObjectAddressInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
+                    reason, oait->cur_val(), cur_time,
+                    cur_time-ObjectAddressInfoCollection::_val_start);
+    tty->flush();
 
-  if (strstr(reason, "pre-")) {
-    if ((strcmp(reason, "pre-minor-gc") == 0)) { 
-      oait->copy_to(alt_oait);
-      alt_oait->reset_spaces(false /* young only */);
-      alt_oait->use_to_space();
-    } else /* pre-major-gc */ {
+    /* try to determine if fields on objects created at different times will
+     * have different rates of access
+     *
+     * will need: an interval field on ObjectAddressInfo
+     *
+     * the profile run does not need to print ref counts at every interval --
+     * but it needs to print before every GC so no information is lost
+     *
+     * at the start of every interval then, create a new record on the
+     * KlassRecord object that represents references to new objects created in
+     * that interval
+     */
+    if (strstr(reason, "post-")) {
+      alt_oait->use_from_space();
+      //UnknownPagesClosure upc(alt_oait, alt_oait->cur_val());
+      //heap->object_iterate(&upc);
+    } else {
+      oait->record_heap_boundaries();
+      //UnknownPagesClosure upc(oait, oait->cur_val());
+      //heap->object_iterate(&upc);
+    }
+
+    if (strstr(reason, "pre-")) {
+      if ((strcmp(reason, "pre-minor-gc") == 0)) { 
+        oait->copy_to(alt_oait);
+        alt_oait->reset_spaces(false /* young only */);
+        alt_oait->use_to_space();
+      } else /* pre-major-gc */ {
+        alt_oait->reset_spaces(true /* old and young */);
+      }
+    } else if ((strcmp(reason, "post-minor-gc") == 0) ||
+               (strcmp(reason, "post-major-gc") == 0)) {
+      Universe::switch_obj_addr_tables();
+      oait = Universe::object_address_info_table();
+      ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
+      oait->set_cur_val(alt_oait->cur_val());
       alt_oait->reset_spaces(true /* old and young */);
     }
-  } else if ((strcmp(reason, "post-minor-gc") == 0) ||
-             (strcmp(reason, "post-major-gc") == 0)) {
-    Universe::switch_obj_addr_tables();
-    oait = Universe::object_address_info_table();
-    ObjectAddressInfoTable *alt_oait = Universe::alt_oait();
-    oait->set_cur_val(alt_oait->cur_val());
-    alt_oait->reset_spaces(true /* old and young */);
+
+#if 0
+    addrinfo_log->print_cr("unknown objects: " INT64_FORMAT_W(13)
+                           " unknown size: " INT64_FORMAT_W(13),
+                           upc.unk_objs(), (upc.unk_size()*HeapWordSize));
+    addrinfo_log->print_cr("  known objects: " INT64_FORMAT_W(13)
+                           "   known size: " INT64_FORMAT_W(13),
+                           upc.knw_objs(), (upc.knw_size()*HeapWordSize));
+#endif
+    oait->compute_heap_stats();
+    oait->print_bin_on(addrinfo_bin, addrinfo_log, reason);
+
+    if (PrintKRInfoAtInterval) {
+      KlassRecordTable *krt = Universe::klass_record_table();
+
+      if (PrintTextKRInfo) {
+        krinfo_log->print("%10s KRInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
+                           reason, oait->cur_val(), cur_time,
+                           cur_time-ObjectAddressInfoCollection::_val_start);
+        krinfo_log->flush();
+      }
+
+      krt->print_bin_on(krinfo_bin, krinfo_log);
+
+      if (PrintTextKRInfo) {
+        krinfo_log->print("\n"); krinfo_log->flush();
+      }
+    }
+
+    if (PrintAPInfoAtInterval) {
+      AllocPointInfoTable *apit = Universe::alloc_point_info_table();
+
+      if (PrintTextAPInfo) {
+        apinfo_log->print("%10s APInfoCollection: %-5d ( time: %-14ld  duration: %-8ld )\n",
+                           reason, oait->cur_val(), cur_time,
+                           cur_time-ObjectAddressInfoCollection::_val_start);
+        apinfo_log->flush();
+      }
+
+      apit->print_val_info(apinfo_bin, apinfo_log);
+
+      if (PrintTextAPInfo) {
+        apinfo_log->print("\n"); apinfo_log->flush();
+      }
+    }
+
+    oait->reset_ref_cnts();
+    oait->use_from_space();
   }
 
-  oait->compute_heap_stats();
-  oait->print_on(addrlog, fieldlog, reason);
-  oait->inc_cur_val();
-  oait->reset_ref_cnts();
-  oait->use_from_space();
+  if (PrintStackSamples) {
+    if (collect_objects) {
+      stacks_log->print("%-10s HotMethodSample: %-5d ( time: %-14ld  duration: %-8ld )\n",
+                       reason, oait->cur_val(), cur_time,
+                       cur_time-ObjectAddressInfoCollection::_val_start);
+    }
+    stacks_log->flush();
+    HotMethodSampler::do_stack(stacks_log);
+    stacks_log->print("\n");
+  }
+
+  if (collect_objects) {
+    oait->inc_cur_val();
+    ObjectAddressInfoCollection::_val_start = os::javaTimeMillis();
+  }
 
   ObjectAddressInfoCollection::task()->reset_counter();
-  ObjectAddressInfoCollection::_val_start = os::javaTimeMillis();
-
   /* if we've reached end of run -- do not allow any more signals */
   if (strcmp(reason, "end-of-run")) {
     ObjectAddressInfoCollection::_collecting = false;
   }
 }
 
-KlassRecord::KlassRecord(Klass* k, int instance_size, enum klass_type ktype) :
-  _klass(k) {
-  /* XXX: eclipse-default throws an error in the very last part of the run
-   * with the FIELD_TLAB_INTERVAL configuration in this code -- we can just
-   * ignore it for now -- but I'd like to find why the error occurs
-   */
-  ResourceMark rm;
-  FILE *_klass_name_stream;
-  int i, j;
-  //static int _cnt = 0;
-
-  ParallelScavengeHeap *heap = (ParallelScavengeHeap*)Universe::heap();
-
-  _klass_name     = NULL;
-  _klass_name_len = 0;
-  if (_klass && _klass != FILLER_KLASS && heap->is_in(_klass)) {
-    //ObjectAddressInfoTable::_klass_print_order += 1;
-    //tty->print_cr("inserting: %p, size: %d", k, instance_size);
-    //tty->print_cr("  klass_part: %p", _klass->klass_part());
-
-    _klass_name_stream = open_memstream(&_klass_name, &_klass_name_len);
-    if (_klass->name() != NULL) {
-      fprintf(_klass_name_stream, "%s", _klass->external_name());
-    } else {
-      if (_klass == Universe::boolArrayKlassObj())         fprintf(_klass_name_stream, "<boolArrayKlass>");         else
-      if (_klass == Universe::charArrayKlassObj())         fprintf(_klass_name_stream, "<charArrayKlass>");         else
-      if (_klass == Universe::singleArrayKlassObj())       fprintf(_klass_name_stream, "<singleArrayKlass>");       else
-      if (_klass == Universe::doubleArrayKlassObj())       fprintf(_klass_name_stream, "<doubleArrayKlass>");       else
-      if (_klass == Universe::byteArrayKlassObj())         fprintf(_klass_name_stream, "<byteArrayKlass>");         else
-      if (_klass == Universe::shortArrayKlassObj())        fprintf(_klass_name_stream, "<shortArrayKlass>");        else
-      if (_klass == Universe::intArrayKlassObj())          fprintf(_klass_name_stream, "<intArrayKlass>");          else
-      if (_klass == Universe::longArrayKlassObj())         fprintf(_klass_name_stream, "<longArrayKlass>");         else
-        fprintf(_klass_name_stream, "<no name>");
-    }
-
-    /* for whatever reason -- this code does not work with eclipse-default */
-    if (_klass->oop_is_instance())          fprintf(_klass_name_stream, " : instance");
-    if (_klass->oop_is_array())             fprintf(_klass_name_stream, " : array");
-    if (_klass->oop_is_objArray())          fprintf(_klass_name_stream, " : objArray");
-    if (_klass->oop_is_typeArray())         fprintf(_klass_name_stream, " : typeArray");
-    if (_klass->is_klass())             fprintf(_klass_name_stream, " : klass");
-    if (_klass->is_method())            fprintf(_klass_name_stream, " : method");
-    if (_klass->is_methodData())        fprintf(_klass_name_stream, " : methodData");
-    if (_klass->is_constantPool())      fprintf(_klass_name_stream, " : constantPool");
-    fclose(_klass_name_stream);
-  }
-
-  if (ktype == KT_UNSPECIFIED) {
-    if (_klass && _klass != FILLER_KLASS) {
-      if (_klass->oop_is_instance()) {
-        _klass_type = KT_VM_INSTANCE;
-        _instance_size = instance_size;
-      } else if (_klass->oop_is_array()) {
-        _klass_type = KT_VM_ARRAY;
-        _instance_size = -1;
-      } else {
-        _klass_type = KT_VM_OTHER;
-        _instance_size = -1;
-      }
-    } else {
-      _klass_type = (_klass == FILLER_KLASS) ? KT_VM_FILLER : KT_VM_OTHER;
-      _instance_size = -1;
-    }
-  } else {
-    /* we are copying this record */
-    _klass_type = ktype;
-    _instance_size = instance_size;
-  }
-
-  _fields = NULL;
-  if (_instance_size > 0) {
-    _nr_fields = (_instance_size * HeapWordSize) - OOP_HEADER_SIZE;
-    _fields = new (ResourceObj::C_HEAP, mtInternal)
-      GrowableArray<FieldRecord*>(_nr_fields,true);
-
-    for (i = 0; i < _nr_fields; i++) {
-      FieldRecord *field = new FieldRecord();
-      _fields->append(field);
-    }
-  }
-
-  for (i = 0 ; i < HS_NR_SPACES; i++) {
-    for (j = 0; j < NR_KLASS_STATS; j++) {
-      _stats[i][j] = 0;
-    }
-  }
-  //tty->print_cr("created klass record: %d size: %d name: %s", _cnt, _instance_size, _klass_name);
-  //_cnt++;
-}
-
-void KlassRecord::add_to_klass_stats(ObjectAddressInfo *oai, enum heap_space hs)
-{
-  jint refs = (oai->init_cnt() < 0) ? 
-              (oai->load_cnt() + oai->store_cnt()) :
-              (oai->load_cnt() + oai->store_cnt() + oai->init_cnt());
-
-  _stats[hs][KS_LIVE_OBJECTS] += 1;
-  _stats[hs][KS_LIVE_SIZE]    += oai->size();
-  _stats[hs][KS_LIVE_REFS]    += refs;
-
-  if (refs) {
-    _stats[hs][KS_HOT_OBJECTS] += 1;
-    _stats[hs][KS_HOT_SIZE]    += oai->size();
-    _stats[hs][KS_HOT_REFS]    += refs;
-  }
-
-  if ((oai->init_cnt() > 0) || oai->init_cnt() == NEW_MARKER) {
-    _stats[hs][KS_NEW_OBJECTS] += 1;
-    _stats[hs][KS_NEW_SIZE]    += oai->size();
-    _stats[hs][KS_NEW_REFS]    += (oai->init_cnt() == NEW_MARKER) ? 0 :
-                                   oai->init_cnt();
-  }
-}
-
-void KlassRecord::reset_klass_stats()
-{
-  int i, j, nspaces;
-
-  for (i = 0 ; i < HS_NR_SPACES; i++) {
-    for (j = 0 ; j < NR_KLASS_STATS; j++) {
-      _stats[i][j] = 0;
-    }
-  }
-}
-
-void KlassRecord::reset_ref_cnts()
-{
-  int i;
-  if (_instance_size > 0) {
-    for (i = 0; i < _fields->length(); i++) {
-      _fields->at(i)->reset_ref_cnts();
-    }
-  }
-  for (i = 0 ; i < HS_NR_SPACES; i++) {
-    _stats[i][KS_LIVE_REFS] = 0;
-    _stats[i][KS_HOT_REFS] = 0;
-    _stats[i][KS_NEW_REFS] = 0;
-  }
-}
-
-void KlassRecord::mark_field_load(int field_offset, int size)
-{
-  for (int i = field_offset; i < (size+field_offset); i++) {
-    _fields->at(i)->inc_load_cnt();
-  }
-}
-
-void KlassRecord::mark_field_store(int field_offset, int size)
-{
-  for (int i = field_offset; i < (size+field_offset); i++) {
-    _fields->at(i)->inc_store_cnt();
-  }
-}
-
-void KlassRecord::print_on(outputStream *out)
-{
-  char sizebuf[14];
-  if (_instance_size >= 0) {
-    sprintf(sizebuf, "%13d", (_instance_size*HeapWordSize));
-  } else {
-    sprintf(sizebuf, "%13s", "-");
-  }
-
-  out->print_cr(" %5d : {0x%016lx} %s B %s\t\t%s",
-                ObjectAddressInfoTable::_klass_print_order,
-                (long unsigned int)_klass, sizebuf, klass_type_str(_klass_type),
-                _klass_name);
-  out->print_cr("  alive:   %13d %13d %13d",
-                get_total_stat(KS_LIVE_OBJECTS),
-                (get_total_stat(KS_LIVE_SIZE) * HeapWordSize),
-                get_total_stat(KS_LIVE_REFS));
-  out->print_cr("    hot:   %13d %13d %13d",
-                get_total_stat(KS_HOT_OBJECTS),
-                (get_total_stat(KS_HOT_SIZE) * HeapWordSize),
-                get_total_stat(KS_HOT_REFS));
-  out->print_cr("    new:   %13d %13d %13d",
-                get_total_stat(KS_NEW_OBJECTS),
-                (get_total_stat(KS_NEW_SIZE) * HeapWordSize),
-                get_total_stat(KS_NEW_REFS));
-
-  if (_instance_size > 0) {
-    bool first = true;
-    for (int i = 0; i < _fields->length(); i++) {
-      FieldRecord *cur    = _fields->at(i);
-      jlong field_refs    = (jlong)cur->load_cnt() + (jlong)cur->store_cnt();
-      if (field_refs > 0) {
-        if (first) {
-          out->print_cr(" fields:");
-          first = false;
-        }
-        out->print_cr("           %13d %13ld", (i+OOP_HEADER_SIZE), field_refs);
-      }
-    }
-  }
-
-  ObjectAddressInfoTable::_klass_print_order += 1;
-}
-
-KlassRecordEntry::KlassRecordEntry(Klass* k, int instance_size,
-  enum klass_type ktype, KlassRecordEntry *next) {
-  _key    = k;
-  _value  = new KlassRecord(k, instance_size, ktype);
-  _next   = next;
-}
-
-KlassRecordEntry::~KlassRecordEntry()
-{
-  _next = NULL;
-}
-
-void KlassRecordEntry::add_to_klass_totals(ObjectAddressInfoTable *oait)
-{
-  oait->add_to_klass_totals(_value);
-}
-
-KlassRecordEntry* KlassRecordBucket::get_kre(Klass* obj)
-{
-	KlassRecordEntry *kre;
-
-	kre = _kres;
-	while (kre != NULL) {
-    if (kre->key() == obj) {
-      return kre;
-    }
-    kre = kre->next();
-	}
-	return NULL;
-}
-
-void KlassRecordEntry::reset_klass_stats()
-{
-  _value->reset_klass_stats();
-}
-
-void KlassRecordEntry::reset_ref_cnts()
-{
-  _value->reset_ref_cnts();
-}
-
-void KlassRecordEntry::print_on(outputStream *out)
-{
-  _value->print_on(out);
-}
-
-int KlassRecordEntry::compare(KlassRecordEntry* e1, KlassRecordEntry* e2) {
-  if(e1->value()->live_size() > e2->value()->live_size()) {
-    return -1;
-  } else if(e1->value()->live_size() < e2->value()->live_size()) {
-    return 1;
-  }
-  return 0;
-}
-
-void KlassRecordBucket::copy_entries_to(ObjectAddressInfoTable *dst_oait) {
-  KlassRecordEntry* kre = _kres;
-  while (kre != NULL) {
-    Klass* klass        = kre->value()->klass();
-    int size              = kre->value()->instance_size();
-    enum klass_type ktype = kre->value()->klass_type();
-
-    dst_oait->kt_insert(klass, size, ktype);
-    kre = kre->next();
-  }
-}
-
-void KlassRecordBucket::reset_klass_stats() {
-  KlassRecordEntry* kre = _kres;
-  while (kre != NULL) {
-    kre->reset_klass_stats();
-    kre = kre->next();
-  }
-}
-
-void KlassRecordBucket::reset_ref_cnts() {
-  KlassRecordEntry* kre = _kres;
-  while (kre != NULL) {
-    kre->reset_ref_cnts();
-    kre = kre->next();
-  }
-}
-
-void KlassRecordBucket::empty() {
-  KlassRecordEntry* kre = _kres;
-  _kres = NULL;
-  while (kre != NULL) {
-    KlassRecordEntry* next = kre->next();
-    delete kre;
-    kre = next;
-  }
-}
-
-KlassRecordEntry* KlassRecordBucket::kt_insert(Klass* k, int instance_size,
-  enum klass_type ktype)
-{
-	/* Check if we can handle insertion by simply replacing
-	 * an existing value in a key-value pair in the bucket.
-	 */
-  /*
-  if (k == NULL) {
-    tty->print_cr("inserting null klass");
-  }
-  */
-  KlassRecordEntry *kre = get_kre(k);
-  /*
-  if (kre != NULL) {
-    tty->print_cr("klass: %p name: %s", k, kre->value()->klass_name());
-  } else {
-    tty->print_cr("tried to insert: %p", k);
-  }
-  */
-  guarantee(get_kre(k) == NULL, "inserting klass that's already there!");
-
-  KlassRecordEntry *new_kre = new KlassRecordEntry(k, instance_size, ktype, _kres);
-  _kres = new_kre;
-
-  return new_kre;
-}
-
-void KlassRecordBucket::accumulate_klass_totals(ObjectAddressInfoTable *oait)
-{
-	KlassRecordEntry *kre = _kres;
-	while (kre != NULL) {
-    kre->add_to_klass_totals(oait);
-    kre = kre->next();
-	}
-}
-
-void KlassRecordBucket::print_on(outputStream *out)
-{
-	KlassRecordEntry *kre = _kres;
-	while (kre != NULL) {
-    kre->print_on(out);
-    kre = kre->next();
-	}
-}
-
 ObjectAddressInfoEntry::ObjectAddressInfoEntry(oop obj, int obj_size,
-  KlassRecord *kr, obj_type type, ObjectAddressInfoEntry *next, bool old_rec) {
+  KlassRecord *kr, AllocPointInfo *api, obj_type type,
+  ObjectAddressInfoEntry *next, bool old_rec) {
   _key    = obj;
-  _value  = new ObjectAddressInfo(obj, obj_size, kr, type, old_rec);
+  _value  = new ObjectAddressInfo(obj, obj_size, kr, api, type, old_rec);
   _next   = next;
 }
 
@@ -3353,13 +3842,12 @@ ObjectAddressInfoEntry* ObjectAddressInfoBucket::get_oaie(oop obj)
 	return NULL;
 }
 
-//void ObjectAddressInfoEntry::reset_ref_cnts()
 void ObjectAddressInfoEntry::reset_ref_cnts(enum init_marker im)
 {
   _value->reset_ref_cnts(im);
 }
 
-void ObjectAddressInfoEntry::print_on(outputStream *out)
+void ObjectAddressInfoEntry::print_bin_on(FILE *binout, outputStream *textout)
 {
   intptr_t addr = _value->addr();
   int size      = (int)  (_value->size()*HeapWordSize);
@@ -3378,21 +3866,22 @@ void ObjectAddressInfoEntry::print_on(outputStream *out)
       ref_cnt = (jlong)_value->load_cnt()  +
                 (jlong)_value->store_cnt();
     } else {
-      ref_cnt = (jlong)_value->load_cnt()  +
-                (jlong)_value->store_cnt() +
-                (jlong)_value->init_cnt();
+      ref_cnt = ((jlong)_value->init_cnt() < 0) ? 
+                ((jlong)_value->load_cnt() + (jlong)_value->store_cnt()) :
+                ((jlong)_value->load_cnt() + (jlong)_value->store_cnt()
+                 + (jlong)_value->init_cnt());
     }
   }
-
+  
   if (ref_cnt > 0 || ((enum obj_type)type) == VM_OBJECT) {
     struct object_address_record oar;
     oar.addr      = addr;
     oar.size      = size;
     oar.ref_cnt   = ref_cnt;
-    fwrite(&oar, sizeof(struct object_address_record), 1, addrtable_log);
+    fwrite(&oar, sizeof(struct object_address_record), 1, binout);
 
     if (PrintTextOAT) {
-      out->print_cr("  " INTPTR_FORMAT "    %-16d %-16ld (%2d)",
+      textout->print_cr("  " INTPTR_FORMAT "    %-16d %-16ld (%2d)",
         _value->addr(), size, ref_cnt, type);
     }
   }
@@ -3401,18 +3890,17 @@ void ObjectAddressInfoEntry::print_on(outputStream *out)
 void ObjectAddressInfoBucket::copy_entries_to(ObjectAddressInfoTable *dst_oait) {
   ObjectAddressInfoEntry* oaie = _oaies;
   while (oaie != NULL) {
-    intptr_t addr  = oaie->value()->addr();
-    int size       = oaie->value()->size();
-    obj_type type  = oaie->value()->type();
-    Klass* klass = ProfileObjectFieldInfo ? 
-                     oaie->value()->klass_record()->klass() : NULL;
+    intptr_t addr       = oaie->value()->addr();
+    int size            = oaie->value()->size();
+    obj_type type       = oaie->value()->type();
+    AllocPointInfo *api = oaie->value()->alloc_point();
+    KlassRecord *kr     = oaie->value()->klass_record();
 
-    dst_oait->insert((oop)addr, size, klass, type, false);
+    dst_oait->insert((oop)addr, size, kr, api, type, false);
     oaie = oaie->next();
   }
 }
 
-//void ObjectAddressInfoBucket::reset_ref_cnts() {
 void ObjectAddressInfoBucket::reset_ref_cnts(enum init_marker im) {
   ObjectAddressInfoEntry* oaie = _oaies;
   while (oaie != NULL) {
@@ -3458,7 +3946,8 @@ void ObjectAddressInfoBucket::empty() {
 }
 
 ObjectAddressInfoEntry* ObjectAddressInfoBucket::insert(oop obj,
-  int obj_size, KlassRecord *kr, obj_type otype, bool old_rec)
+  int obj_size, KlassRecord *kr, AllocPointInfo *api, obj_type otype, bool
+  old_rec)
 {
   ObjectAddressInfoEntry *new_oaie = NULL;
 	ObjectAddressInfoEntry *oaie = get_oaie(obj);
@@ -3468,10 +3957,14 @@ ObjectAddressInfoEntry* ObjectAddressInfoBucket::insert(oop obj,
     guarantee(oaie->value()->init_cnt() <= 0, "invalid init_cnt");
     oaie->reset_ref_cnts((enum init_marker)oaie->value()->init_cnt());
     oaie->value()->set_size(obj_size);
+
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oaie->value()->set_type(otype);
     oaie->value()->set_klass_record(kr);
+    oaie->value()->set_alloc_point(api);
     new_oaie = oaie;
   } else {
-    new_oaie = new ObjectAddressInfoEntry(obj, obj_size, kr, otype,
+    new_oaie = new ObjectAddressInfoEntry(obj, obj_size, kr, api, otype,
                                           _oaies, old_rec);
     _oaies = new_oaie;
   }
@@ -3487,20 +3980,23 @@ void ObjectAddressInfoBucket::accumulate_heap_stats(ObjectAddressInfoTable *oait
 	}
 }
 
-void ObjectAddressInfoBucket::print_on(outputStream *out)
+void ObjectAddressInfoBucket::print_bin_on(FILE *binout, outputStream *textout)
 {
 	ObjectAddressInfoEntry *oaie = _oaies;
 	while (oaie != NULL) {
-    oaie->print_on(out);
+    oaie->print_bin_on(binout, textout);
     oaie = oaie->next();
 	}
 }
 
 ObjectAddressInfoTable::ObjectAddressInfoTable(unsigned int obj_table_size,
-  unsigned int klass_table_size)
+  KlassRecordTable *krt, AllocPointInfoTable *apit)
 {
 	_size = 0;
   _using_to_space = false;
+  _krt = krt;
+  _apit = apit;
+  _cur_val = 0;
 
   _buckets = NEW_C_HEAP_ARRAY(ObjectAddressInfoBucket, obj_table_size, mtInternal);
   if (_buckets != NULL) {
@@ -3510,16 +4006,6 @@ ObjectAddressInfoTable::ObjectAddressInfoTable(unsigned int obj_table_size,
     }
   }
 
-	_kr_size = 0;
-  _klass_buckets = NEW_C_HEAP_ARRAY(KlassRecordBucket, klass_table_size, mtInternal);
-  if (_klass_buckets != NULL) {
-    _kr_size = klass_table_size;
-    for (unsigned int index = 0; index < _kr_size; index++) {
-      _klass_buckets[index].initialize();
-    }
-  }
-
-  //_known_free = new (ResourceObj::C_HEAP) GrowableArray<oop>(INITIAL_KNOWN_FREE_SIZE,true);
   use_from_space();
 }
 
@@ -3532,20 +4018,14 @@ ObjectAddressInfoTable::~ObjectAddressInfoTable()
     FREE_C_HEAP_ARRAY(ObjectAddressInfoBucket, _buckets);
     _size = 0;
   }
-
-  if (_klass_buckets != NULL) {
-    for (unsigned int index = 0; index < _kr_size; index++) {
-      _klass_buckets[index].empty();
-    }
-    FREE_C_HEAP_ARRAY(KlassRecordBucket, _klass_buckets);
-    _kr_size = 0;
-  }
-
-  //delete _known_free;
 }
 
-ObjectAddressInfo *ObjectAddressInfoTable::mark_alloc(oop obj)
+ObjectAddressInfo *ObjectAddressInfoTable::mark_alloc(oop obj,
+  Method *method, int bci)
 {
+  static int cur_size   = 0;
+  static int nr_objects = 0;
+
   ObjectAddressInfo *oai = lookup(obj);
   if (!oai) {
     oai = insert(obj);
@@ -3553,71 +4033,108 @@ ObjectAddressInfo *ObjectAddressInfoTable::mark_alloc(oop obj)
 
   guarantee((intptr_t)obj == oai->addr(), "mark_alloc: addr does not match");
 
-  if (ProfileObjectFieldInfo) {
-    KlassRecord *kr = NULL;
-    Klass* klass  = obj->klass();
-    int obj_size    = obj->size();
+  KlassRecord *kr = NULL;
+  Klass* klass    = obj->klass();
+  int obj_size    = obj->size();
 
-    if (obj->size() != oai->size()) {
-      if (oai->klass_record()->klass_type() != KT_VM_FILLER) {
-        tty->print_cr("addr: %ld obj_size: %d oai_type: %d oai_size: %d",
-          oai->addr(), obj->size(), oai->type(), oai->size());
-      }
-      //guarantee(oai->klass_record()->klass_type() == KT_VM_FILLER,
-      //          "over-writing a non-filler");
-    }
-
-    enum klass_type ktype;
-    if (klass && klass->oop_is_instance()) {
-      ktype = KT_APP_INSTANCE;
-    } else if (klass && klass->oop_is_array()) {
-      ktype = KT_APP_ARRAY;
-    } else {
-      ktype = KT_APP_OTHER;
-    }
-
-    if (klass != oai->klass_record()->klass()) {
-      kr = kt_lookup(klass);
-
-      if (!kr) {
-        kr = kt_insert(klass, obj_size, ktype);
-        guarantee(kr != NULL, "bad klass record insert");
-      }
-
-      oai->set_klass_record(kr);
-    }
-
-    if (oai->klass_record()->instance_size() != obj_size) {
-      oai->klass_record()->set_instance_size(-2);
-    }
-    if (oai->klass_record()->klass_type() != ktype) {
-      oai->klass_record()->set_klass_type(ktype);
-    }
+#if 0
+  if (_cur_val == 0 && ((oai->size()*HeapWordSize)>2000000)) {
+    nr_objects += 1;
+    cur_size   += (obj_size*HeapWordSize);
+    tty->print_cr("marked: %p %9d nr_objects: %7d cur_size: %13d",
+                  obj, (obj_size*HeapWordSize), nr_objects, cur_size);
+    tty->print_cr("oai:    0x%"PRIxPTR" %9d type: %d",
+                  oai->addr(), (oai->size()*HeapWordSize), oai->type());
   }
+#endif
 
   /* This can happen because of the filler objects -- we mark the filler
    * objects as we see them -- then some (usually smaller) object is used to
-   * replace them. It seems that replacing a filler object with a smaller
-   * application object should leave a smaller filler object in its place --
-   * we might need to fix this.
+   * replace them.
    */
-  if (obj->size() != oai->size()) {
+  if (oai->type() == FILLER_OBJECT) {
     if (obj->size() < oai->size()) {
       intptr_t rem_filler = (intptr_t)obj + (obj->size()*HeapWordSize);
       int rem = (oai->size() - obj->size());
       ObjectAddressInfo *rem_filler_oai = insert((oop)rem_filler,rem,
-                                                 FILLER_KLASS, FILLER_OBJECT);
+                                                 FILLER_KLASS);
       mark_filler((oop)rem_filler,rem);
     }
 
     oai->set_size(obj->size());
   }
 
+#if 0
+  if (_cur_val == 0) {
+    tty->print_cr("pnt_b:  0x%"PRIxPTR" %9d nr_objects: %7d cur_size: %13d",
+                  oai->addr(), (oai->size()*HeapWordSize), nr_objects, cur_size);
+  }
+#endif
+
+  enum klass_type ktype;
+  if (klass && klass->oop_is_instance()) {
+    ktype = KT_APP_INSTANCE;
+  } else if (klass && klass->oop_is_array()) {
+    ktype = KT_APP_ARRAY;
+  } else {
+    ShouldNotReachHere();
+  }
+
+  ResourceMark rm;
+  char kname[MAXPATHLEN];
+  KlassRecordTable::get_klass_name(kname, klass);
+  if ((strcmp(kname, oai->klass_record()->klass_name())) != 0) {
+    kr = _krt->lookup(klass);
+
+    if (!kr) {
+      kr = _krt->insert(klass, obj_size, ktype);
+      guarantee(kr != NULL, "bad klass record insert");
+    }
+
+    oai->set_klass_record(kr);
+  }
+
+  if (oai->klass_record()->instance_size() != obj_size) {
+    oai->klass_record()->set_instance_size(-2);
+  }
+  if (oai->klass_record()->klass_type() != ktype) {
+    oai->klass_record()->set_klass_type(ktype);
+  }
+
   oai->set_type(APP_OBJECT);
   oai->set_init_cnt(obj->size());
-  //if (oai->klass_record()->klass_type() == KT_VM_INSTANCE) {
-  //  tty->print_cr("trouble!");
-  //}
+
+#if 0
+  if (_cur_val == 0) {
+    tty->print_cr("pnt_c:  0x%"PRIxPTR" %9d nr_objects: %7d cur_size: %13d",
+                  oai->addr(), (oai->size()*HeapWordSize), nr_objects, cur_size);
+  }
+#endif
+
+  AllocPointInfo* api = _apit->get(method, bci, HC_NOT_COLORED);
+  guarantee(api != NULL, "got a bad api");
+
+  if (api->klass_record() == NULL) {
+    api->set_klass_record(oai->klass_record());
+  } else {
+    if (api->klass_record() != oai->klass_record()) {
+      tty->print_cr("warning: api klass does not match oai klass");
+      tty->print_cr("  api klass: %p api: %p", api->klass_record(), api);
+      api->klass_record()->print_bin_on(NULL,tty);
+      tty->print_cr("  oai klass: %p oai: %p", oai->klass_record(), oai);
+      oai->klass_record()->print_bin_on(NULL,tty);
+    }
+  }
+
+  guarantee(api->klass_record() != NULL, "got a bad api");
+  oai->set_alloc_point(api);
+
+#if 0
+  if (_cur_val == 0) {
+    tty->print_cr("after:  0x%"PRIxPTR" %9d nr_objects: %7d cur_size: %13d",
+                  oai->addr(), (oai->size()*HeapWordSize), nr_objects, cur_size);
+  }
+#endif
 
   return oai;
 }
@@ -3627,24 +4144,27 @@ ObjectAddressInfo *ObjectAddressInfoTable::mark_filler(oop obj,
 {
   ObjectAddressInfo *oai = lookup(obj);
   if (!oai) {
-    oai = insert(obj, size, FILLER_KLASS, FILLER_OBJECT);
+    oai = insert(obj, size, FILLER_KLASS);
   }
 
   guarantee((intptr_t)obj == oai->addr(), "mark_filler: addr does not match");
   guarantee(size          == oai->size(), "mark_filler: size does not match");
-  if (ProfileObjectFieldInfo) {
-    guarantee((FILLER_KLASS == oai->klass_record()->klass()),
-      "mark_filler: klass does not match");
-    oai->klass_record()->set_klass_type(KT_VM_FILLER);
-  }
-
   guarantee((oai->load_cnt()  == 0) &&
             (oai->store_cnt() == 0) &&
             ((oai->init_cnt()  == NEW_MARKER) || (oai->init_cnt() == 0) ),
             "invalid ref counts for filler object");
 
   oai->set_type(FILLER_OBJECT);
-  //oai->reset_ref_cnts();
+  oai->klass_record()->set_klass_type(KT_VM_FILLER);
+  guarantee((_apit->unknown_alloc_point() == oai->alloc_point()),
+    "mark_filler: bad alloc point");
+
+#if 0
+  if (_cur_val == 0 && ((oai->size()*HeapWordSize)>2000000)) {
+    tty->print_cr("filler: 0x%"PRIxPTR" %9d type: %d",
+                  oai->addr(), (oai->size()*HeapWordSize), oai->type());
+  }
+#endif
 
   return oai;
 }
@@ -3656,8 +4176,10 @@ void ObjectAddressInfoTable::mark_load(oop obj)
   if (!oai) {
     oai = insert(obj);
   }
-  if (oai->type() != APP_OBJECT) {
-    oai->set_type(APP_OBJECT);
+  if (!PrintAPInfoAtInterval) {
+    if (oai->type() != APP_OBJECT) {
+      oai->set_type(APP_OBJECT);
+    }
   }
 
   oai->inc_load_cnt();
@@ -3670,8 +4192,10 @@ void ObjectAddressInfoTable::mark_store(oop obj)
   if (!oai) {
     oai = insert(obj);
   }
-  if (oai->type() != APP_OBJECT) {
-    oai->set_type(APP_OBJECT);
+  if (!PrintAPInfoAtInterval) {
+    if (oai->type() != APP_OBJECT) {
+      oai->set_type(APP_OBJECT);
+    }
   }
   
   oai->inc_store_cnt();
@@ -3691,7 +4215,6 @@ void ObjectAddressInfoTable::mark_load(oop obj, intptr_t field_addr, int size)
       }
     }
   }
-
 }
 
 void ObjectAddressInfoTable::mark_store(oop obj, intptr_t field_addr, int size)
@@ -3708,7 +4231,6 @@ void ObjectAddressInfoTable::mark_store(oop obj, intptr_t field_addr, int size)
       }
     }
   }
-
 }
 
 void ObjectAddressInfoTable::batch_mark_load(oop obj, int length)
@@ -3730,44 +4252,57 @@ void ObjectAddressInfoTable::batch_mark_store(oop obj, int length)
 }
 
 ObjectAddressInfo *ObjectAddressInfoTable::insert(oop obj,
-  int obj_size, Klass* klass, obj_type type, bool old_rec)
+  int obj_size, KlassRecord *kr, AllocPointInfo *api, obj_type type,
+  bool old_rec)
 {
   ResourceMark rm;
 	unsigned int index;
 	ObjectAddressInfoEntry *oaie;
-  //static int _cnt = 0;
 
   assert(_buckets != NULL, "ObjectAddressInfoTable buckets is null");
 	index = hash(obj) % _size;
 
   ObjectAddressInfoTable_lock->lock_without_safepoint_check();
 
-  KlassRecord *kr = NULL;
-  if (ProfileObjectFieldInfo) {
-    kr = kt_lookup(klass);
-
-    if (!kr) {
-      kr = kt_insert(klass, obj_size, KT_UNSPECIFIED);
-      guarantee(kr != NULL, "bad klass record insert");
-    }
-
-    if (kr->is_instance() && kr->instance_size() != obj_size) {
-      kr->set_instance_size(-2);
-    }
+#if 0
+  if (_cur_val == 0 && ((obj_size*HeapWordSize)>2000000)) {
+    tty->print_cr("insert: %p %9d type: %d",
+                  obj, (obj_size*HeapWordSize), type);
   }
+#endif
 
-  oaie = _buckets[index].insert(obj, obj_size, kr, type, old_rec);
+  oaie = _buckets[index].insert(obj, obj_size, kr, api, type, old_rec);
   guarantee ((oaie->key() == obj), "bad ObjectAddressInfoTable insert");
 
-  //_cnt++;
   ObjectAddressInfoTable_lock->unlock();
 
 	return oaie->value();
 }
 
+ObjectAddressInfo *ObjectAddressInfoTable::insert(oop obj, int obj_size,
+  Klass* klass)
+{
+  ObjectAddressInfoTable_lock->lock_without_safepoint_check();
+  KlassRecord *kr = NULL;
+  kr = _krt->lookup(klass);
+
+  if (!kr) {
+    kr = _krt->insert(klass, obj_size, KT_UNSPECIFIED);
+  }
+
+  guarantee(kr != NULL, "bad klass record insert");
+  if (kr->is_instance() && kr->instance_size() != obj_size) {
+    kr->set_instance_size(-2);
+  }
+  ObjectAddressInfoTable_lock->unlock();
+
+  AllocPointInfo *api = _apit->unknown_alloc_point();
+  return insert(obj, obj_size, kr, api, VM_OBJECT);
+}
+
 ObjectAddressInfo *ObjectAddressInfoTable::insert(oop obj)
 {
-	return insert(obj, obj->size(), obj->klass(), VM_OBJECT);
+  return insert(obj, obj->size(), obj->klass());
 }
 
 ObjectAddressInfo *ObjectAddressInfoTable::lookup(oop obj)
@@ -3785,147 +4320,80 @@ ObjectAddressInfo *ObjectAddressInfoTable::lookup(oop obj)
   return NULL;
 }
 
-KlassRecord *ObjectAddressInfoTable::kt_insert(Klass* k, int instance_size,
-  enum klass_type ktype)
-{
-  ResourceMark rm;
-	unsigned int index;
-	KlassRecordEntry *kre;
-
-  assert(_klass_buckets != NULL, "ObjectAddressInfoTable::_klass_buckets is null");
-	index = hash((oop)k) % _kr_size;
-
-  kre = _klass_buckets[index].kt_insert(k, instance_size, ktype);
-  guarantee ((kre->value()->klass() == k),
-    "bad KlassRecord initialize");
-
-  guarantee ((kre->key() == k), "bad KlassRecord initialize");
-	return kre->value();
-}
-
-KlassRecord *ObjectAddressInfoTable::kt_lookup(Klass* k)
-{
-	unsigned int index;
-	KlassRecordEntry *kre;
-
-	index = hash((oop)k) % _kr_size;
-  kre = _klass_buckets[index].get_kre(k);
-  
-  if (kre) {
-    return kre->value();
-  }
-
-  return NULL;
-}
-
 unsigned long ObjectAddressInfoTable::hash(oop obj)
 {
   uintptr_t ad = (uintptr_t)obj;
   return (size_t)(ad ^ (ad >> 16));
 }
 
-void ObjectAddressInfoTable::print_klass_header(outputStream *out,
-    const char *reason)
-{
-  out->print_cr("KlassRecords : (%s)\n", reason);
-  out->print_cr("klasses      : " INT32_FORMAT_W(13), klass_totals[KST_NR_KLASSES]);
-  out->print_cr("live_objects : " INT32_FORMAT_W(13) "  "
-                "live_bytes   : " INT32_FORMAT_W(13) "  "
-                "live_refs    : " INT32_FORMAT_W(13),
-                klass_totals[KST_LIVE_OBJECTS],
-                klass_totals[KST_LIVE_SIZE] * HeapWordSize,
-                klass_totals[KST_LIVE_REFS]);
-  out->print_cr("hot_size     : " INT32_FORMAT_W(13) "  "
-                "hot_bytes    : " INT32_FORMAT_W(13) "  "
-                "hot_refs     : " INT32_FORMAT_W(13),
-                klass_totals[KST_HOT_OBJECTS],
-                klass_totals[KST_HOT_SIZE] * HeapWordSize,
-                klass_totals[KST_HOT_REFS]);
-  out->print_cr("new_size     : " INT32_FORMAT_W(13) "  "
-                "new_bytes    : " INT32_FORMAT_W(13) "  "
-                "new_refs     : " INT32_FORMAT_W(13),
-                klass_totals[KST_NEW_OBJECTS],
-                klass_totals[KST_NEW_SIZE] * HeapWordSize,
-                klass_totals[KST_NEW_REFS]);
-  out->print_cr(" ");
-}
-
-void ObjectAddressInfoTable::print_klass_table(outputStream *out)
-{
-  _klass_print_order = 0;
-  for(unsigned int i=0; i < _kr_size; i++) {
-    _klass_buckets[i].print_on(out);
-  }
-  out->print_cr(" ");
-}
-
-void ObjectAddressInfoTable::print_heap_stats(outputStream *out, const char *name,
+void ObjectAddressInfoTable::print_heap_stats(outputStream *textout, const char *name,
   enum heap_space hs)
 {
   char buf[10];
   sprintf(buf, "%s:", name);
-  out->print("  %-9s span: " INT32_FORMAT_W(13) " bytes ( "
-                             INTPTR_FORMAT "  "
-                             INTPTR_FORMAT " )\n", buf,
-                             heap_stats[hs][USED_BYTES],
-                             heap_boundaries[hs][BOTTOM_ADDR],
-                             heap_boundaries[hs][TOP_ADDR]);
-  out->print("           alive: " INT32_FORMAT_W(13) " objects, "
-                                  INT32_FORMAT_W(13) " bytes, "
-                                  INT32_FORMAT_W(13) " refs\n",
-                                  heap_stats[hs][LIVE_OBJECTS],
-                                  heap_stats[hs][LIVE_SIZE],
-                                  heap_stats[hs][LIVE_REFS]);
-  out->print("             hot: " INT32_FORMAT_W(13) " objects, "
-                                  INT32_FORMAT_W(13) " bytes, "
-                                  INT32_FORMAT_W(13) " refs\n",
-                                  heap_stats[hs][HOT_OBJECTS],
-                                  heap_stats[hs][HOT_SIZE],
-                                  heap_stats[hs][HOT_REFS]);
-  out->print("             new: " INT32_FORMAT_W(13) " objects, "
-                                  INT32_FORMAT_W(13) " bytes, "
-                                  INT32_FORMAT_W(13) " refs\n",
-                                  heap_stats[hs][NEW_OBJECTS],
-                                  heap_stats[hs][NEW_SIZE],
-                                  heap_stats[hs][NEW_REFS]);
-  out->print("              vm: " INT32_FORMAT_W(13) " objects, "
-                                  INT32_FORMAT_W(13) " bytes, "
-                                  INT32_FORMAT_W(13) " refs\n",
-                                  heap_stats[hs][VM_OBJECTS],
-                                  heap_stats[hs][VM_SIZE],
-                                  heap_stats[hs][VM_REFS]);
-  out->print("          filler: " INT32_FORMAT_W(13) " objects, "
-                                  INT32_FORMAT_W(13) " bytes, "
-                                  INT32_FORMAT_W(13) " refs\n",
-                                  heap_stats[hs][FILLER_OBJECTS],
-                                  heap_stats[hs][FILLER_SIZE],
-                                  heap_stats[hs][FILLER_REFS]);
-  out->print("             app: " INT32_FORMAT_W(13) " objects, "
-                                  INT32_FORMAT_W(13) " bytes, "
-                                  INT32_FORMAT_W(13) " refs\n",
-                                  heap_stats[hs][APP_OBJECTS],
-                                  heap_stats[hs][APP_SIZE],
-                                  heap_stats[hs][APP_REFS]);
-  out->print_cr(" ");
+  textout->print(     "  %-9s span: " INT32_FORMAT_W(13) " bytes ( "
+                                      INTPTR_FORMAT "  "
+                                      INTPTR_FORMAT " )\n", buf,
+                                      heap_stats[hs][USED_BYTES],
+                                      heap_boundaries[hs][BOTTOM_ADDR],
+                                      heap_boundaries[hs][TOP_ADDR]);
+  textout->print("           alive: " INT32_FORMAT_W(13) " objects, "
+                                      INT32_FORMAT_W(13) " bytes, "
+                                      INT32_FORMAT_W(13) " refs\n",
+                                      heap_stats[hs][LIVE_OBJECTS],
+                                      heap_stats[hs][LIVE_SIZE],
+                                      heap_stats[hs][LIVE_REFS]);
+  textout->print("             hot: " INT32_FORMAT_W(13) " objects, "
+                                      INT32_FORMAT_W(13) " bytes, "
+                                      INT32_FORMAT_W(13) " refs\n",
+                                      heap_stats[hs][HOT_OBJECTS],
+                                      heap_stats[hs][HOT_SIZE],
+                                      heap_stats[hs][HOT_REFS]);
+  textout->print("             new: " INT32_FORMAT_W(13) " objects, "
+                                      INT32_FORMAT_W(13) " bytes, "
+                                      INT32_FORMAT_W(13) " refs\n",
+                                      heap_stats[hs][NEW_OBJECTS],
+                                      heap_stats[hs][NEW_SIZE],
+                                      heap_stats[hs][NEW_REFS]);
+  textout->print("              vm: " INT32_FORMAT_W(13) " objects, "
+                                      INT32_FORMAT_W(13) " bytes, "
+                                      INT32_FORMAT_W(13) " refs\n",
+                                      heap_stats[hs][VM_OBJECTS],
+                                      heap_stats[hs][VM_SIZE],
+                                      heap_stats[hs][VM_REFS]);
+  textout->print("          filler: " INT32_FORMAT_W(13) " objects, "
+                                      INT32_FORMAT_W(13) " bytes, "
+                                      INT32_FORMAT_W(13) " refs\n",
+                                      heap_stats[hs][FILLER_OBJECTS],
+                                      heap_stats[hs][FILLER_SIZE],
+                                      heap_stats[hs][FILLER_REFS]);
+  textout->print("             app: " INT32_FORMAT_W(13) " objects, "
+                                      INT32_FORMAT_W(13) " bytes, "
+                                      INT32_FORMAT_W(13) " refs\n",
+                                      heap_stats[hs][APP_OBJECTS],
+                                      heap_stats[hs][APP_SIZE],
+                                      heap_stats[hs][APP_REFS]);
+  textout->print("\n");
 }
 
-void ObjectAddressInfoTable::print_header(outputStream *out, const char *reason)
+void ObjectAddressInfoTable::print_header(outputStream *textout,
+  const char *reason)
 {
-  out->print("ObjectAddressInfoTable: (%s)\n", reason);
-  print_heap_stats(out, "eden",     HS_EDEN_SPACE);
-  print_heap_stats(out, "survivor", HS_SURVIVOR_SPACE);
-  print_heap_stats(out, "tenured",  HS_TENURED_SPACE);
-  print_heap_stats(out, "perm",     HS_PERM_SPACE);
+  textout->print("ObjectAddressInfoTable: (%s)\n", reason);
+  print_heap_stats(textout, "eden",     HS_EDEN_SPACE);
+  print_heap_stats(textout, "survivor", HS_SURVIVOR_SPACE);
+  print_heap_stats(textout, "tenured",  HS_TENURED_SPACE);
+  print_heap_stats(textout, "perm",     HS_PERM_SPACE);
 
-  out->print_cr(" ");
+  textout->print("\n");
 }
 
-void ObjectAddressInfoTable::print_table(outputStream *out)
+void ObjectAddressInfoTable::print_table(FILE *binout, outputStream *textout)
 {
   if (PrintTextOAT) {
-    out->print_cr("  %-21s %-16s %-16s",
+    textout->print_cr("  %-21s %-16s %-16s",
       "Address", "Size", "Refs");
-    out->flush();
+    textout->flush();
   }
 
   /* Mark the end of the table with a marker rec */
@@ -3934,25 +4402,20 @@ void ObjectAddressInfoTable::print_table(outputStream *out)
   marker_rec.size     = (int)  _cur_val;
   marker_rec.ref_cnt  = (jint) OAR_MARKER;
 
-  fwrite(&marker_rec, sizeof(struct object_address_record), 1, addrtable_log);
+  fwrite(&marker_rec, sizeof(struct object_address_record), 1, binout);
 
   for(unsigned int i=0; i < _size; i++) {
-    _buckets[i].print_on(out);
+    _buckets[i].print_bin_on(binout, textout);
   }
 
-  out->print_cr(" ");
+  textout->print("\n");
 }
 
-void ObjectAddressInfoTable::print_on(outputStream *obj_out,
-  outputStream* klass_out, const char *reason)
+void ObjectAddressInfoTable::print_bin_on(FILE *binout, outputStream *textout,
+  const char *reason)
 {
-  print_header(obj_out, reason);
-  print_table(obj_out);
-
-  if (ProfileObjectFieldInfo) {
-    print_klass_header(klass_out, reason);
-    print_klass_table(klass_out);
-  }
+  print_header(textout, reason);
+  print_table(binout, textout);
 }
 
 void ObjectAddressInfoTable::reset_heap_stats()
@@ -3962,9 +4425,6 @@ void ObjectAddressInfoTable::reset_heap_stats()
     for(j = 0; j < NR_HEAP_STATS; j++) {
       heap_stats[i][j] = 0;
     }
-  }
-  for (i = 0; i < NR_KS_TOTALS; i++) {
-    klass_totals[i] = 0;
   }
 }
 
@@ -3993,18 +4453,27 @@ void ObjectAddressInfoTable::add_to_heap_stats(ObjectAddressInfo *oai)
   if (hs == HS_INVALID_SPACE) {
     ObjectAddressInfoTable *oait = Universe::object_address_info_table();
     if (this == oait || oait == NULL) {
-      tty->print_cr("invalid space: addr: %ld oait: orig using_to_space? %d, ",
+      tty->print_cr("invalid space: addr: %"PRIdPTR" oait: orig using_to_space? %d, ",
                     oai->addr(), _using_to_space);
     } else {
-      tty->print_cr("invalid space: addr: %ld oait: alt  using_to_space? %d, ",
+      tty->print_cr("invalid space: addr: %"PRIdPTR" oait: alt  using_to_space? %d, ",
                     oai->addr(), _using_to_space);
     }
+#if 1
     for (int s = 0; s < HS_NR_SPACES; s++) {
-      tty->print("  space: %d, bottom: %ld, top: %ld, end: %ld\n", s,
+      tty->print("  space: %d, bottom: %"PRIdPTR", top: %"PRIdPTR", end: %"PRIdPTR"\n", s,
                  heap_boundaries[s][BOTTOM_ADDR],
                  heap_boundaries[s][TOP_ADDR],
                  heap_boundaries[s][END_ADDR]);
     }
+#endif
+#if 0
+    tty->print("oai with invalid space:  " INTPTR_FORMAT
+               " " INT64_FORMAT_W(13) " bytes"
+               " " INT64_FORMAT_W(13) " refs\n", oai->addr(),
+               (oai->size()*HeapWordSize),
+               (oai->load_cnt() + oai->store_cnt()));
+#endif
     return;
   }
 
@@ -4042,37 +4511,58 @@ void ObjectAddressInfoTable::add_to_heap_stats(ObjectAddressInfo *oai)
     heap_stats[hs][APP_OBJECTS]     += 1;
     heap_stats[hs][APP_SIZE]        += (oai->size() * HeapWordSize);
     heap_stats[hs][APP_REFS]        += refs;
-  }
- 
-  if (ProfileObjectFieldInfo) {
-    KlassRecord *kr = oai->klass_record();
-    if (kr) {
-      kr->add_to_klass_stats(oai, hs);
-    } else {
-      tty->print_cr("oai without kr!: %ld size: %d refs: %d",
-        oai->addr(), oai->size() * HeapWordSize, refs);
+#if 0
+    if (_cur_val == 0) {
+      tty->print_cr("added:  0x%"PRIxPTR" %9d nr_objects: %7d cur_size: %13d",
+                    oai->addr(), (oai->size()*HeapWordSize),
+                    heap_stats[hs][APP_OBJECTS], heap_stats[hs][APP_SIZE]);
     }
+#endif
   }
+
+  KlassRecord *kr = oai->klass_record(); 
+  if (kr) {
+    kr->add_to_klass_stats(oai, hs);
+#if 0
+    if (_cur_val == 0) {
+      tty->print_cr("added oai: %p to kr:  %p hs: %d kr_type: %d type: %d",
+        oai, kr, hs, kr->klass_type(), oai->type());
+      kr->print_on(NULL, tty);
+    }
+#endif
+  } else {
+    tty->print_cr("oai without kr!: %"PRIdPTR" size: %d refs: %d",
+      oai->addr(), oai->size() * HeapWordSize, refs);
+  }
+#if 0
+  if (_cur_val == 0) {
+    _krt->reset_klass_totals();
+    _krt->compute_klass_stats();
+    tty->print_cr("added oai: %p to kr:  %p live: %d", oai, kr, 
+                  _krt->get_sum_total(KlassRecordTable::KST_LIVE_OBJECTS));
+  }
+#endif
 
   ParallelScavengeHeap* psh = ((ParallelScavengeHeap*)Universe::heap());
   heap_stats[HS_EDEN_SPACE][USED_BYTES]     = psh->young_gen()->eden_space()->used_in_bytes();
   heap_stats[HS_SURVIVOR_SPACE][USED_BYTES] = psh->young_gen()->from_space()->used_in_bytes();
   heap_stats[HS_TENURED_SPACE][USED_BYTES]  = psh->old_gen()->object_space()->used_in_bytes();
   //heap_stats[HS_PERM_SPACE][USED_BYTES]     = psh->perm_gen()->object_space()->used_in_bytes();
-}
 
-void ObjectAddressInfoTable::add_to_klass_totals(KlassRecord *kr)
-{
-  klass_totals[KST_NR_KLASSES]   += 1;
-  klass_totals[KST_LIVE_OBJECTS] += kr->live_objects();
-  klass_totals[KST_LIVE_SIZE]    += kr->live_size();
-  klass_totals[KST_LIVE_REFS]    += kr->live_refs();
-  klass_totals[KST_HOT_OBJECTS]  += kr->hot_objects();
-  klass_totals[KST_HOT_SIZE]     += kr->hot_size();
-  klass_totals[KST_HOT_REFS]     += kr->hot_refs();
-  klass_totals[KST_NEW_OBJECTS]  += kr->new_objects();
-  klass_totals[KST_NEW_SIZE]     += kr->new_size();
-  klass_totals[KST_NEW_REFS]     += kr->new_refs();
+  AllocPointInfo *api;
+  if (oai->alloc_point()) {
+    api = oai->alloc_point();
+  } else {
+    api = Universe::alloc_point_info_table()->unknown_alloc_point();
+  }
+  api->add_to_val(oai);
+#if 0
+  if (_cur_val == 0) {
+    //_apit->reset_val_cnts();
+    _apit->compute_val_totals();
+    tty->print_cr("added oai: %p to api: %p live: %d", oai, api, _apit->val_total_objects());
+  }
+#endif
 }
 
 void ObjectAddressInfoTable::compute_heap_stats()
@@ -4080,16 +4570,14 @@ void ObjectAddressInfoTable::compute_heap_stats()
   ParallelScavengeHeap* psh = ((ParallelScavengeHeap*)Universe::heap());
 
   reset_heap_stats();
-  reset_klass_stats();
+  _krt->reset_klass_cnts();
+  _apit->reset_val_cnts();
 
   for(unsigned int i=0; i < _size; i++) {
     _buckets[i].accumulate_heap_stats(this);
   }
 
-  for(unsigned int i=0; i < _kr_size; i++) {
-    _klass_buckets[i].accumulate_klass_totals(this);
-  }
-  tty->flush();
+  _krt->compute_klass_stats();
 }
 
 void ObjectAddressInfoTable::record_heap_boundaries()
@@ -4114,13 +4602,28 @@ void ObjectAddressInfoTable::record_heap_boundaries()
   heap_boundaries[HS_TENURED_SPACE][TOP_ADDR]     = (intptr_t)psh->old_gen()->object_space()->top();
   heap_boundaries[HS_TENURED_SPACE][END_ADDR]     = (intptr_t)psh->old_gen()->object_space()->end();
 
-  //heap_boundaries[HS_PERM_SPACE][BOTTOM_ADDR]     = (intptr_t)psh->perm_gen()->object_space()->bottom();
-  //heap_boundaries[HS_PERM_SPACE][TOP_ADDR]        = (intptr_t)psh->perm_gen()->object_space()->top();
-  //heap_boundaries[HS_PERM_SPACE][END_ADDR]        = (intptr_t)psh->perm_gen()->object_space()->end();
+  /*
+  heap_boundaries[HS_PERM_SPACE][BOTTOM_ADDR]     = (intptr_t)psh->perm_gen()->object_space()->bottom();
+  heap_boundaries[HS_PERM_SPACE][TOP_ADDR]        = (intptr_t)psh->perm_gen()->object_space()->top();
+  heap_boundaries[HS_PERM_SPACE][END_ADDR]        = (intptr_t)psh->perm_gen()->object_space()->end();
+  */
 
+#if 0
+  ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+  if (this == oait || oait == NULL) {
+    tty->print_cr("recorded heap bounds for orig oait: using_to_space? %d", _using_to_space);
+  } else {
+    tty->print_cr("recorded heap bounds for  alt_oait: using_to_space? %d", _using_to_space);
+  }
+  for (int s = 0; s < HS_NR_SPACES; s++) {
+    tty->print("  space: %d, bottom: %p, top: %p, end: %p\n", s,
+               heap_boundaries[s][BOTTOM_ADDR],
+               heap_boundaries[s][TOP_ADDR],
+               heap_boundaries[s][END_ADDR]);
+  }
+#endif
 }
 
-//void ObjectAddressInfoTable::reset_ref_cnts()
 void ObjectAddressInfoTable::reset_ref_cnts(enum init_marker im)
 {
   if (_buckets != NULL) {
@@ -4128,34 +4631,11 @@ void ObjectAddressInfoTable::reset_ref_cnts(enum init_marker im)
       _buckets[index].reset_ref_cnts(im);
     }
   }
-
-  if (_klass_buckets != NULL) {
-    for (unsigned int index = 0; index < _kr_size; index++) {
-      _klass_buckets[index].reset_ref_cnts();
-    }
-  }
-}
-
-void ObjectAddressInfoTable::reset_klass_stats()
-{
-  if (_klass_buckets != NULL) {
-    for (unsigned int index = 0; index < _kr_size; index++) {
-      _klass_buckets[index].reset_klass_stats();
-    }
-  }
 }
 
 void ObjectAddressInfoTable::reset_spaces(bool do_old_space)
 {
   reset_heap_stats();
-  reset_klass_stats();
-
-  if (_klass_buckets != NULL) {
-    for (unsigned int index = 0; index < _kr_size; index++) {
-      _klass_buckets[index].empty();
-    }
-  }
-
   if (_buckets != NULL) {
     for (unsigned int index = 0; index < _size; index++) {
       _buckets[index].empty_spaces(do_old_space, this);
@@ -4172,11 +4652,6 @@ void ObjectAddressInfoTable::copy_to(ObjectAddressInfoTable *dst_oait)
   }
 
   dst_oait->reset_spaces(true);
-  if (_klass_buckets != NULL) {
-    for (unsigned int index = 0; index < _kr_size; index++) {
-      _klass_buckets[index].copy_entries_to(dst_oait);
-    }
-  }
 
   if (_buckets != NULL) {
     for (unsigned int index = 0; index < _size; index++) {

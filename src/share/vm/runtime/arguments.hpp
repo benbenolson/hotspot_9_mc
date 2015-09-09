@@ -286,14 +286,18 @@ class Arguments : AllStatic {
   static const char*  _objinfo_log_filename;
   static const char*  _objalloc_log_filename;
   static const char*  _apmap_log_filename;
+  static const char*  _klassmap_log_filename;
   static const char*  _apinfo_log_filename;
+  static const char*  _apinfo_bin_filename;
   static const char*  _deadobj_log_filename;
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   static const char*  _addrinfo_log_filename;
-  static const char*  _addrtable_log_filename;
-  //static const char*  _addrups_log_filename;
-  static const char*  _fieldinfo_log_filename;
+  static const char*  _addrinfo_bin_filename;
+  static const char*  _krinfo_log_filename;
+  static const char*  _krinfo_bin_filename;
 #endif
+  static const char*  _mkals_log_filename;
+  static const char*  _stacks_log_filename;
   static uintx  _orc_interval;
   // Value of the conservative maximum heap alignment needed
   static size_t  _conservative_max_heap_alignment;
@@ -549,14 +553,18 @@ class Arguments : AllStatic {
   static const char* objinfo_log_filename()   { return _objinfo_log_filename;   }
   static const char* objalloc_log_filename()  { return _objalloc_log_filename;  }
   static const char* apmap_log_filename()     { return _apmap_log_filename;     }
+  static const char* klassmap_log_filename()  { return _klassmap_log_filename;  }
   static const char* apinfo_log_filename()    { return _apinfo_log_filename;    }
+  static const char* apinfo_bin_filename()    { return _apinfo_bin_filename;    }
   static const char* deadobj_log_filename()   { return _deadobj_log_filename;   }
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   static const char* addrinfo_log_filename()  { return _addrinfo_log_filename;  }
-  static const char* addrtable_log_filename() { return _addrtable_log_filename; }
-  //static const char* addrups_log_filename()   { return _addrups_log_filename;   }
-  static const char* fieldinfo_log_filename() { return _fieldinfo_log_filename;  }
+  static const char* addrinfo_bin_filename()  { return _addrinfo_bin_filename;   }
+  static const char* krinfo_log_filename()    { return _krinfo_log_filename;    }
+  static const char* krinfo_bin_filename()    { return _krinfo_bin_filename;    }
 #endif
+  static const char* mkals_log_filename()     { return _mkals_log_filename;     }
+  static const char* stacks_log_filename()    { return _stacks_log_filename;    }
 
   // -Xprof
   static bool has_profile()                 { return _has_profile; }

@@ -125,11 +125,12 @@ inline HeapColor PSScavenge::get_survivor_color(PSPromotionManager *pm, HeapWord
   if (SurvivorsAlwaysRed)  return HC_RED;
 
   oop o = (oop)obj;
-  if (ColorObjectAllocations || MethodSampleColors) {
-    if (HotKlassOrganize) {
-      return ( o->klass()->is_hot() ? HC_RED : HC_BLUE );
-    }
+  if (ColorObjectAllocations) {
     return get_current_color(obj);
+  }
+
+  if (HotKlassOrganize) {
+    return ( o->klass()->is_hot() ? HC_RED : HC_BLUE );
   }
 
   if (MemBenchOrganize) {

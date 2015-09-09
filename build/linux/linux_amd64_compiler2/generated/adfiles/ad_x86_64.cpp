@@ -50,7 +50,7 @@
 
 //SourceForm
 
-#line 532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
 #define   RELOC_IMM64    Assembler::imm_operand
 #define   RELOC_DISP32   Assembler::disp32_operand
@@ -1279,7 +1279,7 @@ const RegMask Matcher::method_handle_invoke_SP_save_mask() {
 
 //SourceForm
 
-#line 1587 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1587 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
 
 // Emit exception handler code.
@@ -16300,7 +16300,7 @@ void loadBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4704 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4704 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16316,7 +16316,7 @@ void loadB2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4719 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4719 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16332,7 +16332,7 @@ void loadUBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4734 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4734 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16348,7 +16348,7 @@ void loadUB2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4749 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4749 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16365,7 +16365,7 @@ void loadUB2L_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4763 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4763 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this)/* dst */;
     __ movzbq(Rdst, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
@@ -16383,7 +16383,7 @@ void loadSNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4779 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4779 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movswl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16400,7 +16400,7 @@ void loadS2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4792 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4792 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16416,7 +16416,7 @@ void loadS2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4806 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4806 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movswq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16432,7 +16432,7 @@ void loadUSNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4821 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4821 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzwl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16449,7 +16449,7 @@ void loadUS2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4834 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4834 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16465,7 +16465,7 @@ void loadUS2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4848 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4848 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzwq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16482,7 +16482,7 @@ void loadUS2L_immI_255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4860 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4860 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16499,7 +16499,7 @@ void loadUS2L_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4873 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4873 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this)/* dst */;
     __ movzwq(Rdst, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
@@ -16517,7 +16517,7 @@ void loadINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4889 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4889 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16534,7 +16534,7 @@ void loadI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4902 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4902 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16551,7 +16551,7 @@ void loadI2UBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4914 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4914 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16568,7 +16568,7 @@ void loadI2SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4926 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4926 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movswl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16585,7 +16585,7 @@ void loadI2USNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4938 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4938 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzwl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16601,7 +16601,7 @@ void loadI2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4952 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4952 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movslq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16618,7 +16618,7 @@ void loadI2L_immI_255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4964 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4964 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16635,7 +16635,7 @@ void loadI2L_immI_65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4975 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4975 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzwq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16652,7 +16652,7 @@ void loadI2L_immU31Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4988 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 4988 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this)/* dst */;
     __ movl(Rdst, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
@@ -16671,7 +16671,7 @@ void loadUI2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5004 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5004 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16687,7 +16687,7 @@ void loadLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5019 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5019 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16702,7 +16702,7 @@ void loadRangeNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16736,7 +16736,7 @@ void loadRangeNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -16744,7 +16744,7 @@ void loadRangeNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -16767,7 +16767,7 @@ void loadPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16803,7 +16803,7 @@ void loadPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -16811,7 +16811,7 @@ void loadPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -16835,7 +16835,7 @@ void loadNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
      __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
    
@@ -16850,7 +16850,7 @@ void loadKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16886,7 +16886,7 @@ void loadKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -16894,7 +16894,7 @@ void loadKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -16918,7 +16918,7 @@ void loadNKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5083 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5083 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16934,7 +16934,7 @@ void loadFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5096 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5096 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movflt(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16950,7 +16950,7 @@ void loadD_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5110 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5110 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16966,7 +16966,7 @@ void loadDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5123 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5123 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -16981,7 +16981,7 @@ void leaP8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17017,7 +17017,7 @@ void leaP8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17025,7 +17025,7 @@ void leaP8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17048,7 +17048,7 @@ void leaP32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17084,7 +17084,7 @@ void leaP32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17092,7 +17092,7 @@ void leaP32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17115,7 +17115,7 @@ void leaPIdxOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17151,7 +17151,7 @@ void leaPIdxOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17159,7 +17159,7 @@ void leaPIdxOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17182,7 +17182,7 @@ void leaPIdxScaleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17218,7 +17218,7 @@ void leaPIdxScaleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17226,7 +17226,7 @@ void leaPIdxScaleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17249,7 +17249,7 @@ void leaPIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17285,7 +17285,7 @@ void leaPIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17293,7 +17293,7 @@ void leaPIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17316,7 +17316,7 @@ void leaPPosIdxOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17352,7 +17352,7 @@ void leaPPosIdxOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17360,7 +17360,7 @@ void leaPPosIdxOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17383,7 +17383,7 @@ void leaPPosIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17419,7 +17419,7 @@ void leaPPosIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17427,7 +17427,7 @@ void leaPPosIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17450,7 +17450,7 @@ void leaPCompressedOopOffsetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) con
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17486,7 +17486,7 @@ void leaPCompressedOopOffsetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) con
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17494,7 +17494,7 @@ void leaPCompressedOopOffsetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) con
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17517,7 +17517,7 @@ void leaP8NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17553,7 +17553,7 @@ void leaP8NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17561,7 +17561,7 @@ void leaP8NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17584,7 +17584,7 @@ void leaP32NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17620,7 +17620,7 @@ void leaP32NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17628,7 +17628,7 @@ void leaP32NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17651,7 +17651,7 @@ void leaPIdxOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17687,7 +17687,7 @@ void leaPIdxOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17695,7 +17695,7 @@ void leaPIdxOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17718,7 +17718,7 @@ void leaPIdxScaleNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17754,7 +17754,7 @@ void leaPIdxScaleNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17762,7 +17762,7 @@ void leaPIdxScaleNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17785,7 +17785,7 @@ void leaPIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17821,7 +17821,7 @@ void leaPIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17829,7 +17829,7 @@ void leaPIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17852,7 +17852,7 @@ void leaPPosIdxOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17888,7 +17888,7 @@ void leaPPosIdxOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17896,7 +17896,7 @@ void leaPPosIdxOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17919,7 +17919,7 @@ void leaPPosIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) co
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17955,7 +17955,7 @@ void leaPPosIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) co
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -17963,7 +17963,7 @@ void leaPPosIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) co
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -17986,7 +17986,7 @@ void loadConINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2198 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2198 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
     if (dstenc >= 8) {
@@ -18007,7 +18007,7 @@ void loadConI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* dst */ >= 8) {
@@ -18025,7 +18025,7 @@ void loadConI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -18033,7 +18033,7 @@ void loadConI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(0)->reg(ra_,this)/* dst */ & 7);
   
@@ -18048,7 +18048,7 @@ void loadConLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2209 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2209 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
     if (dstenc < 8) {
@@ -18071,7 +18071,7 @@ void loadConL0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* dst */ >= 8) {
@@ -18089,7 +18089,7 @@ void loadConL0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -18097,7 +18097,7 @@ void loadConL0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(0)->reg(ra_,this)/* dst */ & 7);
   
@@ -18112,7 +18112,7 @@ void loadConUL32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2222 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2222 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // same as load_immI, but this time we care about zeroes in the high word
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -18134,7 +18134,7 @@ void loadConL32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2234 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2234 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
     if (dstenc < 8) {
@@ -18158,7 +18158,7 @@ void loadConPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// con
   {
 
-#line 2260 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2260 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
     if (dstenc < 8) {
@@ -18186,7 +18186,7 @@ void loadConP0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* dst */ >= 8) {
@@ -18204,7 +18204,7 @@ void loadConP0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -18212,7 +18212,7 @@ void loadConP0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(0)->reg(ra_,this)/* dst */ & 7);
   
@@ -18227,7 +18227,7 @@ void loadConP31Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2248 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2248 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // same as load_immI, but this time we care about zeroes in the high word
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -18255,7 +18255,7 @@ void loadConFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5413 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5413 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movflt(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -18266,7 +18266,7 @@ void loadConFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void loadConFNode::eval_constant(Compile* C) {
   {
 
-#line 5414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(this, opnd_array(1));
 #line 18272 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -18279,7 +18279,7 @@ void loadConN0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ xorq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(0)->as_Register(ra_,this)/* dst */);
   
@@ -18295,7 +18295,7 @@ void loadConNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5434 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5434 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     address con = (address)opnd_array(1)->constant();
     if (con == NULL) {
@@ -18316,7 +18316,7 @@ void loadConNKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5450 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5450 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     address con = (address)opnd_array(1)->constant();
     if (con == NULL) {
@@ -18337,7 +18337,7 @@ void loadConF0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5467 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5467 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ xorps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -18353,7 +18353,7 @@ void loadConDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5478 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5478 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -18364,7 +18364,7 @@ void loadConDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void loadConDNode::eval_constant(Compile* C) {
   {
 
-#line 5479 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5479 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(this, opnd_array(1));
 #line 18370 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -18377,7 +18377,7 @@ void loadConD0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5490 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5490 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ xorpd (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -18392,7 +18392,7 @@ void loadSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18426,7 +18426,7 @@ void loadSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -18434,7 +18434,7 @@ void loadSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -18457,7 +18457,7 @@ void loadSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18493,7 +18493,7 @@ void loadSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -18501,7 +18501,7 @@ void loadSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -18524,7 +18524,7 @@ void loadSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18560,7 +18560,7 @@ void loadSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -18568,7 +18568,7 @@ void loadSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -18592,7 +18592,7 @@ void loadSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5535 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5535 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movflt(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address(rsp, opnd_array(1)->disp(ra_,this,idx1)));
   
@@ -18608,7 +18608,7 @@ void loadSSDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5548 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5548 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address(rsp, opnd_array(1)->disp(ra_,this,idx1)));
   
@@ -18624,7 +18624,7 @@ void prefetchAllocNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5563 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5563 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ prefetchw(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -18640,7 +18640,7 @@ void prefetchAllocNTANode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5575 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5575 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ prefetchnta(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -18656,7 +18656,7 @@ void prefetchAllocT0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5587 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5587 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ prefetcht0(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -18672,7 +18672,7 @@ void prefetchAllocT2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5599 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5599 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ prefetcht2(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -18688,7 +18688,7 @@ void storeBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2374 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2374 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18724,7 +18724,7 @@ void storeBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x88 /*primary()*/));
   
@@ -18732,7 +18732,7 @@ void storeBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -18756,7 +18756,7 @@ void storeCNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 1817 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1817 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, 0x66);
   
@@ -18764,7 +18764,7 @@ void storeCNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18798,7 +18798,7 @@ void storeCNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -18806,7 +18806,7 @@ void storeCNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -18830,7 +18830,7 @@ void storeINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18864,7 +18864,7 @@ void storeINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -18872,7 +18872,7 @@ void storeINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -18896,7 +18896,7 @@ void storeLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18932,7 +18932,7 @@ void storeLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -18940,7 +18940,7 @@ void storeLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -18964,7 +18964,7 @@ void storePNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -19000,7 +19000,7 @@ void storePNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -19008,7 +19008,7 @@ void storePNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -19033,7 +19033,7 @@ void storeImmP0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5674 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5674 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), r12);
   
@@ -19049,7 +19049,7 @@ void storeImmPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -19069,7 +19069,7 @@ void storeImmPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -19077,7 +19077,7 @@ void storeImmPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -19097,7 +19097,7 @@ void storeImmPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2278 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2278 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     
@@ -19120,7 +19120,7 @@ void storeNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5699 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5699 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_Register(ra_,this,idx2)/* src */);
   
@@ -19137,7 +19137,7 @@ void storeNKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5711 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5711 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_Register(ra_,this,idx2)/* src */);
   
@@ -19154,7 +19154,7 @@ void storeImmN0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5724 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5724 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), r12);
   
@@ -19171,7 +19171,7 @@ void storeImmNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5736 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5736 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     address con = (address)opnd_array(2)->constant();
     if (con == NULL) {
@@ -19193,7 +19193,7 @@ void storeImmNKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5753 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5753 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ set_narrow_klass(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), (Klass*)opnd_array(2)->constant());
   
@@ -19210,7 +19210,7 @@ void storeImmI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5767 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5767 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), r12);
   
@@ -19226,7 +19226,7 @@ void storeImmINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -19244,7 +19244,7 @@ void storeImmINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -19252,7 +19252,7 @@ void storeImmINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -19272,7 +19272,7 @@ void storeImmINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2278 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2278 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d32(cbuf, opnd_array(2)->constant());
@@ -19290,7 +19290,7 @@ void storeImmL0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5792 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5792 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), r12);
   
@@ -19306,7 +19306,7 @@ void storeImmLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -19326,7 +19326,7 @@ void storeImmLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -19334,7 +19334,7 @@ void storeImmLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -19354,7 +19354,7 @@ void storeImmLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2278 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2278 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d32(cbuf, opnd_array(2)->constantL());
@@ -19372,7 +19372,7 @@ void storeImmC0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5817 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5817 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movw(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), r12);
   
@@ -19388,7 +19388,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 1817 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1817 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, 0x66);
   
@@ -19396,7 +19396,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -19414,7 +19414,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -19422,7 +19422,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -19442,7 +19442,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2292 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2292 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d16(cbuf, opnd_array(2)->constant());
@@ -19460,7 +19460,7 @@ void storeImmB0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5843 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5843 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movb(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), r12);
   
@@ -19476,7 +19476,7 @@ void storeImmBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -19494,7 +19494,7 @@ void storeImmBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC6 /*primary()*/));
   
@@ -19502,7 +19502,7 @@ void storeImmBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -19522,7 +19522,7 @@ void storeImmBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -19545,7 +19545,7 @@ void storeImmCM0_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5868 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5868 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movb(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), r12);
   
@@ -19561,7 +19561,7 @@ void storeImmCM0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -19579,7 +19579,7 @@ void storeImmCM0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC6 /*primary()*/));
   
@@ -19587,7 +19587,7 @@ void storeImmCM0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -19607,7 +19607,7 @@ void storeImmCM0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -19630,7 +19630,7 @@ void storeFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5892 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5892 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movflt(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -19647,7 +19647,7 @@ void storeF0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5906 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5906 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), r12);
   
@@ -19663,7 +19663,7 @@ void storeF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -19681,7 +19681,7 @@ void storeF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -19689,7 +19689,7 @@ void storeF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -19709,7 +19709,7 @@ void storeF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2284 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2284 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output Float immediate bits
     jfloat jf = opnd_array(2)->constantF();
@@ -19729,7 +19729,7 @@ void storeDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5930 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5930 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -19745,7 +19745,7 @@ void storeD0_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -19765,7 +19765,7 @@ void storeD0_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -19773,7 +19773,7 @@ void storeD0_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -19793,7 +19793,7 @@ void storeD0_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2284 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2284 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output Float immediate bits
     jfloat jf = opnd_array(2)->constantD();
@@ -19813,7 +19813,7 @@ void storeD0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5956 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 5956 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), r12);
   
@@ -19828,7 +19828,7 @@ void storeSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -19862,7 +19862,7 @@ void storeSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -19870,7 +19870,7 @@ void storeSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* src */;
@@ -19893,7 +19893,7 @@ void storeSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -19929,7 +19929,7 @@ void storeSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -19937,7 +19937,7 @@ void storeSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* src */;
@@ -19960,7 +19960,7 @@ void storeSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -19996,7 +19996,7 @@ void storeSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -20004,7 +20004,7 @@ void storeSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* src */;
@@ -20028,7 +20028,7 @@ void storeSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6001 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6001 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movflt(Address(rsp, opnd_array(0)->disp(ra_,this,0)), opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -20044,7 +20044,7 @@ void storeSSDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6013 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6013 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(Address(rsp, opnd_array(0)->disp(ra_,this,0)), opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -20059,7 +20059,7 @@ void bytes_reverse_intNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// dst
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -20069,7 +20069,7 @@ void bytes_reverse_intNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -20077,7 +20077,7 @@ void bytes_reverse_intNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2039 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2039 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // BSWAP
     emit_cc(cbuf, (0xC8 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */);
@@ -20093,7 +20093,7 @@ void bytes_reverse_longNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// dst
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -20105,7 +20105,7 @@ void bytes_reverse_longNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -20113,7 +20113,7 @@ void bytes_reverse_longNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2039 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2039 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // BSWAP
     emit_cc(cbuf, (0xC8 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */);
@@ -20130,7 +20130,7 @@ void bytes_reverse_unsigned_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6044 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6044 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ bswapl(opnd_array(1)->as_Register(ra_,this,idx1)/* dst */);
     __ shrl(opnd_array(1)->as_Register(ra_,this,idx1)/* dst */, 16);
@@ -20147,7 +20147,7 @@ void bytes_reverse_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ bswapl(opnd_array(1)->as_Register(ra_,this,idx1)/* dst */);
     __ sarl(opnd_array(1)->as_Register(ra_,this,idx1)/* dst */, 16);
@@ -20164,7 +20164,7 @@ void countLeadingZerosINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6072 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6072 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ lzcntl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20180,7 +20180,7 @@ void countLeadingZerosI_bsrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6089 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6089 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this)/* dst */;
     Register Rsrc = opnd_array(1)->as_Register(ra_,this,idx1)/* src */;
@@ -20204,7 +20204,7 @@ void countLeadingZerosLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6109 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6109 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ lzcntq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20220,7 +20220,7 @@ void countLeadingZerosL_bsrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6126 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6126 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this)/* dst */;
     Register Rsrc = opnd_array(1)->as_Register(ra_,this,idx1)/* src */;
@@ -20244,7 +20244,7 @@ void countTrailingZerosINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6146 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6146 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ tzcntl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20260,7 +20260,7 @@ void countTrailingZerosI_bsfNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) con
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6161 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6161 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this)/* dst */;
     Label done;
@@ -20281,7 +20281,7 @@ void countTrailingZerosLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6178 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6178 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ tzcntq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20297,7 +20297,7 @@ void countTrailingZerosL_bsfNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) con
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6193 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6193 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this)/* dst */;
     Label done;
@@ -20318,7 +20318,7 @@ void popCountINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6213 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6213 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ popcntl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20334,7 +20334,7 @@ void popCountI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6225 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6225 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ popcntl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -20350,7 +20350,7 @@ void popCountLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6238 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6238 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ popcntq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20366,7 +20366,7 @@ void popCountL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6251 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6251 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ popcntq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -20460,7 +20460,7 @@ void membar_volatileNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6320 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6320 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ membar(Assembler::StoreLoad);
   
@@ -20502,7 +20502,7 @@ void castX2PNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6355 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6355 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */!= opnd_array(1)->reg(ra_,this,idx1)/* src */) {
       __ movptr(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
@@ -20520,7 +20520,7 @@ void castP2XNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6368 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6368 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */!= opnd_array(1)->reg(ra_,this,idx1)/* src */) {
       __ movptr(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
@@ -20538,7 +20538,7 @@ void convP2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6382 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6382 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20554,7 +20554,7 @@ void convN2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6396 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6396 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20570,7 +20570,7 @@ void encodeHeapOopNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6408 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6408 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register s = opnd_array(1)->as_Register(ra_,this,idx1)/* src */;
     Register d = opnd_array(0)->as_Register(ra_,this)/* dst */;
@@ -20591,7 +20591,7 @@ void encodeHeapOop_not_nullNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6424 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6424 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ encode_heap_oop_not_null(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20607,7 +20607,7 @@ void decodeHeapOopNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6436 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6436 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register s = opnd_array(1)->as_Register(ra_,this,idx1)/* src */;
     Register d = opnd_array(0)->as_Register(ra_,this)/* dst */;
@@ -20628,7 +20628,7 @@ void decodeHeapOop_not_nullNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6453 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6453 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register s = opnd_array(1)->as_Register(ra_,this,idx1)/* src */;
     Register d = opnd_array(0)->as_Register(ra_,this)/* dst */;
@@ -20650,7 +20650,7 @@ void encodeKlass_not_nullNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6469 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6469 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ encode_klass_not_null(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -20666,7 +20666,7 @@ void decodeKlass_not_nullNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6479 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6479 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register s = opnd_array(1)->as_Register(ra_,this,idx1)/* src */;
     Register d = opnd_array(0)->as_Register(ra_,this)/* dst */;
@@ -20691,7 +20691,7 @@ void jumpXtnd_offsetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6503 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6503 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // We could use jump(ArrayAddress) except that the macro assembler needs to use r10
     // to do that and the compiler is using that register as one it can allocate.
@@ -20722,7 +20722,7 @@ void jumpXtnd_addrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6523 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6523 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // We could use jump(ArrayAddress) except that the macro assembler needs to use r10
     // to do that and the compiler is using that register as one it can allocate.
@@ -20751,7 +20751,7 @@ void jumpXtndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6543 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6543 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // We could use jump(ArrayAddress) except that the macro assembler needs to use r10
     // to do that and the compiler is using that register as one it can allocate.
@@ -20780,7 +20780,7 @@ void cmovI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4)/* src */ >= 8) {
@@ -20798,7 +20798,7 @@ void cmovI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -20808,7 +20808,7 @@ void cmovI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3)/* dst */ & 7, opnd_array(4)->reg(ra_,this,idx4)/* src */ & 7);
   
@@ -20826,7 +20826,7 @@ void cmovI_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4)/* src */ >= 8) {
@@ -20844,7 +20844,7 @@ void cmovI_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -20854,7 +20854,7 @@ void cmovI_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3)/* dst */ & 7, opnd_array(4)->reg(ra_,this,idx4)/* src */ & 7);
   
@@ -20872,7 +20872,7 @@ void cmovI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->base(ra_,this,idx4) < 8) {
@@ -20906,7 +20906,7 @@ void cmovI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -20916,7 +20916,7 @@ void cmovI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* dst */;
@@ -20942,7 +20942,7 @@ void cmovI_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->base(ra_,this,idx4) < 8) {
@@ -20976,7 +20976,7 @@ void cmovI_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -20986,7 +20986,7 @@ void cmovI_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* dst */;
@@ -21012,7 +21012,7 @@ void cmovN_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4)/* src */ >= 8) {
@@ -21030,7 +21030,7 @@ void cmovN_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -21040,7 +21040,7 @@ void cmovN_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3)/* dst */ & 7, opnd_array(4)->reg(ra_,this,idx4)/* src */ & 7);
   
@@ -21058,7 +21058,7 @@ void cmovN_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4)/* src */ >= 8) {
@@ -21076,7 +21076,7 @@ void cmovN_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -21086,7 +21086,7 @@ void cmovN_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3)/* dst */ & 7, opnd_array(4)->reg(ra_,this,idx4)/* src */ & 7);
   
@@ -21104,7 +21104,7 @@ void cmovP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4)/* src */ < 8) {
@@ -21124,7 +21124,7 @@ void cmovP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -21134,7 +21134,7 @@ void cmovP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3)/* dst */ & 7, opnd_array(4)->reg(ra_,this,idx4)/* src */ & 7);
   
@@ -21152,7 +21152,7 @@ void cmovP_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4)/* src */ < 8) {
@@ -21172,7 +21172,7 @@ void cmovP_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -21182,7 +21182,7 @@ void cmovP_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3)/* dst */ & 7, opnd_array(4)->reg(ra_,this,idx4)/* src */ & 7);
   
@@ -21200,7 +21200,7 @@ void cmovL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4)/* src */ < 8) {
@@ -21220,7 +21220,7 @@ void cmovL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -21230,7 +21230,7 @@ void cmovL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3)/* dst */ & 7, opnd_array(4)->reg(ra_,this,idx4)/* src */ & 7);
   
@@ -21248,7 +21248,7 @@ void cmovL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->base(ra_,this,idx4) < 8) {
@@ -21284,7 +21284,7 @@ void cmovL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -21294,7 +21294,7 @@ void cmovL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* dst */;
@@ -21320,7 +21320,7 @@ void cmovL_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4)/* src */ < 8) {
@@ -21340,7 +21340,7 @@ void cmovL_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -21350,7 +21350,7 @@ void cmovL_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3)/* dst */ & 7, opnd_array(4)->reg(ra_,this,idx4)/* src */ & 7);
   
@@ -21368,7 +21368,7 @@ void cmovL_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx4 = idx3 + opnd_array(3)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* dst */ < 8) {
       if (opnd_array(4)->base(ra_,this,idx4) < 8) {
@@ -21404,7 +21404,7 @@ void cmovL_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -21414,7 +21414,7 @@ void cmovL_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* dst */;
@@ -21441,7 +21441,7 @@ void cmovF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6776 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6776 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label Lskip;
     // Invert sense of branch from sense of CMOV
@@ -21464,7 +21464,7 @@ void cmovF_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6806 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6806 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label Lskip;
     // Invert sense of branch from sense of CMOV
@@ -21487,7 +21487,7 @@ void cmovD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6832 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6832 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label Lskip;
     // Invert sense of branch from sense of CMOV
@@ -21510,7 +21510,7 @@ void cmovD_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6850 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 6850 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label Lskip;
     // Invert sense of branch from sense of CMOV
@@ -21530,7 +21530,7 @@ void addI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ >= 8) {
@@ -21548,7 +21548,7 @@ void addI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -21556,7 +21556,7 @@ void addI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -21572,7 +21572,7 @@ void addI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 1986 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1986 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -21595,7 +21595,7 @@ void addI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -21617,7 +21617,7 @@ void addI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -21651,7 +21651,7 @@ void addI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -21659,7 +21659,7 @@ void addI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -21683,7 +21683,7 @@ void addI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -21717,7 +21717,7 @@ void addI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -21725,7 +21725,7 @@ void addI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -21749,7 +21749,7 @@ void addI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -21783,7 +21783,7 @@ void addI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x01 /*primary()*/));
   
@@ -21791,7 +21791,7 @@ void addI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -21815,7 +21815,7 @@ void addI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -21849,7 +21849,7 @@ void addI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x01 /*primary()*/));
   
@@ -21857,7 +21857,7 @@ void addI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -21881,7 +21881,7 @@ void addI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -21899,7 +21899,7 @@ void addI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -21914,7 +21914,7 @@ void addI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -21934,7 +21934,7 @@ void addI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -21956,7 +21956,7 @@ void incI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -21966,7 +21966,7 @@ void incI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -21974,7 +21974,7 @@ void incI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x00 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -21991,7 +21991,7 @@ void incI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -22009,7 +22009,7 @@ void incI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -22017,7 +22017,7 @@ void incI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -22045,7 +22045,7 @@ void decI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -22055,7 +22055,7 @@ void decI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -22063,7 +22063,7 @@ void decI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x01 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -22080,7 +22080,7 @@ void decI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -22098,7 +22098,7 @@ void decI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -22106,7 +22106,7 @@ void decI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x01);
 
@@ -22134,7 +22134,7 @@ void leaI_rReg_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src1
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x67));
   
@@ -22142,7 +22142,7 @@ void leaI_rReg_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src0 */ >= 8) {
@@ -22160,7 +22160,7 @@ void leaI_rReg_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -22168,7 +22168,7 @@ void leaI_rReg_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2549 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2549 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int reg_encoding = opnd_array(0)->reg(ra_,this)/* dst */;
     int base         = opnd_array(1)->reg(ra_,this,idx1)/* src0 */;      // 0xFFFFFFFF indicates no base
@@ -22191,7 +22191,7 @@ void addL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
@@ -22211,7 +22211,7 @@ void addL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -22219,7 +22219,7 @@ void addL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -22235,7 +22235,7 @@ void addL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2006 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2006 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -22260,7 +22260,7 @@ void addL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -22282,7 +22282,7 @@ void addL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -22318,7 +22318,7 @@ void addL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -22326,7 +22326,7 @@ void addL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -22350,7 +22350,7 @@ void addL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -22386,7 +22386,7 @@ void addL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -22394,7 +22394,7 @@ void addL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -22418,7 +22418,7 @@ void addL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -22454,7 +22454,7 @@ void addL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x01 /*primary()*/));
   
@@ -22462,7 +22462,7 @@ void addL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -22486,7 +22486,7 @@ void addL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -22522,7 +22522,7 @@ void addL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x01 /*primary()*/));
   
@@ -22530,7 +22530,7 @@ void addL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -22554,7 +22554,7 @@ void addL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -22574,7 +22574,7 @@ void addL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -22589,7 +22589,7 @@ void addL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -22609,7 +22609,7 @@ void addL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -22631,7 +22631,7 @@ void incL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -22643,7 +22643,7 @@ void incL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -22651,7 +22651,7 @@ void incL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x00 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -22668,7 +22668,7 @@ void incL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -22688,7 +22688,7 @@ void incL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -22696,7 +22696,7 @@ void incL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -22724,7 +22724,7 @@ void decL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -22736,7 +22736,7 @@ void decL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -22744,7 +22744,7 @@ void decL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x01 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -22761,7 +22761,7 @@ void decL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -22781,7 +22781,7 @@ void decL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -22789,7 +22789,7 @@ void decL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x01);
 
@@ -22817,7 +22817,7 @@ void leaL_rReg_immLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src1
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src0 */ < 8) {
@@ -22837,7 +22837,7 @@ void leaL_rReg_immLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -22845,7 +22845,7 @@ void leaL_rReg_immLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2549 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2549 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int reg_encoding = opnd_array(0)->reg(ra_,this)/* dst */;
     int base         = opnd_array(1)->reg(ra_,this,idx1)/* src0 */;      // 0xFFFFFFFF indicates no base
@@ -22868,7 +22868,7 @@ void addP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
@@ -22888,7 +22888,7 @@ void addP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -22896,7 +22896,7 @@ void addP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -22912,7 +22912,7 @@ void addP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2006 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2006 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -22937,7 +22937,7 @@ void addP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -22959,7 +22959,7 @@ void leaP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src1
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src0 */ < 8) {
@@ -22979,7 +22979,7 @@ void leaP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -22987,7 +22987,7 @@ void leaP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2549 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2549 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int reg_encoding = opnd_array(0)->reg(ra_,this)/* dst */;
     int base         = opnd_array(1)->reg(ra_,this,idx1)/* src0 */;      // 0xFFFFFFFF indicates no base
@@ -23048,7 +23048,7 @@ void loadPLockedNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 2; 	// mem
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23084,7 +23084,7 @@ void loadPLockedNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -23092,7 +23092,7 @@ void loadPLockedNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -23117,7 +23117,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// newval
   {
 
-#line 2310 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2310 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -23127,7 +23127,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* newval */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23163,7 +23163,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -23171,7 +23171,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -23179,7 +23179,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* newval */;
@@ -23204,7 +23204,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// newval
   {
 
-#line 2310 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2310 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -23214,7 +23214,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* newval */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23248,7 +23248,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -23256,7 +23256,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -23264,7 +23264,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* newval */;
@@ -23289,7 +23289,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// newval
   {
 
-#line 2310 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2310 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -23299,7 +23299,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* newval */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23335,7 +23335,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -23343,7 +23343,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -23351,7 +23351,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* newval */;
@@ -23376,7 +23376,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// newval
   {
 
-#line 2310 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2310 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -23386,7 +23386,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* newval */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23422,7 +23422,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -23430,7 +23430,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -23438,7 +23438,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* newval */;
@@ -23454,7 +23454,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2350 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2350 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* res */ >= 4) {
       emit_opcode(cbuf, opnd_array(0)->reg(ra_,this)/* res */ < 8 ? Assembler::REX : Assembler::REX_B);
@@ -23464,7 +23464,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -23472,7 +23472,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x94));
   
@@ -23480,7 +23480,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1822 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1822 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, 0, opnd_array(0)->reg(ra_,this)/* res */ & 7);
   
@@ -23488,7 +23488,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* res */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* res */ >= 4) {
@@ -23506,7 +23506,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF));
   
@@ -23514,7 +23514,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -23522,7 +23522,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* res */ & 7, opnd_array(0)->reg(ra_,this)/* res */ & 7);
   
@@ -23539,7 +23539,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// newval
   {
 
-#line 2310 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2310 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -23549,7 +23549,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* newval */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23585,7 +23585,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -23593,7 +23593,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -23601,7 +23601,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* newval */;
@@ -23617,7 +23617,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2350 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2350 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* res */ >= 4) {
       emit_opcode(cbuf, opnd_array(0)->reg(ra_,this)/* res */ < 8 ? Assembler::REX : Assembler::REX_B);
@@ -23627,7 +23627,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -23635,7 +23635,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x94));
   
@@ -23643,7 +23643,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1822 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1822 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, 0, opnd_array(0)->reg(ra_,this)/* res */ & 7);
   
@@ -23651,7 +23651,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* res */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* res */ >= 4) {
@@ -23669,7 +23669,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF));
   
@@ -23677,7 +23677,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -23685,7 +23685,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* res */ & 7, opnd_array(0)->reg(ra_,this)/* res */ & 7);
   
@@ -23702,7 +23702,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// newval
   {
 
-#line 2310 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2310 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -23712,7 +23712,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* newval */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23746,7 +23746,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -23754,7 +23754,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -23762,7 +23762,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* newval */;
@@ -23778,7 +23778,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2350 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2350 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* res */ >= 4) {
       emit_opcode(cbuf, opnd_array(0)->reg(ra_,this)/* res */ < 8 ? Assembler::REX : Assembler::REX_B);
@@ -23788,7 +23788,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -23796,7 +23796,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x94));
   
@@ -23804,7 +23804,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1822 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1822 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, 0, opnd_array(0)->reg(ra_,this)/* res */ & 7);
   
@@ -23812,7 +23812,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* res */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* res */ >= 4) {
@@ -23830,7 +23830,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF));
   
@@ -23838,7 +23838,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -23846,7 +23846,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* res */ & 7, opnd_array(0)->reg(ra_,this)/* res */ & 7);
   
@@ -23863,7 +23863,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// newval
   {
 
-#line 2310 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2310 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -23873,7 +23873,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3)/* newval */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23907,7 +23907,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -23915,7 +23915,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -23923,7 +23923,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3)/* newval */;
@@ -23939,7 +23939,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2350 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2350 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* res */ >= 4) {
       emit_opcode(cbuf, opnd_array(0)->reg(ra_,this)/* res */ < 8 ? Assembler::REX : Assembler::REX_B);
@@ -23949,7 +23949,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -23957,7 +23957,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x94));
   
@@ -23965,7 +23965,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1822 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1822 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, 0, opnd_array(0)->reg(ra_,this)/* res */ & 7);
   
@@ -23973,7 +23973,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* res */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* res */ >= 4) {
@@ -23991,7 +23991,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF));
   
@@ -23999,7 +23999,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -24007,7 +24007,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* res */ & 7, opnd_array(0)->reg(ra_,this)/* res */ & 7);
   
@@ -24024,7 +24024,7 @@ void xaddI_no_resNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7345 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 7345 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) { __ lock(); }
     __ addl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->constant());
@@ -24042,7 +24042,7 @@ void xaddINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7356 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 7356 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) { __ lock(); }
     __ xaddl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_Register(ra_,this,idx2)/* newval */);
@@ -24060,7 +24060,7 @@ void xaddL_no_resNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7368 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 7368 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) { __ lock(); }
     __ addq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->constantL());
@@ -24078,7 +24078,7 @@ void xaddLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7379 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 7379 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) { __ lock(); }
     __ xaddq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_Register(ra_,this,idx2)/* newval */);
@@ -24096,7 +24096,7 @@ void xchgINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7389 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 7389 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ xchgl(opnd_array(2)->as_Register(ra_,this,idx2)/* newval */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -24113,7 +24113,7 @@ void xchgLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7398 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 7398 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ xchgq(opnd_array(2)->as_Register(ra_,this,idx2)/* newval */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -24130,7 +24130,7 @@ void xchgPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 7407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ xchgq(opnd_array(2)->as_Register(ra_,this,idx2)/* newval */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -24147,7 +24147,7 @@ void xchgNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7416 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 7416 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ xchgl(opnd_array(2)->as_Register(ra_,this,idx2)/* newval */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -24163,7 +24163,7 @@ void subI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ >= 8) {
@@ -24181,7 +24181,7 @@ void subI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -24189,7 +24189,7 @@ void subI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -24205,7 +24205,7 @@ void subI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 1986 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1986 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -24228,7 +24228,7 @@ void subI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -24250,7 +24250,7 @@ void subI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -24284,7 +24284,7 @@ void subI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -24292,7 +24292,7 @@ void subI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -24316,7 +24316,7 @@ void subI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -24350,7 +24350,7 @@ void subI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x29 /*primary()*/));
   
@@ -24358,7 +24358,7 @@ void subI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -24382,7 +24382,7 @@ void subI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -24400,7 +24400,7 @@ void subI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -24415,7 +24415,7 @@ void subI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x05);
 
@@ -24435,7 +24435,7 @@ void subI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -24457,7 +24457,7 @@ void subL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
@@ -24477,7 +24477,7 @@ void subL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -24485,7 +24485,7 @@ void subL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -24501,7 +24501,7 @@ void subL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2006 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2006 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -24526,7 +24526,7 @@ void subL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -24548,7 +24548,7 @@ void subL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -24584,7 +24584,7 @@ void subL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -24592,7 +24592,7 @@ void subL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -24616,7 +24616,7 @@ void subL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -24652,7 +24652,7 @@ void subL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x29 /*primary()*/));
   
@@ -24660,7 +24660,7 @@ void subL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -24684,7 +24684,7 @@ void subL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -24704,7 +24704,7 @@ void subL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -24719,7 +24719,7 @@ void subL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x05);
 
@@ -24739,7 +24739,7 @@ void subL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -24762,7 +24762,7 @@ void subP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(3)->reg(ra_,this,idx3)/* src */ < 8) {
@@ -24782,7 +24782,7 @@ void subP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -24790,7 +24790,7 @@ void subP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(3)->reg(ra_,this,idx3)/* src */ & 7);
   
@@ -24806,7 +24806,7 @@ void negI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -24816,7 +24816,7 @@ void negI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -24824,7 +24824,7 @@ void negI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x03 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2)/* dst */ & 7);
@@ -24841,7 +24841,7 @@ void negI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// zero
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -24859,7 +24859,7 @@ void negI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -24867,7 +24867,7 @@ void negI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x03 /*secondary()*/);
 
@@ -24895,7 +24895,7 @@ void negL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -24907,7 +24907,7 @@ void negL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -24915,7 +24915,7 @@ void negL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x03 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2)/* dst */ & 7);
@@ -24932,7 +24932,7 @@ void negL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// zero
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -24952,7 +24952,7 @@ void negL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -24960,7 +24960,7 @@ void negL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x03 /*secondary()*/);
 
@@ -24988,7 +24988,7 @@ void mulI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ >= 8) {
@@ -25006,7 +25006,7 @@ void mulI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -25014,7 +25014,7 @@ void mulI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -25022,7 +25022,7 @@ void mulI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -25038,7 +25038,7 @@ void mulI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// imm
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ >= 8) {
@@ -25056,7 +25056,7 @@ void mulI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -25071,7 +25071,7 @@ void mulI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -25079,7 +25079,7 @@ void mulI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -25101,7 +25101,7 @@ void mulI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -25135,7 +25135,7 @@ void mulI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -25143,7 +25143,7 @@ void mulI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -25151,7 +25151,7 @@ void mulI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -25175,7 +25175,7 @@ void mulI_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -25209,7 +25209,7 @@ void mulI_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -25217,7 +25217,7 @@ void mulI_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -25225,7 +25225,7 @@ void mulI_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -25249,7 +25249,7 @@ void mulI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// imm
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -25283,7 +25283,7 @@ void mulI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -25298,7 +25298,7 @@ void mulI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -25314,7 +25314,7 @@ void mulI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -25336,7 +25336,7 @@ void mulL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
@@ -25356,7 +25356,7 @@ void mulL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -25364,7 +25364,7 @@ void mulL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -25372,7 +25372,7 @@ void mulL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -25388,7 +25388,7 @@ void mulL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// imm
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
@@ -25408,7 +25408,7 @@ void mulL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -25423,7 +25423,7 @@ void mulL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -25431,7 +25431,7 @@ void mulL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -25453,7 +25453,7 @@ void mulL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -25489,7 +25489,7 @@ void mulL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -25497,7 +25497,7 @@ void mulL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -25505,7 +25505,7 @@ void mulL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -25529,7 +25529,7 @@ void mulL_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -25565,7 +25565,7 @@ void mulL_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -25573,7 +25573,7 @@ void mulL_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -25581,7 +25581,7 @@ void mulL_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -25605,7 +25605,7 @@ void mulL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// imm
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -25641,7 +25641,7 @@ void mulL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -25656,7 +25656,7 @@ void mulL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this)/* dst */;
@@ -25672,7 +25672,7 @@ void mulL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -25694,7 +25694,7 @@ void mulHiL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// rax
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -25706,7 +25706,7 @@ void mulHiL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -25714,7 +25714,7 @@ void mulHiL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
@@ -25731,7 +25731,7 @@ void divI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// div
   {
 
-#line 1838 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1838 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java idiv and irem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -25798,7 +25798,7 @@ void divI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* div */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -25808,7 +25808,7 @@ void divI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -25816,7 +25816,7 @@ void divI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2)/* div */ & 7);
@@ -25833,7 +25833,7 @@ void divL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// div
   {
 
-#line 1902 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1902 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java ldiv and lrem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -25907,7 +25907,7 @@ void divL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* div */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -25919,7 +25919,7 @@ void divL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -25927,7 +25927,7 @@ void divL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2)/* div */ & 7);
@@ -25944,7 +25944,7 @@ void divModI_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// rdx
   {
 
-#line 1838 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1838 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java idiv and irem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -26011,7 +26011,7 @@ void divModI_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* div */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -26021,7 +26021,7 @@ void divModI_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -26029,7 +26029,7 @@ void divModI_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2)/* div */ & 7);
@@ -26046,7 +26046,7 @@ void divModL_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// rdx
   {
 
-#line 1902 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1902 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java ldiv and lrem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -26120,7 +26120,7 @@ void divModL_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* div */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -26132,7 +26132,7 @@ void divModL_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -26140,7 +26140,7 @@ void divModL_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2)/* div */ & 7);
@@ -26156,7 +26156,7 @@ void loadConL_0x6666666666666667Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_)
   unsigned idx1 = 1; 	// 
   {
 
-#line 2209 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2209 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
     if (dstenc < 8) {
@@ -26180,7 +26180,7 @@ void mul_hiNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// rax
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -26192,7 +26192,7 @@ void mul_hiNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -26200,7 +26200,7 @@ void mul_hiNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
@@ -26216,7 +26216,7 @@ void sarL_rReg_63Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// cr
   {
 
-#line 2183 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -26241,7 +26241,7 @@ void sarL_rReg_2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// cr
   {
 
-#line 2183 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -26267,7 +26267,7 @@ void modI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// div
   {
 
-#line 1838 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1838 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java idiv and irem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -26334,7 +26334,7 @@ void modI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* div */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -26344,7 +26344,7 @@ void modI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -26352,7 +26352,7 @@ void modI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2)/* div */ & 7);
@@ -26369,7 +26369,7 @@ void modL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// div
   {
 
-#line 1902 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1902 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java ldiv and lrem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -26443,7 +26443,7 @@ void modL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* div */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -26455,7 +26455,7 @@ void modL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -26463,7 +26463,7 @@ void modL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2)/* div */ & 7);
@@ -26480,7 +26480,7 @@ void salI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -26490,7 +26490,7 @@ void salI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -26498,7 +26498,7 @@ void salI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -26515,7 +26515,7 @@ void salI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -26533,7 +26533,7 @@ void salI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -26541,7 +26541,7 @@ void salI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -26569,7 +26569,7 @@ void salI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2170 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2170 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -26593,7 +26593,7 @@ void salI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -26611,7 +26611,7 @@ void salI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -26619,7 +26619,7 @@ void salI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -26639,7 +26639,7 @@ void salI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -26661,7 +26661,7 @@ void salI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -26671,7 +26671,7 @@ void salI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -26679,7 +26679,7 @@ void salI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -26696,7 +26696,7 @@ void salI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -26714,7 +26714,7 @@ void salI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -26722,7 +26722,7 @@ void salI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -26750,7 +26750,7 @@ void sarI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -26760,7 +26760,7 @@ void sarI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -26768,7 +26768,7 @@ void sarI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -26785,7 +26785,7 @@ void sarI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -26803,7 +26803,7 @@ void sarI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -26811,7 +26811,7 @@ void sarI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -26839,7 +26839,7 @@ void sarI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2170 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2170 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -26863,7 +26863,7 @@ void sarI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -26881,7 +26881,7 @@ void sarI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -26889,7 +26889,7 @@ void sarI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -26909,7 +26909,7 @@ void sarI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -26931,7 +26931,7 @@ void sarI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -26941,7 +26941,7 @@ void sarI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -26949,7 +26949,7 @@ void sarI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -26966,7 +26966,7 @@ void sarI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -26984,7 +26984,7 @@ void sarI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -26992,7 +26992,7 @@ void sarI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -27020,7 +27020,7 @@ void shrI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -27030,7 +27030,7 @@ void shrI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -27038,7 +27038,7 @@ void shrI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -27055,7 +27055,7 @@ void shrI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27073,7 +27073,7 @@ void shrI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -27081,7 +27081,7 @@ void shrI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -27109,7 +27109,7 @@ void shrI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2170 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2170 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -27133,7 +27133,7 @@ void shrI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27151,7 +27151,7 @@ void shrI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -27159,7 +27159,7 @@ void shrI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -27179,7 +27179,7 @@ void shrI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -27201,7 +27201,7 @@ void shrI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -27211,7 +27211,7 @@ void shrI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -27219,7 +27219,7 @@ void shrI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -27236,7 +27236,7 @@ void shrI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27254,7 +27254,7 @@ void shrI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -27262,7 +27262,7 @@ void shrI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -27290,7 +27290,7 @@ void salL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -27302,7 +27302,7 @@ void salL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -27310,7 +27310,7 @@ void salL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -27327,7 +27327,7 @@ void salL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27347,7 +27347,7 @@ void salL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -27355,7 +27355,7 @@ void salL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -27383,7 +27383,7 @@ void salL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2183 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -27409,7 +27409,7 @@ void salL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27429,7 +27429,7 @@ void salL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -27437,7 +27437,7 @@ void salL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -27457,7 +27457,7 @@ void salL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -27479,7 +27479,7 @@ void salL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -27491,7 +27491,7 @@ void salL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -27499,7 +27499,7 @@ void salL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -27516,7 +27516,7 @@ void salL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27536,7 +27536,7 @@ void salL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -27544,7 +27544,7 @@ void salL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -27572,7 +27572,7 @@ void sarL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -27584,7 +27584,7 @@ void sarL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -27592,7 +27592,7 @@ void sarL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -27609,7 +27609,7 @@ void sarL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27629,7 +27629,7 @@ void sarL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -27637,7 +27637,7 @@ void sarL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -27665,7 +27665,7 @@ void sarL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2183 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -27691,7 +27691,7 @@ void sarL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27711,7 +27711,7 @@ void sarL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -27719,7 +27719,7 @@ void sarL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -27739,7 +27739,7 @@ void sarL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -27761,7 +27761,7 @@ void sarL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -27773,7 +27773,7 @@ void sarL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -27781,7 +27781,7 @@ void sarL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -27798,7 +27798,7 @@ void sarL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27818,7 +27818,7 @@ void sarL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -27826,7 +27826,7 @@ void sarL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -27854,7 +27854,7 @@ void shrL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -27866,7 +27866,7 @@ void shrL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -27874,7 +27874,7 @@ void shrL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -27891,7 +27891,7 @@ void shrL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27911,7 +27911,7 @@ void shrL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -27919,7 +27919,7 @@ void shrL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -27947,7 +27947,7 @@ void shrL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2183 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -27973,7 +27973,7 @@ void shrL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -27993,7 +27993,7 @@ void shrL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -28001,7 +28001,7 @@ void shrL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -28021,7 +28021,7 @@ void shrL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -28043,7 +28043,7 @@ void shrL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -28055,7 +28055,7 @@ void shrL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -28063,7 +28063,7 @@ void shrL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -28080,7 +28080,7 @@ void shrL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// shift
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -28100,7 +28100,7 @@ void shrL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -28108,7 +28108,7 @@ void shrL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -28136,7 +28136,7 @@ void i2bNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// twentyfour
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ >= 4) {
@@ -28154,7 +28154,7 @@ void i2bNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -28162,7 +28162,7 @@ void i2bNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xBE /*secondary()*/));
   
@@ -28170,7 +28170,7 @@ void i2bNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -28186,7 +28186,7 @@ void i2sNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// sixteen
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ >= 8) {
@@ -28204,7 +28204,7 @@ void i2sNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -28212,7 +28212,7 @@ void i2sNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xBF /*secondary()*/));
   
@@ -28220,7 +28220,7 @@ void i2sNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -28235,7 +28235,7 @@ void rolI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// cr
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -28245,7 +28245,7 @@ void rolI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -28253,7 +28253,7 @@ void rolI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x0 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -28270,7 +28270,7 @@ void rolI_rReg_imm8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// cr
   {
 
-#line 2170 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2170 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -28294,7 +28294,7 @@ void rolI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// cr
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -28304,7 +28304,7 @@ void rolI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -28312,7 +28312,7 @@ void rolI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x0 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -28328,7 +28328,7 @@ void rorI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// cr
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -28338,7 +28338,7 @@ void rorI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -28346,7 +28346,7 @@ void rorI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x1 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -28363,7 +28363,7 @@ void rorI_rReg_imm8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// cr
   {
 
-#line 2170 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2170 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -28387,7 +28387,7 @@ void rorI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// cr
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -28397,7 +28397,7 @@ void rorI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -28405,7 +28405,7 @@ void rorI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x1 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -28421,7 +28421,7 @@ void rolL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// cr
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -28433,7 +28433,7 @@ void rolL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -28441,7 +28441,7 @@ void rolL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x0 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -28458,7 +28458,7 @@ void rolL_rReg_imm8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// cr
   {
 
-#line 2183 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -28484,7 +28484,7 @@ void rolL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// cr
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -28496,7 +28496,7 @@ void rolL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -28504,7 +28504,7 @@ void rolL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x0 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -28520,7 +28520,7 @@ void rorL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// cr
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -28532,7 +28532,7 @@ void rorL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -28540,7 +28540,7 @@ void rorL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x1 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -28557,7 +28557,7 @@ void rorL_rReg_imm8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// cr
   {
 
-#line 2183 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -28583,7 +28583,7 @@ void rorL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// cr
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -28595,7 +28595,7 @@ void rorL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -28603,7 +28603,7 @@ void rorL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x1 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
@@ -28620,7 +28620,7 @@ void andI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ >= 8) {
@@ -28638,7 +28638,7 @@ void andI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -28646,7 +28646,7 @@ void andI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -28662,7 +28662,7 @@ void andI_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 4) {
@@ -28680,7 +28680,7 @@ void andI_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -28688,7 +28688,7 @@ void andI_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6 /*secondary()*/));
   
@@ -28696,7 +28696,7 @@ void andI_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
   
@@ -28712,7 +28712,7 @@ void andI2L_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// mask
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ >= 4) {
@@ -28730,7 +28730,7 @@ void andI2L_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -28738,7 +28738,7 @@ void andI2L_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6 /*secondary()*/));
   
@@ -28746,7 +28746,7 @@ void andI2L_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -28762,7 +28762,7 @@ void andI_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ >= 8) {
@@ -28780,7 +28780,7 @@ void andI_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -28788,7 +28788,7 @@ void andI_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB7 /*secondary()*/));
   
@@ -28796,7 +28796,7 @@ void andI_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
   
@@ -28812,7 +28812,7 @@ void andI2L_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// mask
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ >= 8) {
@@ -28830,7 +28830,7 @@ void andI2L_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -28838,7 +28838,7 @@ void andI2L_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB7 /*secondary()*/));
   
@@ -28846,7 +28846,7 @@ void andI2L_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -28862,7 +28862,7 @@ void andI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 1986 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1986 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -28885,7 +28885,7 @@ void andI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -28907,7 +28907,7 @@ void andI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -28941,7 +28941,7 @@ void andI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -28949,7 +28949,7 @@ void andI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -28973,7 +28973,7 @@ void andI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29007,7 +29007,7 @@ void andI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -29015,7 +29015,7 @@ void andI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -29039,7 +29039,7 @@ void andI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29073,7 +29073,7 @@ void andI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x21 /*primary()*/));
   
@@ -29081,7 +29081,7 @@ void andI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -29105,7 +29105,7 @@ void andI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29139,7 +29139,7 @@ void andI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x21 /*primary()*/));
   
@@ -29147,7 +29147,7 @@ void andI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -29171,7 +29171,7 @@ void andI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -29189,7 +29189,7 @@ void andI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -29204,7 +29204,7 @@ void andI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -29224,7 +29224,7 @@ void andI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -29248,7 +29248,7 @@ void andnI_rReg_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8776 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8776 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ andnl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(3)->base(ra_,this,idx3), opnd_array(3)->index(ra_,this,idx3), opnd_array(3)->scale(), opnd_array(3)->disp(ra_,this,idx3), opnd_array(3)->disp_reloc()));
   
@@ -29266,7 +29266,7 @@ void andnI_rReg_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8776 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8776 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ andnl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(2)->as_Register(ra_,this,idx2)/* src1 */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -29284,7 +29284,7 @@ void andnI_rReg_rReg_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8789 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8789 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ andnl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src1 */, opnd_array(3)->as_Register(ra_,this,idx3)/* src2 */);
   
@@ -29302,7 +29302,7 @@ void andnI_rReg_rReg_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8789 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8789 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ andnl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(2)->as_Register(ra_,this,idx2)/* src1 */, opnd_array(1)->as_Register(ra_,this,idx1)/* src2 */);
   
@@ -29319,7 +29319,7 @@ void blsiI_rReg_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8802 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8802 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsil(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(2)->as_Register(ra_,this,idx2)/* src */);
   
@@ -29336,7 +29336,7 @@ void blsiI_rReg_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8802 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8802 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsil(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -29353,7 +29353,7 @@ void blsiI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8816 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8816 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsil(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -29370,7 +29370,7 @@ void blsiI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8816 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8816 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsil(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -29387,7 +29387,7 @@ void blsmskI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8831 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8831 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsmskl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -29404,7 +29404,7 @@ void blsmskI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8831 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8831 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsmskl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -29421,7 +29421,7 @@ void blsmskI_rReg_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8845 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8845 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsmskl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -29438,7 +29438,7 @@ void blsmskI_rReg_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8845 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8845 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsmskl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -29455,7 +29455,7 @@ void blsrI_rReg_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8860 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8860 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsrl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -29472,7 +29472,7 @@ void blsrI_rReg_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8860 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8860 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsrl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -29489,7 +29489,7 @@ void blsrI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8876 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8876 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsrl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -29506,7 +29506,7 @@ void blsrI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8876 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8876 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsrl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -29522,7 +29522,7 @@ void orI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ >= 8) {
@@ -29540,7 +29540,7 @@ void orI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -29548,7 +29548,7 @@ void orI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -29564,7 +29564,7 @@ void orI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 1986 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1986 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -29587,7 +29587,7 @@ void orI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -29609,7 +29609,7 @@ void orI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -29643,7 +29643,7 @@ void orI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -29651,7 +29651,7 @@ void orI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -29675,7 +29675,7 @@ void orI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29709,7 +29709,7 @@ void orI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -29717,7 +29717,7 @@ void orI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -29741,7 +29741,7 @@ void orI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29775,7 +29775,7 @@ void orI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x09 /*primary()*/));
   
@@ -29783,7 +29783,7 @@ void orI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -29807,7 +29807,7 @@ void orI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29841,7 +29841,7 @@ void orI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x09 /*primary()*/));
   
@@ -29849,7 +29849,7 @@ void orI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -29873,7 +29873,7 @@ void orI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -29891,7 +29891,7 @@ void orI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -29906,7 +29906,7 @@ void orI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x1 /*secondary()*/);
 
@@ -29926,7 +29926,7 @@ void orI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -29948,7 +29948,7 @@ void xorI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ >= 8) {
@@ -29966,7 +29966,7 @@ void xorI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -29974,7 +29974,7 @@ void xorI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -29991,7 +29991,7 @@ void xorI_rReg_im1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8966 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 8966 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
      __ notl(opnd_array(1)->as_Register(ra_,this,idx1)/* dst */);
   
@@ -30007,7 +30007,7 @@ void xorI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 1986 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1986 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -30030,7 +30030,7 @@ void xorI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -30052,7 +30052,7 @@ void xorI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -30086,7 +30086,7 @@ void xorI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -30094,7 +30094,7 @@ void xorI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -30118,7 +30118,7 @@ void xorI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30152,7 +30152,7 @@ void xorI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -30160,7 +30160,7 @@ void xorI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -30184,7 +30184,7 @@ void xorI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30218,7 +30218,7 @@ void xorI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x31 /*primary()*/));
   
@@ -30226,7 +30226,7 @@ void xorI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -30250,7 +30250,7 @@ void xorI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30284,7 +30284,7 @@ void xorI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x31 /*primary()*/));
   
@@ -30292,7 +30292,7 @@ void xorI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -30316,7 +30316,7 @@ void xorI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -30334,7 +30334,7 @@ void xorI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -30349,7 +30349,7 @@ void xorI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x6 /*secondary()*/);
 
@@ -30369,7 +30369,7 @@ void xorI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -30391,7 +30391,7 @@ void andL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
@@ -30411,7 +30411,7 @@ void andL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -30419,7 +30419,7 @@ void andL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -30435,7 +30435,7 @@ void andL_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
@@ -30455,7 +30455,7 @@ void andL_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -30463,7 +30463,7 @@ void andL_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6 /*secondary()*/));
   
@@ -30471,7 +30471,7 @@ void andL_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
   
@@ -30487,7 +30487,7 @@ void andL_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
@@ -30507,7 +30507,7 @@ void andL_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -30515,7 +30515,7 @@ void andL_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB7 /*secondary()*/));
   
@@ -30523,7 +30523,7 @@ void andL_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7);
   
@@ -30539,7 +30539,7 @@ void andL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2006 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2006 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -30564,7 +30564,7 @@ void andL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -30586,7 +30586,7 @@ void andL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -30622,7 +30622,7 @@ void andL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -30630,7 +30630,7 @@ void andL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -30654,7 +30654,7 @@ void andL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30690,7 +30690,7 @@ void andL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -30698,7 +30698,7 @@ void andL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -30722,7 +30722,7 @@ void andL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30758,7 +30758,7 @@ void andL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x21 /*primary()*/));
   
@@ -30766,7 +30766,7 @@ void andL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -30790,7 +30790,7 @@ void andL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30826,7 +30826,7 @@ void andL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x21 /*primary()*/));
   
@@ -30834,7 +30834,7 @@ void andL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -30858,7 +30858,7 @@ void andL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -30878,7 +30878,7 @@ void andL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -30893,7 +30893,7 @@ void andL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -30913,7 +30913,7 @@ void andL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -30937,7 +30937,7 @@ void andnL_rReg_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9123 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9123 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ andnq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(3)->base(ra_,this,idx3), opnd_array(3)->index(ra_,this,idx3), opnd_array(3)->scale(), opnd_array(3)->disp(ra_,this,idx3), opnd_array(3)->disp_reloc()));
   
@@ -30955,7 +30955,7 @@ void andnL_rReg_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9123 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9123 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ andnq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(2)->as_Register(ra_,this,idx2)/* src1 */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -30973,7 +30973,7 @@ void andnL_rReg_rReg_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9136 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9136 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
   __ andnq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src1 */, opnd_array(3)->as_Register(ra_,this,idx3)/* src2 */);
   
@@ -30991,7 +30991,7 @@ void andnL_rReg_rReg_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9136 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9136 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
   __ andnq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(2)->as_Register(ra_,this,idx2)/* src1 */, opnd_array(1)->as_Register(ra_,this,idx1)/* src2 */);
   
@@ -31008,7 +31008,7 @@ void blsiL_rReg_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9149 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9149 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsiq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(2)->as_Register(ra_,this,idx2)/* src */);
   
@@ -31025,7 +31025,7 @@ void blsiL_rReg_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9149 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9149 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsiq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -31042,7 +31042,7 @@ void blsiL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9163 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9163 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsiq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -31059,7 +31059,7 @@ void blsiL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9163 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9163 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsiq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -31076,7 +31076,7 @@ void blsmskL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9178 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9178 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsmskq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -31093,7 +31093,7 @@ void blsmskL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9178 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9178 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsmskq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -31110,7 +31110,7 @@ void blsmskL_rReg_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9192 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9192 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsmskq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -31127,7 +31127,7 @@ void blsmskL_rReg_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9192 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9192 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsmskq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -31144,7 +31144,7 @@ void blsrL_rReg_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9207 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9207 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsrq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -31161,7 +31161,7 @@ void blsrL_rReg_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9207 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9207 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsrq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -31178,7 +31178,7 @@ void blsrL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9223 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9223 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsrq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -31195,7 +31195,7 @@ void blsrL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9223 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9223 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ blsrq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -31211,7 +31211,7 @@ void orL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
@@ -31231,7 +31231,7 @@ void orL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -31239,7 +31239,7 @@ void orL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -31255,7 +31255,7 @@ void orL_rReg_castP2XNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
@@ -31275,7 +31275,7 @@ void orL_rReg_castP2XNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -31283,7 +31283,7 @@ void orL_rReg_castP2XNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -31299,7 +31299,7 @@ void orL_rReg_castP2X_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
@@ -31319,7 +31319,7 @@ void orL_rReg_castP2X_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -31327,7 +31327,7 @@ void orL_rReg_castP2X_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(2)->reg(ra_,this,idx2)/* dst */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -31343,7 +31343,7 @@ void orL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2006 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2006 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -31368,7 +31368,7 @@ void orL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -31390,7 +31390,7 @@ void orL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -31426,7 +31426,7 @@ void orL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -31434,7 +31434,7 @@ void orL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -31458,7 +31458,7 @@ void orL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -31494,7 +31494,7 @@ void orL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -31502,7 +31502,7 @@ void orL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -31526,7 +31526,7 @@ void orL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -31562,7 +31562,7 @@ void orL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x09 /*primary()*/));
   
@@ -31570,7 +31570,7 @@ void orL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -31594,7 +31594,7 @@ void orL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -31630,7 +31630,7 @@ void orL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x09 /*primary()*/));
   
@@ -31638,7 +31638,7 @@ void orL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -31662,7 +31662,7 @@ void orL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -31682,7 +31682,7 @@ void orL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -31697,7 +31697,7 @@ void orL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x1 /*secondary()*/);
 
@@ -31717,7 +31717,7 @@ void orL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -31739,7 +31739,7 @@ void xorL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
@@ -31759,7 +31759,7 @@ void xorL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -31767,7 +31767,7 @@ void xorL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -31784,7 +31784,7 @@ void xorL_rReg_im1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9325 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9325 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
      __ notq(opnd_array(1)->as_Register(ra_,this,idx1)/* dst */);
   
@@ -31800,7 +31800,7 @@ void xorL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2006 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2006 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -31825,7 +31825,7 @@ void xorL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -31847,7 +31847,7 @@ void xorL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -31883,7 +31883,7 @@ void xorL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -31891,7 +31891,7 @@ void xorL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* dst */;
@@ -31915,7 +31915,7 @@ void xorL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// dst
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* dst */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -31951,7 +31951,7 @@ void xorL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -31959,7 +31959,7 @@ void xorL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* dst */;
@@ -31983,7 +31983,7 @@ void xorL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -32019,7 +32019,7 @@ void xorL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x31 /*primary()*/));
   
@@ -32027,7 +32027,7 @@ void xorL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -32051,7 +32051,7 @@ void xorL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -32087,7 +32087,7 @@ void xorL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x31 /*primary()*/));
   
@@ -32095,7 +32095,7 @@ void xorL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -32119,7 +32119,7 @@ void xorL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -32139,7 +32139,7 @@ void xorL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1974 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -32154,7 +32154,7 @@ void xorL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x6 /*secondary()*/);
 
@@ -32174,7 +32174,7 @@ void xorL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -32195,7 +32195,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ >= 8) {
@@ -32213,7 +32213,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1832 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1832 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85));
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
@@ -32222,7 +32222,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2602 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2602 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
     if (dstenc >= 8) {
@@ -32240,7 +32240,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* dst */ >= 4) {
@@ -32258,7 +32258,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -32266,7 +32266,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -32274,7 +32274,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(0)->reg(ra_,this)/* dst */ & 7);
   
@@ -32289,7 +32289,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// src
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
@@ -32309,7 +32309,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1832 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1832 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85));
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
@@ -32318,7 +32318,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2602 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2602 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
     if (dstenc >= 8) {
@@ -32336,7 +32336,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* dst */ >= 4) {
@@ -32354,7 +32354,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -32362,7 +32362,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -32370,7 +32370,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(0)->reg(ra_,this)/* dst */ & 7);
   
@@ -32386,7 +32386,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// q
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* p */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* q */ >= 8) {
@@ -32404,7 +32404,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1832 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1832 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B));
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* p */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* q */ & 7);
@@ -32413,7 +32413,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2587 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2587 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
     if (dstenc >= 8) {
@@ -32431,7 +32431,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2358 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */ < 8) {
       if (opnd_array(0)->reg(ra_,this)/* dst */ >= 4) {
@@ -32449,7 +32449,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -32457,7 +32457,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -32465,7 +32465,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this)/* dst */ & 7, opnd_array(0)->reg(ra_,this)/* dst */ & 7);
   
@@ -32473,7 +32473,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2561 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2561 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this)/* dst */;
     if (dstenc >= 8) {
@@ -32497,7 +32497,7 @@ void cmpLTMask0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9440 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9440 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
   __ sarl(opnd_array(1)->as_Register(ra_,this,idx1)/* dst */, 31);
   
@@ -32515,7 +32515,7 @@ void cadd_cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9456 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9456 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(1)->as_Register(ra_,this,idx1)/* p */;
     Register Rq = opnd_array(2)->as_Register(ra_,this,idx2)/* q */;
@@ -32540,7 +32540,7 @@ void cadd_cmpLTMask_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9456 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9456 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(1)->as_Register(ra_,this,idx1)/* p */;
     Register Rq = opnd_array(2)->as_Register(ra_,this,idx2)/* q */;
@@ -32565,7 +32565,7 @@ void cadd_cmpLTMask_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9456 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9456 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(2)->as_Register(ra_,this,idx2)/* p */;
     Register Rq = opnd_array(3)->as_Register(ra_,this,idx3)/* q */;
@@ -32590,7 +32590,7 @@ void cadd_cmpLTMask_2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9456 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9456 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(1)->as_Register(ra_,this,idx1)/* p */;
     Register Rq = opnd_array(2)->as_Register(ra_,this,idx2)/* q */;
@@ -32615,7 +32615,7 @@ void and_cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9481 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9481 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(1)->as_Register(ra_,this,idx1)/* p */;
     Register Rq = opnd_array(2)->as_Register(ra_,this,idx2)/* q */;
@@ -32640,7 +32640,7 @@ void and_cmpLTMask_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9481 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9481 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(2)->as_Register(ra_,this,idx2)/* p */;
     Register Rq = opnd_array(3)->as_Register(ra_,this,idx3)/* q */;
@@ -32664,7 +32664,7 @@ void cmpF_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9508 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9508 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     emit_cmpfp_fixup(_masm);
@@ -32682,7 +32682,7 @@ void cmpF_cc_reg_CFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9520 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9520 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -32699,7 +32699,7 @@ void cmpF_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9537 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9537 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
     emit_cmpfp_fixup(_masm);
@@ -32717,7 +32717,7 @@ void cmpF_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9549 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9549 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -32734,7 +32734,7 @@ void cmpF_cc_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9565 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9565 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     emit_cmpfp_fixup(_masm);
@@ -32746,7 +32746,7 @@ void cmpF_cc_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpF_cc_immNode::eval_constant(Compile* C) {
   {
 
-#line 9566 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9566 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 32752 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -32760,7 +32760,7 @@ void cmpF_cc_immCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9576 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9576 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -32771,7 +32771,7 @@ void cmpF_cc_immCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpF_cc_immCFNode::eval_constant(Compile* C) {
   {
 
-#line 9577 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9577 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 32777 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -32785,7 +32785,7 @@ void cmpD_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9593 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9593 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     emit_cmpfp_fixup(_masm);
@@ -32803,7 +32803,7 @@ void cmpD_cc_reg_CFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9605 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9605 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -32820,7 +32820,7 @@ void cmpD_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9622 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9622 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
     emit_cmpfp_fixup(_masm);
@@ -32838,7 +32838,7 @@ void cmpD_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9634 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9634 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -32855,7 +32855,7 @@ void cmpD_cc_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9650 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9650 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     emit_cmpfp_fixup(_masm);
@@ -32867,7 +32867,7 @@ void cmpD_cc_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpD_cc_immNode::eval_constant(Compile* C) {
   {
 
-#line 9651 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9651 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 32873 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -32881,7 +32881,7 @@ void cmpD_cc_immCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9661 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9661 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -32892,7 +32892,7 @@ void cmpD_cc_immCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpD_cc_immCFNode::eval_constant(Compile* C) {
   {
 
-#line 9662 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9662 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 32898 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -32906,7 +32906,7 @@ void cmpF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9681 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9681 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     emit_cmpfp3(_masm, opnd_array(0)->as_Register(ra_,this)/* dst */);
@@ -32924,7 +32924,7 @@ void cmpF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9702 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9702 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
     emit_cmpfp3(_masm, opnd_array(0)->as_Register(ra_,this)/* dst */);
@@ -32942,7 +32942,7 @@ void cmpF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9722 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9722 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     emit_cmpfp3(_masm, opnd_array(0)->as_Register(ra_,this)/* dst */);
@@ -32954,7 +32954,7 @@ void cmpF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpF_immNode::eval_constant(Compile* C) {
   {
 
-#line 9723 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9723 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 32960 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -32968,7 +32968,7 @@ void cmpD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9743 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9743 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     emit_cmpfp3(_masm, opnd_array(0)->as_Register(ra_,this)/* dst */);
@@ -32986,7 +32986,7 @@ void cmpD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9764 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9764 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
     emit_cmpfp3(_masm, opnd_array(0)->as_Register(ra_,this)/* dst */);
@@ -33004,7 +33004,7 @@ void cmpD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9784 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9784 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     emit_cmpfp3(_masm, opnd_array(0)->as_Register(ra_,this)/* dst */);
@@ -33016,7 +33016,7 @@ void cmpD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpD_immNode::eval_constant(Compile* C) {
   {
 
-#line 9785 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9785 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 33022 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -33028,7 +33028,7 @@ void cosD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// dst
   {
 
-#line 2676 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2676 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ subptr(rsp, 8);
@@ -33039,7 +33039,7 @@ void cosD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9 /*primary()*/));
   
@@ -33047,7 +33047,7 @@ void cosD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*secondary()*/));
   
@@ -33055,7 +33055,7 @@ void cosD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2669 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2669 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ fstp_d(Address(rsp, 0));
@@ -33073,7 +33073,7 @@ void sinD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// dst
   {
 
-#line 2676 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2676 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ subptr(rsp, 8);
@@ -33084,7 +33084,7 @@ void sinD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9 /*primary()*/));
   
@@ -33092,7 +33092,7 @@ void sinD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFE /*secondary()*/));
   
@@ -33100,7 +33100,7 @@ void sinD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2669 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2669 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ fstp_d(Address(rsp, 0));
@@ -33118,7 +33118,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// dst
   {
 
-#line 2676 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2676 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ subptr(rsp, 8);
@@ -33129,7 +33129,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -33137,7 +33137,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2));
   
@@ -33145,7 +33145,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xDD));
   
@@ -33153,7 +33153,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD8));
   
@@ -33161,7 +33161,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2669 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2669 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ fstp_d(Address(rsp, 0));
@@ -33179,7 +33179,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// dst
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -33187,7 +33187,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xEC));
   
@@ -33195,7 +33195,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2676 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2676 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ subptr(rsp, 8);
@@ -33206,7 +33206,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -33214,7 +33214,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF1));
   
@@ -33222,7 +33222,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2669 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2669 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ fstp_d(Address(rsp, 0));
@@ -33240,7 +33240,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// dst
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -33248,7 +33248,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xED));
   
@@ -33256,7 +33256,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2676 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2676 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ subptr(rsp, 8);
@@ -33267,7 +33267,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -33275,7 +33275,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF1));
   
@@ -33283,7 +33283,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2669 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2669 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ fstp_d(Address(rsp, 0));
@@ -33303,7 +33303,7 @@ void powD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9856 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9856 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ subptr(rsp, 8);
     __ movdbl(Address(rsp, 0), opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src1 */);
@@ -33327,7 +33327,7 @@ void expD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9874 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9874 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ subptr(rsp, 8);
     __ movdbl(Address(rsp, 0), opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
@@ -33365,7 +33365,7 @@ void convF2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9911 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9911 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtss2sd (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -33381,7 +33381,7 @@ void convF2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9922 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9922 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtss2sd (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -33397,7 +33397,7 @@ void convD2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9933 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9933 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsd2ss (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -33413,7 +33413,7 @@ void convD2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9944 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9944 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsd2ss (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -33429,7 +33429,7 @@ void convF2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9964 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9964 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label done;
     __ cvttss2sil(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
@@ -33453,7 +33453,7 @@ void convF2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9991 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 9991 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label done;
     __ cvttss2siq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
@@ -33478,7 +33478,7 @@ void convD2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10019 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10019 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label done;
     __ cvttsd2sil(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
@@ -33502,7 +33502,7 @@ void convD2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10046 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10046 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label done;
     __ cvttsd2siq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
@@ -33527,7 +33527,7 @@ void convI2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10067 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10067 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsi2ssl (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33543,7 +33543,7 @@ void convI2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10078 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10078 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsi2ssl (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -33559,7 +33559,7 @@ void convI2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10090 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10090 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsi2sdl (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33575,7 +33575,7 @@ void convI2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10101 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10101 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsi2sdl (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -33591,7 +33591,7 @@ void convXI2F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10114 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10114 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ cvtdq2ps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -33608,7 +33608,7 @@ void convXI2D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10128 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10128 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ cvtdq2pd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -33625,7 +33625,7 @@ void convL2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10140 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10140 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsi2ssq (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33641,7 +33641,7 @@ void convL2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10151 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10151 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsi2ssq (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -33657,7 +33657,7 @@ void convL2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10162 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10162 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsi2sdq (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33673,7 +33673,7 @@ void convL2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10173 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10173 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cvtsi2sdq (opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -33689,7 +33689,7 @@ void convI2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10185 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10185 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movslq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33706,7 +33706,7 @@ void convI2L_reg_reg_zexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10214 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10214 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this)/* dst */!= opnd_array(1)->reg(ra_,this,idx1)/* src */) {
       __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
@@ -33725,7 +33725,7 @@ void convI2L_reg_mem_zexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10228 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10228 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -33742,7 +33742,7 @@ void zerox_long_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10239 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10239 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33758,7 +33758,7 @@ void convL2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10250 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10250 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33774,7 +33774,7 @@ void MoveF2I_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10263 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10263 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this)/* dst */, Address(rsp, opnd_array(1)->disp(ra_,this,idx1)));
   
@@ -33790,7 +33790,7 @@ void MoveI2F_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10275 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10275 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movflt(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address(rsp, opnd_array(1)->disp(ra_,this,idx1)));
   
@@ -33806,7 +33806,7 @@ void MoveD2L_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10287 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10287 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(opnd_array(0)->as_Register(ra_,this)/* dst */, Address(rsp, opnd_array(1)->disp(ra_,this,idx1)));
   
@@ -33822,7 +33822,7 @@ void MoveL2D_stack_reg_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) c
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10300 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10300 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address(rsp, opnd_array(1)->disp(ra_,this,idx1)));
   
@@ -33838,7 +33838,7 @@ void MoveL2D_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10313 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10313 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address(rsp, opnd_array(1)->disp(ra_,this,idx1)));
   
@@ -33854,7 +33854,7 @@ void MoveF2I_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10326 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10326 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movflt(Address(rsp, opnd_array(0)->disp(ra_,this,0)), opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -33870,7 +33870,7 @@ void MoveI2F_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10338 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10338 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address(rsp, opnd_array(0)->disp(ra_,this,0)), opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33886,7 +33886,7 @@ void MoveD2L_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10350 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10350 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(Address(rsp, opnd_array(0)->disp(ra_,this,0)), opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -33902,7 +33902,7 @@ void MoveL2D_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10362 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10362 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(Address(rsp, opnd_array(0)->disp(ra_,this,0)), opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33918,7 +33918,7 @@ void MoveF2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10373 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10373 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdl(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -33934,7 +33934,7 @@ void MoveD2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10384 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10384 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdq(opnd_array(0)->as_Register(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -33950,7 +33950,7 @@ void MoveI2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10395 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10395 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33966,7 +33966,7 @@ void MoveL2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10406 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10406 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
      __ movdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
   
@@ -33983,7 +33983,7 @@ void rep_stosNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10424 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10424 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ clear_mem(opnd_array(2)->as_Register(ra_,this,idx2)/* base */, opnd_array(1)->as_Register(ra_,this,idx1)/* cnt */, as_Register(RAX_enc));
   
@@ -34000,7 +34000,7 @@ void rep_fast_stosbNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10439 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10439 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ clear_mem(opnd_array(2)->as_Register(ra_,this,idx2)/* base */, opnd_array(1)->as_Register(ra_,this,idx1)/* cnt */, as_Register(RAX_enc));
   
@@ -34020,7 +34020,7 @@ void string_compareNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10452 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10452 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ string_compare(opnd_array(1)->as_Register(ra_,this,idx1)/* str1 */, opnd_array(3)->as_Register(ra_,this,idx3)/* str2 */,
                       opnd_array(2)->as_Register(ra_,this,idx2)/* cnt1 */, opnd_array(4)->as_Register(ra_,this,idx4)/* cnt2 */, opnd_array(0)->as_Register(ra_,this)/* result */,
@@ -34042,7 +34042,7 @@ void string_indexof_conNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10469 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10469 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int icnt2 = (int)opnd_array(4)->constant();
     if (icnt2 >= 8) {
@@ -34076,7 +34076,7 @@ void string_indexofNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10497 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10497 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ string_indexof(opnd_array(1)->as_Register(ra_,this,idx1)/* str1 */, opnd_array(3)->as_Register(ra_,this,idx3)/* str2 */,
                       opnd_array(2)->as_Register(ra_,this,idx2)/* cnt1 */, opnd_array(4)->as_Register(ra_,this,idx4)/* cnt2 */,
@@ -34099,7 +34099,7 @@ void string_equalsNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10514 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10514 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ char_arrays_equals(false, opnd_array(1)->as_Register(ra_,this,idx1)/* str1 */, opnd_array(2)->as_Register(ra_,this,idx2)/* str2 */,
                           opnd_array(3)->as_Register(ra_,this,idx3)/* cnt */, opnd_array(0)->as_Register(ra_,this)/* result */, as_Register(RBX_enc),
@@ -34120,7 +34120,7 @@ void array_equalsNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10531 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10531 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ char_arrays_equals(true, opnd_array(1)->as_Register(ra_,this,idx1)/* ary1 */, opnd_array(2)->as_Register(ra_,this,idx2)/* ary2 */,
                           as_Register(RCX_enc), opnd_array(0)->as_Register(ra_,this)/* result */, as_Register(RBX_enc),
@@ -34144,7 +34144,7 @@ void encode_iso_arrayNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10547 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10547 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ encode_iso_array(opnd_array(1)->as_Register(ra_,this,idx1)/* src */, opnd_array(2)->as_Register(ra_,this,idx2)/* dst */, opnd_array(3)->as_Register(ra_,this,idx3)/* len */,
                         opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp1 */, opnd_array(5)->as_XMMRegister(ra_,this,idx5)/* tmp2 */, opnd_array(6)->as_XMMRegister(ra_,this,idx6)/* tmp3 */,
@@ -34163,7 +34163,7 @@ void overflowAddI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10564 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10564 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ addl(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->as_Register(ra_,this,idx2)/* op2 */);
   
@@ -34180,7 +34180,7 @@ void overflowAddI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10577 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10577 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ addl(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->constant());
   
@@ -34197,7 +34197,7 @@ void overflowAddL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10589 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10589 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ addq(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->as_Register(ra_,this,idx2)/* op2 */);
   
@@ -34214,7 +34214,7 @@ void overflowAddL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10601 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10601 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ addq(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->constantL());
   
@@ -34231,7 +34231,7 @@ void overflowSubI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10612 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10612 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpl(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->as_Register(ra_,this,idx2)/* op2 */);
   
@@ -34248,7 +34248,7 @@ void overflowSubI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10623 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10623 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpl(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->constant());
   
@@ -34265,7 +34265,7 @@ void overflowSubL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10634 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10634 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpq(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->as_Register(ra_,this,idx2)/* op2 */);
   
@@ -34282,7 +34282,7 @@ void overflowSubL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10645 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10645 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpq(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->constantL());
   
@@ -34299,7 +34299,7 @@ void overflowNegI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10657 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10657 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ negl(opnd_array(2)->as_Register(ra_,this,idx2)/* op2 */);
   
@@ -34316,7 +34316,7 @@ void overflowNegL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10669 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10669 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ negq(opnd_array(2)->as_Register(ra_,this,idx2)/* op2 */);
   
@@ -34333,7 +34333,7 @@ void overflowMulI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10681 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10681 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ imull(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->as_Register(ra_,this,idx2)/* op2 */);
   
@@ -34351,7 +34351,7 @@ void overflowMulI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10693 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10693 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ imull(opnd_array(3)->as_Register(ra_,this,idx3)/* tmp */, opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->constant());
   
@@ -34368,7 +34368,7 @@ void overflowMulL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10705 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10705 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ imulq(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->as_Register(ra_,this,idx2)/* op2 */);
   
@@ -34386,7 +34386,7 @@ void overflowMulL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10717 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10717 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ imulq(opnd_array(3)->as_Register(ra_,this,idx3)/* tmp */, opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->constantL());
   
@@ -34402,7 +34402,7 @@ void compI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* op1 */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* op2 */ >= 8) {
@@ -34420,7 +34420,7 @@ void compI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -34428,7 +34428,7 @@ void compI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* op1 */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* op2 */ & 7);
   
@@ -34444,7 +34444,7 @@ void compI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 1986 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1986 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* op1 */;
@@ -34467,7 +34467,7 @@ void compI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -34489,7 +34489,7 @@ void compI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* op1 */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -34523,7 +34523,7 @@ void compI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -34531,7 +34531,7 @@ void compI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* op1 */;
@@ -34555,7 +34555,7 @@ void testI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// zero
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ >= 8) {
@@ -34573,7 +34573,7 @@ void testI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -34581,7 +34581,7 @@ void testI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -34598,7 +34598,7 @@ void testI_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// zero
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -34608,7 +34608,7 @@ void testI_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -34616,7 +34616,7 @@ void testI_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x00 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
@@ -34625,7 +34625,7 @@ void testI_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2278 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2278 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d32(cbuf, opnd_array(2)->constant());
@@ -34643,7 +34643,7 @@ void testI_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// zero
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -34677,7 +34677,7 @@ void testI_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -34685,7 +34685,7 @@ void testI_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* src */;
@@ -34710,7 +34710,7 @@ void testI_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// zero
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -34744,7 +34744,7 @@ void testI_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -34752,7 +34752,7 @@ void testI_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -34776,7 +34776,7 @@ void compU_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* op1 */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* op2 */ >= 8) {
@@ -34794,7 +34794,7 @@ void compU_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -34802,7 +34802,7 @@ void compU_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* op1 */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* op2 */ & 7);
   
@@ -34818,7 +34818,7 @@ void compU_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 1986 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1986 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* op1 */;
@@ -34841,7 +34841,7 @@ void compU_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -34863,7 +34863,7 @@ void compU_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2455 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2455 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* op1 */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -34897,7 +34897,7 @@ void compU_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -34905,7 +34905,7 @@ void compU_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* op1 */;
@@ -34929,7 +34929,7 @@ void testU_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// zero
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ >= 8) {
@@ -34947,7 +34947,7 @@ void testU_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -34955,7 +34955,7 @@ void testU_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -34971,7 +34971,7 @@ void compP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* op1 */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* op2 */ < 8) {
@@ -34991,7 +34991,7 @@ void compP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -34999,7 +34999,7 @@ void compP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* op1 */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* op2 */ & 7);
   
@@ -35015,7 +35015,7 @@ void compP_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* op1 */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -35051,7 +35051,7 @@ void compP_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -35059,7 +35059,7 @@ void compP_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* op1 */;
@@ -35083,7 +35083,7 @@ void compP_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* op1 */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -35119,7 +35119,7 @@ void compP_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -35127,7 +35127,7 @@ void compP_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* op1 */;
@@ -35151,7 +35151,7 @@ void testP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// zero
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
@@ -35171,7 +35171,7 @@ void testP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -35179,7 +35179,7 @@ void testP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -35195,7 +35195,7 @@ void testP_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// zero
   {
 
-#line 2332 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2332 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -35215,7 +35215,7 @@ void testP_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -35223,7 +35223,7 @@ void testP_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2532 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2532 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -35243,7 +35243,7 @@ void testP_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2299 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2299 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_d32(cbuf,(0xFFFFFFFF));
   
@@ -35260,7 +35260,7 @@ void testP_mem_reg0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10924 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10924 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpq(r12, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -35277,7 +35277,7 @@ void compN_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10935 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10935 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 __ cmpl(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, opnd_array(2)->as_Register(ra_,this,idx2)/* op2 */); 
 #line 35283 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -35292,7 +35292,7 @@ void compN_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10944 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10944 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpl(opnd_array(1)->as_Register(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -35309,7 +35309,7 @@ void compN_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10954 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10954 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmp_narrow_oop(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, (jobject)opnd_array(2)->constant());
   
@@ -35326,7 +35326,7 @@ void compN_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10965 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10965 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmp_narrow_oop(Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), (jobject)opnd_array(1)->constant());
   
@@ -35343,7 +35343,7 @@ void compN_rReg_imm_klassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10975 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10975 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmp_narrow_klass(opnd_array(1)->as_Register(ra_,this,idx1)/* op1 */, (Klass*)opnd_array(2)->constant());
   
@@ -35360,7 +35360,7 @@ void compN_mem_imm_klassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10986 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10986 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmp_narrow_klass(Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), (Klass*)opnd_array(1)->constant());
   
@@ -35377,7 +35377,7 @@ void testN_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10996 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 10996 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 __ testl(opnd_array(1)->as_Register(ra_,this,idx1)/* src */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */); 
 #line 35383 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -35392,7 +35392,7 @@ void testN_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11007 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11007 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), (int)0xFFFFFFFF);
   
@@ -35409,7 +35409,7 @@ void testN_mem_reg0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11019 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11019 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpl(r12, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -35425,7 +35425,7 @@ void compL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* op1 */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* op2 */ < 8) {
@@ -35445,7 +35445,7 @@ void compL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -35453,7 +35453,7 @@ void compL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* op1 */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* op2 */ & 7);
   
@@ -35469,7 +35469,7 @@ void compL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2006 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2006 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1)/* op1 */;
@@ -35494,7 +35494,7 @@ void compL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2028 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2028 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -35516,7 +35516,7 @@ void compL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// op2
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* op1 */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -35552,7 +35552,7 @@ void compL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -35560,7 +35560,7 @@ void compL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* op1 */;
@@ -35584,7 +35584,7 @@ void testL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// zero
   {
 
-#line 2438 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
@@ -35604,7 +35604,7 @@ void testL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -35612,7 +35612,7 @@ void testL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7, opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
   
@@ -35629,7 +35629,7 @@ void testL_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// zero
   {
 
-#line 2414 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -35641,7 +35641,7 @@ void testL_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -35649,7 +35649,7 @@ void testL_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x00 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* src */ & 7);
@@ -35658,7 +35658,7 @@ void testL_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2278 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2278 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d32(cbuf, opnd_array(2)->constantL());
@@ -35676,7 +35676,7 @@ void testL_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// zero
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* src */ < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -35712,7 +35712,7 @@ void testL_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -35720,7 +35720,7 @@ void testL_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1)/* src */;
@@ -35745,7 +35745,7 @@ void testL_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// zero
   {
 
-#line 2486 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2486 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2)/* src */ < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -35781,7 +35781,7 @@ void testL_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -35789,7 +35789,7 @@ void testL_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2519 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2519 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2)/* src */;
@@ -35813,7 +35813,7 @@ void cmpL3_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// src2
   {
 
-#line 2619 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2619 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int src1enc = opnd_array(1)->reg(ra_,this,idx1)/* src1 */;
     int src2enc = opnd_array(2)->reg(ra_,this,idx2)/* src2 */;
@@ -35876,7 +35876,7 @@ void cmovI_reg_gNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// 
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ >= 8) {
@@ -35894,7 +35894,7 @@ void cmovI_reg_gNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -35902,7 +35902,7 @@ void cmovI_reg_gNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x4F /*secondary()*/));
   
@@ -35910,7 +35910,7 @@ void cmovI_reg_gNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -35927,7 +35927,7 @@ void cmovI_reg_lNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// 
   {
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* dst */ < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2)/* src */ >= 8) {
@@ -35945,7 +35945,7 @@ void cmovI_reg_lNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -35953,7 +35953,7 @@ void cmovI_reg_lNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1799 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x4C /*secondary()*/));
   
@@ -35961,7 +35961,7 @@ void cmovI_reg_lNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1827 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1827 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1)/* dst */ & 7, opnd_array(2)->reg(ra_,this,idx2)/* src */ & 7);
   
@@ -35977,7 +35977,7 @@ void jmpDirNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11167 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11167 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(1)->label();
     __ jmp(*L, false); // Always long jump
@@ -36001,7 +36001,7 @@ void jmpConNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11183 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jcc((Assembler::Condition)(opnd_array(1)->ccode()), *L, false); // Always long jump
@@ -36025,7 +36025,7 @@ void jmpLoopEndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11199 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11199 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jcc((Assembler::Condition)(opnd_array(1)->ccode()), *L, false); // Always long jump
@@ -36049,7 +36049,7 @@ void jmpLoopEndUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11214 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11214 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jcc((Assembler::Condition)(opnd_array(1)->ccode()), *L, false); // Always long jump
@@ -36073,7 +36073,7 @@ void jmpLoopEndUCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11228 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11228 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jcc((Assembler::Condition)(opnd_array(1)->ccode()), *L, false); // Always long jump
@@ -36097,7 +36097,7 @@ void jmpConUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11243 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11243 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jcc((Assembler::Condition)(opnd_array(1)->ccode()), *L, false); // Always long jump
@@ -36121,7 +36121,7 @@ void jmpConUCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11257 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11257 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jcc((Assembler::Condition)(opnd_array(1)->ccode()), *L, false); // Always long jump
@@ -36145,7 +36145,7 @@ void jmpConUCF2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11279 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11279 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* l = opnd_array(3)->label();
     if (opnd_array(1)->ccode()== Assembler::notEqual) {
@@ -36172,7 +36172,7 @@ void partialSubtypeCheckNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// super
   {
 
-#line 2064 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2064 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rrdi = as_Register(RDI_enc); // result register
     Register Rrax = as_Register(RAX_enc); // super class
@@ -36203,7 +36203,7 @@ void partialSubtypeCheck_vs_ZeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_)
   unsigned idx3 = idx2 + opnd_array(2)->num_edges(); 	// zero
   {
 
-#line 2064 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2064 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rrdi = as_Register(RDI_enc); // result register
     Register Rrax = as_Register(RAX_enc); // super class
@@ -36233,7 +36233,7 @@ void jmpDir_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11367 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11367 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(1)->label();
     __ jmpb(*L);
@@ -36257,7 +36257,7 @@ void jmpCon_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11383 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11383 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jccb((Assembler::Condition)(opnd_array(1)->ccode()), *L);
@@ -36281,7 +36281,7 @@ void jmpLoopEnd_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11399 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11399 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jccb((Assembler::Condition)(opnd_array(1)->ccode()), *L);
@@ -36305,7 +36305,7 @@ void jmpLoopEndU_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11415 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11415 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jccb((Assembler::Condition)(opnd_array(1)->ccode()), *L);
@@ -36329,7 +36329,7 @@ void jmpLoopEndUCF_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11430 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11430 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jccb((Assembler::Condition)(opnd_array(1)->ccode()), *L);
@@ -36353,7 +36353,7 @@ void jmpConU_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11446 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11446 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jccb((Assembler::Condition)(opnd_array(1)->ccode()), *L);
@@ -36377,7 +36377,7 @@ void jmpConUCF_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11461 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11461 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* L = opnd_array(3)->label();
     __ jccb((Assembler::Condition)(opnd_array(1)->ccode()), *L);
@@ -36401,7 +36401,7 @@ void jmpConUCF2_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11485 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11485 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* l = opnd_array(3)->label();
     if (opnd_array(1)->ccode()== Assembler::notEqual) {
@@ -36438,7 +36438,7 @@ void cmpFastLockRTMNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11512 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11512 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ fast_lock(opnd_array(1)->as_Register(ra_,this,idx1)/* object */, opnd_array(2)->as_Register(ra_,this,idx2)/* box */, opnd_array(3)->as_Register(ra_,this,idx3)/* tmp */,
                  opnd_array(4)->as_Register(ra_,this,idx4)/* scr */, opnd_array(5)->as_Register(ra_,this,idx5)/* cx1 */, opnd_array(6)->as_Register(ra_,this,idx6)/* cx2 */,
@@ -36461,7 +36461,7 @@ void cmpFastLockNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11528 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11528 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ fast_lock(opnd_array(1)->as_Register(ra_,this,idx1)/* object */, opnd_array(2)->as_Register(ra_,this,idx2)/* box */, opnd_array(3)->as_Register(ra_,this,idx3)/* tmp */,
                  opnd_array(4)->as_Register(ra_,this,idx4)/* scr */, noreg, noreg, _counters, NULL, NULL, NULL, false, false);
@@ -36480,7 +36480,7 @@ void cmpFastUnlockNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11540 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11540 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ fast_unlock(opnd_array(1)->as_Register(ra_,this,idx1)/* object */, opnd_array(2)->as_Register(ra_,this,idx2)/* box */, opnd_array(3)->as_Register(ra_,this,idx3)/* tmp */, ra_->C->use_rtm());
   
@@ -36496,7 +36496,7 @@ void safePoint_pollNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11558 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11558 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     AddressLiteral addr(os::get_polling_page(), relocInfo::poll_type);
     __ testl(rax, addr);
@@ -36513,7 +36513,7 @@ void safePoint_poll_farNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11574 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 11574 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ relocate(relocInfo::poll_type);
     __ testl(rax, Address(opnd_array(1)->as_Register(ra_,this,idx1)/* poll */, 0));
@@ -36529,7 +36529,7 @@ void CallStaticJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   unsigned idx1 = 1; 	// 
   {
 
-#line 2082 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2082 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     debug_only(int off0 = cbuf.insts_size());
     if (ra_->C->max_vector_size() > 16) {
@@ -36545,7 +36545,7 @@ void CallStaticJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 2115 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2115 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JAVA STATIC CALL
     // CALL to fixup routine.  Fixup routine uses ScopeDesc info to
@@ -36578,7 +36578,7 @@ void CallStaticJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 1993 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1993 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     if (VerifyStackAtCalls) {
       // Check that stack depth is unchanged: find majik cookie on stack
@@ -36603,7 +36603,7 @@ void CallDynamicJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   unsigned idx1 = 1; 	// 
   {
 
-#line 2082 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2082 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     debug_only(int off0 = cbuf.insts_size());
     if (ra_->C->max_vector_size() > 16) {
@@ -36619,7 +36619,7 @@ void CallDynamicJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   }
   {
 
-#line 2144 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2144 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ ic_call((address)opnd_array(1)->method());
@@ -36628,7 +36628,7 @@ void CallDynamicJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   }
   {
 
-#line 1993 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 1993 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     if (VerifyStackAtCalls) {
       // Check that stack depth is unchanged: find majik cookie on stack
@@ -36653,7 +36653,7 @@ void CallRuntimeDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// 
   {
 
-#line 2082 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2082 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     debug_only(int off0 = cbuf.insts_size());
     if (ra_->C->max_vector_size() > 16) {
@@ -36669,7 +36669,7 @@ void CallRuntimeDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2094 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2094 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // No relocation needed
     MacroAssembler _masm(&cbuf);
@@ -36687,7 +36687,7 @@ void CallLeafDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// 
   {
 
-#line 2082 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2082 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     debug_only(int off0 = cbuf.insts_size());
     if (ra_->C->max_vector_size() > 16) {
@@ -36703,7 +36703,7 @@ void CallLeafDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2094 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2094 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // No relocation needed
     MacroAssembler _masm(&cbuf);
@@ -36721,7 +36721,7 @@ void CallLeafNoFPDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 1; 	// 
   {
 
-#line 2094 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2094 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // No relocation needed
     MacroAssembler _masm(&cbuf);
@@ -36739,7 +36739,7 @@ void RetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 5; 	// 
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC3 /*primary()*/));
   
@@ -36755,7 +36755,7 @@ void TailCalljmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// 
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* jump_target */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -36765,7 +36765,7 @@ void TailCalljmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -36773,7 +36773,7 @@ void TailCalljmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* jump_target */ & 7);
@@ -36790,7 +36790,7 @@ void tailjmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx2 = idx1 + opnd_array(1)->num_edges(); 	// 
   {
 
-#line 1811 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5a));
   
@@ -36798,7 +36798,7 @@ void tailjmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2407 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1)/* jump_target */ >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -36808,7 +36808,7 @@ void tailjmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 1793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 1793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -36816,7 +36816,7 @@ void tailjmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2051 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1)/* jump_target */ & 7);
@@ -36845,7 +36845,7 @@ void RethrowExceptionNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   unsigned idx1 = 5; 	// 
   {
 
-#line 2685 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2685 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     cbuf.set_insts_mark();
     emit_opcode(cbuf, 0xE9); // jmp entry
@@ -36879,7 +36879,7 @@ void ShouldNotReachHereNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2031 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2031 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ int3();
   
@@ -36896,7 +36896,7 @@ void addF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2045 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2045 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -36913,7 +36913,7 @@ void addF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -36930,7 +36930,7 @@ void addF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2057 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2057 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addss(opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -36947,7 +36947,7 @@ void addF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2068 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2068 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -36958,7 +36958,7 @@ void addF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void addF_immNode::eval_constant(Compile* C) {
   {
 
-#line 2069 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2069 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 36964 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -36972,7 +36972,7 @@ void addF_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2080 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2080 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -36989,7 +36989,7 @@ void addF_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2092 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2092 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37006,7 +37006,7 @@ void addF_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2092 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2092 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src1 */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -37023,7 +37023,7 @@ void addF_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2104 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2104 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37034,7 +37034,7 @@ void addF_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void addF_reg_immNode::eval_constant(Compile* C) {
   {
 
-#line 2105 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2105 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37040 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37048,7 +37048,7 @@ void addD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2116 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2116 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -37065,7 +37065,7 @@ void addD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2128 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2128 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37082,7 +37082,7 @@ void addD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2128 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2128 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addsd(opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -37099,7 +37099,7 @@ void addD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2139 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2139 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37110,7 +37110,7 @@ void addD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void addD_immNode::eval_constant(Compile* C) {
   {
 
-#line 2140 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2140 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37116 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37124,7 +37124,7 @@ void addD_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2151 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2151 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -37141,7 +37141,7 @@ void addD_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2163 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2163 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37158,7 +37158,7 @@ void addD_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2163 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2163 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src1 */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -37175,7 +37175,7 @@ void addD_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2175 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2175 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37186,7 +37186,7 @@ void addD_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void addD_reg_immNode::eval_constant(Compile* C) {
   {
 
-#line 2176 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2176 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37192 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37200,7 +37200,7 @@ void subF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2187 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2187 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ subss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -37217,7 +37217,7 @@ void subF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2199 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2199 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ subss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37234,7 +37234,7 @@ void subF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2210 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2210 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ subss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37245,7 +37245,7 @@ void subF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void subF_immNode::eval_constant(Compile* C) {
   {
 
-#line 2211 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2211 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37251 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37259,7 +37259,7 @@ void subF_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2222 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2222 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vsubss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -37276,7 +37276,7 @@ void subF_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2234 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2234 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vsubss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37293,7 +37293,7 @@ void subF_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2246 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2246 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vsubss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37304,7 +37304,7 @@ void subF_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void subF_reg_immNode::eval_constant(Compile* C) {
   {
 
-#line 2247 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2247 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37310 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37318,7 +37318,7 @@ void subD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2258 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2258 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ subsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -37335,7 +37335,7 @@ void subD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2270 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2270 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ subsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37352,7 +37352,7 @@ void subD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2281 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2281 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ subsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37363,7 +37363,7 @@ void subD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void subD_immNode::eval_constant(Compile* C) {
   {
 
-#line 2282 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2282 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37369 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37377,7 +37377,7 @@ void subD_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2293 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2293 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vsubsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -37394,7 +37394,7 @@ void subD_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2305 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2305 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vsubsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37411,7 +37411,7 @@ void subD_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2317 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2317 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vsubsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37422,7 +37422,7 @@ void subD_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void subD_reg_immNode::eval_constant(Compile* C) {
   {
 
-#line 2318 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2318 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37428 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37436,7 +37436,7 @@ void mulF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2329 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2329 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -37453,7 +37453,7 @@ void mulF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2341 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2341 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37470,7 +37470,7 @@ void mulF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2341 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2341 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulss(opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -37487,7 +37487,7 @@ void mulF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2352 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2352 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37498,7 +37498,7 @@ void mulF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void mulF_immNode::eval_constant(Compile* C) {
   {
 
-#line 2353 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2353 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37504 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37512,7 +37512,7 @@ void mulF_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2364 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2364 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -37529,7 +37529,7 @@ void mulF_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2376 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2376 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37546,7 +37546,7 @@ void mulF_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2376 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2376 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src1 */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -37563,7 +37563,7 @@ void mulF_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2388 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2388 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37574,7 +37574,7 @@ void mulF_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void mulF_reg_immNode::eval_constant(Compile* C) {
   {
 
-#line 2389 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2389 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37580 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37588,7 +37588,7 @@ void mulD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2400 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2400 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -37605,7 +37605,7 @@ void mulD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2412 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2412 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37622,7 +37622,7 @@ void mulD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2412 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2412 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulsd(opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -37639,7 +37639,7 @@ void mulD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37650,7 +37650,7 @@ void mulD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void mulD_immNode::eval_constant(Compile* C) {
   {
 
-#line 2424 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2424 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37656 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37664,7 +37664,7 @@ void mulD_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2435 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2435 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -37681,7 +37681,7 @@ void mulD_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2447 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2447 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37698,7 +37698,7 @@ void mulD_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2447 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2447 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src1 */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -37715,7 +37715,7 @@ void mulD_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2459 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2459 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37726,7 +37726,7 @@ void mulD_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void mulD_reg_immNode::eval_constant(Compile* C) {
   {
 
-#line 2460 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2460 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37732 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37740,7 +37740,7 @@ void divF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2471 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2471 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ divss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -37757,7 +37757,7 @@ void divF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2483 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2483 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ divss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37774,7 +37774,7 @@ void divF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2494 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2494 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ divss(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37785,7 +37785,7 @@ void divF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void divF_immNode::eval_constant(Compile* C) {
   {
 
-#line 2495 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2495 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37791 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37799,7 +37799,7 @@ void divF_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2506 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2506 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vdivss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -37816,7 +37816,7 @@ void divF_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2518 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2518 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vdivss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37833,7 +37833,7 @@ void divF_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2530 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2530 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vdivss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37844,7 +37844,7 @@ void divF_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void divF_reg_immNode::eval_constant(Compile* C) {
   {
 
-#line 2531 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2531 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37850 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37858,7 +37858,7 @@ void divD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2542 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2542 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ divsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -37875,7 +37875,7 @@ void divD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2554 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2554 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ divsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37892,7 +37892,7 @@ void divD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2565 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2565 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ divsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37903,7 +37903,7 @@ void divD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void divD_immNode::eval_constant(Compile* C) {
   {
 
-#line 2566 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2566 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37909 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37917,7 +37917,7 @@ void divD_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2577 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2577 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vdivsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
   
@@ -37934,7 +37934,7 @@ void divD_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2589 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2589 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vdivsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()));
   
@@ -37951,7 +37951,7 @@ void divD_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2601 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2601 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vdivsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -37962,7 +37962,7 @@ void divD_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void divD_reg_immNode::eval_constant(Compile* C) {
   {
 
-#line 2602 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2602 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(2));
 #line 37968 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -37975,7 +37975,7 @@ void absF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2612 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2612 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ andps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, ExternalAddress(float_signmask()));
   
@@ -37991,7 +37991,7 @@ void absF_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2623 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2623 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vandps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */,
@@ -38009,7 +38009,7 @@ void absD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2637 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2637 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ andpd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, ExternalAddress(double_signmask()));
   
@@ -38025,7 +38025,7 @@ void absD_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2649 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2649 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vandpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */,
@@ -38043,7 +38043,7 @@ void negF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2662 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2662 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ xorps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, ExternalAddress(float_signflip()));
   
@@ -38059,7 +38059,7 @@ void negF_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2673 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2673 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vxorps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */,
@@ -38077,7 +38077,7 @@ void negD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2687 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2687 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ xorpd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, ExternalAddress(double_signflip()));
   
@@ -38093,7 +38093,7 @@ void negD_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2699 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2699 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vxorpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */,
@@ -38111,7 +38111,7 @@ void sqrtF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2713 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2713 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ sqrtss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -38127,7 +38127,7 @@ void sqrtF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2725 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2725 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ sqrtss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -38143,7 +38143,7 @@ void sqrtF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2736 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2736 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ sqrtss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -38154,7 +38154,7 @@ void sqrtF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void sqrtF_immNode::eval_constant(Compile* C) {
   {
 
-#line 2737 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2737 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(1));
 #line 38160 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -38167,7 +38167,7 @@ void sqrtD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2748 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2748 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ sqrtsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */);
   
@@ -38183,7 +38183,7 @@ void sqrtD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2760 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2760 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ sqrtsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -38199,7 +38199,7 @@ void sqrtD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2771 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2771 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ sqrtsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -38210,7 +38210,7 @@ void sqrtD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void sqrtD_immNode::eval_constant(Compile* C) {
   {
 
-#line 2772 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2772 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(1));
 #line 38216 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -38223,7 +38223,7 @@ void loadV4Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2785 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2785 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -38239,7 +38239,7 @@ void loadV8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2797 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2797 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -38255,7 +38255,7 @@ void loadV16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2809 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2809 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -38271,7 +38271,7 @@ void loadV32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2821 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2821 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmovdqu(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
   
@@ -38287,7 +38287,7 @@ void loadV64Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2833 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2833 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evmovdqu(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -38305,7 +38305,7 @@ void storeV4Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2846 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2846 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -38322,7 +38322,7 @@ void storeV8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2857 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2857 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -38339,7 +38339,7 @@ void storeV16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2868 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2868 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -38356,7 +38356,7 @@ void storeV32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2879 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2879 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmovdqu(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -38373,7 +38373,7 @@ void storeV64Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2890 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2890 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evmovdqu(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */, vector_len);
@@ -38390,7 +38390,7 @@ void Repl4B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2904 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2904 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ punpcklbw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -38407,7 +38407,7 @@ void Repl8B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2916 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2916 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ punpcklbw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -38424,7 +38424,7 @@ void Repl16BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2930 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2930 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ punpcklbw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38443,7 +38443,7 @@ void Repl16B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2945 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2945 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ punpcklbw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -38461,7 +38461,7 @@ void Repl32BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2961 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2961 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ punpcklbw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38481,7 +38481,7 @@ void Repl32B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2978 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2978 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ punpcklbw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -38500,7 +38500,7 @@ void Repl16B_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 2992 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2992 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38512,7 +38512,7 @@ void Repl16B_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl16B_immNode::eval_constant(Compile* C) {
   {
 
-#line 2993 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 2993 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 1));
 #line 38518 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -38525,7 +38525,7 @@ void Repl32B_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3005 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3005 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38538,7 +38538,7 @@ void Repl32B_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl32B_immNode::eval_constant(Compile* C) {
   {
 
-#line 3006 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3006 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 1));
 #line 38544 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -38551,7 +38551,7 @@ void Repl4SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3018 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3018 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -38568,7 +38568,7 @@ void Repl4S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3029 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3029 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x00);
   
@@ -38584,7 +38584,7 @@ void Repl8SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3041 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3041 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -38602,7 +38602,7 @@ void Repl8S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3054 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3054 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x00);
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38619,7 +38619,7 @@ void Repl8S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3066 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3066 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38631,7 +38631,7 @@ void Repl8S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl8S_immNode::eval_constant(Compile* C) {
   {
 
-#line 3067 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3067 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 2));
 #line 38637 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -38644,7 +38644,7 @@ void Repl16SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3080 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3080 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -38663,7 +38663,7 @@ void Repl16S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3095 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3095 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x00);
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38681,7 +38681,7 @@ void Repl16S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3109 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3109 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38694,7 +38694,7 @@ void Repl16S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl16S_immNode::eval_constant(Compile* C) {
   {
 
-#line 3110 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3110 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 2));
 #line 38700 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -38707,7 +38707,7 @@ void Repl4INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3122 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3122 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -38724,7 +38724,7 @@ void Repl4I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3133 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3133 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x00);
   
@@ -38740,7 +38740,7 @@ void Repl8INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3145 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3145 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -38758,7 +38758,7 @@ void Repl8I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3158 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3158 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x00);
     __ vinserti128h(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38775,7 +38775,7 @@ void Repl4I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3170 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3170 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38787,7 +38787,7 @@ void Repl4I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl4I_immNode::eval_constant(Compile* C) {
   {
 
-#line 3171 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3171 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 4));
 #line 38793 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -38800,7 +38800,7 @@ void Repl8I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3183 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38813,7 +38813,7 @@ void Repl8I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl8I_immNode::eval_constant(Compile* C) {
   {
 
-#line 3184 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3184 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 4));
 #line 38819 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -38826,7 +38826,7 @@ void Repl2L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3197 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3197 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38843,7 +38843,7 @@ void Repl4LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3212 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3212 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38861,7 +38861,7 @@ void Repl4L_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3246 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3246 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38874,7 +38874,7 @@ void Repl4L_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl4L_immNode::eval_constant(Compile* C) {
   {
 
-#line 3247 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3247 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(1));
 #line 38880 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -38887,7 +38887,7 @@ void Repl4L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3260 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3260 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38905,7 +38905,7 @@ void Repl2F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3272 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3272 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x00);
   
@@ -38921,7 +38921,7 @@ void Repl4F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3282 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3282 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x00);
   
@@ -38937,7 +38937,7 @@ void Repl8FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3293 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3293 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, 0x00);
     __ vinsertf128h(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38954,7 +38954,7 @@ void Repl8F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3305 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3305 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x00);
     __ vinsertf128h(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -38971,7 +38971,7 @@ void Repl2D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3316 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3316 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x44);
   
@@ -38987,7 +38987,7 @@ void Repl4DNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3327 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3327 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, 0x44);
     __ vinsertf128h(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -39004,7 +39004,7 @@ void Repl4D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3339 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3339 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), 0x44);
     __ vinsertf128h(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -39021,7 +39021,7 @@ void Repl4BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3355 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3355 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ punpcklbw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -39039,7 +39039,7 @@ void Repl8BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3369 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3369 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ punpcklbw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -39057,7 +39057,7 @@ void Repl4B_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3382 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3382 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -39068,7 +39068,7 @@ void Repl4B_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl4B_immNode::eval_constant(Compile* C) {
   {
 
-#line 3383 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3383 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate4_imm(opnd_array(1)->constant(), 1));
 #line 39074 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -39081,7 +39081,7 @@ void Repl8B_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3392 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3392 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -39092,7 +39092,7 @@ void Repl8B_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl8B_immNode::eval_constant(Compile* C) {
   {
 
-#line 3393 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3393 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 1));
 #line 39098 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -39105,7 +39105,7 @@ void Repl4B_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3403 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3403 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39121,7 +39121,7 @@ void Repl8B_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3413 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3413 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39137,7 +39137,7 @@ void Repl16B_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3423 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3423 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39153,7 +39153,7 @@ void Repl32B_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3433 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3433 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     // Use vxorpd since AVX does not have vpxor for 256-bit (AVX2 will have it).
     int vector_len = 1;
@@ -39171,7 +39171,7 @@ void Repl2SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3447 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3447 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ pshuflw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -39188,7 +39188,7 @@ void Repl2S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3459 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3459 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -39199,7 +39199,7 @@ void Repl2S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl2S_immNode::eval_constant(Compile* C) {
   {
 
-#line 3460 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3460 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate4_imm(opnd_array(1)->constant(), 2));
 #line 39205 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -39212,7 +39212,7 @@ void Repl4S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3469 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3469 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -39223,7 +39223,7 @@ void Repl4S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl4S_immNode::eval_constant(Compile* C) {
   {
 
-#line 3470 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3470 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 2));
 #line 39229 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -39236,7 +39236,7 @@ void Repl2S_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3480 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3480 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39252,7 +39252,7 @@ void Repl4S_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3490 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3490 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39268,7 +39268,7 @@ void Repl8S_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3500 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3500 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39284,7 +39284,7 @@ void Repl16S_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3510 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3510 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     // Use vxorpd since AVX does not have vpxor for 256-bit (AVX2 will have it).
     int vector_len = 1;
@@ -39302,7 +39302,7 @@ void Repl2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3524 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3524 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -39319,7 +39319,7 @@ void Repl2I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3537 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3537 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()));
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, 0x00);
@@ -39336,7 +39336,7 @@ void Repl2I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3549 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3549 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -39347,7 +39347,7 @@ void Repl2I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl2I_immNode::eval_constant(Compile* C) {
   {
 
-#line 3550 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3550 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 4));
 #line 39353 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -39360,7 +39360,7 @@ void Repl2I_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3560 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3560 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39376,7 +39376,7 @@ void Repl4I_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3570 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3570 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39392,7 +39392,7 @@ void Repl8I_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3580 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3580 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     // Use vxorpd since AVX does not have vpxor for 256-bit (AVX2 will have it).
     int vector_len = 1;
@@ -39410,7 +39410,7 @@ void Repl2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3595 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3595 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */);
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -39427,7 +39427,7 @@ void Repl2L_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3626 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3626 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
     __ punpcklqdq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
@@ -39439,7 +39439,7 @@ void Repl2L_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl2L_immNode::eval_constant(Compile* C) {
   {
 
-#line 3627 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3627 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(1));
 #line 39445 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -39452,7 +39452,7 @@ void Repl2L_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3638 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3638 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39468,7 +39468,7 @@ void Repl4L_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3648 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3648 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     // Use vxorpd since AVX does not have vpxor for 256-bit (AVX2 will have it).
     int vector_len = 1;
@@ -39486,7 +39486,7 @@ void Repl2FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3661 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3661 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, 0x00);
   
@@ -39502,7 +39502,7 @@ void Repl4FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3671 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3671 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, 0x00);
   
@@ -39518,7 +39518,7 @@ void Repl2F_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3682 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3682 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ xorps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39534,7 +39534,7 @@ void Repl4F_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3692 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3692 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ xorps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39550,7 +39550,7 @@ void Repl8F_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3702 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3702 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vxorps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, vector_len);
@@ -39567,7 +39567,7 @@ void Repl2DNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3714 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3714 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, 0x44);
   
@@ -39583,7 +39583,7 @@ void Repl2D_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3725 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3725 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ xorpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */);
   
@@ -39599,7 +39599,7 @@ void Repl4D_zeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3735 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3735 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vxorpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, vector_len);
@@ -39616,7 +39616,7 @@ void Repl4B_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3748 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3748 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ evpbroadcastb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -39633,7 +39633,7 @@ void Repl8B_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3759 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3759 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ evpbroadcastb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -39650,7 +39650,7 @@ void Repl16B_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3770 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3770 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 0;
     __ evpbroadcastb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -39667,7 +39667,7 @@ void Repl16B_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3781 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3781 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ evpbroadcastb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -39684,7 +39684,7 @@ void Repl32B_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3792 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3792 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 1;
     __ evpbroadcastb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -39701,7 +39701,7 @@ void Repl32B_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3803 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3803 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -39718,7 +39718,7 @@ void Repl64B_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3814 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3814 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 2;
     __ evpbroadcastb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -39735,7 +39735,7 @@ void Repl64B_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3825 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3825 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -39752,7 +39752,7 @@ void Repl16B_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3837 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3837 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 0;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -39765,7 +39765,7 @@ void Repl16B_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl16B_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 3839 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3839 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 1));
 #line 39771 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -39778,7 +39778,7 @@ void Repl32B_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3850 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3850 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 1;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -39791,7 +39791,7 @@ void Repl32B_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl32B_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 3852 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3852 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 1));
 #line 39797 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -39804,7 +39804,7 @@ void Repl64B_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3863 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3863 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 2;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -39817,7 +39817,7 @@ void Repl64B_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl64B_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 3865 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3865 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 1));
 #line 39823 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -39830,7 +39830,7 @@ void Repl64B_zero_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3875 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3875 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     // Use vxorpd since AVX does not have vpxor for 512-bit (EVEX will have it).
     int vector_len = 2;
@@ -39848,7 +39848,7 @@ void Repl4S_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3887 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3887 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 0;
     __ evpbroadcastw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -39865,7 +39865,7 @@ void Repl4S_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3898 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3898 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ evpbroadcastw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -39882,7 +39882,7 @@ void Repl8S_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3909 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3909 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 0;
     __ evpbroadcastw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -39899,7 +39899,7 @@ void Repl8S_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3920 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3920 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ evpbroadcastw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -39916,7 +39916,7 @@ void Repl16S_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3931 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3931 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 1;
     __ evpbroadcastw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -39933,7 +39933,7 @@ void Repl16S_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3942 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3942 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -39950,7 +39950,7 @@ void Repl32S_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3953 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3953 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 2;
     __ evpbroadcastw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -39967,7 +39967,7 @@ void Repl32S_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3964 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3964 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -39984,7 +39984,7 @@ void Repl8S_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3976 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3976 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 0;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -39997,7 +39997,7 @@ void Repl8S_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl8S_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 3978 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3978 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 2));
 #line 40003 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -40010,7 +40010,7 @@ void Repl16S_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 3989 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3989 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 1;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -40023,7 +40023,7 @@ void Repl16S_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl16S_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 3991 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 3991 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 2));
 #line 40029 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -40036,7 +40036,7 @@ void Repl32S_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4002 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4002 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
    int vector_len = 2;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -40049,7 +40049,7 @@ void Repl32S_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl32S_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 4004 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4004 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 2));
 #line 40055 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -40062,7 +40062,7 @@ void Repl32S_zero_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4014 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4014 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     // Use vxorpd since AVX does not have vpxor for 512-bit (EVEX will have it).
     int vector_len = 2;
@@ -40080,7 +40080,7 @@ void Repl4I_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4026 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4026 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ evpbroadcastd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -40097,7 +40097,7 @@ void Repl4I_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4037 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4037 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ evpbroadcastd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40114,7 +40114,7 @@ void Repl8I_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4048 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4048 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -40131,7 +40131,7 @@ void Repl8I_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4059 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4059 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40148,7 +40148,7 @@ void Repl16I_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4070 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4070 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -40165,7 +40165,7 @@ void Repl16I_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4081 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4081 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40182,7 +40182,7 @@ void Repl4I_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4093 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4093 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -40195,7 +40195,7 @@ void Repl4I_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl4I_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 4095 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4095 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 4));
 #line 40201 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -40208,7 +40208,7 @@ void Repl8I_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4106 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4106 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -40221,7 +40221,7 @@ void Repl8I_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl8I_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 4108 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4108 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 4));
 #line 40227 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -40234,7 +40234,7 @@ void Repl16I_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4119 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4119 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -40247,7 +40247,7 @@ void Repl16I_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl16I_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 4121 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4121 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, replicate8_imm(opnd_array(1)->constant(), 4));
 #line 40253 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -40260,7 +40260,7 @@ void Repl16I_zero_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4131 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4131 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     // Use vxorpd since AVX does not have vpxor for 512-bit (AVX2 will have it).
     int vector_len = 2;
@@ -40278,7 +40278,7 @@ void Repl4L_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4145 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4145 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -40295,7 +40295,7 @@ void Repl8L_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4156 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4156 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* src */, vector_len);
@@ -40312,7 +40312,7 @@ void Repl4L_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4205 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4205 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -40325,7 +40325,7 @@ void Repl4L_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl4L_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 4207 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4207 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(1));
 #line 40331 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -40338,7 +40338,7 @@ void Repl8L_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4218 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4218 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, InternalAddress(__ code()->consts()->start() + constant_offset()));
@@ -40351,7 +40351,7 @@ void Repl8L_imm_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void Repl8L_imm_evexNode::eval_constant(Compile* C) {
   {
 
-#line 4220 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4220 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
     _constant = C->constant_table().add(this, opnd_array(1));
 #line 40357 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -40364,7 +40364,7 @@ void Repl2L_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4230 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4230 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ evpbroadcastq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40381,7 +40381,7 @@ void Repl4L_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4241 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4241 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40398,7 +40398,7 @@ void Repl8L_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4252 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4252 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40415,7 +40415,7 @@ void Repl8L_zero_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4263 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4263 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     // Use vxorpd since AVX does not have vpxor for 512-bit (EVEX will have it).
     int vector_len = 2;
@@ -40433,7 +40433,7 @@ void Repl8F_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4275 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4275 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, vector_len);
@@ -40450,7 +40450,7 @@ void Repl8F_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4286 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4286 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40467,7 +40467,7 @@ void Repl16F_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4297 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4297 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, vector_len);
@@ -40484,7 +40484,7 @@ void Repl16F_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4308 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4308 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastss(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40501,7 +40501,7 @@ void Repl16F_zero_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4319 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4319 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vxorps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, vector_len);
@@ -40518,7 +40518,7 @@ void Repl4D_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4330 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4330 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, vector_len);
@@ -40535,7 +40535,7 @@ void Repl4D_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4341 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4341 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ evpbroadcastsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40552,7 +40552,7 @@ void Repl8D_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4352 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4352 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, vector_len);
@@ -40569,7 +40569,7 @@ void Repl8D_mem_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4363 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4363 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ evpbroadcastsd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_reloc()), vector_len);
@@ -40586,7 +40586,7 @@ void Repl8D_zero_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4374 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4374 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vxorpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, vector_len);
@@ -40606,7 +40606,7 @@ void rsadd2I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4392 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4392 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ phaddd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */);
@@ -40629,7 +40629,7 @@ void rvadd2I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4410 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4410 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vphaddd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -40652,7 +40652,7 @@ void rvadd2I_reduction_reg_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) 
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4429 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4429 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ pshufd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x1);
@@ -40676,7 +40676,7 @@ void rsadd4I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4450 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4450 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ phaddd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */);
@@ -40700,7 +40700,7 @@ void rvadd4I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4470 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4470 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vphaddd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -40724,7 +40724,7 @@ void rvadd4I_reduction_reg_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) 
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4492 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4492 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ pshufd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
@@ -40750,7 +40750,7 @@ void rvadd8I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4516 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4516 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vphaddd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -40776,7 +40776,7 @@ void rvadd8I_reduction_reg_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) 
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4542 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4542 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vextracti128h(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -40805,7 +40805,7 @@ void rvadd16I_reduction_reg_evexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_)
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4572 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4572 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vextracti64x4h(opnd_array(5)->as_XMMRegister(ra_,this,idx5)/* tmp3 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ vpaddd(opnd_array(5)->as_XMMRegister(ra_,this,idx5)/* tmp3 */, opnd_array(5)->as_XMMRegister(ra_,this,idx5)/* tmp3 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 1);
@@ -40834,7 +40834,7 @@ void rvadd2L_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4598 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4598 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
     __ vpaddq(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, 0);
@@ -40857,7 +40857,7 @@ void rvadd4L_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4619 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4619 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vextracti64x2h(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x1);
     __ vpaddq(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0);
@@ -40882,7 +40882,7 @@ void rvadd8L_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4644 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4644 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vextracti64x4h(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ vpaddq(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 1);
@@ -40909,7 +40909,7 @@ void rsadd2F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4668 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4668 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */);
     __ addss(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -40932,7 +40932,7 @@ void rvadd2F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4685 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4685 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddss(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x01);
@@ -40953,7 +40953,7 @@ void rsadd4F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4706 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4706 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */);
     __ addss(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -40980,7 +40980,7 @@ void rvadd4F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4731 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4731 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddss(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x01);
@@ -41006,7 +41006,7 @@ void radd8F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4762 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4762 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddss(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x01);
@@ -41040,7 +41040,7 @@ void radd16F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4817 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4817 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddss(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x01);
@@ -41089,7 +41089,7 @@ void rsadd2D_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4861 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4861 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */);
     __ addsd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -41111,7 +41111,7 @@ void rvadd2D_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4877 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4877 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddsd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
@@ -41133,7 +41133,7 @@ void rvadd4D_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4896 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4896 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddsd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
@@ -41159,7 +41159,7 @@ void rvadd8D_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4927 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4927 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vaddsd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
@@ -41192,7 +41192,7 @@ void rsmul2I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4956 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4956 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x1);
     __ pmulld(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -41215,7 +41215,7 @@ void rvmul2I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4975 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4975 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ pshufd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x1);
@@ -41239,7 +41239,7 @@ void rsmul4I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 4997 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 4997 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
     __ pmulld(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -41264,7 +41264,7 @@ void rvmul4I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5020 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5020 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ pshufd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
@@ -41290,7 +41290,7 @@ void rvmul8I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5046 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5046 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vextracti128h(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -41319,7 +41319,7 @@ void rvmul16I_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5076 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5076 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vextracti64x4h(opnd_array(5)->as_XMMRegister(ra_,this,idx5)/* tmp3 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ vpmulld(opnd_array(5)->as_XMMRegister(ra_,this,idx5)/* tmp3 */, opnd_array(5)->as_XMMRegister(ra_,this,idx5)/* tmp3 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 1);
@@ -41348,7 +41348,7 @@ void rvmul2L_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5102 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5102 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pshufd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
     __ vpmullq(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, 0);
@@ -41371,7 +41371,7 @@ void rvmul4L_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5123 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5123 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vextracti64x2h(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x1);
     __ vpmullq(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0);
@@ -41396,7 +41396,7 @@ void rvmul8L_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5148 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5148 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vextracti64x4h(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ vpmullq(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 1);
@@ -41423,7 +41423,7 @@ void rsmul2F_reductionNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5172 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5172 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */);
     __ mulss(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -41446,7 +41446,7 @@ void rvmul2F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5189 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5189 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulss(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x01);
@@ -41467,7 +41467,7 @@ void rsmul4F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5210 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5210 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */);
     __ mulss(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -41494,7 +41494,7 @@ void rvmul4F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5235 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5235 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulss(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x01);
@@ -41520,7 +41520,7 @@ void rvmul8F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5266 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5266 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulss(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x01);
@@ -41554,7 +41554,7 @@ void rvmul16F_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5321 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5321 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulss(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0x01);
@@ -41603,7 +41603,7 @@ void rsmul2D_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5365 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5365 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdqu(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */);
     __ mulsd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
@@ -41625,7 +41625,7 @@ void rvmul2D_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5381 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5381 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulsd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
@@ -41647,7 +41647,7 @@ void rvmul4D_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5400 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5400 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulsd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
@@ -41673,7 +41673,7 @@ void rvmul8D_reduction_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5431 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5431 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ vmulsd(opnd_array(4)->as_XMMRegister(ra_,this,idx4)/* tmp2 */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */);
     __ pshufd(opnd_array(3)->as_XMMRegister(ra_,this,idx3)/* tmp */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, 0xE);
@@ -41704,7 +41704,7 @@ void vadd4BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5460 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5460 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ paddb(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -41721,7 +41721,7 @@ void vadd4B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5470 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5470 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -41739,7 +41739,7 @@ void vadd4B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5481 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5481 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -41757,7 +41757,7 @@ void vadd8BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5492 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5492 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ paddb(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -41774,7 +41774,7 @@ void vadd8B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5502 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5502 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -41792,7 +41792,7 @@ void vadd8B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5513 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5513 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -41810,7 +41810,7 @@ void vadd16BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5524 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5524 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ paddb(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -41827,7 +41827,7 @@ void vadd16B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5534 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5534 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -41845,7 +41845,7 @@ void vadd16B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5545 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5545 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -41863,7 +41863,7 @@ void vadd32B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5556 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5556 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -41881,7 +41881,7 @@ void vadd32B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5567 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5567 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -41899,7 +41899,7 @@ void vadd64B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5578 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5578 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -41917,7 +41917,7 @@ void vadd64B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5589 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5589 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpaddb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -41935,7 +41935,7 @@ void vadd2SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5601 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5601 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ paddw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -41952,7 +41952,7 @@ void vadd2S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5611 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5611 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -41970,7 +41970,7 @@ void vadd2S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5622 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5622 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -41988,7 +41988,7 @@ void vadd4SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5633 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5633 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ paddw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42005,7 +42005,7 @@ void vadd4S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5643 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5643 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42023,7 +42023,7 @@ void vadd4S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5654 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5654 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42041,7 +42041,7 @@ void vadd8SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5665 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5665 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ paddw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42058,7 +42058,7 @@ void vadd8S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5675 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5675 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42076,7 +42076,7 @@ void vadd8S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5686 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5686 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42094,7 +42094,7 @@ void vadd16S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5697 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5697 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42112,7 +42112,7 @@ void vadd16S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5708 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5708 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42130,7 +42130,7 @@ void vadd32S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5719 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5719 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42148,7 +42148,7 @@ void vadd32S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5730 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5730 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpaddw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42166,7 +42166,7 @@ void vadd2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5742 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5742 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ paddd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42183,7 +42183,7 @@ void vadd2I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5752 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5752 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42201,7 +42201,7 @@ void vadd2I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5763 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5763 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42219,7 +42219,7 @@ void vadd4INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5774 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5774 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ paddd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42236,7 +42236,7 @@ void vadd4I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5784 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5784 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42254,7 +42254,7 @@ void vadd4I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5795 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5795 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42272,7 +42272,7 @@ void vadd8I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5806 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5806 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpaddd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42290,7 +42290,7 @@ void vadd8I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5817 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5817 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpaddd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42308,7 +42308,7 @@ void vadd16I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5828 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5828 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpaddd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42326,7 +42326,7 @@ void vadd16I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5839 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5839 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpaddd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42344,7 +42344,7 @@ void vadd2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5851 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5851 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ paddq(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42361,7 +42361,7 @@ void vadd2L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5861 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5861 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42379,7 +42379,7 @@ void vadd2L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5872 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5872 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpaddq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42397,7 +42397,7 @@ void vadd4L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5883 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5883 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpaddq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42415,7 +42415,7 @@ void vadd4L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5894 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5894 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpaddq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42433,7 +42433,7 @@ void vadd8L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5905 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5905 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpaddq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42451,7 +42451,7 @@ void vadd8L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5916 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5916 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpaddq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42469,7 +42469,7 @@ void vadd2FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5928 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5928 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42486,7 +42486,7 @@ void vadd2F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5938 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5938 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vaddps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42504,7 +42504,7 @@ void vadd2F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5949 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5949 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vaddps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42522,7 +42522,7 @@ void vadd4FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5960 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5960 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42539,7 +42539,7 @@ void vadd4F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5970 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5970 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vaddps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42557,7 +42557,7 @@ void vadd4F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5981 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5981 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vaddps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42575,7 +42575,7 @@ void vadd8F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5992 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 5992 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vaddps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42593,7 +42593,7 @@ void vadd8F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6003 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6003 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vaddps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42611,7 +42611,7 @@ void vadd16F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6014 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6014 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vaddps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42629,7 +42629,7 @@ void vadd16F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6025 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6025 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vaddps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42647,7 +42647,7 @@ void vadd2DNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6037 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6037 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ addpd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42664,7 +42664,7 @@ void vadd2D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6047 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6047 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vaddpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42682,7 +42682,7 @@ void vadd2D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6058 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6058 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vaddpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42700,7 +42700,7 @@ void vadd4D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6069 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6069 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vaddpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42718,7 +42718,7 @@ void vadd4D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6080 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6080 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vaddpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42736,7 +42736,7 @@ void vadd8D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6091 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6091 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vaddpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42754,7 +42754,7 @@ void vadd8D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6102 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6102 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vaddpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42772,7 +42772,7 @@ void vsub4BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6116 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6116 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psubb(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42789,7 +42789,7 @@ void vsub4B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6126 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6126 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42807,7 +42807,7 @@ void vsub4B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6137 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6137 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42825,7 +42825,7 @@ void vsub8BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6148 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6148 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psubb(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42842,7 +42842,7 @@ void vsub8B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6158 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6158 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42860,7 +42860,7 @@ void vsub8B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6169 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6169 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42878,7 +42878,7 @@ void vsub16BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6180 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6180 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psubb(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -42895,7 +42895,7 @@ void vsub16B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6190 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6190 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42913,7 +42913,7 @@ void vsub16B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6201 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6201 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42931,7 +42931,7 @@ void vsub32B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6212 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6212 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42949,7 +42949,7 @@ void vsub32B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6223 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6223 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -42967,7 +42967,7 @@ void vsub64B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6234 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6234 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -42985,7 +42985,7 @@ void vsub64B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6245 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6245 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsubb(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43003,7 +43003,7 @@ void vsub2SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6257 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6257 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psubw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43020,7 +43020,7 @@ void vsub2S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6267 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6267 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43038,7 +43038,7 @@ void vsub2S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6278 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6278 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43056,7 +43056,7 @@ void vsub4SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6289 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6289 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psubw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43073,7 +43073,7 @@ void vsub4S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6299 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6299 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43091,7 +43091,7 @@ void vsub4S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6310 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6310 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43109,7 +43109,7 @@ void vsub8SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6321 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6321 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psubw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43126,7 +43126,7 @@ void vsub8S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6331 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6331 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43144,7 +43144,7 @@ void vsub8S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6342 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6342 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43162,7 +43162,7 @@ void vsub16S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6353 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6353 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43180,7 +43180,7 @@ void vsub16S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6364 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6364 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43198,7 +43198,7 @@ void vsub32S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6375 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6375 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43216,7 +43216,7 @@ void vsub32S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6386 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6386 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsubw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43234,7 +43234,7 @@ void vsub2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6398 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6398 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psubd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43251,7 +43251,7 @@ void vsub2I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6408 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6408 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43269,7 +43269,7 @@ void vsub2I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6419 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6419 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43287,7 +43287,7 @@ void vsub4INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6430 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6430 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psubd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43304,7 +43304,7 @@ void vsub4I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6440 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6440 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43322,7 +43322,7 @@ void vsub4I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6451 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6451 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43340,7 +43340,7 @@ void vsub8I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6462 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6462 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsubd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43358,7 +43358,7 @@ void vsub8I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6473 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6473 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsubd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43376,7 +43376,7 @@ void vsub16I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6484 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6484 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsubd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43394,7 +43394,7 @@ void vsub16I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6495 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6495 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsubd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43412,7 +43412,7 @@ void vsub2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6507 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6507 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psubq(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43429,7 +43429,7 @@ void vsub2L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6517 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6517 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43447,7 +43447,7 @@ void vsub2L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6528 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6528 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsubq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43465,7 +43465,7 @@ void vsub4L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6539 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6539 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsubq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43483,7 +43483,7 @@ void vsub4L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6550 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6550 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsubq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43501,7 +43501,7 @@ void vsub8L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6561 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6561 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsubq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43519,7 +43519,7 @@ void vsub8L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6572 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6572 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsubq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43537,7 +43537,7 @@ void vsub2FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6584 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6584 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ subps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43554,7 +43554,7 @@ void vsub2F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6594 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6594 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vsubps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43572,7 +43572,7 @@ void vsub2F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6605 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6605 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vsubps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43590,7 +43590,7 @@ void vsub4FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6616 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6616 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ subps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43607,7 +43607,7 @@ void vsub4F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6626 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6626 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vsubps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43625,7 +43625,7 @@ void vsub4F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6637 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6637 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vsubps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43643,7 +43643,7 @@ void vsub8F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6648 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6648 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vsubps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43661,7 +43661,7 @@ void vsub8F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6659 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6659 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vsubps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43679,7 +43679,7 @@ void vsub16F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6670 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6670 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vsubps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43697,7 +43697,7 @@ void vsub16F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6681 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6681 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vsubps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43715,7 +43715,7 @@ void vsub2DNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6693 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6693 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ subpd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43732,7 +43732,7 @@ void vsub2D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6703 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6703 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vsubpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43750,7 +43750,7 @@ void vsub2D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6714 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6714 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vsubpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43768,7 +43768,7 @@ void vsub4D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6725 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6725 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vsubpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43786,7 +43786,7 @@ void vsub4D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6736 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6736 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vsubpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43804,7 +43804,7 @@ void vsub8D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6747 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6747 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vsubpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43822,7 +43822,7 @@ void vsub8D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6758 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6758 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vsubpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43840,7 +43840,7 @@ void vmul2SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6772 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6772 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pmullw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43857,7 +43857,7 @@ void vmul2S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6782 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6782 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43875,7 +43875,7 @@ void vmul2S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6793 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43893,7 +43893,7 @@ void vmul4SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6804 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6804 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pmullw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43910,7 +43910,7 @@ void vmul4S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6814 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6814 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43928,7 +43928,7 @@ void vmul4S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6825 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6825 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43946,7 +43946,7 @@ void vmul8SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6836 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6836 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pmullw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -43963,7 +43963,7 @@ void vmul8S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6846 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6846 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -43981,7 +43981,7 @@ void vmul8S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6857 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6857 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -43999,7 +43999,7 @@ void vmul16S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6868 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6868 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44017,7 +44017,7 @@ void vmul16S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6879 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6879 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44035,7 +44035,7 @@ void vmul32S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6890 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6890 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44053,7 +44053,7 @@ void vmul32S_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6901 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6901 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpmullw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44071,7 +44071,7 @@ void vmul2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6913 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6913 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pmulld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -44088,7 +44088,7 @@ void vmul2I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6923 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6923 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmulld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44106,7 +44106,7 @@ void vmul2I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6934 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6934 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmulld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44124,7 +44124,7 @@ void vmul4INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6945 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6945 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pmulld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -44141,7 +44141,7 @@ void vmul4I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6955 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6955 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmulld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44159,7 +44159,7 @@ void vmul4I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6966 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6966 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmulld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44177,7 +44177,7 @@ void vmul2L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6977 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6977 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmullq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44195,7 +44195,7 @@ void vmul2L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6988 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6988 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpmullq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44213,7 +44213,7 @@ void vmul4L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6999 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 6999 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpmullq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44231,7 +44231,7 @@ void vmul4L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7010 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7010 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpmullq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44249,7 +44249,7 @@ void vmul8L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7021 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7021 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpmullq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44267,7 +44267,7 @@ void vmul8L_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7032 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7032 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpmullq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44285,7 +44285,7 @@ void vmul8I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7043 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7043 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpmulld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44303,7 +44303,7 @@ void vmul8I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7054 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7054 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpmulld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44321,7 +44321,7 @@ void vmul16I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7065 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7065 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpmulld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44339,7 +44339,7 @@ void vmul16I_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7076 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7076 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpmulld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44357,7 +44357,7 @@ void vmul2FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7088 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7088 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -44374,7 +44374,7 @@ void vmul2F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7098 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7098 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vmulps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44392,7 +44392,7 @@ void vmul2F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7109 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7109 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vmulps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44410,7 +44410,7 @@ void vmul4FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7120 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7120 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -44427,7 +44427,7 @@ void vmul4F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7130 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7130 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vmulps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44445,7 +44445,7 @@ void vmul4F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7141 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7141 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vmulps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44463,7 +44463,7 @@ void vmul8F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7152 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7152 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vmulps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44481,7 +44481,7 @@ void vmul8F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7163 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7163 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vmulps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44499,7 +44499,7 @@ void vmul16F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7174 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7174 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vmulps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44517,7 +44517,7 @@ void vmul16F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7185 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7185 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vmulps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44535,7 +44535,7 @@ void vmul2DNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7197 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7197 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ mulpd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -44552,7 +44552,7 @@ void vmul2D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7207 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7207 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vmulpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44570,7 +44570,7 @@ void vmul2D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7218 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7218 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vmulpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44588,7 +44588,7 @@ void vmul4D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7229 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7229 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vmulpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44606,7 +44606,7 @@ void vmul4D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7240 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7240 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vmulpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44624,7 +44624,7 @@ void vmul8D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7251 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7251 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vmulpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44642,7 +44642,7 @@ void vmul8D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7262 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7262 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vmulpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44660,7 +44660,7 @@ void vdiv2FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7276 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7276 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ divps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -44677,7 +44677,7 @@ void vdiv2F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7286 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7286 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vdivps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44695,7 +44695,7 @@ void vdiv2F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7297 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7297 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vdivps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44713,7 +44713,7 @@ void vdiv4FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7308 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7308 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ divps(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -44730,7 +44730,7 @@ void vdiv4F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7318 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7318 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vdivps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44748,7 +44748,7 @@ void vdiv4F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7329 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7329 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vdivps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44766,7 +44766,7 @@ void vdiv8F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7340 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7340 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vdivps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44784,7 +44784,7 @@ void vdiv8F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7351 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7351 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vdivps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44802,7 +44802,7 @@ void vdiv16F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7362 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7362 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vdivps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44820,7 +44820,7 @@ void vdiv16F_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7373 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7373 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vdivps(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44838,7 +44838,7 @@ void vdiv2DNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7385 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7385 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ divpd(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -44855,7 +44855,7 @@ void vdiv2D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7395 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7395 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vdivpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44873,7 +44873,7 @@ void vdiv2D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7406 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7406 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vdivpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44891,7 +44891,7 @@ void vdiv4D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7417 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7417 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vdivpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44909,7 +44909,7 @@ void vdiv4D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7428 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7428 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vdivpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44927,7 +44927,7 @@ void vdiv8D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7439 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7439 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vdivpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -44945,7 +44945,7 @@ void vdiv8D_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7450 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7450 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vdivpd(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -44962,7 +44962,7 @@ void vshiftcntNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7465 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7465 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* cnt */);
   
@@ -44978,7 +44978,7 @@ void vshiftcnt_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7465 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7465 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_Register(ra_,this,idx1)/* cnt */);
   
@@ -44995,7 +44995,7 @@ void vsll2SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7478 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7478 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psllw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45012,7 +45012,7 @@ void vsll2S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7488 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7488 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psllw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45029,7 +45029,7 @@ void vsll2S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7498 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7498 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45047,7 +45047,7 @@ void vsll2S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7509 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7509 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45065,7 +45065,7 @@ void vsll4SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7520 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7520 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psllw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45082,7 +45082,7 @@ void vsll4S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7530 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7530 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psllw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45099,7 +45099,7 @@ void vsll4S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7540 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7540 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45117,7 +45117,7 @@ void vsll4S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7551 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7551 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45135,7 +45135,7 @@ void vsll8SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7562 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7562 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psllw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45152,7 +45152,7 @@ void vsll8S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7572 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7572 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psllw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45169,7 +45169,7 @@ void vsll8S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7582 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7582 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45187,7 +45187,7 @@ void vsll8S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7593 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7593 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45205,7 +45205,7 @@ void vsll16S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7604 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7604 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45223,7 +45223,7 @@ void vsll16S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7615 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7615 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45241,7 +45241,7 @@ void vsll32S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7626 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7626 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45259,7 +45259,7 @@ void vsll32S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7637 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7637 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsllw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45277,7 +45277,7 @@ void vsll2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7649 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7649 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pslld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45294,7 +45294,7 @@ void vsll2I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7659 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7659 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pslld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45311,7 +45311,7 @@ void vsll2I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7669 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7669 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpslld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45329,7 +45329,7 @@ void vsll2I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7680 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7680 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpslld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45347,7 +45347,7 @@ void vsll4INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7691 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7691 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pslld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45364,7 +45364,7 @@ void vsll4I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7701 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7701 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pslld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45381,7 +45381,7 @@ void vsll4I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7711 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7711 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpslld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45399,7 +45399,7 @@ void vsll4I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7722 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7722 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpslld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45417,7 +45417,7 @@ void vsll8I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7733 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7733 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpslld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45435,7 +45435,7 @@ void vsll8I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7744 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7744 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpslld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45453,7 +45453,7 @@ void vsll16I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7755 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7755 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpslld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45471,7 +45471,7 @@ void vsll16I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7766 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7766 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpslld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45489,7 +45489,7 @@ void vsll2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7778 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7778 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psllq(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45506,7 +45506,7 @@ void vsll2L_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7788 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7788 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psllq(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45523,7 +45523,7 @@ void vsll2L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7798 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7798 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsllq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45541,7 +45541,7 @@ void vsll2L_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7809 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7809 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsllq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45559,7 +45559,7 @@ void vsll4L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7820 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7820 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsllq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45577,7 +45577,7 @@ void vsll4L_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7831 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7831 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsllq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45595,7 +45595,7 @@ void vsll8L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7842 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7842 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsllq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45613,7 +45613,7 @@ void vsll8L_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7853 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7853 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsllq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45631,7 +45631,7 @@ void vsrl2SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7871 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7871 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrlw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45648,7 +45648,7 @@ void vsrl2S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7881 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7881 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrlw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45665,7 +45665,7 @@ void vsrl2S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7891 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7891 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45683,7 +45683,7 @@ void vsrl2S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7902 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7902 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45701,7 +45701,7 @@ void vsrl4SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7913 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7913 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrlw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45718,7 +45718,7 @@ void vsrl4S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7923 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7923 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrlw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45735,7 +45735,7 @@ void vsrl4S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7933 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7933 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45753,7 +45753,7 @@ void vsrl4S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7944 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7944 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45771,7 +45771,7 @@ void vsrl8SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7955 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7955 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrlw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45788,7 +45788,7 @@ void vsrl8S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7965 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7965 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrlw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45805,7 +45805,7 @@ void vsrl8S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7975 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7975 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45823,7 +45823,7 @@ void vsrl8S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7986 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7986 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45841,7 +45841,7 @@ void vsrl16S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7997 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 7997 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45859,7 +45859,7 @@ void vsrl16S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8008 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8008 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45877,7 +45877,7 @@ void vsrl32S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8019 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8019 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45895,7 +45895,7 @@ void vsrl32S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8030 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8030 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsrlw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45913,7 +45913,7 @@ void vsrl2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8042 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8042 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -45930,7 +45930,7 @@ void vsrl2I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8052 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8052 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -45947,7 +45947,7 @@ void vsrl2I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8062 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8062 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -45965,7 +45965,7 @@ void vsrl2I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8073 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8073 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -45983,7 +45983,7 @@ void vsrl4INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8084 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8084 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -46000,7 +46000,7 @@ void vsrl4I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8094 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8094 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrld(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -46017,7 +46017,7 @@ void vsrl4I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8104 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8104 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46035,7 +46035,7 @@ void vsrl4I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8115 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8115 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46053,7 +46053,7 @@ void vsrl8I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8126 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8126 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsrld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46071,7 +46071,7 @@ void vsrl8I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8137 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8137 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsrld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46089,7 +46089,7 @@ void vsrl16I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8148 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8148 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsrld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46107,7 +46107,7 @@ void vsrl16I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8159 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8159 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsrld(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46125,7 +46125,7 @@ void vsrl2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8171 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8171 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrlq(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -46142,7 +46142,7 @@ void vsrl2L_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8181 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8181 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrlq(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -46159,7 +46159,7 @@ void vsrl2L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8191 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8191 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrlq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46177,7 +46177,7 @@ void vsrl2L_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8202 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8202 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrlq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46195,7 +46195,7 @@ void vsrl4L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8213 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8213 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsrlq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46213,7 +46213,7 @@ void vsrl4L_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8224 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8224 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsrlq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46231,7 +46231,7 @@ void vsrl8L_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8235 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8235 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsrlq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46249,7 +46249,7 @@ void vsrl8L_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8246 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8246 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsrlq(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46267,7 +46267,7 @@ void vsra2SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8260 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8260 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psraw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -46284,7 +46284,7 @@ void vsra2S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8270 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8270 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psraw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -46301,7 +46301,7 @@ void vsra2S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8280 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8280 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46319,7 +46319,7 @@ void vsra2S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8291 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8291 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46337,7 +46337,7 @@ void vsra4SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8302 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8302 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psraw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -46354,7 +46354,7 @@ void vsra4S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8312 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8312 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psraw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -46371,7 +46371,7 @@ void vsra4S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8322 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8322 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46389,7 +46389,7 @@ void vsra4S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8333 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8333 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46407,7 +46407,7 @@ void vsra8SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8344 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8344 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psraw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -46424,7 +46424,7 @@ void vsra8S_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8354 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8354 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psraw(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -46441,7 +46441,7 @@ void vsra8S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8364 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8364 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46459,7 +46459,7 @@ void vsra8S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8375 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8375 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46477,7 +46477,7 @@ void vsra16S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8386 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8386 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46495,7 +46495,7 @@ void vsra16S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8397 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8397 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46513,7 +46513,7 @@ void vsra32S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8408 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8408 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46531,7 +46531,7 @@ void vsra32S_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8419 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8419 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsraw(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46549,7 +46549,7 @@ void vsra2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8431 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8431 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrad(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -46566,7 +46566,7 @@ void vsra2I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8441 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8441 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrad(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -46583,7 +46583,7 @@ void vsra2I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8451 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8451 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrad(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46601,7 +46601,7 @@ void vsra2I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8462 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8462 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrad(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46619,7 +46619,7 @@ void vsra4INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8473 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8473 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrad(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */);
   
@@ -46636,7 +46636,7 @@ void vsra4I_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8483 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8483 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ psrad(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, (int)opnd_array(2)->constant());
   
@@ -46653,7 +46653,7 @@ void vsra4I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8493 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8493 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrad(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46671,7 +46671,7 @@ void vsra4I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8504 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8504 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpsrad(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46689,7 +46689,7 @@ void vsra8I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8515 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8515 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsrad(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46707,7 +46707,7 @@ void vsra8I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8526 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8526 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpsrad(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46725,7 +46725,7 @@ void vsra16I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8537 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8537 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsrad(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* shift */, vector_len);
@@ -46743,7 +46743,7 @@ void vsra16I_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8548 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8548 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpsrad(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, (int)opnd_array(2)->constant(), vector_len);
@@ -46761,7 +46761,7 @@ void vand4BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8564 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8564 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pand(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -46778,7 +46778,7 @@ void vand4B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8574 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8574 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -46796,7 +46796,7 @@ void vand4B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8585 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8585 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -46814,7 +46814,7 @@ void vand8BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8596 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8596 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pand(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -46831,7 +46831,7 @@ void vand8B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8606 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8606 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -46849,7 +46849,7 @@ void vand8B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8617 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8617 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -46867,7 +46867,7 @@ void vand16BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8628 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8628 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pand(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -46884,7 +46884,7 @@ void vand16B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8638 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8638 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -46902,7 +46902,7 @@ void vand16B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8649 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8649 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -46920,7 +46920,7 @@ void vand32B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8660 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8660 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -46938,7 +46938,7 @@ void vand32B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8671 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8671 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -46956,7 +46956,7 @@ void vand64B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8682 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8682 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -46974,7 +46974,7 @@ void vand64B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8693 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8693 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpand(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -46992,7 +46992,7 @@ void vor4BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8706 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8706 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ por(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -47009,7 +47009,7 @@ void vor4B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8716 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8716 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47027,7 +47027,7 @@ void vor4B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8727 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8727 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -47045,7 +47045,7 @@ void vor8BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8738 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8738 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ por(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -47062,7 +47062,7 @@ void vor8B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8748 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8748 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47080,7 +47080,7 @@ void vor8B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8759 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8759 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -47098,7 +47098,7 @@ void vor16BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8770 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8770 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ por(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -47115,7 +47115,7 @@ void vor16B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8780 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8780 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47133,7 +47133,7 @@ void vor16B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8791 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8791 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -47151,7 +47151,7 @@ void vor32B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8802 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8802 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47169,7 +47169,7 @@ void vor32B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8813 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8813 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -47187,7 +47187,7 @@ void vor64B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8824 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8824 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47205,7 +47205,7 @@ void vor64B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8835 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8835 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -47223,7 +47223,7 @@ void vxor4BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8848 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8848 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -47240,7 +47240,7 @@ void vxor4B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8858 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8858 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47258,7 +47258,7 @@ void vxor4B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8869 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8869 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -47276,7 +47276,7 @@ void vxor8BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8880 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8880 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -47293,7 +47293,7 @@ void vxor8B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8890 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8890 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47311,7 +47311,7 @@ void vxor8B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8901 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8901 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -47329,7 +47329,7 @@ void vxor16BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8912 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8912 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     __ pxor(opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* dst */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src */);
   
@@ -47346,7 +47346,7 @@ void vxor16B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8922 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8922 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47364,7 +47364,7 @@ void vxor16B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8933 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8933 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 0;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -47382,7 +47382,7 @@ void vxor32B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8944 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8944 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47400,7 +47400,7 @@ void vxor32B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8955 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8955 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 1;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -47418,7 +47418,7 @@ void vxor64B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8966 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8966 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src1 */, opnd_array(2)->as_XMMRegister(ra_,this,idx2)/* src2 */, vector_len);
@@ -47436,7 +47436,7 @@ void vxor64B_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 8977 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86.ad"
+#line 8977 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
 
     int vector_len = 2;
     __ vpxor(opnd_array(0)->as_XMMRegister(ra_,this)/* dst */, opnd_array(1)->as_XMMRegister(ra_,this,idx1)/* src */, Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_reloc()), vector_len);
@@ -48182,7 +48182,7 @@ uint Compile::varargs_C_out_slots_killed() const { return frame::arg_reg_save_ar
 
 void Matcher::calling_convention(BasicType *sig_bt, VMRegPair *regs, uint length, bool is_outgoing) {
 
-#line 2813 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2813 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // No difference between ingoing/outgoing just pass false
     SharedRuntime::java_calling_convention(sig_bt, regs, length, false);
@@ -48193,7 +48193,7 @@ void Matcher::calling_convention(BasicType *sig_bt, VMRegPair *regs, uint length
 
 void Matcher::c_calling_convention(BasicType *sig_bt, VMRegPair *regs, uint length) {
 
-#line 2819 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2819 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // This is obviously always outgoing
     (void) SharedRuntime::c_calling_convention(sig_bt, regs, /*regs2=*/NULL, length);
@@ -48204,7 +48204,7 @@ void Matcher::c_calling_convention(BasicType *sig_bt, VMRegPair *regs, uint leng
 
 OptoRegPair Matcher::return_value(int ideal_reg, bool is_outgoing) {
 
-#line 2826 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2826 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     assert(ideal_reg >= Op_RegI && ideal_reg <= Op_RegL,
            "only return normal values");
@@ -48239,7 +48239,7 @@ OptoRegPair Matcher::return_value(int ideal_reg, bool is_outgoing) {
 
 OptoRegPair Matcher::c_return_value(int ideal_reg, bool is_outgoing) {
 
-#line 2826 "/home/molson5/projects/memcolor/hotspot_9_mc_patched/src/cpu/x86/vm/x86_64.ad"
+#line 2826 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     assert(ideal_reg >= Op_RegI && ideal_reg <= Op_RegL,
            "only return normal values");

@@ -74,6 +74,9 @@ traymask_t*       os::_traymask_all_trays_ptr = NULL;
 traymask_t*       os::_traymask_no_trays_ptr  = NULL;
 traymask_t*       os::_default_traymask_ptr  = NULL;
 
+cpu_set_t*        os::_sampler_cpus = NULL;
+cpu_set_t*        os::_jvm_cpus = NULL;
+
 #ifndef PRODUCT
 julong os::num_mallocs = 0;         // # of calls to malloc/realloc
 julong os::alloc_bytes = 0;         // # of bytes allocated
@@ -289,7 +292,7 @@ static void signal_thread_entry(JavaThread* thread, TRAPS) {
         }
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
         if (PrintObjectAddressInfoAtInterval) {
-          VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "signal");
+          VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, krinfo_log, "signal");
 
           VMThread::execute(&op1);
         }
@@ -1744,6 +1747,44 @@ void os::traymask_setbit(traymask_t *tm, int i)
 {
 	if (i < NR_TRAYS)
 		*tm |= (1ULL << i);
+}
+
+class PrintThreadTimesClosure: public ThreadClosure {
+ private:
+  outputStream *_out;
+ public:
+  PrintThreadTimesClosure(outputStream *out)  { _out = out; };
+  virtual void do_thread(Thread* thread);
+};
+
+//
+// Called with Threads_lock held
+//
+void PrintThreadTimesClosure::do_thread(Thread* thread) {
+  assert(thread != NULL, "thread was NULL");
+
+  pid_t tid = 0;
+  OSThread *osthread = thread->osthread();
+  os::ThreadType ttype = os::os_thread;
+  if (osthread) {
+    ttype = (os::ThreadType)osthread->thread_type();
+    tid = osthread->thread_id();
+  }
+  jlong cpu_time = os::thread_cpu_time(thread);
+  _out->print_cr("Thread: %7d Type: %14s CPU time: %14ld",
+    tid, os::thread_type_str(ttype), cpu_time);
+}
+
+void os::print_thread_times (bool exiting)
+{
+  if (exiting) {
+    tty->print_cr("Thread times at exit:");
+  }
+  PrintThreadTimesClosure ttc(tty);
+  {
+    MutexLockerEx ml(Threads_lock);
+    Threads::threads_do(&ttc);
+  }
 }
 
 /////////////// Unit tests ///////////////

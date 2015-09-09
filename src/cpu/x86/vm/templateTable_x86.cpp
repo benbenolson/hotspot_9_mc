@@ -1185,7 +1185,7 @@ void TemplateTable::lastore() {
 #if DO_STORES
   if (ProfileObjectInfo) {
     __ push_IU_state();
-    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), rdx);
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_store_cnt), rcx);
     __ pop_IU_state();
   }
 #endif
@@ -1194,7 +1194,7 @@ void TemplateTable::lastore() {
 #if DO_STORES
   if (ProfileObjectAddressInfo) {
     __ push_IU_state();
-    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), rdx);
+    __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), rcx);
     __ pop_IU_state();
   }
 #endif
@@ -2989,13 +2989,12 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
 
   __ jcc(Assembler::notZero, notByte);
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-#if DO_STORES
+#if DO_LOADS
   if (!is_static) {
     if (ProfileObjectAddressInfo) {
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_BYTE_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3017,13 +3016,12 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ jcc(Assembler::notEqual, notObj);
   // atos
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-#if DO_STORES
+#if DO_LOADS
   if (!is_static) {
     if (ProfileObjectAddressInfo) {
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_LONG_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3043,13 +3041,12 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ jcc(Assembler::notEqual, notInt);
   // itos
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-#if DO_STORES
+#if DO_LOADS
   if (!is_static) {
     if (ProfileObjectAddressInfo) {
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_LONG_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3070,13 +3067,12 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ jcc(Assembler::notEqual, notChar);
   // ctos
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-#if DO_STORES
+#if DO_LOADS
   if (!is_static) {
     if (ProfileObjectAddressInfo) {
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_SHORT_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3097,13 +3093,12 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ jcc(Assembler::notEqual, notShort);
   // stos
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-#if DO_STORES
+#if DO_LOADS
   if (!is_static) {
     if (ProfileObjectAddressInfo) {
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_SHORT_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3124,13 +3119,12 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ jcc(Assembler::notEqual, notLong);
   // ltos
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-#if DO_STORES
+#if DO_LOADS
   if (!is_static) {
     if (ProfileObjectAddressInfo) {
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_QUAD_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3161,13 +3155,12 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
   __ jcc(Assembler::notEqual, notFloat);
   // ftos
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-#if DO_STORES
+#if DO_LOADS
   if (!is_static) {
     if (ProfileObjectAddressInfo) {
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_FLOAT_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3191,13 +3184,12 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
 #endif
   // dtos
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-#if DO_STORES
+#if DO_LOADS
   if (!is_static) {
     if (ProfileObjectAddressInfo) {
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_DOUBLE_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_load_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3383,7 +3375,6 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_BYTE_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3424,7 +3415,6 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_LONG_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3467,7 +3457,6 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_LONG_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3509,7 +3498,6 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_WORD_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3551,7 +3539,6 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_WORD_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3594,7 +3581,6 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_QUAD_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3667,7 +3653,6 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_FLOAT_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -3712,7 +3697,6 @@ void TemplateTable::putfield_or_static(int byte_no, bool is_static, RewriteContr
       __ push_IU_state();
       __ leaq(rax, field);
       __ movl(rbx, (int)X86_DOUBLE_SIZE);
-      //__ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_addr_store_cnt), obj);
       __ call_VM_leaf(CAST_FROM_FN_PTR(address, SharedRuntime::inc_inst_store_cnt),
          obj, rax, rbx);
       __ pop_IU_state();
@@ -4518,7 +4502,7 @@ void TemplateTable::_new() {
       __ push(atos); // save the return value
       __ get_method(rcx);
       __ call_VM_leaf(
-           CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+           CAST_FROM_FN_PTR(address, SharedRuntime::mark_alloc_point),
                             rax,  // oopDesc*
                             rcx,  // methodOopDesc*
                             r13); // bytecode address
@@ -4528,9 +4512,12 @@ void TemplateTable::_new() {
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
     if (ProfileObjectAddressInfo) {
       __ push(atos); // save the return value
+      __ get_method(rcx);
       __ call_VM_leaf(
            CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
-           rax // oopDesc*
+           rax, // oopDesc*
+           rcx, // methodOopDesc*
+           r13  // bytecode address
          );
       __ pop(atos); // restore the return value
     }
@@ -4563,7 +4550,7 @@ void TemplateTable::_new() {
     __ push(atos); // save the return value
     __ get_method(rcx);
     __ call_VM_leaf(
-         CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+         CAST_FROM_FN_PTR(address, SharedRuntime::mark_alloc_point),
                           rax,  // oopDesc*
                           rcx,  // methodOopDesc*
                           r13); // bytecode address
@@ -4573,9 +4560,12 @@ void TemplateTable::_new() {
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     __ push(atos); // save the return value
+    __ get_method(rcx);
     __ call_VM_leaf(
          CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
-         rax // oopDesc*
+         rax, // oopDesc*
+         rcx, // methodOopDesc*
+         r13  // bytecode address
        );
     __ pop(atos); // restore the return value
   }
@@ -4603,7 +4593,7 @@ void TemplateTable::newarray() {
     __ push(atos); // save the return value
     __ get_method(rcx);
     __ call_VM_leaf(
-         CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+         CAST_FROM_FN_PTR(address, SharedRuntime::mark_alloc_point),
                           rax,  // oopDesc*
                           rcx,  // methodOopDesc*
                           r13); // bytecode address
@@ -4614,9 +4604,12 @@ void TemplateTable::newarray() {
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     __ push(atos); // save the return value
+    __ get_method(rcx);
     __ call_VM_leaf(
          CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
-         rax // oopDesc*
+         rax, // oopDesc*
+         rcx, // methodOopDesc*
+         r13  // bytecode address
        );
     __ pop(atos); // restore the return value
   }
@@ -4645,7 +4638,7 @@ void TemplateTable::anewarray() {
     __ push(atos); // save the return value
     __ get_method(rcx);
     __ call_VM_leaf(
-         CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+         CAST_FROM_FN_PTR(address, SharedRuntime::mark_alloc_point),
                           rax,  // oopDesc*
                           rcx,  // methodOopDesc*
                           r13); // bytecode address
@@ -4656,9 +4649,12 @@ void TemplateTable::anewarray() {
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     __ push(atos); // save the return value
+    __ get_method(rcx);
     __ call_VM_leaf(
          CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
-         rax // oopDesc*
+         rax, // oopDesc*
+         rcx, // methodOopDesc*
+         r13  // bytecode address
        );
     __ pop(atos); // restore the return value
   }
@@ -5041,7 +5037,7 @@ void TemplateTable::multianewarray() {
     __ push(atos); // save the return value
     __ get_method(rcx);
     __ call_VM_leaf(
-         CAST_FROM_FN_PTR(address, SharedRuntime::interp_profile_object_alloc),
+         CAST_FROM_FN_PTR(address, SharedRuntime::mark_alloc_point),
                           rax,  // oopDesc*
                           rcx,  // methodOopDesc*
                           r13); // bytecode address
@@ -5052,9 +5048,12 @@ void TemplateTable::multianewarray() {
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (ProfileObjectAddressInfo) {
     __ push(atos); // save the return value
+    __ get_method(rcx);
     __ call_VM_leaf(
          CAST_FROM_FN_PTR(address, SharedRuntime::profile_object_address_alloc),
-         rax // oopDesc*
+         rax, // oopDesc*
+         rcx, // methodOopDesc*
+         r13  // bytecode address
        );
     __ pop(atos); // restore the return value
   }

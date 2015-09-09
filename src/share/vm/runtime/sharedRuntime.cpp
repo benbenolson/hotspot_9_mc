@@ -67,6 +67,7 @@
 
 // for persistent object info table val
 #include "memory/profileObjectInfo.hpp"
+#include "gc/parallel/psScavenge.hpp"
 
 PRAGMA_FORMAT_MUTE_WARNINGS_FOR_GCC
 
@@ -319,28 +320,34 @@ JRT_END
 
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
 JRT_LEAF(void, SharedRuntime::inc_addr_load_cnt(oopDesc* oop))
-  if (oop != NULL && oop->is_oop(true)) {
-    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-    Klass* klass = oop->klass();
-    if (klass) {
-      if (klass->oop_is_instance()) {
-        oait->mark_load(oop);
-      } else if (klass->oop_is_array()) {
-        oait->mark_load(oop);
+  if (oop != NULL) {
+    ParallelScavengeHeap *psh = ((ParallelScavengeHeap*)Universe::heap());
+    if ( psh->is_in(oop) ) {
+      ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+      Klass* klass = oop->klass();
+      if (klass && psh->is_in(klass)) {
+        if (klass->oop_is_instance()) {
+          oait->mark_load(oop);
+        } else if (klass->oop_is_array()) {
+          oait->mark_load(oop);
+        }
       }
     }
   }
 JRT_END
 
 JRT_LEAF(void, SharedRuntime::inc_addr_store_cnt(oopDesc* oop))
-  if (oop != NULL && oop->is_oop(true)) {
-    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-    Klass* klass = oop->klass();
-    if (klass) {
-      if (klass->oop_is_instance()) {
-        oait->mark_store(oop);
-      } else if (klass->oop_is_array()) {
-        oait->mark_store(oop);
+  if (oop != NULL) {
+    ParallelScavengeHeap *psh = ((ParallelScavengeHeap*)Universe::heap());
+    if ( psh->is_in(oop) ) {
+      ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+      Klass* klass = oop->klass();
+      if (klass && psh->is_in(klass)) {
+        if (klass->oop_is_instance()) {
+          oait->mark_store(oop);
+        } else if (klass->oop_is_array()) {
+          oait->mark_store(oop);
+        }
       }
     }
   }
@@ -1109,219 +1116,68 @@ int SharedRuntime::dtrace_object_alloc_base(Thread* thread, oopDesc* o, int size
   return 0;
 }
 
-#if 0
-HeapColor SharedRuntime::get_alloc_point_color(methodOopDesc *method, address bcp)
-{
-  int bci;
-  GrowableArray<AllocPointInfo*>* aps;
-
-  bci = method->bci_from(bcp);
-  aps = method->aps();
-
-  for(int i=0; i < aps->length(); i++) {
-    if (aps->at(i)->bci() == bci) {
-      return aps->at(i)->color();
-    }
-  }
-  return HC_BLUE;
-}
-#endif
-
 #ifdef PROFILE_OBJECT_INFO
-/* MRJ -- should not need to store color of objects if eden space is colored
- */
-void SharedRuntime::color_object_alloc(oopDesc* o, Method *method, address bcp) {
-  assert(method != NULL, "null method");
-  CollectedHeap *heap = Universe::heap();
-  if (o->is_instance()) {
-    int bci = method->bci_from(bcp);
-    HeapColor color = method->get_ap_color(bci, UnknownAPHeapColor);
-    instanceOop inst_oop = ((instanceOop)o);
-    inst_oop->set_color(color);
-    //inst_oop->initialize(heap->fresh_oop_id());
-#if 0
-    if (!ProfileObjectInfo)
-      inst_oop->initialize(heap->fresh_oop_id(), 0, method, bci);
-#endif
-  } else if (o->is_array()) {
-    int bci = method->bci_from(bcp);
-    HeapColor color = method->get_ap_color(bci, UnknownAPHeapColor);
-    arrayOop arr_oop = ((arrayOop)o);
-    arr_oop->set_color(color);
-    //arr_oop->initialize(heap->fresh_oop_id());
-#if 0
-    if (!ProfileObjectInfo)
-      arr_oop->initialize(heap->fresh_oop_id(), 0, method, bci);
-#endif
+void SharedRuntime::mark_alloc_point(oopDesc* o, methodOopDesc *method, address bcp) {
+  PersistentObjectInfo *poi = PSScavenge::obj_poi(o);
+
+  // if poi is null, must not be an instance or array oop
+  if (poi == NULL) {
+    if (o->blueprint()->oop_is_instance() || o->blueprint()->oop_is_array()) {
+      profile_object_alloc(o, o->size(), o->klass());
+      poi = PSScavenge::obj_poi(o);
+    }
   }
+
+  guarantee(poi != NULL, "null poi");
+
+  AllocPointInfoTable *apit = Universe::alloc_point_info_table();
+  AllocPointInfo* api = apit->get(method, method->bci_from(bcp), HC_NOT_COLORED);
+  guarantee(api != NULL, "got a bad api");
+
+  poi->set_alloc_point(api);
 }
 
-void SharedRuntime::interp_profile_object_alloc(oopDesc* o, Method *method, address bcp) {
-  assert(method != NULL, "null method");
+void SharedRuntime::profile_object_alloc(oopDesc* obj, int size, klassOop klass) {
   CollectedHeap *heap = Universe::heap();
   PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
-  AllocPointInfoTable *apm = Universe::alloc_point_info_table();
-  int cur_val = poit->cur_val();
-#if 0
-  if (method) {
-    ResourceMark rm;
-    if ((strcmp(method->method_holder()->klass_part()->name()->as_C_string(),
-                "com/sun/tools/javac/util/ListBuffer") == 0) &&
-        (strcmp(method->name()->as_C_string(), "append") == 0)) {
-      tty->print_cr("alloc: oop: %p  method: %p", o, method);
-    }
-  }
-#endif
-  PersistentObjectInfo* poi = NULL;
-  AllocPointInfo* api = NULL;
-  HeapColor color = HC_NOT_COLORED;
-
-  if (o->is_instance()) {
-    instanceOop inst_oop = ((instanceOop)o); 
-
-    if (ColorObjectAllocations) {
-      color = method->get_ap_color(method->bci_from(bcp), UnknownAPHeapColor);
-    } else {
-      color = HC_BLUE;
-    }
-
-    api = apm->get(method, method->bci_from(bcp), color);
-    poi = poit->append_instance(inst_oop, api, color);
-
-    inst_oop->set_color(color);
-    inst_oop->set_poi(poi);
-    guarantee (poi->alloc_point() != NULL, "NULL alloc point");
-    guarantee (heap->valid_id(inst_oop->id()), "invalid id!!");
-
-  } else if (o->is_array()) {
-    arrayOop arr_oop = ((arrayOop)o);
-
-    if (ColorObjectAllocations) {
-      color = method->get_ap_color(method->bci_from(bcp), UnknownAPHeapColor);
-    } else {
-      color = HC_BLUE;
-    }
-
-    api = apm->get(method, method->bci_from(bcp), color);
-    poi = poit->append_instance(arr_oop, api, color);
-
-    arr_oop->set_color(color);
-    arr_oop->set_poi(poi);
-    guarantee (poi->alloc_point() != NULL, "NULL alloc point");
-    guarantee (heap->valid_id(arr_oop->id()), "invalid id!!");
-  }
-  if (poi) {
-    poi->batch_mark_store(o->size());
-  }
-  if (api) {
-    api->mark_new_object(o->size());
-  }
-}
-
-void SharedRuntime::profile_object_alloc(oopDesc* o, Method *method, int bci) {
-  assert(method != NULL, "null method");
-  CollectedHeap *heap = Universe::heap();
-  PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
-  AllocPointInfoTable *apm = Universe::alloc_point_info_table();
-  int cur_val = poit->cur_val();
 
   PersistentObjectInfo* poi = NULL;
-  AllocPointInfo* api = NULL;
-  HeapColor color = HC_NOT_COLORED;
-  if (o->is_instance()) {
-    instanceOop inst_oop = ((instanceOop)o); 
 
-    if (ColorObjectAllocations) {
-      color = method->get_ap_color(bci, UnknownAPHeapColor);
-    } else {
-      color = HC_BLUE;
-    }
+  if (klass == NULL) {
+    return;
+  }
 
-    api = apm->get(method, bci, color);
-    poi = poit->append_instance(inst_oop, api, color);
+  if (klass->klass_part()->oop_is_instance()) {
 
-    inst_oop->set_color(color);
+    instanceOop inst_oop = ((instanceOop)obj);
+    poi = poit->append_instance(inst_oop, size, klass);
+    guarantee (poi != NULL, "null poi");
+
+    poi->mark_alloc();
     inst_oop->set_poi(poi);
-    guarantee (poi->alloc_point() != NULL, "NULL alloc point");
+    inst_oop->set_color(HC_NOT_COLORED);
     guarantee (heap->valid_id(inst_oop->id()), "invalid id!!");
+ 
+  } else if (klass->klass_part()->oop_is_array()) {
 
-  } else if (o->is_array()) {
-    arrayOop arr_oop = ((arrayOop)o);
+    arrayOop arr_oop = ((arrayOop)obj);
+    poi = poit->append_instance(arr_oop, size, klass);
+    guarantee (poi != NULL, "null poi");
 
-    if (ColorObjectAllocations) {
-      color = method->get_ap_color(bci, UnknownAPHeapColor);
-    } else {
-      color = HC_BLUE;
-    }
-
-    api = apm->get(method, bci, color);
-    poi = poit->append_instance(arr_oop, api, color);
-
-    arr_oop->set_color(color);
+    poi->mark_alloc();
     arr_oop->set_poi(poi);
-    guarantee (poi->alloc_point() != NULL, "NULL alloc point");
+    arr_oop->set_color(HC_NOT_COLORED);
     guarantee (heap->valid_id(arr_oop->id()), "invalid id!!");
-  }
-  if (poi) {
-    poi->batch_mark_store(o->size());
-  }
-  if (api) {
-    api->mark_new_object(o->size());
   }
 }
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
-void SharedRuntime::profile_object_address_alloc(oopDesc* o) {
+void SharedRuntime::profile_object_address_alloc(oopDesc* o, Method *method, address bcp) {
   ObjectAddressInfoTable *oait = Universe::object_address_info_table();
-  oait->mark_alloc(o);
-  //oait->mark_alloc(o, o->size(), APP_OBJECT, o->klass());
+  oait->mark_alloc(o, method, method->bci_from(bcp));
 }
 #endif
 
-#if 0
-void SharedRuntime::profile_object_alloc(oopDesc* o, methodOopDesc *method, address bcp) {
-  assert(method != NULL, "null method");
-  CollectedHeap *heap = Universe::heap();
-  PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
-  int cur_val = poit->cur_val();
-  int bci = bcp ? method->bci_from(bcp) : -1;
-  extern HeapWord *mjword;
-
-  if (o->blueprint()->oop_is_instance()) {
-    instanceOop inst_oop = ((instanceOop)o); 
-    if (!ColorObjectAllocations) {
-      inst_oop->set_color(HC_BLUE);
-    }
-    PersistentObjectInfo* poi = poit->append_instance(inst_oop, method, bci,
-                                                      inst_oop->color());
-    inst_oop->set_poi(poi);
-#if 0
-    if (poi->id() == 2538) {
-      tty->print_cr("oop: %p  poi: %p  id: %d", inst_oop, poi, poi->id());
-      mjword = (HeapWord*)inst_oop;
-    }
-#endif
-
-    guarantee (heap->valid_id(inst_oop->id()), "invalid id!!");
-  } else if (o->blueprint()->oop_is_array()) {
-    arrayOop arr_oop = ((arrayOop)o);
-    if (!ColorObjectAllocations) {
-      arr_oop->set_color(HC_BLUE);
-    }
-    PersistentObjectInfo* poi = poit->append_instance(arr_oop, method, bci,
-                                                      arr_oop->color());
-    arr_oop->set_poi(poi);
-#if 0
-    if (poi->id() == 2538) {
-      tty->print_cr("oop: %p  poi: %p  id: %d", arr_oop, poi, poi->id());
-      mjword = (HeapWord*)arr_oop;
-    }
-#endif
-
-    guarantee (heap->valid_id(arr_oop->id()), "invalid id!!");
-  }
-}
-#endif
 JRT_LEAF(int, SharedRuntime::dtrace_method_entry(
     JavaThread* thread, Method* method))
   assert(DTraceMethodProbes, "wrong call");

@@ -349,7 +349,7 @@ bool PSScavenge::invoke_no_policy() {
 
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (PrintObjectAddressInfoAtGC) {
-    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "pre-minor-gc");
+    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, krinfo_log, "pre-minor-gc");
 
     VMThread::execute(&op1);
   }
@@ -790,7 +790,7 @@ bool PSScavenge::invoke_no_policy() {
 
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   if (PrintObjectAddressInfoAtGC) {
-    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, fieldinfo_log, "post-minor-gc");
+    VM_GC_ObjectAddressInfoCollection op1(addrinfo_log, krinfo_log, "post-minor-gc");
 
     VMThread::execute(&op1);
   }

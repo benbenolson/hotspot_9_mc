@@ -637,7 +637,6 @@ enum klass_type {
   KT_VM_FILLER,
   KT_APP_INSTANCE,
   KT_APP_ARRAY,
-  KT_APP_OTHER,
   NR_KLASS_TYPES
 };
 
@@ -653,6 +652,8 @@ enum init_marker {
   OLD_MARKER =  0,
   NR_INIT_MARKERS
 };
+
+extern enum obj_type kt2ot(enum klass_type kt);
 
 class MethodAllocPointInfo {
  private:

@@ -28,6 +28,7 @@
 #include "runtime/handles.hpp"
 #include "utilities/array.hpp"
 #include "utilities/growableArray.hpp"
+#include "setjmp.h"
 
 // Universe is a name space holding known system classes and objects in the VM.
 //
@@ -39,9 +40,12 @@
 
 class CollectedHeap;
 class DeferredObjAllocEvent;
+#if defined (PROFILE_OBJECT_ADDRESS_INFO) or defined (PROFILE_OBJECT_INFO)
+class AllocPointInfoTable;
+class KlassRecordTable;
+#endif
 #ifdef PROFILE_OBJECT_INFO
 class PersistentObjectInfoTable;
-class AllocPointInfoTable;
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
 class ObjectAddressInfoTable;
@@ -189,14 +193,18 @@ class Universe: AllStatic {
 
   // The particular choice of collected heap.
   static CollectedHeap* _collectedHeap;
+#if defined (PROFILE_OBJECT_ADDRESS_INFO) or defined (PROFILE_OBJECT_INFO)
+  static AllocPointInfoTable *_alloc_point_info_table;
+  static KlassRecordTable *_klass_record_table;
+#endif
 #ifdef PROFILE_OBJECT_INFO
   static PersistentObjectInfoTable *_persistent_object_info_table;
-  static AllocPointInfoTable *_alloc_point_info_table;
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   static ObjectAddressInfoTable *_object_address_info_table;
   static ObjectAddressInfoTable *_alt_oait;
 #endif
+  static sigjmp_buf *_sample_thread_env;
 
   static intptr_t _non_oop_bits;
 
@@ -359,11 +367,16 @@ class Universe: AllStatic {
   // The particular choice of collected heap.
   static CollectedHeap* heap() { return _collectedHeap; }
 
+#if defined (PROFILE_OBJECT_ADDRESS_INFO) or defined (PROFILE_OBJECT_INFO)
+  static KlassRecordTable* klass_record_table() { return _klass_record_table; }
+  static void set_klass_record_table(KlassRecordTable* krt) { _klass_record_table = krt; }
+
+  static AllocPointInfoTable* alloc_point_info_table() { return _alloc_point_info_table; }
+  static void set_alloc_point_info_table(AllocPointInfoTable* apit) { _alloc_point_info_table = apit; }
+#endif
 #ifdef PROFILE_OBJECT_INFO
   static PersistentObjectInfoTable* persistent_object_info_table() { return _persistent_object_info_table; }
   static void set_persistent_object_info_table(PersistentObjectInfoTable* poit) { _persistent_object_info_table = poit; }
-  static AllocPointInfoTable* alloc_point_info_table() { return _alloc_point_info_table; }
-  static void set_alloc_point_info_table(AllocPointInfoTable* apit) { _alloc_point_info_table = apit; }
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
   static ObjectAddressInfoTable* object_address_info_table() { return _object_address_info_table; }
@@ -376,6 +389,7 @@ class Universe: AllStatic {
     _alt_oait = tmp; 
   }
 #endif
+  static  sigjmp_buf* sample_thread_env() { return _sample_thread_env; }
 
   // For UseCompressedOops
   // Narrow Oop encoding mode:

@@ -1294,7 +1294,7 @@ AllocateNode::AllocateNode(Compile* C, const TypeFunc *atype,
   init_req( AllocSize          , size);
   init_req( KlassNode          , klass_node);
   init_req( InitialTest        , initial_test);
-  if (ColorObjectAllocations || MethodSampleColors) {
+  if (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
     init_req( MethodNode       , method_node);
     init_req( BCINode          , bci_node);
   }

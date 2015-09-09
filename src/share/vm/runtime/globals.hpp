@@ -4243,14 +4243,23 @@ public:
   develop(ccstr, AllocPointInfoLog, NULL,                                   \
           "filename to log allocation point info")                          \
                                                                             \
+  develop(ccstr, AllocPointInfoBin, NULL,                                   \
+          "filename to log binary allocation point info")                   \
+                                                                            \
   develop(ccstr, ObjectAddressInfoLog, NULL,                                \
           "filename to log object address data")                            \
                                                                             \
-  develop(ccstr, ObjectAddressTableLog, NULL,                               \
+  develop(ccstr, ObjectAddressInfoBin, NULL,                                \
           "filename to log object address table")                           \
                                                                             \
-  develop(ccstr, ObjectFieldInfoLog, NULL,                                  \
-          "filename to log field info for objects")                         \
+  develop(ccstr, KlassRecordInfoLog, NULL,                                  \
+          "filename to log klass info for objects")                         \
+                                                                            \
+  develop(ccstr, KlassRecordInfoBin, NULL,                                  \
+          "filename to log klass binary info for objects")                  \
+                                                                            \
+  develop(ccstr, KlassMapLog, NULL,                                         \
+          "filename to log klass map")                                      \
                                                                             \
   develop(bool, PrintOpsAtSIGBREAK, false,                                  \
           "print some additional information at SIGBREAK")                  \
@@ -4337,14 +4346,14 @@ public:
   develop(bool, ColorObjectAllocations, false,                              \
           "Color object allocations")                                       \
                                                                             \
-  develop(bool, MethodSampleColors, false,                                  \
-          "Use online thread sampler to apply object colors")               \
-                                                                            \
   develop(bool, HotKlassOrganize, false,                                    \
           "Organize hot objects using klass info at GC")                    \
                                                                             \
+  develop(bool, HotMethodAllocate, false,                                   \
+          "Allocate hot objects using method info")                         \
+                                                                            \
   develop(bool, HotKlassAllocate, false,                                    \
-          "Allocate hot objects using klass info at GC")                    \
+          "Allocate hot objects using klass info")                          \
                                                                             \
   develop(intx, MaxMethodTemperature, 4,                                    \
           "Max temperature for hot methods")                                \
@@ -4394,23 +4403,63 @@ public:
   develop(double, RedObjectRatio, 0.5,                                      \
           "allocate colors randomly")                                       \
                                                                             \
-  develop(uintx, MethodSamplerInterval, 10,                                 \
-	  "the interval in milliseconds that we sample the stacks")               \
-                                                                            \
-  develop(uintx, CoolDownInterval, 100,                                     \
-	  "the interval in milliseconds that we attempt to reorder"               \
-	  "the objects on the heap")                                              \
-                                                                            \
   develop(bool, ScavengeAtRegularIntervals, false,                          \
 	  "the interval in milliseconds that we induce GC to reorganize objects") \
                                                                             \
   develop(uintx, ScavengeInterval, 5000,                                    \
 	  "the interval in milliseconds that we induce GC to reorganize objects") \
-/*
-  develop(ccstr, UnknownPagesLog, NULL,                                     \
-          "filename to log heap pages with unknown objects")                \
                                                                             \
-*/
+  develop(bool, SampleCallStacksAtInterval, false,                          \
+             "Use a periodic task to sample hot methods")                   \
+                                                                            \
+  develop(bool, SampleCallStacksContinuous, false,                          \
+             "Use a dedicated thread to sample hot methods")                \
+                                                                            \
+  develop(intx, CallStackSampleInterval, 10,                                \
+            "interval to sample hot methods")                               \
+                                                                            \
+  develop(double, StackSampleCutoff, 99.5,                                  \
+          "cutoff for stack sample data")                                   \
+                                                                            \
+  develop(intx, HotMethodDepth, 1,                                          \
+          "depth for hot method sampling")                                  \
+                                                                            \
+  product(bool, PrintKlassAccessLists, false,                               \
+          "print klass access lists at the end of the run")                 \
+                                                                            \
+  develop(bool, IsolateSamplerThread, true,                                 \
+          "isolate the call stack sampling thread on its own core")         \
+                                                                            \
+  develop(bool, PrintStackSamples, false,                                   \
+          "isolate the call stack sampling thread on its own core")         \
+                                                                            \
+  develop(intx, CoolDownFactor, 10,                                         \
+          "cool down hot methods and classes every N samples")              \
+                                                                            \
+  develop(ccstr, StackSampleLog, NULL,                                      \
+          "file for printing call stack samples")                           \
+                                                                            \
+  develop(uintx, StackHeapSampleRatio, 10,                                  \
+          "ratio of stack samples to heap samples")                         \
+                                                                            \
+  product(ccstr, MethodKlassAccessListsLog, NULL,                           \
+          "file for printing method klass access lists")                    \
+                                                                            \
+  develop(bool, PrintThreadTimes, false,                                    \
+          "Print out execution times for each thread")                      \
+                                                                            \
+  develop(bool, PrintTextAPInfo, false,                                     \
+          "Print alloc point info as text")                                 \
+                                                                            \
+  develop(bool, PrintTextKRInfo, false,                                     \
+          "Print klass record info as text")                                \
+                                                                            \
+  develop(bool, PrintKRInfoAtInterval, false,                               \
+          "Print klass record info at each interval")                       \
+                                                                            \
+  develop(bool, JustDoIt, false,                                            \
+          "always compile at level 4 in the tiered compiler")               \
+                                                                            \
 
 /*
  *  Macros for factoring of globals

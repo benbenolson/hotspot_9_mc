@@ -108,6 +108,8 @@ Method::Method(ConstMethod* xconst, AccessFlags access_flags, int size) {
     set_signature_handler(NULL);
   }
 
+  set_hot_sample_count(0);
+
   NOT_PRODUCT(set_compiled_invocation_count(0);)
 }
 
@@ -377,6 +379,26 @@ void Method::print_invocation_count() {
     tty->print_cr ("  compiled_invocation_count: %8d ", compiled_invocation_count());
   }
 #endif
+}
+
+void Method::print_hot_sample_count(jint rank, jint running_samples,
+  jint total_samples) {
+
+  float self_pct = total_samples == 0 ? -1.0 :
+                   (100.0 * (float(_hot_sample_count) / total_samples));
+  float acc_pct  = total_samples == 0 ? -1.0 :
+                   (100.0 * (float(running_samples) / total_samples));
+
+  tty->print ("%5d | ", rank);
+  tty->print ("%5.2f | ", self_pct);
+  tty->print ("%5.2f | ", acc_pct);
+  tty->print ("%8d | ", _hot_sample_count);
+  method_holder()->name()->print_symbol_on(tty);
+  tty->print(".");
+  name()->print_symbol_on(tty);
+  tty->print(" ");
+  signature()->print_symbol_on(tty);
+  tty->print("\n");
 }
 
 // Build a MethodData* object to hold information about this method
@@ -1527,6 +1549,47 @@ void Method::print_codes_on(int from, int to, outputStream* st) const {
   s.set_interval(from, to);
   BytecodeTracer::set_closure(BytecodeTracer::std_closure());
   while (s.next() >= 0) BytecodeTracer::trace(mh, s.bcp(), st);
+}
+
+void Method::print_klass_access_list(outputStream *out, int mcnt) {
+
+  char buf[12];
+  sprintf(buf, "m%d: ", mcnt);
+  out->print("%-10s", buf);
+
+  method_holder()->name()->print_symbol_on(out);
+  out->print(".");
+  name()->print_symbol_on(out);
+  out->print(" ");
+  signature()->print_symbol_on(out);
+  out->print("\n");
+
+  assert(_klass_access_list != NULL, "null klass_access_list!");
+  Klass* klass;
+  const char *name;
+  int index;
+  if (_klass_access_list->length() == 0) {
+    out->print_cr("            <none>");
+  } else {
+    for (index = 0; index < _klass_access_list->length(); index++) {
+      klass = _klass_access_list->at(index);
+      if (klass->name() != NULL) {
+        name = klass->external_name();
+      } else {
+        if (klass == Universe::boolArrayKlassObj())         name = "<boolArrayKlass>";         else
+        if (klass == Universe::charArrayKlassObj())         name = "<charArrayKlass>";         else
+        if (klass == Universe::singleArrayKlassObj())       name = "<singleArrayKlass>";       else
+        if (klass == Universe::doubleArrayKlassObj())       name = "<doubleArrayKlass>";       else
+        if (klass == Universe::byteArrayKlassObj())         name = "<byteArrayKlass>";         else
+        if (klass == Universe::shortArrayKlassObj())        name = "<shortArrayKlass>";        else
+        if (klass == Universe::intArrayKlassObj())          name = "<intArrayKlass>";          else
+        if (klass == Universe::longArrayKlassObj())         name = "<longArrayKlass>";         else
+          name = "<no name>";
+      }
+      out->print_cr("            %s", name);
+    }
+  }
+  out->print("\n");
 }
 
 

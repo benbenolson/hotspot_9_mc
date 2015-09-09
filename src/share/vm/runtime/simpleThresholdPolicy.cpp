@@ -305,6 +305,9 @@ CompLevel SimpleThresholdPolicy::common(Predicate p, Method* method, CompLevel c
   int i = method->invocation_count();
   int b = method->backedge_count();
 
+  if (JustDoIt) {
+    return CompLevel_full_optimization;
+  }
   if (is_trivial(method)) {
     next_level = CompLevel_simple;
   } else {

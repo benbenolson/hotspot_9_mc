@@ -311,17 +311,17 @@ class VM_GC_PersistentObjectInfoCollection: public VM_GC_Operation {
 #ifdef PROFILE_OBJECT_ADDRESS_INFO
 class VM_GC_ObjectAddressInfoCollection: public VM_GC_Operation {
  private:
-  outputStream* _addrinfo_log, *_fieldinfo_log;
+  outputStream* _addrinfo_log, *_krinfo_log;
   const char *_reason;
  public:
   VM_GC_ObjectAddressInfoCollection(outputStream* addrlog,
-    outputStream* fieldlog, const char *reason) :
+    outputStream* krinfo_log, const char *reason) :
     VM_GC_Operation(0 /* total collections,      dummy, ignored */,
                     GCCause::_heap_inspection /* GC Cause */,
                     0 /* total full collections, dummy, ignored */,
                     false /* request full GC */) {
     _addrinfo_log  = addrlog;
-    _fieldinfo_log = fieldlog;
+    _krinfo_log = krinfo_log;
     _reason = reason;
   }
 

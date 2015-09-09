@@ -60,6 +60,24 @@ const char* heapColor2Str(HeapColor color) {
   }
 }
 
+enum obj_type kt2ot(enum klass_type kt) {
+  switch (kt) {
+  case KT_UNSPECIFIED:
+  case KT_VM_INSTANCE:
+  case KT_VM_ARRAY:
+  case KT_VM_OTHER:
+    return VM_OBJECT;
+  case KT_VM_FILLER:
+    return FILLER_OBJECT;
+  case KT_APP_INSTANCE:
+  case KT_APP_ARRAY:
+    return APP_OBJECT;
+  default: ShouldNotReachHere();
+  }
+  /* should not reach here -- but I need to satisfy the compiler */
+  return VM_OBJECT;
+}
+
 const char* heapColorEnum2Str(HeapColorEnum hce) {
   switch (hce) {
     case RED_TO_RED:   return "red_to_red";
@@ -79,7 +97,6 @@ const char * klass_type_str(klass_type kt) {
     case KT_VM_FILLER:    return "vm_filler   ";
     case KT_APP_INSTANCE: return "app_instance";
     case KT_APP_ARRAY:    return "app_array   ";
-    case KT_APP_OTHER:    return "app_other   ";
     default:              return "invalid     ";
   }
   return NULL;
