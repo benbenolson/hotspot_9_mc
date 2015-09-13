@@ -63,9 +63,12 @@ class TypeArrayKlass : public ArrayKlass {
   bool compute_is_subtype_of(Klass* k);
 
   // Allocation
-  typeArrayOop allocate(int length, HeapColor color, TRAPS);
+  typeArrayOop allocate(int length, TRAPS)
+    { return allocate_common(length, true, THREAD); }
+  typeArrayOop allocate(int length, HeapColor color, TRAPS)
+    { return allocate_common(length, true, color, THREAD); }
   typeArrayOop allocate_common(int length, bool do_zero, TRAPS);
-  typeArrayOop allocate(int length, TRAPS) { return allocate_common(length, true, THREAD); }
+  typeArrayOop allocate_common(int length, bool do_zero, HeapColor color, TRAPS);
   oop multi_allocate(int rank, jint* sizes, TRAPS);
   oop multi_allocate(int rank, jint* sizes, HeapColor color, TRAPS);
 

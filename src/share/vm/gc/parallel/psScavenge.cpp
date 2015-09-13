@@ -253,6 +253,8 @@ bool PSScavenge::invoke() {
     RegularScavenge::set_collecting(true);
   }
 
+  tty->print_cr("here we are");
+
   ParallelScavengeHeap* const heap = ParallelScavengeHeap::heap();
   PSAdaptiveSizePolicy* policy = heap->size_policy();
   IsGCActiveMark mark;
@@ -274,8 +276,10 @@ bool PSScavenge::invoke() {
     const bool clear_all_softrefs = cp->should_clear_all_soft_refs();
 
     if (UseParallelOldGC) {
+      tty->print_cr("old");
       full_gc_done = PSParallelCompact::invoke_no_policy(clear_all_softrefs);
     } else {
+      tty->print_cr("mark sweep");
       full_gc_done = PSMarkSweep::invoke_no_policy(clear_all_softrefs);
     }
   }

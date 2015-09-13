@@ -89,6 +89,7 @@ address OptoRuntime::_new_colored_instance_Java                   = NULL;
 address OptoRuntime::_new_array_Java                              = NULL;
 address OptoRuntime::_new_colored_array_Java                      = NULL;
 address OptoRuntime::_new_array_nozero_Java                       = NULL;
+address OptoRuntime::_new_colored_array_nozero_Java               = NULL;
 address OptoRuntime::_multianewarray2_Java                        = NULL;
 address OptoRuntime::_colored_multianewarray2_Java                = NULL;
 address OptoRuntime::_multianewarray3_Java                        = NULL;
@@ -98,6 +99,7 @@ address OptoRuntime::_colored_multianewarray4_Java                = NULL;
 address OptoRuntime::_multianewarray5_Java                        = NULL;
 address OptoRuntime::_colored_multianewarray5_Java                = NULL;
 address OptoRuntime::_multianewarrayN_Java                        = NULL;
+address OptoRuntime::_colored_multianewarrayN_Java                = NULL;
 address OptoRuntime::_g1_wb_pre_Java                              = NULL;
 address OptoRuntime::_g1_wb_post_Java                             = NULL;
 address OptoRuntime::_vtable_must_compile_Java                    = NULL;
@@ -146,6 +148,7 @@ bool OptoRuntime::generate(ciEnv* env) {
   gen(env, _new_array_Java                 , new_array_Type               , new_array_C                     ,    0 , true , false, false);
   gen(env, _new_colored_array_Java         , new_colored_array_Type       , new_colored_array_C             ,    0 , true , false, false);
   gen(env, _new_array_nozero_Java          , new_array_Type               , new_array_nozero_C              ,    0 , true , false, false);
+  gen(env, _new_colored_array_nozero_Java  , new_colored_array_Type       , new_colored_array_nozero_C      ,    0 , true , false, false);
   gen(env, _multianewarray2_Java           , multianewarray2_Type         , multianewarray2_C               ,    0 , true , false, false);
   gen(env, _colored_multianewarray2_Java   , colored_multianewarray2_Type , colored_multianewarray2_C       ,    0 , true , false, false);
   gen(env, _multianewarray3_Java           , multianewarray3_Type         , multianewarray3_C               ,    0 , true , false, false);
@@ -155,6 +158,7 @@ bool OptoRuntime::generate(ciEnv* env) {
   gen(env, _multianewarray5_Java           , multianewarray5_Type         , multianewarray5_C               ,    0 , true , false, false);
   gen(env, _colored_multianewarray5_Java   , colored_multianewarray5_Type , colored_multianewarray5_C       ,    0 , true , false, false);
   gen(env, _multianewarrayN_Java           , multianewarrayN_Type         , multianewarrayN_C               ,    0 , true , false, false);
+  gen(env, _colored_multianewarrayN_Java   , colored_multianewarrayN_Type , colored_multianewarrayN_C       ,    0 , true , false, false);
   gen(env, _g1_wb_pre_Java                 , g1_wb_pre_Type               , SharedRuntime::g1_wb_pre        ,    0 , false, false, false);
   gen(env, _g1_wb_post_Java                , g1_wb_post_Type              , SharedRuntime::g1_wb_post       ,    0 , false, false, false);
   gen(env, _complete_monitor_locking_Java  , complete_monitor_enter_Type  , SharedRuntime::complete_monitor_locking_C, 0, false, false, false);
@@ -404,8 +408,8 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_array_C(Klass* array_type, int len, JavaT
   }
 JRT_END
 
-// array allocation without zeroing
-JRT_BLOCK_ENTRY(void, OptoRuntime::new_array_nozero_C(Klass* array_type, int len, JavaThread *thread))
+JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_C(Klass* array_type,
+  int len, Method* method, int bci, JavaThread *thread))
   JRT_BLOCK;
 #ifndef PRODUCT
   SharedRuntime::_new_array_ctr++;            // new array requires GC
@@ -415,6 +419,56 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_array_nozero_C(Klass* array_type, int len
   // Scavenge and allocate an instance.
   oop result;
 
+  HeapColor color;
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method->is_hot() || array_type->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = array_type->is_hot() ? HC_RED : HC_BLUE;
+  } else {
+    color = method->get_ap_color(bci, UnknownAPHeapColor);
+  }
+  if (array_type->oop_is_typeArray()) {
+    // The oopFactory likes to work with the element type.
+    // (We could bypass the oopFactory, since it doesn't add much value.)
+    BasicType elem_type = TypeArrayKlass::cast(array_type)->element_type();
+    result = oopFactory::new_typeArray(elem_type, len, color, THREAD);
+  } else {
+    // Although the oopFactory likes to work with the elem_type,
+    // the compiler prefers the array_type, since it must already have
+    // that latter value in hand for the fast path.
+    Klass* elem_type = ObjArrayKlass::cast(array_type)->element_klass();
+    result = oopFactory::new_objArray(elem_type, len, color, THREAD);
+  }
+
+  // Pass oops back through thread local storage.  Our apparent type to Java
+  // is that we return an oop, but we can block on exit from this routine and
+  // a GC can trash the oop in C's return register.  The generated stub will
+  // fetch the oop from TLS after any possible GC.
+  deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
+  thread->set_vm_result(result);
+  JRT_BLOCK_END;
+
+  if (GraphKit::use_ReduceInitialCardMarks()) {
+    // inform GC that we won't do card marks for initializing writes.
+    new_store_pre_barrier(thread);
+  }
+JRT_END
+
+// array allocation without zeroing
+JRT_BLOCK_ENTRY(void, OptoRuntime::new_array_nozero_C(Klass* array_type, int len,
+ JavaThread *thread))
+  JRT_BLOCK;
+#ifndef PRODUCT
+  SharedRuntime::_new_array_ctr++;            // new array requires GC
+#endif
+  assert(check_compiled_frame(thread), "incorrect caller");
+
+  // Scavenge and allocate an instance.
+  oop result;
   assert(array_type->oop_is_typeArray(), "should be called only for type array");
   // The oopFactory likes to work with the element type.
   BasicType elem_type = TypeArrayKlass::cast(array_type)->element_type();
@@ -449,11 +503,11 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_array_nozero_C(Klass* array_type, int len
     // Optimized zeroing.
     Copy::fill_to_aligned_words(obj+aligned_hs, size-aligned_hs);
   }
-
 JRT_END
 
-JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_C(Klass* array_type,
-  int len, Method* method, int bci, JavaThread *thread))
+// array allocation without zeroing
+JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_nozero_C(Klass* array_type,
+  int len, Method *method, int bci, JavaThread *thread))
   JRT_BLOCK;
 #ifndef PRODUCT
   SharedRuntime::_new_array_ctr++;            // new array requires GC
@@ -462,31 +516,23 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_C(Klass* array_type,
 
   // Scavenge and allocate an instance.
   oop result;
-
   HeapColor color;
   if (HotMethodAllocate && HotKlassAllocate) {
-    color = (method->is_hot() || InstanceKlass::cast(array_type)->is_hot()) ? HC_RED : HC_BLUE;
+    color = (method->is_hot() || array_type->is_hot()) ? HC_RED : HC_BLUE;
   }
   else if (HotMethodAllocate) {
     color = method->is_hot() ? HC_RED : HC_BLUE;
   }
   else if (HotKlassAllocate) {
-    color = InstanceKlass::cast(array_type)->is_hot() ? HC_RED : HC_BLUE;
+    color = array_type->is_hot() ? HC_RED : HC_BLUE;
   } else {
     color = method->get_ap_color(bci, UnknownAPHeapColor);
   }
-  if (InstanceKlass::cast(array_type)->oop_is_typeArray()) {
-    // The oopFactory likes to work with the element type.
-    // (We could bypass the oopFactory, since it doesn't add much value.)
-    BasicType elem_type = TypeArrayKlass::cast(array_type)->element_type();
-    result = oopFactory::new_typeArray(elem_type, len, color, THREAD);
-  } else {
-    // Although the oopFactory likes to work with the elem_type,
-    // the compiler prefers the array_type, since it must already have
-    // that latter value in hand for the fast path.
-    Klass* elem_type = ObjArrayKlass::cast(array_type)->element_klass();
-    result = oopFactory::new_objArray(elem_type, len, color, THREAD);
-  }
+
+  assert(array_type->oop_is_typeArray(), "should be called only for type array");
+  // The oopFactory likes to work with the element type.
+  BasicType elem_type = TypeArrayKlass::cast(array_type)->element_type();
+  result = oopFactory::new_typeArray_nozero(elem_type, len, color, THREAD);
 
   // Pass oops back through thread local storage.  Our apparent type to Java
   // is that we return an oop, but we can block on exit from this routine and
@@ -500,6 +546,24 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_colored_array_C(Klass* array_type,
     // inform GC that we won't do card marks for initializing writes.
     new_store_pre_barrier(thread);
   }
+
+  oop result = thread->vm_result();
+  if ((len > 0) && (result != NULL) &&
+      is_deoptimized_caller_frame(thread)) {
+    // Zero array here if the caller is deoptimized.
+    int size = ((typeArrayOop)result)->object_size();
+    BasicType elem_type = TypeArrayKlass::cast(array_type)->element_type();
+    const size_t hs = arrayOopDesc::header_size(elem_type);
+    // Align to next 8 bytes to avoid trashing arrays's length.
+    const size_t aligned_hs = align_object_offset(hs);
+    HeapWord* obj = (HeapWord*)result;
+    if (aligned_hs > hs) {
+      Copy::zero_to_words(obj+hs, aligned_hs-hs);
+    }
+    // Optimized zeroing.
+    Copy::fill_to_aligned_words(obj+aligned_hs, size-aligned_hs);
+  }
+
 JRT_END
 
 // Note: multianewarray for one dimension is handled inline by GraphKit::new_array.
@@ -660,23 +724,6 @@ JRT_ENTRY(void, OptoRuntime::multianewarray5_C(Klass* elem_type, int len1, int l
   thread->set_vm_result(obj);
 JRT_END
 
-JRT_ENTRY(void, OptoRuntime::multianewarrayN_C(Klass* elem_type, arrayOopDesc* dims, JavaThread *thread))
-  assert(check_compiled_frame(thread), "incorrect caller");
-  assert(elem_type->is_klass(), "not a class");
-  assert(oop(dims)->is_typeArray(), "not an array");
-
-  ResourceMark rm;
-  jint len = dims->length();
-  assert(len > 0, "Dimensions array should contain data");
-  jint *j_dims = typeArrayOop(dims)->int_at_addr(0);
-  jint *c_dims = NEW_RESOURCE_ARRAY(jint, len);
-  Copy::conjoint_jints_atomic(j_dims, c_dims, len);
-
-  oop obj = ArrayKlass::cast(elem_type)->multi_allocate(len, c_dims, THREAD);
-  deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
-  thread->set_vm_result(obj);
-JRT_END
-
 JRT_ENTRY(void, OptoRuntime::colored_multianewarray5_C(Klass* elem_type,
   int len1, int len2, int len3, int len4, int len5, Method* method, int bci,
   JavaThread *thread))
@@ -724,6 +771,54 @@ const TypeFunc *OptoRuntime::new_instance_Type() {
 
   return TypeFunc::make(domain, range);
 }
+
+JRT_ENTRY(void, OptoRuntime::multianewarrayN_C(Klass* elem_type, arrayOopDesc* dims, JavaThread *thread))
+  assert(check_compiled_frame(thread), "incorrect caller");
+  assert(elem_type->is_klass(), "not a class");
+  assert(oop(dims)->is_typeArray(), "not an array");
+
+  ResourceMark rm;
+  jint len = dims->length();
+  assert(len > 0, "Dimensions array should contain data");
+  jint *j_dims = typeArrayOop(dims)->int_at_addr(0);
+  jint *c_dims = NEW_RESOURCE_ARRAY(jint, len);
+  Copy::conjoint_jints_atomic(j_dims, c_dims, len);
+
+  oop obj = ArrayKlass::cast(elem_type)->multi_allocate(len, c_dims, THREAD);
+  deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
+  thread->set_vm_result(obj);
+JRT_END
+
+JRT_ENTRY(void, OptoRuntime::colored_multianewarrayN_C(Klass* elem_type,
+  arrayOopDesc* dims, Method* method, int bci, JavaThread *thread))
+  assert(check_compiled_frame(thread), "incorrect caller");
+  assert(elem_type->is_klass(), "not a class");
+  assert(oop(dims)->is_typeArray(), "not an array");
+
+  ResourceMark rm;
+  jint len = dims->length();
+  assert(len > 0, "Dimensions array should contain data");
+  jint *j_dims = typeArrayOop(dims)->int_at_addr(0);
+  jint *c_dims = NEW_RESOURCE_ARRAY(jint, len);
+  Copy::conjoint_jints_atomic(j_dims, c_dims, len);
+
+  HeapColor color;
+  if (HotMethodAllocate && HotKlassAllocate) {
+    color = (method->is_hot() || ArrayKlass::cast(elem_type)->is_hot()) ? HC_RED : HC_BLUE;
+  }
+  else if (HotMethodAllocate) {
+    color = method->is_hot() ? HC_RED : HC_BLUE;
+  }
+  else if (HotKlassAllocate) {
+    color = ArrayKlass::cast(elem_type)->is_hot() ? HC_RED : HC_BLUE;
+  } else {
+    color = method->get_ap_color(bci, UnknownAPHeapColor);
+  }
+
+  oop obj = ArrayKlass::cast(elem_type)->multi_allocate(len, c_dims, color, THREAD);
+  deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
+  thread->set_vm_result(obj);
+JRT_END
 
 const TypeFunc *OptoRuntime::new_colored_instance_Type() {
   // create input type (domain)
@@ -791,16 +886,13 @@ const TypeFunc *OptoRuntime::new_colored_array_Type() {
   return TypeFunc::make(domain, range);
 }
 
-const TypeFunc *OptoRuntime::colored_multianewarray_Type(int ndim) {
+const TypeFunc *OptoRuntime::multianewarray_Type(int ndim) {
   // create input type (domain)
-  const int nargs = ndim + 3;
+  const int nargs = ndim + 1;
   const Type **fields = TypeTuple::fields(nargs);
-  fields[TypeFunc::Parms+0] = TypeInstPtr::NOTNULL;    // element klass
-  int i;
-  for( i = 1; i < (nargs-2); i++ )
-    fields[TypeFunc::Parms + i] = TypeInt::INT;        // array size
-  fields[TypeFunc::Parms+i]     = TypeRawPtr::NOTNULL; // methodOop calling _new
-  fields[TypeFunc::Parms+(i+1)] = TypeInt::INT;        // bci of _new
+  fields[TypeFunc::Parms+0] = TypeInstPtr::NOTNULL;   // element klass
+  for( int i = 1; i < nargs; i++ )
+    fields[TypeFunc::Parms + i] = TypeInt::INT;       // array size
   const TypeTuple *domain = TypeTuple::make(TypeFunc::Parms+nargs, fields);
 
   // create result type (range)
@@ -811,13 +903,16 @@ const TypeFunc *OptoRuntime::colored_multianewarray_Type(int ndim) {
   return TypeFunc::make(domain, range);
 }
 
-const TypeFunc *OptoRuntime::multianewarray_Type(int ndim) {
+const TypeFunc *OptoRuntime::colored_multianewarray_Type(int ndim) {
   // create input type (domain)
-  const int nargs = ndim + 1;
+  const int nargs = ndim + 3;
   const Type **fields = TypeTuple::fields(nargs);
-  fields[TypeFunc::Parms+0] = TypeInstPtr::NOTNULL;   // element klass
-  for( int i = 1; i < nargs; i++ )
-    fields[TypeFunc::Parms + i] = TypeInt::INT;       // array size
+  fields[TypeFunc::Parms+0] = TypeInstPtr::NOTNULL;    // element klass
+  int i;
+  for( i = 1; i < (nargs-2); i++ )
+    fields[TypeFunc::Parms + i] = TypeInt::INT;        // array size
+  fields[TypeFunc::Parms+i]     = TypeRawPtr::NOTNULL; // methodOop calling _new
+  fields[TypeFunc::Parms+(i+1)] = TypeInt::INT;        // bci of _new
   const TypeTuple *domain = TypeTuple::make(TypeFunc::Parms+nargs, fields);
 
   // create result type (range)
@@ -866,6 +961,23 @@ const TypeFunc *OptoRuntime::multianewarrayN_Type() {
   fields[TypeFunc::Parms+0] = TypeInstPtr::NOTNULL;   // element klass
   fields[TypeFunc::Parms+1] = TypeInstPtr::NOTNULL;   // array of dim sizes
   const TypeTuple *domain = TypeTuple::make(TypeFunc::Parms+2, fields);
+
+  // create result type (range)
+  fields = TypeTuple::fields(1);
+  fields[TypeFunc::Parms+0] = TypeRawPtr::NOTNULL; // Returned oop
+  const TypeTuple *range = TypeTuple::make(TypeFunc::Parms+1, fields);
+
+  return TypeFunc::make(domain, range);
+}
+
+const TypeFunc *OptoRuntime::colored_multianewarrayN_Type() {
+  // create input type (domain)
+  const Type **fields = TypeTuple::fields(4);
+  fields[TypeFunc::Parms+0] = TypeInstPtr::NOTNULL;   // element klass
+  fields[TypeFunc::Parms+1] = TypeInstPtr::NOTNULL;   // array of dim sizes
+  fields[TypeFunc::Parms+2] = TypeInstPtr::NOTNULL;   // methodOop calling _new
+  fields[TypeFunc::Parms+3] = TypeInstPtr::NOTNULL;   // bci of _new
+  const TypeTuple *domain = TypeTuple::make(TypeFunc::Parms+4, fields);
 
   // create result type (range)
   fields = TypeTuple::fields(1);

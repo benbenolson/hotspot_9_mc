@@ -57,12 +57,20 @@ class oopFactory: AllStatic {
       cast(Universe::objectArrayKlassObj())->allocate(length, THREAD);
   }
 
-  static typeArrayOop    new_charArray           (const char* utf8_str,  TRAPS);
+  // create java.lang.Object[]
+  static objArrayOop     new_objectArray(int length, HeapColor color, TRAPS)  {
+    assert(Universe::objectArrayKlassObj() != NULL, "Too early?");
+    return ObjArrayKlass::
+      cast(Universe::objectArrayKlassObj())->allocate(length, color, THREAD);
+  }
+
+  static typeArrayOop    new_charArray  (const char* utf8_str, TRAPS);
   static typeArrayOop    new_tenured_charArray(int length, TRAPS);
 
   static typeArrayOop    new_typeArray(BasicType type, int length, TRAPS);
   static typeArrayOop    new_typeArray(BasicType type, int length, HeapColor color, TRAPS);
   static typeArrayOop    new_typeArray_nozero(BasicType type, int length, TRAPS);
+  static typeArrayOop    new_typeArray_nozero(BasicType type, int length, HeapColor color, TRAPS);
   static typeArrayOop    new_metaDataArray(int length, TRAPS);
 
   // Regular object arrays

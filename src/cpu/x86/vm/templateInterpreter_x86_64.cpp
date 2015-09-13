@@ -343,9 +343,9 @@ void InterpreterGenerator::generate_counter_incr(
     }
 
     // PK: Update our invocation counter
-    __ movl(rax, our_invocation_counter);         // load our_invocation count
-    __ increment(rax, InvocationCounter::count_increment);
-    __ movl(our_invocation_counter, rax);         // save our_invocation count
+    __ movl(rcx, our_invocation_counter);         // load our_invocation count
+    __ increment(rcx, InvocationCounter::count_increment);
+    __ movl(our_invocation_counter, rcx);         // save our_invocation count
 
     // Update standard invocation counters
     __ movl(rcx, invocation_counter);

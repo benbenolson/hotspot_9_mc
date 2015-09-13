@@ -1938,9 +1938,17 @@ void PhaseMacroExpand::expand_allocate_array(AllocateArrayNode *alloc) {
       k->is_type_array_klass()) {
     // Don't zero type array during slow allocation in VM since
     // it will be initialized later by arraycopy in compiled code.
-    slow_call_address = OptoRuntime::new_array_nozero_Java();
+    if (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
+      slow_call_address = OptoRuntime::new_colored_array_nozero_Java();
+    } else {
+      slow_call_address = OptoRuntime::new_array_nozero_Java();
+    }
   } else {
-    slow_call_address = OptoRuntime::new_array_Java();
+    if (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
+      slow_call_address = OptoRuntime::new_colored_array_Java();
+    } else {
+      slow_call_address = OptoRuntime::new_array_Java();
+    }
   }
   if (ColorObjectAllocations || HotMethodAllocate || HotKlassAllocate) {
     expand_allocate_common(alloc, length,

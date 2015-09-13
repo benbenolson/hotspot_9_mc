@@ -138,6 +138,7 @@ class OptoRuntime : public AllStatic {
   static address _new_array_Java;
   static address _new_colored_array_Java;
   static address _new_array_nozero_Java;
+  static address _new_colored_array_nozero_Java;
   static address _multianewarray2_Java;
   static address _colored_multianewarray2_Java;
   static address _multianewarray3_Java;
@@ -147,6 +148,7 @@ class OptoRuntime : public AllStatic {
   static address _multianewarray5_Java;
   static address _colored_multianewarray5_Java;
   static address _multianewarrayN_Java;
+  static address _colored_multianewarrayN_Java;
   static address _g1_wb_pre_Java;
   static address _g1_wb_post_Java;
   static address _vtable_must_compile_Java;
@@ -176,9 +178,11 @@ class OptoRuntime : public AllStatic {
 
   // Allocate storage for a objArray or typeArray
   static void new_array_C(Klass* array_klass, int len, JavaThread *thread);
-  static void new_array_nozero_C(Klass* array_klass, int len, JavaThread *thread);
   static void new_colored_array_C(Klass* array_klass, int len,
                                   Method* method, int bci, JavaThread *thread);
+  static void new_array_nozero_C(Klass* array_klass, int len, JavaThread *thread);
+  static void new_colored_array_nozero_C(Klass* array_klass, int len, Method *method,
+                                         int bci, JavaThread *thread);
 
   // Post-slow-path-allocation, pre-initializing-stores step for
   // implementing ReduceInitialCardMarks
@@ -218,6 +222,8 @@ class OptoRuntime : public AllStatic {
                                          Method* method, int bci,
                                          JavaThread *thread);
   static void multianewarrayN_C(Klass* klass, arrayOopDesc* dims, JavaThread *thread);
+  static void colored_multianewarrayN_C(Klass* klass, arrayOopDesc* dims,
+                                        Method* method, int bci, JavaThread *thread);
   static void g1_wb_pre_C(oopDesc* orig, JavaThread* thread);
   static void g1_wb_post_C(void* card_addr, JavaThread* thread);
 
@@ -281,6 +287,7 @@ private:
   static address new_array_Java()                        { return _new_array_Java; }
   static address new_colored_array_Java()                { return _new_colored_array_Java; }
   static address new_array_nozero_Java()                 { return _new_array_nozero_Java; }
+  static address new_colored_array_nozero_Java()         { return _new_colored_array_nozero_Java; }
   static address multianewarray2_Java()                  { return _multianewarray2_Java; }
   static address colored_multianewarray2_Java()          { return _colored_multianewarray2_Java; }
   static address multianewarray3_Java()                  { return _multianewarray3_Java; }
@@ -290,6 +297,7 @@ private:
   static address multianewarray5_Java()                  { return _multianewarray5_Java; }
   static address colored_multianewarray5_Java()          { return _colored_multianewarray5_Java; }
   static address multianewarrayN_Java()                  { return _multianewarrayN_Java; }
+  static address colored_multianewarrayN_Java()          { return _colored_multianewarrayN_Java; }
   static address g1_wb_pre_Java()                        { return _g1_wb_pre_Java; }
   static address g1_wb_post_Java()                       { return _g1_wb_post_Java; }
   static address vtable_must_compile_stub()              { return _vtable_must_compile_Java; }
@@ -328,6 +336,7 @@ private:
   static const TypeFunc* new_colored_instance_Type(); // object allocation (slow case)
   static const TypeFunc* new_array_Type ();   // [a]newarray (slow case)
   static const TypeFunc* multianewarrayN_Type(); // multianewarray
+  static const TypeFunc* colored_multianewarrayN_Type(); // colored_multianewarray
   static const TypeFunc* new_colored_array_Type ();   // [a]newarray (slow case)
   static const TypeFunc* multianewarray_Type(int ndim);         // multianewarray
   static const TypeFunc* colored_multianewarray_Type(int ndim); // colored_multianewarray

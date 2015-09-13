@@ -532,6 +532,7 @@ oop PSPromotionManager::oop_promotion_failed(oop obj, markOop obj_mark) {
   return obj;
 }
 
+#if 0
 oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
   assert(PSScavenge::should_scavenge(&o, _safe_scavenge), "Sanity");
   //guarantee(PSScavenge::should_scavenge(&o, _safe_scavenge, true),"wat wat");
@@ -717,3 +718,4 @@ oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
 
   return new_obj;
 }
+#endif

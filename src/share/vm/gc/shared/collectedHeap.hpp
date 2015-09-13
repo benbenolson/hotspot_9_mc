@@ -321,12 +321,15 @@ class CollectedHeap : public CHeapObj<mtInternal> {
   inline static oop obj_allocate(KlassHandle klass, int size, TRAPS);
   inline static oop obj_allocate(KlassHandle klass, int size, HeapColor color, TRAPS);
   inline static oop array_allocate(KlassHandle klass, int size, int length, TRAPS);
+  inline static oop array_allocate(KlassHandle klass, int size, int length,
+                                   HeapColor color, TRAPS);
+
   inline static oop array_allocate_nozero(KlassHandle klass, int size, int length, TRAPS);
+  inline static oop array_allocate_nozero(KlassHandle klass, int size, int length, HeapColor color, TRAPS);
 
   inline static void post_allocation_install_obj_klass(KlassHandle klass,
                                                        oop obj);
-  inline static oop array_allocate(KlassHandle klass, int size, int length,
-                                   HeapColor color, TRAPS);
+
   inline static oop large_typearray_allocate(KlassHandle klass, int size,
                                              int length, TRAPS);
   inline static oop large_typearray_allocate(KlassHandle klass, int size,

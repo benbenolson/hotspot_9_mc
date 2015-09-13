@@ -462,6 +462,31 @@ oop CollectedHeap::array_allocate_nozero(KlassHandle klass,
   return (oop)obj;
 }
 
+oop CollectedHeap::array_allocate_nozero(KlassHandle klass,
+                                         int size,
+                                         int length,
+                                         HeapColor color,
+                                         TRAPS) {
+  debug_only(check_for_valid_allocation_state());
+  assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
+  assert(size >= 0, "int won't convert to size_t");
+  HeapWord* obj = common_mem_allocate_noinit(klass, size, color, CHECK_NULL);
+  ((oop)obj)->set_klass_gap(0);
+  post_allocation_setup_array(klass, obj, length);
+  /* XXX: this should not have any initialization references */
+#ifdef PROFILE_OBJECT_ADDRESS_INFO
+  if (ProfileObjectAddressInfo) {
+    ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+    oait->insert((oop)obj, size, klass());
+  }
+#endif
+#ifndef PRODUCT
+  const size_t hs = oopDesc::header_size()+1;
+  Universe::heap()->check_for_non_bad_heap_word_value(obj+hs, size-hs);
+#endif
+  return (oop)obj;
+}
+
 inline HeapWord* CollectedHeap::align_allocation_or_fail(HeapWord* addr,
                                                          HeapWord* end,
                                                          unsigned short alignment_in_bytes) {

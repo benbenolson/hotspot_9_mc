@@ -150,14 +150,16 @@ void ThreadLocalAllocBuffer::make_parsable(bool retire) {
 
 #ifdef COLORED_TLABS
 void ThreadLocalAllocBuffer::resize_all_tlabs() {
-  if (UseColoredSpaces) {
-    for(JavaThread *thread = Threads::first(); thread; thread = thread->next()) {
-      thread->tlab(HC_RED).resize();
-      thread->tlab(HC_BLUE).resize();
-    }
-  } else {
-    for(JavaThread *thread = Threads::first(); thread; thread = thread->next()) {
-      thread->tlab().resize();
+  if (ResizeTLAB) {
+    if (UseColoredSpaces) {
+      for(JavaThread *thread = Threads::first(); thread; thread = thread->next()) {
+        thread->tlab(HC_RED).resize();
+        thread->tlab(HC_BLUE).resize();
+      }
+    } else {
+      for(JavaThread *thread = Threads::first(); thread; thread = thread->next()) {
+        thread->tlab().resize();
+      }
     }
   }
 }

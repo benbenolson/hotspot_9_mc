@@ -647,7 +647,7 @@ static bool scan_line(const char * line,
                       int* bytes_read, const char*& error_msg) {
   *bytes_read = 0;
   error_msg = NULL;
-  if (2 == sscanf(line, "%*[ \t]%255" RANGESLASH "%*[ ]" "%255" RANGE0 "%n", class_name, method_name, bytes_read)) {
+  if (2 == sscanf(line, "%*[ \t]%1023" RANGESLASH "%*[ ]" "%1023" RANGE0 "%n", class_name, method_name, bytes_read)) {
     *c_mode = check_mode(class_name, error_msg);
     *m_mode = check_mode(method_name, error_msg);
     return *c_mode != MethodMatcher::Unknown && *m_mode != MethodMatcher::Unknown;
@@ -813,8 +813,8 @@ void CompilerOracle::parse_from_line(char* line) {
 
   MethodMatcher::Mode c_match = MethodMatcher::Exact;
   MethodMatcher::Mode m_match = MethodMatcher::Exact;
-  char class_name[256];
-  char method_name[256];
+  char class_name[1024];
+  char method_name[1024];
   char sig[1024];
   char errorbuf[1024];
   const char* error_msg = NULL; // description of first error that appears
@@ -831,7 +831,7 @@ void CompilerOracle::parse_from_line(char* line) {
     // there might be a signature following the method.
     // signatures always begin with ( so match that by hand
     line += skip_whitespace(line);
-    if (1 == sscanf(line, "(%254[[);/" RANGEBASE "]%n", sig + 1, &bytes_read)) {
+    if (1 == sscanf(line, "(%1022[[);/" RANGEBASE "]%n", sig + 1, &bytes_read)) {
       sig[0] = '(';
       line += bytes_read;
       signature = SymbolTable::new_symbol(sig, CHECK);
@@ -889,9 +889,9 @@ void CompilerOracle::parse_from_line(char* line) {
       } // while(
     } else if (command == AllocPointColorCommand) {
       int bci, color, nmatch;
-
       nmatch = sscanf(line, "%*[ \t]%d%*[ \t]%d%n", &bci, &color, &bytes_read);
       if ( nmatch == 2 ) {
+        line += bytes_read;
         match = add_alloc_point(c_name, c_match, m_name, m_match,
                                 signature, bci, (HeapColor)color);
       }

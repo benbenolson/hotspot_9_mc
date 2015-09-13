@@ -655,17 +655,6 @@ enum init_marker {
 
 extern enum obj_type kt2ot(enum klass_type kt);
 
-class MethodAllocPointInfo {
- private:
-  int _bci;
-  HeapColor _color;
-
- public:
-  MethodAllocPointInfo(int bci, HeapColor color) : _bci(bci), _color(color) {}
-  int bci()         { return _bci; }
-  HeapColor color() { return _color; }
-};
-
 enum PSGenType {
   YOUNG_GEN,
   OLD_GEN,

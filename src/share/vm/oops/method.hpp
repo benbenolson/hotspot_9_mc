@@ -59,6 +59,17 @@ class ConstMethod;
 class InlineTableSizes;
 class KlassSizeStats;
 
+class MethodAllocPointInfo : public CHeapObj<mtInternal> {
+ private:
+  int _bci;
+  HeapColor _color;
+
+ public:
+  MethodAllocPointInfo(int bci, HeapColor color) : _bci(bci), _color(color) {}
+  int bci()         { return _bci; }
+  HeapColor color() { return _color; }
+};
+
 class Method : public Metadata {
  friend class VMStructs;
  private:
@@ -431,7 +442,17 @@ class Method : public Metadata {
     _aps = new(ResourceObj::C_HEAP, mtInternal) GrowableArray<MethodAllocPointInfo*>(8, true);
     for(int i=0; i < init_aps->length(); i++) {
       MethodAllocPointInfo *mapi = new MethodAllocPointInfo(
+        init_aps->at(i)->bci(), init_aps->at(i)->color() );
+        /*
+      MethodAllocPointInfo *mapi = (MethodAllocPointInfo*)
+        AllocateHeap(sizeof(MethodAllocPointInfo), mtInternal, CURRENT_PC,
+        AllocFailStrategy::RETURN_NULL);
+        MethodAllocPointInfo( init_aps->at(i)->bci(), init_aps->at(i)->color());
+        */
+      /*
+      MethodAllocPointInfo *mapi = new MethodAllocPointInfo(
         init_aps->at(i)->bci(), init_aps->at(i)->color());
+        */
       if (mapi == NULL) {
         tty->print("copy_aps: out of memory\n");
         exit(1);

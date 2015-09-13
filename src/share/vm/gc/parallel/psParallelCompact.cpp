@@ -1985,6 +1985,10 @@ bool PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
     return false;
   }
 
+  if (DisableMajorGC) {
+    return false;
+  }
+
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
 
   _gc_timer.register_gc_start();

@@ -57,8 +57,7 @@ typeArrayOop oopFactory::new_typeArray(BasicType type, int length, TRAPS) {
   return result;
 }
 
-typeArrayOop oopFactory::new_typeArray(BasicType type, int length,
-  HeapColor color, TRAPS) {
+typeArrayOop oopFactory::new_typeArray(BasicType type, int length, HeapColor color, TRAPS) {
   Klass* type_asKlassOop = Universe::typeArrayKlassObj(type);
   TypeArrayKlass* type_asArrayKlass = TypeArrayKlass::cast(type_asKlassOop);
   typeArrayOop result = type_asArrayKlass->allocate(length, color, THREAD);
@@ -83,6 +82,14 @@ typeArrayOop oopFactory::new_typeArray_nozero(BasicType type, int length, TRAPS)
   Klass* type_asKlassOop = Universe::typeArrayKlassObj(type);
   TypeArrayKlass* type_asArrayKlass = TypeArrayKlass::cast(type_asKlassOop);
   typeArrayOop result = type_asArrayKlass->allocate_common(length, false, THREAD);
+  return result;
+}
+
+typeArrayOop oopFactory::new_typeArray_nozero(BasicType type, int length,
+  HeapColor color, TRAPS) {
+  Klass* type_asKlassOop = Universe::typeArrayKlassObj(type);
+  TypeArrayKlass* type_asArrayKlass = TypeArrayKlass::cast(type_asKlassOop);
+  typeArrayOop result = type_asArrayKlass->allocate_common(length, false, color, THREAD);
   return result;
 }
 

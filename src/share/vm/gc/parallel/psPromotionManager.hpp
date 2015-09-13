@@ -166,6 +166,15 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
                                     uint age, bool tenured,
                                     const PSPromotionLAB* lab);
 
+#ifdef PROFILE_OBJECT_INFO
+  static unsigned long _live_objects[2][HC_ENUM_TOTAL];
+  static unsigned long _live_size[2][HC_ENUM_TOTAL];
+  static unsigned long _live_refs[2][HC_ENUM_TOTAL];
+  static unsigned long _hot_objects[2][HC_ENUM_TOTAL];
+  static unsigned long _hot_size[2][HC_ENUM_TOTAL];
+  static unsigned long _hot_refs[2][HC_ENUM_TOTAL];
+#endif
+
  protected:
   static OopStarTaskQueueSet* stack_array_depth()   { return _stack_array_depth; }
  public:
@@ -207,7 +216,7 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
 
   // Promotion methods
   template<bool promote_immediately> oop copy_to_survivor_space(oop o);
-  oop copy_to_colored_space(oop o, HeapColor color);
+  template<bool promote_immediately> oop copy_to_colored_space(oop o, HeapColor color);
   oop oop_promotion_failed(oop obj, markOop obj_mark);
 
   void reset();
@@ -236,14 +245,52 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
   template <class T, bool promote_immediately>
   void copy_and_push_safe_barrier(T* p);
 
-  static inline HeapColor get_survivor_color(PSPromotionManager* pm, HeapWord* obj);
-  inline HeapColor get_current_color(HeapWord *obj);
+  static inline HeapColor get_survivor_color(HeapWord* obj);
+  static inline HeapColor get_current_color(HeapWord *obj);
 
   template <class T> inline void claim_or_forward_depth(T* p);
 
   TASKQUEUE_STATS_ONLY(inline void record_steal(StarTask& p);)
 
   void push_contents(oop obj);
+
+#ifdef PROFILE_OBJECT_INFO
+  inline static void profile_object_copy(oop obj, HeapColor to_color, bool forwarded);
+
+  inline static void reset_object_copy_profile() {
+    int g,i;
+    //objinfo_log->print_cr("resetting object copy profile");
+    for (g=0; g < PERM_GEN; g++) {
+      for (i=0; i < HC_ENUM_TOTAL; i++) {
+        _live_objects[g][i] = 0;
+        _live_size[g][i]    = 0;
+        _live_refs[g][i]    = 0;
+        _hot_objects[g][i]  = 0;
+        _hot_size[g][i]     = 0;
+        _hot_refs[g][i]     = 0;
+      }
+    }
+  }
+
+  inline static unsigned long live_objects(PSGenType gen, HeapColorEnum hce) {
+    return _live_objects[gen][hce];
+  }
+  inline static unsigned long live_size(PSGenType gen, HeapColorEnum hce) {
+    return _live_size[gen][hce];
+  }
+  inline static unsigned long live_refs(PSGenType gen, HeapColorEnum hce) {
+    return _live_refs[gen][hce];
+  }
+  inline static unsigned long hot_objects(PSGenType gen, HeapColorEnum hce) {
+    return _hot_objects[gen][hce];
+  }
+  inline static unsigned long hot_size(PSGenType gen, HeapColorEnum hce) {
+    return _hot_size[gen][hce];
+  }
+  inline static unsigned long hot_refs(PSGenType gen, HeapColorEnum hce) {
+    return _hot_refs[gen][hce];
+  }
+#endif
 };
 
 #endif // SHARE_VM_GC_PARALLEL_PSPROMOTIONMANAGER_HPP

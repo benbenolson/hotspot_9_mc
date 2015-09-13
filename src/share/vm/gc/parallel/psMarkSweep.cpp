@@ -114,8 +114,9 @@ bool PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
    * benchmarks invoke full GC explicitly -- just ignore it when it does
    * happen
    */
-  if (DisableMajorGC)
+  if (DisableMajorGC) {
     return false;
+  }
 
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
   GCCause::Cause gc_cause = heap->gc_cause();

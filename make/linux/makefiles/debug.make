@@ -31,6 +31,7 @@ DEBUG_CFLAGS/BYFILE = $(DEBUG_CFLAGS/$@)$(DEBUG_CFLAGS/DEFAULT$(DEBUG_CFLAGS/$@)
 # _NMT_NOINLINE_ informs NMT that no inlining by Compiler
 CFLAGS += $(DEBUG_CFLAGS/BYFILE) -D_NMT_NOINLINE_
 #CFLAGS += -DPROFILE_OBJECT_ADDRESS_INFO
+CFLAGS += -DCOLORED_EDEN_SPACE -DCOLORED_TLABS
 
 # Set the environment variable HOTSPARC_GENERIC to "true"
 # to inhibit the effect of the previous line on CFLAGS.

@@ -111,6 +111,7 @@ inline bool PSScavenge::should_scavenge(T* p, bool safe, bool check_to_space) {
   return should_scavenge(p, safe);
 }
 
+#if 0
 inline HeapColor PSScavenge::get_current_color(HeapWord *obj)
 {
   ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
@@ -119,7 +120,9 @@ inline HeapColor PSScavenge::get_current_color(HeapWord *obj)
     return HC_RED;
   return HC_BLUE;
 }
+#endif
 
+#if 0
 inline HeapColor PSScavenge::get_survivor_color(PSPromotionManager *pm, HeapWord *obj) {
   if (SurvivorsAlwaysBlue) return HC_BLUE;
   if (SurvivorsAlwaysRed)  return HC_RED;
@@ -168,65 +171,6 @@ inline HeapColor PSScavenge::get_survivor_color(PSPromotionManager *pm, HeapWord
   return get_current_color(obj);
 #endif
 }
-
-#ifdef PROFILE_OBJECT_INFO
-inline void PSScavenge::profile_object_copy(oop obj, HeapColor to_color,
-  bool tenured) {
-
-  unsigned long refs, size;
-
-  if (!obj_is_initialized(obj)) {
-    return;
-  }
-
-  HeapColor from_color = get_current_color((HeapWord*)obj);
-  PSGenType gen = tenured ? OLD_GEN : YOUNG_GEN;
-
-  refs = obj_refs(obj);
-  size = (unsigned long) obj->size();
-
-  if (from_color == HC_RED) {
-    if (to_color == HC_RED) {
-      _live_objects[gen][RED_TO_RED]    += 1;
-      _live_size[gen][RED_TO_RED]       += size;
-      _live_refs[gen][RED_TO_RED]       += refs;
-      if (obj_is_hot(obj)) {
-        _hot_objects[gen][RED_TO_RED]   += 1;
-        _hot_size[gen][RED_TO_RED]      += size;
-        _hot_refs[gen][RED_TO_RED]      += refs;
-      }
-    } else { // to_color == HC_BLUE
-      _live_objects[gen][RED_TO_BLUE]   += 1;
-      _live_size[gen][RED_TO_BLUE]      += size;
-      _live_refs[gen][RED_TO_BLUE]      += refs;
-      if (obj_is_hot(obj)) {
-        _hot_objects[gen][RED_TO_BLUE]  += 1;
-        _hot_size[gen][RED_TO_BLUE]     += size;
-        _hot_refs[gen][RED_TO_BLUE]     += refs;
-      }
-    }
-  } else { // from_color == HC_BLUE
-    if (to_color == HC_RED) {
-      _live_objects[gen][BLUE_TO_RED]   += 1;
-      _live_size[gen][BLUE_TO_RED]      += size;
-      _live_refs[gen][BLUE_TO_RED]      += refs;
-      if (obj_is_hot(obj)) {
-        _hot_objects[gen][BLUE_TO_RED]  += 1;
-        _hot_size[gen][BLUE_TO_RED]     += size;
-        _hot_refs[gen][BLUE_TO_RED]     += refs;
-      }
-    } else { // to_color == HC_BLUE
-      _live_objects[gen][BLUE_TO_BLUE]  += 1;
-      _live_size[gen][BLUE_TO_BLUE]     += size;
-      _live_refs[gen][BLUE_TO_BLUE]     += refs;
-      if (obj_is_hot(obj)) {
-        _hot_objects[gen][BLUE_TO_BLUE] += 1;
-        _hot_size[gen][BLUE_TO_BLUE]    += size;
-        _hot_refs[gen][BLUE_TO_BLUE]    += refs;
-      }
-    }
-  }
-}
 #endif
 
 template<bool promote_immediately>
@@ -268,11 +212,21 @@ class PSScavengeFromKlassClosure: public OopClosure {
 
       oop o = *p;
       oop new_obj;
-      if (o->is_forwarded()) {
-        new_obj = o->forwardee();
+      if (UseColoredSpaces) {
+        HeapColor surv_color = _pm->get_survivor_color((HeapWord*)o);
+        if (o->is_forwarded()) {
+          new_obj = o->forwardee();
+        } else {
+          new_obj = _pm->copy_to_colored_space</*promote_immediately=*/false>(o, surv_color);
+        }
       } else {
-        new_obj = _pm->copy_to_survivor_space</*promote_immediately=*/false>(o);
+        if (o->is_forwarded()) {
+          new_obj = o->forwardee();
+        } else {
+          new_obj = _pm->copy_to_survivor_space</*promote_immediately=*/false>(o);
+        }
       }
+
       oopDesc::encode_store_heap_oop_not_null(p, new_obj);
 
       if (PSScavenge::is_obj_in_young(new_obj)) {

@@ -4460,6 +4460,9 @@ public:
   develop(bool, JustDoIt, false,                                            \
           "always compile at level 4 in the tiered compiler")               \
                                                                             \
+  develop(bool, PreventTenuring, false,                                     \
+          "prevent objects from tenuring (regardless of tenuring threshold")\
+                                                                            \
 
 /*
  *  Macros for factoring of globals
