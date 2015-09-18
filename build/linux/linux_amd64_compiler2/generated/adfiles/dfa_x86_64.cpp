@@ -204,7 +204,7 @@ void  State::_sub_Op_RegL(const Node *n){
 }
 void  State::_sub_Op_RegFlags(const Node *n){
     if(         
-#line 3601 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3601 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 false
 #line 210 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -253,7 +253,7 @@ void  State::_sub_Op_VecZ(const Node *n){
 void  State::_sub_Op_AbsD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGD) &&
         (
-#line 2644 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2644 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 259 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -263,7 +263,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) &&
         (
-#line 2632 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2632 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 269 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -279,7 +279,7 @@ UseAVX > 0
 void  State::_sub_Op_AbsF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGF) &&
         (
-#line 2619 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2619 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 285 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -289,7 +289,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) &&
         (
-#line 2608 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2608 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 295 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -305,7 +305,7 @@ UseAVX > 0
 void  State::_sub_Op_AddD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], IMMD) &&
         (
-#line 2170 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2170 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 311 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -315,7 +315,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADD_MEMORY_) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2158 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2158 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 321 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -329,7 +329,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], _LOADD_MEMORY_) &&
         (
-#line 2158 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2158 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 335 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -343,7 +343,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2146 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2146 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 349 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -357,7 +357,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], IMMD) &&
         (
-#line 2135 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2135 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 363 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -371,7 +371,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADD_MEMORY_) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2123 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2123 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 377 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -385,7 +385,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], _LOADD_MEMORY_) &&
         (
-#line 2123 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2123 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 391 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -399,7 +399,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2111 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2111 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 405 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -415,7 +415,7 @@ UseAVX > 0
 void  State::_sub_Op_AddF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], IMMF) &&
         (
-#line 2099 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2099 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 421 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -425,7 +425,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADF_MEMORY_) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2087 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2087 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 431 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -439,7 +439,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], _LOADF_MEMORY_) &&
         (
-#line 2087 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2087 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 445 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -453,7 +453,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2075 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2075 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 459 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -467,7 +467,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], IMMF) &&
         (
-#line 2064 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2064 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 473 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -481,7 +481,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADF_MEMORY_) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2052 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2052 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 487 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -495,7 +495,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], _LOADF_MEMORY_) &&
         (
-#line 2052 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2052 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 501 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -509,7 +509,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2040 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2040 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 515 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -639,7 +639,7 @@ void  State::_sub_Op_AddI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], IMMI_M1) &&
         (
-#line 6957 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6957 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 645 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -678,7 +678,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], IMMI1) &&
         (
-#line 6931 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6931 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 684 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -855,7 +855,7 @@ void  State::_sub_Op_AddL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], IMML_M1) &&
         (
-#line 7079 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7079 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 861 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -875,7 +875,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], IMML1) &&
         (
-#line 7053 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7053 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 881 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -1118,7 +1118,7 @@ void  State::_sub_Op_AddP(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP__DECODEN_RREGN___LSHIFTL__CONVI2L_RREGI__IMMI2) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 3971 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3971 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0 && n->in(2)->in(3)->in(1)->as_Type()->type()->is_long()->_lo >= 0
 #line 1124 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1173,7 +1173,7 @@ Universe::narrow_oop_shift() == 0 && n->in(2)->in(3)->in(1)->as_Type()->type()->
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP__DECODEN_RREGN___CONVI2L_RREGI_) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 3954 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3954 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0 && n->in(2)->in(3)->as_Type()->type()->is_long()->_lo >= 0
 #line 1179 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1228,7 +1228,7 @@ Universe::narrow_oop_shift() == 0 && n->in(2)->in(3)->as_Type()->type()->is_long
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP__DECODEN_RREGN___LSHIFTL_RREGL_IMMI2) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 3936 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3936 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1234 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1283,7 +1283,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], _LSHIFTL_RREGL_IMMI2) &&
         
-#line 3919 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3919 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1289 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1334,7 +1334,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], RREGL) &&
         
-#line 3902 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3902 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1340 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1346,7 +1346,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP__DECODEN_RREGN__RREGL) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 3885 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3885 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1352 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1401,7 +1401,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 3869 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3869 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1407 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1452,7 +1452,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], IMML8) &&
         
-#line 3853 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3853 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1458 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1503,7 +1503,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 3820 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3820 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_shift() == Address::times_8)
 #line 1509 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1554,7 +1554,7 @@ UseCompressedOops && (Universe::narrow_oop_shift() == Address::times_8)
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP_ANY_REGP__LSHIFTL__CONVI2L_RREGI__IMMI2) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 3803 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3803 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->in(2)->in(3)->in(1)->as_Type()->type()->is_long()->_lo >= 0
 #line 1560 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1609,7 +1609,7 @@ n->in(2)->in(3)->in(1)->as_Type()->type()->is_long()->_lo >= 0
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP_ANY_REGP__CONVI2L_RREGI_) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 3786 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3786 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->in(2)->in(3)->as_Type()->type()->is_long()->_lo >= 0
 #line 1615 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1965,7 +1965,7 @@ void  State::_sub_Op_AndI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) && STATE__VALID_CHILD(_kids[1], _ADDI__LOADI_MEMORY__IMMI_M1) &&
         (
-#line 8870 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8870 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 1971 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -2000,7 +2000,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDI__LOADI_MEMORY__IMMI_M1) && STATE__VALID_CHILD(_kids[1], _LOADI_MEMORY_) &&
         (
-#line 8870 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8870 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2006 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -2035,7 +2035,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], _ADDI_RREGI_IMMI_M1) &&
         (
-#line 8855 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8855 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2041 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -2070,7 +2070,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDI_RREGI_IMMI_M1) && STATE__VALID_CHILD(_kids[1], RREGI) &&
         (
-#line 8855 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8855 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2076 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_leaf) ) {
@@ -2105,7 +2105,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) && STATE__VALID_CHILD(_kids[1], _SUBI_IMMI0__LOADI_MEMORY_) &&
         (
-#line 8810 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8810 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2111 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[1]->_kids[0]->_leaf) ) {
@@ -2140,7 +2140,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _SUBI_IMMI0__LOADI_MEMORY_) && STATE__VALID_CHILD(_kids[1], _LOADI_MEMORY_) &&
         (
-#line 8810 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8810 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2146 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[1]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -2175,7 +2175,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], _SUBI_IMMI0_RREGI) &&
         (
-#line 8797 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8797 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2181 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_leaf == _kids[1]->_kids[1]->_leaf) ) {
@@ -2210,7 +2210,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _SUBI_IMMI0_RREGI) && STATE__VALID_CHILD(_kids[1], RREGI) &&
         (
-#line 8797 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8797 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2216 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[1]->_leaf == _kids[1]->_leaf) ) {
@@ -2245,7 +2245,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], _XORI_RREGI_IMMI_M1) &&
         (
-#line 8784 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8784 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2251 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -2280,7 +2280,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _XORI_RREGI_IMMI_M1) && STATE__VALID_CHILD(_kids[1], RREGI) &&
         (
-#line 8784 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8784 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2286 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -2315,7 +2315,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) && STATE__VALID_CHILD(_kids[1], _XORI_RREGI_IMMI_M1) &&
         (
-#line 8770 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8770 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2321 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -2350,7 +2350,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _XORI_RREGI_IMMI_M1) && STATE__VALID_CHILD(_kids[1], _LOADI_MEMORY_) &&
         (
-#line 8770 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8770 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2356 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -2713,7 +2713,7 @@ void  State::_sub_Op_AndL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) && STATE__VALID_CHILD(_kids[1], _ADDL__LOADL_MEMORY__IMML_M1) &&
         (
-#line 9217 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9217 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2719 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -2745,7 +2745,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDL__LOADL_MEMORY__IMML_M1) && STATE__VALID_CHILD(_kids[1], _LOADL_MEMORY_) &&
         (
-#line 9217 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9217 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2751 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -2777,7 +2777,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], _ADDL_RREGL_IMML_M1) &&
         (
-#line 9202 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9202 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2783 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -2809,7 +2809,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDL_RREGL_IMML_M1) && STATE__VALID_CHILD(_kids[1], RREGL) &&
         (
-#line 9202 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9202 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2815 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_leaf) ) {
@@ -2841,7 +2841,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) && STATE__VALID_CHILD(_kids[1], _SUBL_IMML0__LOADL_MEMORY_) &&
         (
-#line 9157 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9157 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2847 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[1]->_kids[0]->_leaf) ) {
@@ -2873,7 +2873,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _SUBL_IMML0__LOADL_MEMORY_) && STATE__VALID_CHILD(_kids[1], _LOADL_MEMORY_) &&
         (
-#line 9157 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9157 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2879 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[1]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -2905,7 +2905,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], _SUBL_IMML0_RREGL) &&
         (
-#line 9144 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9144 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2911 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_leaf == _kids[1]->_kids[1]->_leaf) ) {
@@ -2937,7 +2937,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _SUBL_IMML0_RREGL) && STATE__VALID_CHILD(_kids[1], RREGL) &&
         (
-#line 9144 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9144 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2943 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[1]->_leaf == _kids[1]->_leaf) ) {
@@ -2969,7 +2969,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], _XORL_RREGL_IMML_M1) &&
         (
-#line 9131 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9131 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 2975 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -3001,7 +3001,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _XORL_RREGL_IMML_M1) && STATE__VALID_CHILD(_kids[1], RREGL) &&
         (
-#line 9131 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9131 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 3007 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -3033,7 +3033,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) && STATE__VALID_CHILD(_kids[1], _XORL_RREGL_IMML_M1) &&
         (
-#line 9117 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9117 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 3039 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -3065,7 +3065,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _XORL_RREGL_IMML_M1) && STATE__VALID_CHILD(_kids[1], _LOADL_MEMORY_) &&
         (
-#line 9117 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9117 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 3071 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -3399,7 +3399,7 @@ void  State::_sub_Op_Binary(const Node *n){
 }
 void  State::_sub_Op_Bool(const Node *n){
     if(         
-#line 4134 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4134 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->as_Bool()->_test._test == BoolTest::ne ||
             n->as_Bool()->_test._test == BoolTest::eq
 #line 3406 "../generated/adfiles/dfa_x86_64.cpp"
@@ -3408,7 +3408,7 @@ n->as_Bool()->_test._test == BoolTest::ne ||
         DFA_PRODUCTION__SET_VALID(CMPOPUCF2, cmpOpUCF2_rule, c)
     }
     if(         
-#line 4113 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4113 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->as_Bool()->_test._test == BoolTest::lt ||
             n->as_Bool()->_test._test == BoolTest::ge ||
             n->as_Bool()->_test._test == BoolTest::le ||
@@ -3608,7 +3608,7 @@ void  State::_sub_Op_CheckCastPP(const Node *n){
 void  State::_sub_Op_ClearArray(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RCX_REGL) && STATE__VALID_CHILD(_kids[1], RDI_REGP) &&
         (
-#line 10433 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10433 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseFastStosb
 #line 3614 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -3617,7 +3617,7 @@ UseFastStosb
     }
     if( STATE__VALID_CHILD(_kids[0], RCX_REGL) && STATE__VALID_CHILD(_kids[1], RDI_REGP) &&
         (
-#line 10418 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10418 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseFastStosb
 #line 3623 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4119,7 +4119,7 @@ void  State::_sub_Op_CMoveN(const Node *n){
 void  State::_sub_Op_CmpN(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], _LOADN_MEMORY_) && STATE__VALID_CHILD(_kids[1], IMMN0) &&
         (
-#line 11015 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11015 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_base() == NULL && (Universe::narrow_klass_base() == NULL)
 #line 4125 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4128,7 +4128,7 @@ Universe::narrow_oop_base() == NULL && (Universe::narrow_klass_base() == NULL)
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADN_MEMORY_) && STATE__VALID_CHILD(_kids[1], IMMN0) &&
         (
-#line 11002 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11002 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_base() != NULL
 #line 4134 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4547,7 +4547,7 @@ void  State::_sub_Op_CmpP(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADP_MEMORY_) && STATE__VALID_CHILD(_kids[1], IMMP0) &&
         (
-#line 10920 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10920 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_klass_base() == NULL)
 #line 4553 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4558,7 +4558,7 @@ UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADP_MEMORY_) && STATE__VALID_CHILD(_kids[1], IMMP0) &&
         (
-#line 10907 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10907 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCompressedOops || (Universe::narrow_oop_base() != NULL)
 #line 4564 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4575,7 +4575,7 @@ UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_
     }
     if( STATE__VALID_CHILD(_kids[0], RREGP) && STATE__VALID_CHILD(_kids[1], _LOADP_MEMORY_) &&
         (
-#line 10882 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10882 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->in(2)->in(2)->bottom_type()->reloc() == relocInfo::none
 #line 4581 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4636,7 +4636,7 @@ void  State::_sub_Op_CompareAndSwapI(const Node *n){
 void  State::_sub_Op_CompareAndSwapL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _BINARY_RAX_REGL_RREGL) &&
         (
-#line 7275 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7275 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 VM_Version::supports_cx8()
 #line 4642 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4655,7 +4655,7 @@ VM_Version::supports_cx8()
 void  State::_sub_Op_CompareAndSwapP(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _BINARY_RAX_REGP_RREGP) &&
         (
-#line 7251 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7251 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 VM_Version::supports_cx8()
 #line 4661 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4700,7 +4700,7 @@ void  State::_sub_Op_GetAndAddI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI) &&
         (
-#line 7341 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7341 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->as_LoadStore()->result_not_used()
 #line 4706 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4722,7 +4722,7 @@ void  State::_sub_Op_GetAndAddL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         (
-#line 7364 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7364 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->as_LoadStore()->result_not_used()
 #line 4728 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4784,7 +4784,7 @@ void  State::_sub_Op_GetAndSetN(const Node *n){
 }
 void  State::_sub_Op_ConN(const Node *n){
     if(         
-#line 3027 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3027 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->get_narrowcon() == 0
 #line 4790 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4828,7 +4828,7 @@ void  State::_sub_Op_ConD(const Node *n){
         DFA_PRODUCTION__SET_VALID(STACKSLOTD, storeSSD_rule, c+125+95)
     }
     if(         
-#line 3178 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3178 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 jlong_cast(n->getd()) == 0
 #line 4834 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4852,7 +4852,7 @@ void  State::_sub_Op_ConF(const Node *n){
         DFA_PRODUCTION__SET_VALID(STACKSLOTF, storeSSF_rule, c+125+95)
     }
     if(         
-#line 3157 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3157 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 jint_cast(n->getf()) == 0
 #line 4858 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4871,7 +4871,7 @@ jint_cast(n->getf()) == 0
 void  State::_sub_Op_ConI(const Node *n){
     int _n_get_int__ = n->get_int();
     if(         
-#line 3230 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3230 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 65535
 #line 4877 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4879,7 +4879,7 @@ _n_get_int__ == 65535
         DFA_PRODUCTION__SET_VALID(IMMI_65535, immI_65535_rule, c)
     }
     if(         
-#line 3220 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3220 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 255
 #line 4885 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4887,7 +4887,7 @@ _n_get_int__ == 255
         DFA_PRODUCTION__SET_VALID(IMMI_255, immI_255_rule, c)
     }
     if(         
-#line 3210 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3210 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 24
 #line 4893 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4895,7 +4895,7 @@ _n_get_int__ == 24
         DFA_PRODUCTION__SET_VALID(IMMI_24, immI_24_rule, c)
     }
     if(         
-#line 3201 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3201 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 16
 #line 4901 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4903,7 +4903,7 @@ _n_get_int__ == 16
         DFA_PRODUCTION__SET_VALID(IMMI_16, immI_16_rule, c)
     }
     if(         
-#line 2979 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2979 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
  _n_get_int__ == 64 
 #line 4909 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4911,7 +4911,7 @@ _n_get_int__ == 16
         DFA_PRODUCTION__SET_VALID(IMMI_64, immI_64_rule, c)
     }
     if(         
-#line 2968 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2968 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
  _n_get_int__ == 32 
 #line 4917 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4919,7 +4919,7 @@ _n_get_int__ == 16
         DFA_PRODUCTION__SET_VALID(IMMI_32, immI_32_rule, c)
     }
     if(         
-#line 2957 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2957 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ >= 0
 #line 4925 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4927,7 +4927,7 @@ _n_get_int__ >= 0
         DFA_PRODUCTION__SET_VALID(IMMU31, immU31_rule, c)
     }
     if(         
-#line 2946 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2946 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 (-32768 <= _n_get_int__) && (_n_get_int__ <= 32767)
 #line 4933 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4935,7 +4935,7 @@ _n_get_int__ >= 0
         DFA_PRODUCTION__SET_VALID(IMMI16, immI16_rule, c)
     }
     if(         
-#line 2936 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2936 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 (-0x80 <= _n_get_int__) && (_n_get_int__ < 0x80)
 #line 4941 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4943,7 +4943,7 @@ _n_get_int__ >= 0
         DFA_PRODUCTION__SET_VALID(IMMI8, immI8_rule, c)
     }
     if(         
-#line 2927 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2927 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 <= _n_get_int__ && (_n_get_int__ <= 3)
 #line 4949 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4951,7 +4951,7 @@ _n_get_int__ >= 0
         DFA_PRODUCTION__SET_VALID(IMMI2, immI2_rule, c)
     }
     if(         
-#line 2916 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2916 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == -1
 #line 4957 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4959,7 +4959,7 @@ _n_get_int__ == -1
         DFA_PRODUCTION__SET_VALID(IMMI_M1, immI_M1_rule, c)
     }
     if(         
-#line 2905 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2905 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 1
 #line 4965 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4967,7 +4967,7 @@ _n_get_int__ == 1
         DFA_PRODUCTION__SET_VALID(IMMI1, immI1_rule, c)
     }
     if(         
-#line 2894 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2894 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 0
 #line 4973 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5045,7 +5045,7 @@ _n_get_int__ == 0
 void  State::_sub_Op_ConL(const Node *n){
     jlong _n_get_long__ = n->get_long();
     if(         
-#line 3250 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3250 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 65535
 #line 5051 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5053,7 +5053,7 @@ _n_get_long__ == 65535
         DFA_PRODUCTION__SET_VALID(IMML_65535, immL_65535_rule, c)
     }
     if(         
-#line 3240 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3240 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 255
 #line 5059 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5061,7 +5061,7 @@ _n_get_long__ == 255
         DFA_PRODUCTION__SET_VALID(IMML_255, immL_255_rule, c)
     }
     if(         
-#line 3146 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3146 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 0xFFFFFFFFL
 #line 5067 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5069,7 +5069,7 @@ _n_get_long__ == 0xFFFFFFFFL
         DFA_PRODUCTION__SET_VALID(IMML_32BITS, immL_32bits_rule, c)
     }
     if(         
-#line 3135 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3135 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 <= _n_get_long__ && _n_get_long__ < 0x80
 #line 5075 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5077,7 +5077,7 @@ _n_get_long__ == 0xFFFFFFFFL
         DFA_PRODUCTION__SET_VALID(IMML_127, immL_127_rule, c)
     }
     if(         
-#line 3124 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3124 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 10
 #line 5083 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5085,7 +5085,7 @@ _n_get_long__ == 10
         DFA_PRODUCTION__SET_VALID(IMML10, immL10_rule, c)
     }
     if(         
-#line 3114 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3114 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == -1
 #line 5091 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5093,7 +5093,7 @@ _n_get_long__ == -1
         DFA_PRODUCTION__SET_VALID(IMML_M1, immL_M1_rule, c)
     }
     if(         
-#line 3104 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3104 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 1
 #line 5099 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5101,7 +5101,7 @@ _n_get_long__ == 1
         DFA_PRODUCTION__SET_VALID(IMML1, immL1_rule, c)
     }
     if(         
-#line 3093 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3093 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 0L
 #line 5107 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5117,7 +5117,7 @@ _n_get_long__ == 0L
         DFA_PRODUCTION__SET_VALID(RDX_REGL, loadConL0_rule, c+50)
     }
     if(         
-#line 3082 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3082 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == (int) (_n_get_long__)
 #line 5123 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5149,7 +5149,7 @@ _n_get_long__ == (int) (_n_get_long__)
       }
     }
     if(         
-#line 3071 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3071 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == (unsigned int) (_n_get_long__)
 #line 5155 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5181,7 +5181,7 @@ _n_get_long__ == (unsigned int) (_n_get_long__)
       }
     }
     if(         
-#line 3060 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3060 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 -0x80L <= _n_get_long__ && _n_get_long__ < 0x80L
 #line 5187 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5243,7 +5243,7 @@ _n_get_long__ == (unsigned int) (_n_get_long__)
 }
 void  State::_sub_Op_ConP(const Node *n){
     if(         
-#line 3037 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3037 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->as_Type()->type()->reloc() == relocInfo::none
             && (n->get_ptr() >> 31) == 0
 #line 5250 "../generated/adfiles/dfa_x86_64.cpp"
@@ -5265,7 +5265,7 @@ n->as_Type()->type()->reloc() == relocInfo::none
         DFA_PRODUCTION__SET_VALID(R15_REGP, loadConP31_rule, c+60)
     }
     if(         
-#line 3000 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3000 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->get_ptr() == 0
 #line 5271 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5441,7 +5441,7 @@ void  State::_sub_Op_Conv2B(const Node *n){
 void  State::_sub_Op_ConvD2F(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], _SQRTD__CONVF2D_IMMF__) &&
         (
-#line 2732 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2732 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE>=1
 #line 5447 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5451,7 +5451,7 @@ UseSSE>=1
     }
     if( STATE__VALID_CHILD(_kids[0], _SQRTD__CONVF2D__LOADF_MEMORY___) &&
         (
-#line 2720 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2720 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE>=1
 #line 5457 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5465,7 +5465,7 @@ UseSSE>=1
     }
     if( STATE__VALID_CHILD(_kids[0], _SQRTD__CONVF2D_REGF__) &&
         (
-#line 2708 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2708 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE>=1
 #line 5471 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5581,7 +5581,7 @@ void  State::_sub_Op_ConvF2L(const Node *n){
 void  State::_sub_Op_ConvI2D(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 10123 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10123 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseXmmI2D
 #line 5587 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5600,7 +5600,7 @@ UseXmmI2D
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 10086 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10086 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseXmmI2D
 #line 5606 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5616,7 +5616,7 @@ UseXmmI2D
 void  State::_sub_Op_ConvI2F(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 10109 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10109 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseXmmI2F
 #line 5622 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5635,7 +5635,7 @@ UseXmmI2F
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 10063 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10063 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseXmmI2F
 #line 5641 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6067,7 +6067,7 @@ void  State::_sub_Op_ConvL2I(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _CASTP2X__DECODEN_RREGN__) &&
         (
-#line 6392 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6392 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 6073 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6159,7 +6159,7 @@ void  State::_sub_Op_CountedLoopEnd(const Node *n){
 void  State::_sub_Op_CountLeadingZerosI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 6079 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6079 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCountLeadingZerosInstruction
 #line 6165 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6176,7 +6176,7 @@ void  State::_sub_Op_CountLeadingZerosI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 6067 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6067 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCountLeadingZerosInstruction
 #line 6182 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6213,7 +6213,7 @@ UseCountLeadingZerosInstruction
 void  State::_sub_Op_CountLeadingZerosL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 6116 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6116 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCountLeadingZerosInstruction
 #line 6219 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6230,7 +6230,7 @@ void  State::_sub_Op_CountLeadingZerosL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 6104 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6104 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCountLeadingZerosInstruction
 #line 6236 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6267,7 +6267,7 @@ UseCountLeadingZerosInstruction
 void  State::_sub_Op_CountTrailingZerosI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 6153 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6153 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCountTrailingZerosInstruction
 #line 6273 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6284,7 +6284,7 @@ void  State::_sub_Op_CountTrailingZerosI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 6141 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6141 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCountTrailingZerosInstruction
 #line 6290 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6321,7 +6321,7 @@ UseCountTrailingZerosInstruction
 void  State::_sub_Op_CountTrailingZerosL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 6185 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6185 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCountTrailingZerosInstruction
 #line 6327 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6338,7 +6338,7 @@ void  State::_sub_Op_CountTrailingZerosL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 6173 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6173 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCountTrailingZerosInstruction
 #line 6344 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6393,7 +6393,7 @@ void  State::_sub_Op_CreateEx(const Node *n){
 void  State::_sub_Op_DecodeN(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGN) &&
         (
-#line 6448 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6448 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->bottom_type()->is_ptr()->ptr() == TypePtr::NotNull ||
             n->bottom_type()->is_ptr()->ptr() == TypePtr::Constant
 #line 6400 "../generated/adfiles/dfa_x86_64.cpp"
@@ -6415,7 +6415,7 @@ n->bottom_type()->is_ptr()->ptr() == TypePtr::NotNull ||
     }
     if( STATE__VALID_CHILD(_kids[0], RREGN) &&
         (
-#line 6431 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6431 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->bottom_type()->is_ptr()->ptr() != TypePtr::NotNull &&
             n->bottom_type()->is_ptr()->ptr() != TypePtr::Constant
 #line 6422 "../generated/adfiles/dfa_x86_64.cpp"
@@ -6463,7 +6463,7 @@ n->bottom_type()->is_ptr()->ptr() != TypePtr::NotNull &&
     }
     if( STATE__VALID_CHILD(_kids[0], RREGN) &&
         
-#line 3837 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3837 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 6469 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -6499,7 +6499,7 @@ void  State::_sub_Op_DecodeNKlass(const Node *n){
 void  State::_sub_Op_DivD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], IMMD) &&
         (
-#line 2596 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2596 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 6505 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6509,7 +6509,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], _LOADD_MEMORY_) &&
         (
-#line 2584 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2584 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 6515 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6523,7 +6523,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2572 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2572 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 6529 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6537,7 +6537,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], IMMD) &&
         (
-#line 2561 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2561 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 6543 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6551,7 +6551,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], _LOADD_MEMORY_) &&
         (
-#line 2549 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2549 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 6557 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6565,7 +6565,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2537 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2537 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 6571 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6581,7 +6581,7 @@ UseAVX > 0
 void  State::_sub_Op_DivF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], IMMF) &&
         (
-#line 2525 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2525 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 6587 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6591,7 +6591,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], _LOADF_MEMORY_) &&
         (
-#line 2513 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2513 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 6597 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6605,7 +6605,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2501 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2501 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 6611 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6619,7 +6619,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], IMMF) &&
         (
-#line 2490 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2490 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 6625 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6633,7 +6633,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], _LOADF_MEMORY_) &&
         (
-#line 2478 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2478 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 6639 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6647,7 +6647,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2466 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2466 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 6653 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6743,7 +6743,7 @@ void  State::_sub_Op_EncodeISOArray(const Node *n){
 void  State::_sub_Op_EncodeP(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGP) &&
         (
-#line 6420 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6420 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->bottom_type()->make_ptr()->ptr() == TypePtr::NotNull
 #line 6749 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6753,7 +6753,7 @@ n->bottom_type()->make_ptr()->ptr() == TypePtr::NotNull
     }
     if( STATE__VALID_CHILD(_kids[0], RREGP) &&
         (
-#line 6404 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6404 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->bottom_type()->make_ptr()->ptr() != TypePtr::NotNull
 #line 6759 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6783,7 +6783,7 @@ void  State::_sub_Op_ExpD(const Node *n){
 void  State::_sub_Op_FastLock(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGP) && STATE__VALID_CHILD(_kids[1], RBX_REGP) &&
         (
-#line 11523 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11523 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !Compile::current()->use_rtm()
 #line 6789 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6792,7 +6792,7 @@ void  State::_sub_Op_FastLock(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGP) && STATE__VALID_CHILD(_kids[1], RBX_REGP) &&
         (
-#line 11507 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11507 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Compile::current()->use_rtm()
 #line 6798 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6857,7 +6857,7 @@ void  State::_sub_Op_Jump(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LSHIFTL_RREGL_IMMI2) &&
         (
-#line 6498 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6498 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 false
 #line 6863 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7173,7 +7173,7 @@ void  State::_sub_Op_LoadD(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 5118 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5118 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseXmmLoadAndClearUpper
 #line 7179 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7183,7 +7183,7 @@ UseXmmLoadAndClearUpper
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 5105 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5105 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseXmmLoadAndClearUpper
 #line 7189 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7420,7 +7420,7 @@ void  State::_sub_Op_MemBarReleaseLock(const Node *n){
 }
 void  State::_sub_Op_MemBarVolatile(const Node *n){
     if(         (
-#line 6329 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6329 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Matcher::post_store_load_barrier(n)
 #line 7426 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7597,7 +7597,7 @@ void  State::_sub_Op_MoveL2D(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], STACKSLOTL) &&
         (
-#line 10307 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10307 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseXmmLoadAndClearUpper
 #line 7603 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7611,7 +7611,7 @@ UseXmmLoadAndClearUpper
     }
     if( STATE__VALID_CHILD(_kids[0], STACKSLOTL) &&
         (
-#line 10294 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10294 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseXmmLoadAndClearUpper
 #line 7617 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7694,7 +7694,7 @@ void  State::_sub_Op_MoveD2L(const Node *n){
 void  State::_sub_Op_MulD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], IMMD) &&
         (
-#line 2454 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2454 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 7700 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7704,7 +7704,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADD_MEMORY_) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2442 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2442 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 7710 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7718,7 +7718,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], _LOADD_MEMORY_) &&
         (
-#line 2442 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2442 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 7724 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7732,7 +7732,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2430 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2430 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 7738 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7746,7 +7746,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], IMMD) &&
         (
-#line 2419 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2419 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 7752 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7760,7 +7760,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADD_MEMORY_) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2407 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 7766 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7774,7 +7774,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], _LOADD_MEMORY_) &&
         (
-#line 2407 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2407 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 7780 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7788,7 +7788,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2395 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2395 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 7794 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7804,7 +7804,7 @@ UseAVX > 0
 void  State::_sub_Op_MulF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], IMMF) &&
         (
-#line 2383 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2383 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 7810 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7814,7 +7814,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADF_MEMORY_) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2371 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2371 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 7820 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7828,7 +7828,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], _LOADF_MEMORY_) &&
         (
-#line 2371 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2371 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 7834 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7842,7 +7842,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2359 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2359 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 7848 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7856,7 +7856,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], IMMF) &&
         (
-#line 2348 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2348 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 7862 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7870,7 +7870,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADF_MEMORY_) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2336 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2336 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 7876 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7884,7 +7884,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], _LOADF_MEMORY_) &&
         (
-#line 2336 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2336 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 7890 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7898,7 +7898,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2324 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2324 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 7904 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8182,7 +8182,7 @@ void  State::_sub_Op_MulL(const Node *n){
 void  State::_sub_Op_NegD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGD) &&
         (
-#line 2694 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2694 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 8188 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8192,7 +8192,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) &&
         (
-#line 2682 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2682 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 8198 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8208,7 +8208,7 @@ UseAVX > 0
 void  State::_sub_Op_NegF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGF) &&
         (
-#line 2669 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2669 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 8214 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8218,7 +8218,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) &&
         (
-#line 2658 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2658 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 8224 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8466,7 +8466,7 @@ void  State::_sub_Op_OrI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _URSHIFTI_RREGI_IMMI8) && STATE__VALID_CHILD(_kids[1], _LSHIFTI_RREGI_IMMI8) &&
         (
-#line 8408 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8408 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 == ((n->in(1)->in(2)->get_int() + n->in(2)->in(2)->get_int()) & 0x1f)
 #line 8472 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -8501,7 +8501,7 @@ void  State::_sub_Op_OrI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LSHIFTI_RREGI_IMMI8) && STATE__VALID_CHILD(_kids[1], _URSHIFTI_RREGI_IMMI8) &&
         (
-#line 8408 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8408 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 == ((n->in(1)->in(2)->get_int() + n->in(2)->in(2)->get_int()) & 0x1f)
 #line 8507 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -8870,7 +8870,7 @@ void  State::_sub_Op_OrL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _URSHIFTL_RREGL_IMMI8) && STATE__VALID_CHILD(_kids[1], _LSHIFTL_RREGL_IMMI8) &&
         (
-#line 8553 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8553 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 == ((n->in(1)->in(2)->get_int() + n->in(2)->in(2)->get_int()) & 0x3f)
 #line 8876 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -8902,7 +8902,7 @@ void  State::_sub_Op_OrL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LSHIFTL_RREGL_IMMI8) && STATE__VALID_CHILD(_kids[1], _URSHIFTL_RREGL_IMMI8) &&
         (
-#line 8553 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8553 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 == ((n->in(1)->in(2)->get_int() + n->in(2)->in(2)->get_int()) & 0x3f)
 #line 8908 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -9098,7 +9098,7 @@ void  State::_sub_Op_PartialSubtypeCheck(const Node *n){
 void  State::_sub_Op_PopCountI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) &&
         (
-#line 6220 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6220 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UsePopCountInstruction
 #line 9104 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9115,7 +9115,7 @@ UsePopCountInstruction
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 6208 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6208 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UsePopCountInstruction
 #line 9121 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9152,7 +9152,7 @@ UsePopCountInstruction
 void  State::_sub_Op_PopCountL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) &&
         (
-#line 6246 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6246 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UsePopCountInstruction
 #line 9158 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9169,7 +9169,7 @@ UsePopCountInstruction
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 6233 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6233 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UsePopCountInstruction
 #line 9175 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9213,7 +9213,7 @@ void  State::_sub_Op_PowD(const Node *n){
 void  State::_sub_Op_PrefetchAllocation(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 5594 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5594 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 AllocatePrefetchInstr==2
 #line 9219 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9222,7 +9222,7 @@ AllocatePrefetchInstr==2
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 5582 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5582 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 AllocatePrefetchInstr==1
 #line 9228 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9233,7 +9233,7 @@ AllocatePrefetchInstr==1
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 5570 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5570 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 AllocatePrefetchInstr==0
 #line 9239 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9244,7 +9244,7 @@ AllocatePrefetchInstr==0
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 5558 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5558 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 AllocatePrefetchInstr==3
 #line 9250 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9634,7 +9634,7 @@ void  State::_sub_Op_RoundFloat(const Node *n){
 void  State::_sub_Op_SafePoint(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGP) &&
         (
-#line 11567 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11567 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Assembler::is_polling_page_far()
 #line 9640 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9642,7 +9642,7 @@ Assembler::is_polling_page_far()
         DFA_PRODUCTION__SET_VALID(UNIVERSE, safePoint_poll_far_rule, c)
     }
     if(         (
-#line 11551 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11551 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !Assembler::is_polling_page_far()
 #line 9648 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9662,7 +9662,7 @@ void  State::_sub_Op_SinD(const Node *n){
 void  State::_sub_Op_SqrtD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], IMMD) &&
         (
-#line 2767 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2767 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE>=2
 #line 9668 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9672,7 +9672,7 @@ UseSSE>=2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADD_MEMORY_) &&
         (
-#line 2755 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2755 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE>=2
 #line 9678 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9686,7 +9686,7 @@ UseSSE>=2
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) &&
         (
-#line 2743 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2743 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE>=2
 #line 9692 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9718,7 +9718,7 @@ void  State::_sub_Op_StoreB(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI0) &&
         (
-#line 5838 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5838 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_klass_base() == NULL)
 #line 9724 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9737,7 +9737,7 @@ UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_
 void  State::_sub_Op_StoreC(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI16) &&
         (
-#line 5825 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5825 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseStoreImmI16
 #line 9743 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9746,7 +9746,7 @@ UseStoreImmI16
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI0) &&
         (
-#line 5812 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5812 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_klass_base() == NULL)
 #line 9752 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9769,7 +9769,7 @@ void  State::_sub_Op_StoreCM(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI0) &&
         (
-#line 5863 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5863 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_klass_base() == NULL)
 #line 9775 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9800,7 +9800,7 @@ void  State::_sub_Op_StoreLConditional(const Node *n){
 void  State::_sub_Op_StoreD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMD0) &&
         (
-#line 5951 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5951 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_klass_base() == NULL)
 #line 9806 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9809,7 +9809,7 @@ UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMD0) &&
         (
-#line 5939 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5939 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCompressedOops || (Universe::narrow_oop_base() != NULL)
 #line 9815 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9832,7 +9832,7 @@ void  State::_sub_Op_StoreF(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMF0) &&
         (
-#line 5901 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5901 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_klass_base() == NULL)
 #line 9838 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -9996,7 +9996,7 @@ void  State::_sub_Op_StoreI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _ADDI__LOADI_MEMORY__IMMI_M1) &&
         (
-#line 6970 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6970 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 10002 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -10007,7 +10007,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _ADDI__LOADI_MEMORY__IMMI1) &&
         (
-#line 6943 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6943 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 10013 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -10045,7 +10045,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI0) &&
         (
-#line 5762 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5762 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_klass_base() == NULL)
 #line 10051 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10209,7 +10209,7 @@ void  State::_sub_Op_StoreL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _ADDL__LOADL_MEMORY__IMML_M1) &&
         (
-#line 7092 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7092 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 10215 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -10220,7 +10220,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _ADDL__LOADL_MEMORY__IMML1) &&
         (
-#line 7065 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7065 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 10226 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -10258,7 +10258,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMML0) &&
         (
-#line 5787 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5787 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_klass_base() == NULL)
 #line 10264 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10281,7 +10281,7 @@ void  State::_sub_Op_StoreP(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMP0) &&
         (
-#line 5669 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5669 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL) && (Universe::narrow_klass_base() == NULL)
 #line 10287 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10304,7 +10304,7 @@ void  State::_sub_Op_StoreN(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMN0) &&
         (
-#line 5719 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5719 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_base() == NULL && Universe::narrow_klass_base() == NULL
 #line 10310 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10363,7 +10363,7 @@ void  State::_sub_Op_StrEquals(const Node *n){
 void  State::_sub_Op_StrIndexOf(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], _BINARY_RDI_REGP_RDX_REGI) && STATE__VALID_CHILD(_kids[1], _BINARY_RSI_REGP_RAX_REGI) &&
         (
-#line 10492 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10492 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseSSE42Intrinsics
 #line 10369 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10380,7 +10380,7 @@ UseSSE42Intrinsics
     }
     if( STATE__VALID_CHILD(_kids[0], _BINARY_RDI_REGP_RDX_REGI) && STATE__VALID_CHILD(_kids[1], _BINARY_RSI_REGP_IMMI) &&
         (
-#line 10464 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10464 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseSSE42Intrinsics
 #line 10386 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10417,7 +10417,7 @@ UseSSE42Intrinsics
 void  State::_sub_Op_SubD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], IMMD) &&
         (
-#line 2312 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2312 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 10423 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10427,7 +10427,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], _LOADD_MEMORY_) &&
         (
-#line 2300 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2300 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 10433 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10441,7 +10441,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2288 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2288 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 10447 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10455,7 +10455,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], IMMD) &&
         (
-#line 2277 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2277 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 10461 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10469,7 +10469,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], _LOADD_MEMORY_) &&
         (
-#line 2265 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2265 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 10475 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10483,7 +10483,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], REGD) &&
         (
-#line 2253 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2253 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=2) && (UseAVX == 0)
 #line 10489 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10499,7 +10499,7 @@ UseAVX > 0
 void  State::_sub_Op_SubF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], IMMF) &&
         (
-#line 2241 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2241 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 10505 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10509,7 +10509,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], _LOADF_MEMORY_) &&
         (
-#line 2229 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2229 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 10515 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10523,7 +10523,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2217 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2217 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 10529 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10537,7 +10537,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], IMMF) &&
         (
-#line 2206 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2206 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 10543 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10551,7 +10551,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], _LOADF_MEMORY_) &&
         (
-#line 2194 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2194 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 10557 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -10565,7 +10565,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], REGF) &&
         (
-#line 2182 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2182 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 (UseSSE>=1) && (UseAVX == 0)
 #line 10571 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11206,7 +11206,7 @@ void  State::_sub_Op_XorI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], _ADDI_RREGI_IMMI_M1) &&
         (
-#line 8840 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8840 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 11212 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -11241,7 +11241,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDI_RREGI_IMMI_M1) && STATE__VALID_CHILD(_kids[1], RREGI) &&
         (
-#line 8840 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8840 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 11247 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_leaf) ) {
@@ -11276,7 +11276,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) && STATE__VALID_CHILD(_kids[1], _ADDI__LOADI_MEMORY__IMMI_M1) &&
         (
-#line 8825 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8825 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 11282 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -11311,7 +11311,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDI__LOADI_MEMORY__IMMI_M1) && STATE__VALID_CHILD(_kids[1], _LOADI_MEMORY_) &&
         (
-#line 8825 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8825 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 11317 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -11483,7 +11483,7 @@ void  State::_sub_Op_XorL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], _ADDL_RREGL_IMML_M1) &&
         (
-#line 9187 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9187 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 11489 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -11515,7 +11515,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDL_RREGL_IMML_M1) && STATE__VALID_CHILD(_kids[1], RREGL) &&
         (
-#line 9187 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9187 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 11521 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_leaf) ) {
@@ -11547,7 +11547,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) && STATE__VALID_CHILD(_kids[1], _ADDL__LOADL_MEMORY__IMML_M1) &&
         (
-#line 9172 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9172 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 11553 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -11579,7 +11579,7 @@ UseBMI1Instructions
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDL__LOADL_MEMORY__IMML_M1) && STATE__VALID_CHILD(_kids[1], _LOADL_MEMORY_) &&
         (
-#line 9172 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9172 "/root/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseBMI1Instructions
 #line 11585 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*src*/(_kids[0]->_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -11617,7 +11617,7 @@ UseBMI1Instructions
 void  State::_sub_Op_AddVB(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5586 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5586 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 64
 #line 11623 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11626,7 +11626,7 @@ UseAVX > 2 && n->as_Vector()->length() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 5575 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5575 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 64
 #line 11632 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11637,7 +11637,7 @@ UseAVX > 2 && n->as_Vector()->length() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5564 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5564 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 32
 #line 11643 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11646,7 +11646,7 @@ UseAVX > 1 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 5553 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5553 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 32
 #line 11652 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11657,7 +11657,7 @@ UseAVX > 1 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5542 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5542 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 16
 #line 11663 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11666,7 +11666,7 @@ UseAVX > 0 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5531 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5531 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 16
 #line 11672 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11677,7 +11677,7 @@ UseAVX > 0 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5521 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5521 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16
 #line 11683 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11688,7 +11688,7 @@ n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5510 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5510 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 11694 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11697,7 +11697,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5499 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5499 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 11703 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11708,7 +11708,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5489 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5489 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 11714 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11719,7 +11719,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5478 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5478 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 11725 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11728,7 +11728,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 5467 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5467 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 11734 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11739,7 +11739,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 5457 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5457 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 11745 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11752,7 +11752,7 @@ n->as_Vector()->length() == 4
 void  State::_sub_Op_AddVS(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5727 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5727 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 11758 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11761,7 +11761,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 5716 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5716 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 11767 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11772,7 +11772,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5705 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5705 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 11778 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11781,7 +11781,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 5694 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5694 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 11787 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11792,7 +11792,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5683 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5683 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 11798 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11801,7 +11801,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5672 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5672 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 11807 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11812,7 +11812,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5662 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5662 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 11818 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11823,7 +11823,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5651 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5651 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 11829 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11832,7 +11832,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5640 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5640 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 11838 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11843,7 +11843,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5630 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5630 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 11849 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11854,7 +11854,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5619 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5619 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 11860 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11863,7 +11863,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 5608 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5608 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 11869 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11874,7 +11874,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 5598 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5598 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 11880 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11887,7 +11887,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_AddVI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5836 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5836 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 11893 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11896,7 +11896,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 5825 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5825 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 11902 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11907,7 +11907,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5814 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5814 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 11913 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11916,7 +11916,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 5803 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5803 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 11922 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11927,7 +11927,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5792 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5792 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 11933 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11936,7 +11936,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5781 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5781 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 11942 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11947,7 +11947,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5771 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5771 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 11953 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11958,7 +11958,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5760 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5760 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 11964 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11967,7 +11967,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5749 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5749 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 11973 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11978,7 +11978,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5739 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5739 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 11984 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -11991,7 +11991,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_AddReductionVI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 4558 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4558 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 11997 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12008,7 +12008,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 4530 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4530 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 12014 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12043,7 +12043,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 4506 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4506 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && UseAVX < 3
 #line 12049 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12078,7 +12078,7 @@ UseAVX > 0 && UseAVX < 3
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 4482 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4482 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 12084 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12113,7 +12113,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 4462 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4462 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && UseAVX < 3
 #line 12119 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12148,7 +12148,7 @@ UseAVX > 0 && UseAVX < 3
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 4441 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4441 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE > 2 && UseAVX == 0
 #line 12154 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12183,7 +12183,7 @@ UseSSE > 2 && UseAVX == 0
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 4421 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4421 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 12189 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12218,7 +12218,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 4403 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4403 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && UseAVX < 3
 #line 12224 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12253,7 +12253,7 @@ UseAVX > 0 && UseAVX < 3
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 4384 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4384 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE > 2 && UseAVX == 0
 #line 12259 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12290,7 +12290,7 @@ UseSSE > 2 && UseAVX == 0
 void  State::_sub_Op_AddVL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5913 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5913 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 12296 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12299,7 +12299,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 5902 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5902 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 12305 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12310,7 +12310,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5891 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5891 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 4
 #line 12316 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12319,7 +12319,7 @@ UseAVX > 1 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 5880 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5880 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 4
 #line 12325 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12330,7 +12330,7 @@ UseAVX > 1 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5869 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5869 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 12336 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12339,7 +12339,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5858 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5858 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 12345 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12350,7 +12350,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5848 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5848 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 12356 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12363,7 +12363,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_AddReductionVL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 4632 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4632 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 12369 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12379,7 +12379,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 4609 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4609 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 12385 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12411,7 +12411,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 4590 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4590 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 12417 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12445,7 +12445,7 @@ UseAVX > 2
 void  State::_sub_Op_AddVF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6022 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6022 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 12451 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12454,7 +12454,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 6011 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6011 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 12460 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12465,7 +12465,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6000 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6000 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 12471 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12474,7 +12474,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 5989 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5989 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 12480 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12485,7 +12485,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5978 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5978 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 12491 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12494,7 +12494,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5967 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5967 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 12500 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12505,7 +12505,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5957 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5957 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 12511 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12516,7 +12516,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 5946 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5946 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 12522 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12525,7 +12525,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5935 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5935 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 12531 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12536,7 +12536,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5925 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5925 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 12542 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12549,7 +12549,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_AddReductionVF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 4783 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4783 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 12555 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12559,7 +12559,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 4744 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4744 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 12565 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12573,7 +12573,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 4721 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4721 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 12579 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12587,7 +12587,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 4694 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4694 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE >= 1 && UseAVX == 0
 #line 12593 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12601,7 +12601,7 @@ UseSSE >= 1 && UseAVX == 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 4679 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4679 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 12607 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12615,7 +12615,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 4660 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4660 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE >= 1 && UseAVX == 0
 #line 12621 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12631,7 +12631,7 @@ UseSSE >= 1 && UseAVX == 0
 void  State::_sub_Op_AddVD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6099 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6099 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 12637 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12640,7 +12640,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 6088 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6088 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 12646 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12651,7 +12651,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6077 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6077 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 12657 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12660,7 +12660,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 6066 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6066 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 12666 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12671,7 +12671,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6055 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6055 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 12677 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12680,7 +12680,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6044 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6044 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 12686 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12691,7 +12691,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6034 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6034 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 12697 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12704,7 +12704,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_AddReductionVD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 4909 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4909 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 12710 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12714,7 +12714,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 4886 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4886 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 12720 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12728,7 +12728,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 4871 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4871 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 12734 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12742,7 +12742,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 4854 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4854 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE >= 1 && UseAVX == 0
 #line 12748 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12758,7 +12758,7 @@ UseSSE >= 1 && UseAVX == 0
 void  State::_sub_Op_SubVB(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6242 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6242 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 64
 #line 12764 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12767,7 +12767,7 @@ UseAVX > 2 && n->as_Vector()->length() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 6231 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6231 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 64
 #line 12773 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12778,7 +12778,7 @@ UseAVX > 2 && n->as_Vector()->length() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6220 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6220 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 32
 #line 12784 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12787,7 +12787,7 @@ UseAVX > 1 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 6209 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6209 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 32
 #line 12793 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12798,7 +12798,7 @@ UseAVX > 1 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6198 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6198 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 16
 #line 12804 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12807,7 +12807,7 @@ UseAVX > 0 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6187 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6187 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 16
 #line 12813 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12818,7 +12818,7 @@ UseAVX > 0 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6177 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6177 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16
 #line 12824 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12829,7 +12829,7 @@ n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6166 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6166 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 12835 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12838,7 +12838,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6155 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6155 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 12844 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12849,7 +12849,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6145 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6145 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 12855 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12860,7 +12860,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6134 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6134 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 12866 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12869,7 +12869,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 6123 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6123 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 12875 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12880,7 +12880,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 6113 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6113 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 12886 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12893,7 +12893,7 @@ n->as_Vector()->length() == 4
 void  State::_sub_Op_SubVS(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6383 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6383 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 12899 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12902,7 +12902,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 6372 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6372 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 12908 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12913,7 +12913,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6361 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6361 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 12919 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12922,7 +12922,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 6350 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6350 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 12928 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12933,7 +12933,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6339 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6339 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 12939 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12942,7 +12942,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6328 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6328 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 12948 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12953,7 +12953,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6318 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6318 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 12959 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12964,7 +12964,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6307 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6307 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 12970 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12973,7 +12973,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6296 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6296 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 12979 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12984,7 +12984,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6286 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6286 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 12990 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -12995,7 +12995,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6275 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6275 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13001 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13004,7 +13004,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 6264 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6264 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13010 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13015,7 +13015,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 6254 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6254 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 13021 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13028,7 +13028,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_SubVI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6492 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6492 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 13034 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13037,7 +13037,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 6481 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6481 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 13043 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13048,7 +13048,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6470 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6470 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 13054 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13057,7 +13057,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 6459 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6459 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 13063 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13068,7 +13068,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6448 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6448 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13074 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13077,7 +13077,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6437 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6437 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13083 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13088,7 +13088,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6427 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6427 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 13094 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13099,7 +13099,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6416 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6416 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13105 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13108,7 +13108,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6405 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6405 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13114 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13119,7 +13119,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6395 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6395 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 13125 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13132,7 +13132,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_SubVL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6569 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6569 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 13138 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13141,7 +13141,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 6558 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6558 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 13147 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13152,7 +13152,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6547 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6547 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 4
 #line 13158 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13161,7 +13161,7 @@ UseAVX > 1 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 6536 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6536 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 4
 #line 13167 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13172,7 +13172,7 @@ UseAVX > 1 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6525 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6525 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13178 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13181,7 +13181,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6514 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6514 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13187 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13192,7 +13192,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6504 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6504 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 13198 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13205,7 +13205,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_SubVF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6678 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6678 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 13211 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13214,7 +13214,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 6667 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6667 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 13220 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13225,7 +13225,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6656 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6656 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 13231 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13234,7 +13234,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 6645 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6645 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 13240 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13245,7 +13245,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6634 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6634 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13251 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13254,7 +13254,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6623 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6623 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13260 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13265,7 +13265,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6613 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6613 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 13271 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13276,7 +13276,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6602 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6602 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13282 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13285,7 +13285,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6591 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6591 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13291 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13296,7 +13296,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6581 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6581 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 13302 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13309,7 +13309,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_SubVD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6755 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6755 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 13315 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13318,7 +13318,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 6744 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6744 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 13324 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13329,7 +13329,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6733 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6733 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13335 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13338,7 +13338,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 6722 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6722 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13344 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13349,7 +13349,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6711 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6711 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13355 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13358,7 +13358,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6700 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6700 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13364 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13369,7 +13369,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6690 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6690 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 13375 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13382,7 +13382,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_MulVS(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6898 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6898 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 13388 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13391,7 +13391,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 6887 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6887 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 13397 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13402,7 +13402,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6876 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6876 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 13408 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13411,7 +13411,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 6865 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6865 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 13417 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13422,7 +13422,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6854 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6854 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 13428 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13431,7 +13431,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6843 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6843 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 13437 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13442,7 +13442,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6833 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6833 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 13448 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13453,7 +13453,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6822 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6822 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13459 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13462,7 +13462,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6811 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13468 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13473,7 +13473,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6801 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6801 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 13479 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13484,7 +13484,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6790 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6790 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13490 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13493,7 +13493,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 6779 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6779 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13499 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13504,7 +13504,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 6769 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6769 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 13510 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13517,7 +13517,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_MulVI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7073 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7073 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 13523 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13526,7 +13526,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 7062 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7062 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 13532 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13537,7 +13537,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7051 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7051 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 13543 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13546,7 +13546,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 7040 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7040 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 13552 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13557,7 +13557,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6963 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6963 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13563 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13566,7 +13566,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6952 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6952 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 13572 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13577,7 +13577,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6942 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6942 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE > 3 && n->as_Vector()->length() == 4
 #line 13583 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13588,7 +13588,7 @@ UseSSE > 3 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6931 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6931 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13594 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13597,7 +13597,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6920 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6920 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 13603 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13608,7 +13608,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 6910 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6910 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE > 3 && n->as_Vector()->length() == 2
 #line 13614 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13621,7 +13621,7 @@ UseSSE > 3 && n->as_Vector()->length() == 2
 void  State::_sub_Op_MulReductionVI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 5062 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5062 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 13627 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13638,7 +13638,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 5034 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5034 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 13644 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13673,7 +13673,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5010 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5010 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 13679 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13708,7 +13708,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 4987 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4987 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE > 3 && UseAVX == 0
 #line 13714 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13743,7 +13743,7 @@ UseSSE > 3 && UseAVX == 0
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 4967 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4967 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 13749 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13778,7 +13778,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 4948 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4948 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE > 3 && UseAVX == 0
 #line 13784 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13815,7 +13815,7 @@ UseSSE > 3 && UseAVX == 0
 void  State::_sub_Op_MulVL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7029 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7029 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8 && VM_Version::supports_avx512dq()
 #line 13821 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13824,7 +13824,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8 && VM_Version::supports_avx512dq()
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 7018 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7018 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8 && VM_Version::supports_avx512dq()
 #line 13830 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13835,7 +13835,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8 && VM_Version::supports_avx512dq()
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7007 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7007 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 4 && VM_Version::supports_avx512dq()
 #line 13841 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13844,7 +13844,7 @@ UseAVX > 2 && n->as_Vector()->length() == 4 && VM_Version::supports_avx512dq()
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 6996 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6996 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 4 && VM_Version::supports_avx512dq()
 #line 13850 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13855,7 +13855,7 @@ UseAVX > 2 && n->as_Vector()->length() == 4 && VM_Version::supports_avx512dq()
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 6985 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6985 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 2 && VM_Version::supports_avx512dq()
 #line 13861 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13864,7 +13864,7 @@ UseAVX > 2 && n->as_Vector()->length() == 2 && VM_Version::supports_avx512dq()
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 6974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 6974 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 2 && VM_Version::supports_avx512dq()
 #line 13870 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13877,7 +13877,7 @@ UseAVX > 2 && n->as_Vector()->length() == 2 && VM_Version::supports_avx512dq()
 void  State::_sub_Op_MulReductionVL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 5136 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5136 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && VM_Version::supports_avx512dq()
 #line 13883 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13893,7 +13893,7 @@ UseAVX > 2 && VM_Version::supports_avx512dq()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 5113 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5113 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && VM_Version::supports_avx512dq()
 #line 13899 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13925,7 +13925,7 @@ UseAVX > 2 && VM_Version::supports_avx512dq()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5094 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5094 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && VM_Version::supports_avx512dq()
 #line 13931 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13959,7 +13959,7 @@ UseAVX > 2 && VM_Version::supports_avx512dq()
 void  State::_sub_Op_MulVF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7182 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7182 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 13965 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13968,7 +13968,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 7171 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7171 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 13974 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13979,7 +13979,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7160 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7160 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 13985 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13988,7 +13988,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 7149 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7149 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 13994 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -13999,7 +13999,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7138 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7138 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14005 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14008,7 +14008,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 7127 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7127 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14014 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14019,7 +14019,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 7117 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7117 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 14025 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14030,7 +14030,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7106 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7106 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14036 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14039,7 +14039,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 7095 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7095 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14045 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14050,7 +14050,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 7085 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7085 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14056 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14063,7 +14063,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_MulReductionVF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 5287 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5287 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 14069 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14073,7 +14073,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 5248 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5248 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 14079 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14087,7 +14087,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5225 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5225 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 14093 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14101,7 +14101,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5198 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5198 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE >= 1 && UseAVX == 0
 #line 14107 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14115,7 +14115,7 @@ UseSSE >= 1 && UseAVX == 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5183 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5183 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 14121 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14129,7 +14129,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 5164 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5164 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE >= 1 && UseAVX == 0
 #line 14135 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14145,7 +14145,7 @@ UseSSE >= 1 && UseAVX == 0
 void  State::_sub_Op_MulVD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7259 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7259 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 14151 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14154,7 +14154,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 7248 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7248 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 14160 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14165,7 +14165,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7237 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7237 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14171 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14174,7 +14174,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 7226 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7226 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14180 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14185,7 +14185,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7215 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7215 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14191 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14194,7 +14194,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 7204 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7204 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14200 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14205,7 +14205,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 7194 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7194 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14211 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14218,7 +14218,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_MulReductionVD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 5413 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5413 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2
 #line 14224 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14228,7 +14228,7 @@ UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 5390 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5390 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 14234 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14242,7 +14242,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5375 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5375 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0
 #line 14248 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14256,7 +14256,7 @@ UseAVX > 0
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 5358 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 5358 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseSSE >= 1 && UseAVX == 0
 #line 14262 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14272,7 +14272,7 @@ UseSSE >= 1 && UseAVX == 0
 void  State::_sub_Op_DivVF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7370 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7370 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 16
 #line 14278 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14281,7 +14281,7 @@ UseAVX > 0 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 7359 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7359 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 16
 #line 14287 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14292,7 +14292,7 @@ UseAVX > 0 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7348 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7348 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 14298 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14301,7 +14301,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 7337 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7337 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 14307 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14312,7 +14312,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7326 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7326 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14318 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14321,7 +14321,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 7315 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7315 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14327 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14332,7 +14332,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 7305 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7305 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 14338 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14343,7 +14343,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7294 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7294 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14349 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14352,7 +14352,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 7283 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7283 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14358 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14363,7 +14363,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 7273 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7273 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14369 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14376,7 +14376,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_DivVD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7447 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7447 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 14382 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14385,7 +14385,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 7436 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7436 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 14391 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14396,7 +14396,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7425 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7425 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14402 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14405,7 +14405,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 7414 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7414 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14411 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14416,7 +14416,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 7403 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7403 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14422 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14425,7 +14425,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 7392 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7392 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14431 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14436,7 +14436,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 7382 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7382 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14442 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14461,7 +14461,7 @@ void  State::_sub_Op_RShiftCntV(const Node *n){
 void  State::_sub_Op_LShiftVS(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7634 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7634 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 14467 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14470,7 +14470,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7623 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7623 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 14476 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14481,7 +14481,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7612 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7612 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 14487 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14490,7 +14490,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7601 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7601 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 14496 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14501,7 +14501,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7590 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7590 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 14507 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14510,7 +14510,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7579 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7579 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 14516 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14521,7 +14521,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7569 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7569 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 14527 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14532,7 +14532,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7559 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7559 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 14538 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14543,7 +14543,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7548 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7548 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14549 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14552,7 +14552,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7537 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7537 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14558 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14563,7 +14563,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7527 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7527 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 14569 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14574,7 +14574,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7517 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7517 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 14580 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14585,7 +14585,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7506 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7506 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14591 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14594,7 +14594,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7495 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7495 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14600 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14605,7 +14605,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7485 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7485 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14611 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14616,7 +14616,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7475 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7475 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14622 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14629,7 +14629,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_LShiftVI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7763 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7763 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 14635 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14638,7 +14638,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7752 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7752 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 14644 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14649,7 +14649,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7741 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7741 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 14655 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14658,7 +14658,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7730 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7730 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 14664 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14669,7 +14669,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7719 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7719 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14675 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14678,7 +14678,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7708 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7708 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14684 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14689,7 +14689,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7698 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7698 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 14695 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14700,7 +14700,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7688 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7688 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 14706 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14711,7 +14711,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7677 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7677 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14717 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14720,7 +14720,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7666 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7666 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14726 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14731,7 +14731,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7656 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7656 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14737 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14742,7 +14742,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7646 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7646 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14748 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14755,7 +14755,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_LShiftVL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7850 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7850 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 14761 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14764,7 +14764,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7839 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7839 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 14770 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14775,7 +14775,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7828 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7828 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 4
 #line 14781 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14784,7 +14784,7 @@ UseAVX > 1 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7817 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7817 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 4
 #line 14790 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14795,7 +14795,7 @@ UseAVX > 1 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7806 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7806 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14801 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14804,7 +14804,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7795 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7795 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14810 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14815,7 +14815,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7785 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7785 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14821 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14826,7 +14826,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7775 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7775 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14832 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14839,7 +14839,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_RShiftVS(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8416 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8416 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 14845 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14848,7 +14848,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8405 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8405 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 14854 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14859,7 +14859,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8394 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8394 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 14865 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14868,7 +14868,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8383 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8383 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 14874 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14879,7 +14879,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8372 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8372 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 14885 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14888,7 +14888,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8361 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8361 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 14894 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14899,7 +14899,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8351 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8351 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 14905 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14910,7 +14910,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8341 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8341 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 14916 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14921,7 +14921,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8330 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8330 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14927 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14930,7 +14930,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8319 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8319 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 14936 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14941,7 +14941,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8309 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8309 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 14947 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14952,7 +14952,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8299 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8299 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 14958 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14963,7 +14963,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8288 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8288 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14969 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14972,7 +14972,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8277 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8277 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 14978 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14983,7 +14983,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8267 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8267 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 14989 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -14994,7 +14994,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8257 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8257 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 15000 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15007,7 +15007,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_RShiftVI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8545 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8545 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 15013 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15016,7 +15016,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8534 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8534 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 15022 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15027,7 +15027,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8523 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8523 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 15033 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15036,7 +15036,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8512 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8512 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 15042 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15047,7 +15047,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8501 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8501 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 15053 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15056,7 +15056,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8490 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8490 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 15062 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15067,7 +15067,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8480 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8480 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 15073 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15078,7 +15078,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8470 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8470 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 15084 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15089,7 +15089,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8459 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8459 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 15095 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15098,7 +15098,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8448 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8448 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 15104 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15109,7 +15109,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8438 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8438 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 15115 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15120,7 +15120,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8428 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8428 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 15126 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15133,7 +15133,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_URShiftVS(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8027 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8027 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 15139 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15142,7 +15142,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8016 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8016 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 32
 #line 15148 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15153,7 +15153,7 @@ UseAVX > 2 && n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8005 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8005 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 15159 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15162,7 +15162,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7994 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7994 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 16
 #line 15168 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15173,7 +15173,7 @@ UseAVX > 1 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7983 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7983 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 15179 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15182,7 +15182,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7972 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7972 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 8
 #line 15188 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15193,7 +15193,7 @@ UseAVX > 0 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7962 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7962 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 15199 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15204,7 +15204,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7952 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7952 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 15210 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15215,7 +15215,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7941 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7941 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 15221 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15224,7 +15224,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7930 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7930 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 15230 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15235,7 +15235,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7920 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7920 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 15241 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15246,7 +15246,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7910 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7910 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 15252 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15257,7 +15257,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7899 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7899 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 15263 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15266,7 +15266,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7888 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7888 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 15272 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15277,7 +15277,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 7878 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7878 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 15283 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15288,7 +15288,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 7868 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 7868 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 15294 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15301,7 +15301,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_URShiftVI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8156 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8156 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 15307 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15310,7 +15310,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8145 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8145 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 16
 #line 15316 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15321,7 +15321,7 @@ UseAVX > 2 && n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8134 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8134 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 15327 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15330,7 +15330,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8123 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8123 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 8
 #line 15336 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15341,7 +15341,7 @@ UseAVX > 1 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8112 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8112 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 15347 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15350,7 +15350,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8101 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8101 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 4
 #line 15356 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15361,7 +15361,7 @@ UseAVX > 0 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8091 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8091 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 15367 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15372,7 +15372,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8081 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8081 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 15378 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15383,7 +15383,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8070 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8070 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 15389 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15392,7 +15392,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8059 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8059 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 15398 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15403,7 +15403,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8049 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8049 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 15409 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15414,7 +15414,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8039 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8039 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 15420 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15427,7 +15427,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_URShiftVL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8243 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8243 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 15433 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15436,7 +15436,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8232 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8232 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length() == 8
 #line 15442 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15447,7 +15447,7 @@ UseAVX > 2 && n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8221 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8221 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 4
 #line 15453 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15456,7 +15456,7 @@ UseAVX > 1 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8210 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8210 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length() == 4
 #line 15462 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15467,7 +15467,7 @@ UseAVX > 1 && n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8199 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8199 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 15473 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15476,7 +15476,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8188 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8188 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length() == 2
 #line 15482 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15487,7 +15487,7 @@ UseAVX > 0 && n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], IMMI8) &&
         (
-#line 8178 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8178 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 15493 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15498,7 +15498,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8168 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8168 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 15504 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15511,7 +15511,7 @@ n->as_Vector()->length() == 2
 void  State::_sub_Op_AndV(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8690 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8690 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
 #line 15517 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15520,7 +15520,7 @@ UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 8679 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8679 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
 #line 15526 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15531,7 +15531,7 @@ UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8668 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8668 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
 #line 15537 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15540,7 +15540,7 @@ UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 8657 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8657 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
 #line 15546 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15551,7 +15551,7 @@ UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8646 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8646 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
 #line 15557 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15560,7 +15560,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 8635 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8635 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
 #line 15566 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15571,7 +15571,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 8625 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8625 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length_in_bytes() == 16
 #line 15577 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15582,7 +15582,7 @@ n->as_Vector()->length_in_bytes() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8614 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8614 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
 #line 15588 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15591,7 +15591,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 8603 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8603 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
 #line 15597 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15602,7 +15602,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 8593 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8593 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length_in_bytes() == 8
 #line 15608 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15613,7 +15613,7 @@ n->as_Vector()->length_in_bytes() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8582 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8582 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
 #line 15619 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15622,7 +15622,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8571 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8571 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
 #line 15628 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15633,7 +15633,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8561 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8561 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length_in_bytes() == 4
 #line 15639 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15646,7 +15646,7 @@ n->as_Vector()->length_in_bytes() == 4
 void  State::_sub_Op_OrV(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8832 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8832 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
 #line 15652 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15655,7 +15655,7 @@ UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 8821 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8821 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
 #line 15661 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15666,7 +15666,7 @@ UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8810 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8810 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
 #line 15672 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15675,7 +15675,7 @@ UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 8799 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8799 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
 #line 15681 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15686,7 +15686,7 @@ UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8788 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8788 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
 #line 15692 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15695,7 +15695,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 8777 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8777 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
 #line 15701 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15706,7 +15706,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 8767 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8767 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length_in_bytes() == 16
 #line 15712 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15717,7 +15717,7 @@ n->as_Vector()->length_in_bytes() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8756 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8756 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
 #line 15723 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15726,7 +15726,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 8745 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8745 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
 #line 15732 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15737,7 +15737,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 8735 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8735 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length_in_bytes() == 8
 #line 15743 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15748,7 +15748,7 @@ n->as_Vector()->length_in_bytes() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8724 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8724 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
 #line 15754 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15757,7 +15757,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8713 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8713 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
 #line 15763 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15768,7 +15768,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8703 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8703 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length_in_bytes() == 4
 #line 15774 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15781,7 +15781,7 @@ n->as_Vector()->length_in_bytes() == 4
 void  State::_sub_Op_XorV(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8974 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8974 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
 #line 15787 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15790,7 +15790,7 @@ UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECZ) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 8963 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8963 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
 #line 15796 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15801,7 +15801,7 @@ UseAVX > 2 && n->as_Vector()->length_in_bytes() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8952 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8952 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
 #line 15807 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15810,7 +15810,7 @@ UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 8941 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8941 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
 #line 15816 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15821,7 +15821,7 @@ UseAVX > 1 && n->as_Vector()->length_in_bytes() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8930 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8930 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
 #line 15827 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15830,7 +15830,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 8919 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8919 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
 #line 15836 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15841,7 +15841,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECX) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 8909 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8909 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length_in_bytes() == 16
 #line 15847 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15852,7 +15852,7 @@ n->as_Vector()->length_in_bytes() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8898 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8898 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
 #line 15858 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15861,7 +15861,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 8887 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8887 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
 #line 15867 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15872,7 +15872,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECD) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 8877 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8877 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length_in_bytes() == 8
 #line 15878 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15883,7 +15883,7 @@ n->as_Vector()->length_in_bytes() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], _LOADVECTOR_MEMORY_) &&
         (
-#line 8866 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8866 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
 #line 15889 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15892,7 +15892,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8855 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8855 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
 #line 15898 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15903,7 +15903,7 @@ UseAVX > 0 && n->as_Vector()->length_in_bytes() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], VECS) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 8845 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 8845 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length_in_bytes() == 4
 #line 15909 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15920,7 +15920,7 @@ void  State::_sub_Op_LoadVector(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 2829 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2829 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_LoadVector()->memory_size() == 64
 #line 15926 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15929,7 +15929,7 @@ n->as_LoadVector()->memory_size() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 2817 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2817 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_LoadVector()->memory_size() == 32
 #line 15935 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15938,7 +15938,7 @@ n->as_LoadVector()->memory_size() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 2805 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2805 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_LoadVector()->memory_size() == 16
 #line 15944 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15947,7 +15947,7 @@ n->as_LoadVector()->memory_size() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 2793 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2793 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_LoadVector()->memory_size() == 8
 #line 15953 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15956,7 +15956,7 @@ n->as_LoadVector()->memory_size() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 2781 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2781 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_LoadVector()->memory_size() == 4
 #line 15962 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15967,7 +15967,7 @@ n->as_LoadVector()->memory_size() == 4
 void  State::_sub_Op_StoreVector(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], VECZ) &&
         (
-#line 2886 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2886 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_StoreVector()->memory_size() == 64
 #line 15973 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15976,7 +15976,7 @@ n->as_StoreVector()->memory_size() == 64
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], VECY) &&
         (
-#line 2875 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2875 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_StoreVector()->memory_size() == 32
 #line 15982 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15987,7 +15987,7 @@ n->as_StoreVector()->memory_size() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], VECX) &&
         (
-#line 2864 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2864 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_StoreVector()->memory_size() == 16
 #line 15993 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -15998,7 +15998,7 @@ n->as_StoreVector()->memory_size() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], VECD) &&
         (
-#line 2853 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2853 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_StoreVector()->memory_size() == 8
 #line 16004 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16009,7 +16009,7 @@ n->as_StoreVector()->memory_size() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], VECS) &&
         (
-#line 2842 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2842 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_StoreVector()->memory_size() == 4
 #line 16015 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16022,7 +16022,7 @@ n->as_StoreVector()->memory_size() == 4
 void  State::_sub_Op_ReplicateB(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3872 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3872 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 64 && UseAVX > 2
 #line 16028 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16031,7 +16031,7 @@ n->as_Vector()->length() == 64 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3859 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3859 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 64 && UseAVX > 2
 #line 16037 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16042,7 +16042,7 @@ n->as_Vector()->length() == 64 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3846 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3846 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && VM_Version::supports_avx512vlbw()
 #line 16048 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16051,7 +16051,7 @@ n->as_Vector()->length() == 32 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3833 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3833 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
 #line 16057 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16060,7 +16060,7 @@ n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADB_MEMORY_) &&
         (
-#line 3822 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3822 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 64 && VM_Version::supports_avx512vlbw()
 #line 16066 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16071,7 +16071,7 @@ n->as_Vector()->length() == 64 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3811 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3811 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 64 && UseAVX > 2
 #line 16077 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16082,7 +16082,7 @@ n->as_Vector()->length() == 64 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADB_MEMORY_) &&
         (
-#line 3800 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3800 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && VM_Version::supports_avx512vlbw()
 #line 16088 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16093,7 +16093,7 @@ n->as_Vector()->length() == 32 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3789 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3789 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && VM_Version::supports_avx512vlbw()
 #line 16099 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16104,7 +16104,7 @@ n->as_Vector()->length() == 32 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADB_MEMORY_) &&
         (
-#line 3778 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3778 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
 #line 16110 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16115,7 +16115,7 @@ n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3767 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3767 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
 #line 16121 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16126,7 +16126,7 @@ n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADB_MEMORY_) &&
         (
-#line 3756 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3756 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && VM_Version::supports_avx512vlbw()
 #line 16132 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16135,7 +16135,7 @@ n->as_Vector()->length() == 8 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADB_MEMORY_) &&
         (
-#line 3745 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3745 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vlbw()
 #line 16141 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16144,7 +16144,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3430 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3430 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32
 #line 16150 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16155,7 +16155,7 @@ n->as_Vector()->length() == 32
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3420 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3420 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16
 #line 16161 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16166,7 +16166,7 @@ n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3410 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3410 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 16172 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16177,7 +16177,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3400 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3400 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 16183 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16188,7 +16188,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3389 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3389 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 16194 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16199,7 +16199,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3379 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3379 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 16205 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16210,7 +16210,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3364 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3364 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 16216 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16221,7 +16221,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3350 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3350 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 16227 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16232,7 +16232,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3000 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3000 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && !VM_Version::supports_avx512vlbw()
 #line 16238 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16243,7 +16243,7 @@ n->as_Vector()->length() == 32 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 2988 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2988 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
 #line 16249 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16254,7 +16254,7 @@ n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADB_MEMORY_) &&
         (
-#line 2972 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2972 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && !VM_Version::supports_avx512vlbw()
 #line 16260 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16265,7 +16265,7 @@ n->as_Vector()->length() == 32 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 2954 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2954 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && !VM_Version::supports_avx512vlbw()
 #line 16271 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16276,7 +16276,7 @@ n->as_Vector()->length() == 32 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADB_MEMORY_) &&
         (
-#line 2940 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2940 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && UseAVX > 0 && !VM_Version::supports_avx512vlbw()
 #line 16282 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16287,7 +16287,7 @@ n->as_Vector()->length() == 16 && UseAVX > 0 && !VM_Version::supports_avx512vlbw
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 2924 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2924 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
 #line 16293 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16298,7 +16298,7 @@ n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADB_MEMORY_) &&
         (
-#line 2912 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2912 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && UseAVX > 0 && !VM_Version::supports_avx512vlbw()
 #line 16304 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16309,7 +16309,7 @@ n->as_Vector()->length() == 8 && UseAVX > 0 && !VM_Version::supports_avx512vlbw(
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADB_MEMORY_) &&
         (
-#line 2900 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 2900 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && UseAVX > 0 && !VM_Version::supports_avx512vlbw()
 #line 16315 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16322,7 +16322,7 @@ n->as_Vector()->length() == 4 && UseAVX > 0 && !VM_Version::supports_avx512vlbw(
 void  State::_sub_Op_ReplicateS(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 4011 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4011 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && UseAVX > 2
 #line 16328 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16331,7 +16331,7 @@ n->as_Vector()->length() == 32 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3998 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3998 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && UseAVX > 2
 #line 16337 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16342,7 +16342,7 @@ n->as_Vector()->length() == 32 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3985 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3985 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
 #line 16348 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16351,7 +16351,7 @@ n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3972 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3972 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && VM_Version::supports_avx512vlbw()
 #line 16357 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16360,7 +16360,7 @@ n->as_Vector()->length() == 8 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADS_MEMORY_) &&
         (
-#line 3961 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3961 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && UseAVX > 2
 #line 16366 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16371,7 +16371,7 @@ n->as_Vector()->length() == 32 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3950 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3950 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 32 && UseAVX > 2
 #line 16377 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16382,7 +16382,7 @@ n->as_Vector()->length() == 32 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADS_MEMORY_) &&
         (
-#line 3939 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3939 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
 #line 16388 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16393,7 +16393,7 @@ n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3928 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3928 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
 #line 16399 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16404,7 +16404,7 @@ n->as_Vector()->length() == 16 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADS_MEMORY_) &&
         (
-#line 3917 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3917 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && VM_Version::supports_avx512vlbw()
 #line 16410 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16415,7 +16415,7 @@ n->as_Vector()->length() == 8 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3906 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3906 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && VM_Version::supports_avx512vlbw()
 #line 16421 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16426,7 +16426,7 @@ n->as_Vector()->length() == 8 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADS_MEMORY_) &&
         (
-#line 3895 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3895 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vlbw()
 #line 16432 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16435,7 +16435,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3884 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3884 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vlbw()
 #line 16441 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16446,7 +16446,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3507 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3507 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16
 #line 16452 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16457,7 +16457,7 @@ n->as_Vector()->length() == 16
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3497 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3497 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 16463 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16468,7 +16468,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3487 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3487 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 16474 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16479,7 +16479,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3477 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3477 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16485 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16488,7 +16488,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3466 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3466 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 16494 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16499,7 +16499,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3456 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3456 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16505 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16510,7 +16510,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3443 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3443 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16516 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16521,7 +16521,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3104 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3104 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
 #line 16527 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16532,7 +16532,7 @@ n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADS_MEMORY_) &&
         (
-#line 3090 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3090 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
 #line 16538 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16543,7 +16543,7 @@ n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3074 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3074 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
 #line 16549 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16554,7 +16554,7 @@ n->as_Vector()->length() == 16 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3062 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3062 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vlbw()
 #line 16560 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16565,7 +16565,7 @@ n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADS_MEMORY_) &&
         (
-#line 3050 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3050 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && UseAVX > 0 && !VM_Version::supports_avx512vlbw()
 #line 16571 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16576,7 +16576,7 @@ n->as_Vector()->length() == 8 && UseAVX > 0 && !VM_Version::supports_avx512vlbw(
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3036 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3036 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vlbw()
 #line 16582 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16587,7 +16587,7 @@ n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vlbw()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADS_MEMORY_) &&
         (
-#line 3026 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3026 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && UseAVX > 0 && !VM_Version::supports_avx512vlbw()
 #line 16593 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16598,7 +16598,7 @@ n->as_Vector()->length() == 4 && UseAVX > 0 && !VM_Version::supports_avx512vlbw(
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3014 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3014 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vlbw()
 #line 16604 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16611,7 +16611,7 @@ n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vlbw()
 void  State::_sub_Op_ReplicateI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 4128 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4128 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && UseAVX > 2
 #line 16617 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16620,7 +16620,7 @@ n->as_Vector()->length() == 16 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 4115 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4115 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && UseAVX > 2
 #line 16626 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16631,7 +16631,7 @@ n->as_Vector()->length() == 16 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 4102 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4102 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
 #line 16637 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16640,7 +16640,7 @@ n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 4089 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4089 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
 #line 16646 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16649,7 +16649,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) &&
         (
-#line 4078 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4078 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && UseAVX > 2
 #line 16655 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16660,7 +16660,7 @@ n->as_Vector()->length() == 16 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 4067 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4067 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && UseAVX > 2
 #line 16666 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16671,7 +16671,7 @@ n->as_Vector()->length() == 16 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) &&
         (
-#line 4056 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4056 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
 #line 16677 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16682,7 +16682,7 @@ n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 4045 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4045 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
 #line 16688 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16693,7 +16693,7 @@ n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) &&
         (
-#line 4034 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4034 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
 #line 16699 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16704,7 +16704,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 4023 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4023 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
 #line 16710 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16715,7 +16715,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3577 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3577 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 16721 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16726,7 +16726,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3567 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3567 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 16732 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16737,7 +16737,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI0) &&
         (
-#line 3557 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3557 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16743 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16746,7 +16746,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3546 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3546 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16752 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16757,7 +16757,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) &&
         (
-#line 3533 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3533 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16763 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16768,7 +16768,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3520 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3520 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16774 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16779,7 +16779,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3178 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3178 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
 #line 16785 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16790,7 +16790,7 @@ n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMI) &&
         (
-#line 3166 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3166 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
 #line 16796 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16801,7 +16801,7 @@ n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) &&
         (
-#line 3154 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3154 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
 #line 16807 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16812,7 +16812,7 @@ n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3140 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3140 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
 #line 16818 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16823,7 +16823,7 @@ n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) &&
         (
-#line 3130 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3130 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && UseAVX > 0 && !VM_Version::supports_avx512vl()
 #line 16829 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16834,7 +16834,7 @@ n->as_Vector()->length() == 4 && UseAVX > 0 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 3118 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3118 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
 #line 16840 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16847,7 +16847,7 @@ n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
 void  State::_sub_Op_ReplicateL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], IMML0) &&
         (
-#line 4260 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4260 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && UseAVX > 2
 #line 16853 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16856,7 +16856,7 @@ n->as_Vector()->length() == 8 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) &&
         (
-#line 4249 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4249 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && UseAVX > 2
 #line 16862 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16867,7 +16867,7 @@ n->as_Vector()->length() == 8 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) &&
         (
-#line 4238 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4238 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
 #line 16873 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16876,7 +16876,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) &&
         (
-#line 4227 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4227 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2 && VM_Version::supports_avx512vl()
 #line 16882 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16885,7 +16885,7 @@ n->as_Vector()->length() == 2 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], IMML) &&
         (
-#line 4214 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4214 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && UseAVX > 2
 #line 16891 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16896,7 +16896,7 @@ n->as_Vector()->length() == 8 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMML) &&
         (
-#line 4201 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4201 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
 #line 16902 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16907,7 +16907,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 4153 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4153 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && UseAVX > 2
 #line 16913 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16918,7 +16918,7 @@ n->as_Vector()->length() == 8 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 4142 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4142 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
 #line 16924 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16929,7 +16929,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], IMML0) &&
         (
-#line 3645 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3645 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 16935 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16940,7 +16940,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], IMML0) &&
         (
-#line 3635 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3635 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16946 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16951,7 +16951,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], IMML) &&
         (
-#line 3622 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3622 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16957 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16962,7 +16962,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 3591 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3591 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 16968 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16973,7 +16973,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) &&
         (
-#line 3255 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3255 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
 #line 16979 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16984,7 +16984,7 @@ n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], IMML) &&
         (
-#line 3241 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3241 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
 #line 16990 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -16995,7 +16995,7 @@ n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 3207 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3207 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
 #line 17001 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17006,7 +17006,7 @@ n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) &&
         (
-#line 3193 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3193 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2 && !VM_Version::supports_avx512vlbw()
 #line 17012 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17019,7 +17019,7 @@ n->as_Vector()->length() == 2 && !VM_Version::supports_avx512vlbw()
 void  State::_sub_Op_ReplicateF(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], IMMF0) &&
         (
-#line 4316 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4316 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && UseAVX > 2
 #line 17025 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17028,7 +17028,7 @@ n->as_Vector()->length() == 16 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADF_MEMORY_) &&
         (
-#line 4305 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4305 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && UseAVX > 2
 #line 17034 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17039,7 +17039,7 @@ n->as_Vector()->length() == 16 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) &&
         (
-#line 4294 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4294 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 16 && UseAVX > 2
 #line 17045 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17050,7 +17050,7 @@ n->as_Vector()->length() == 16 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADF_MEMORY_) &&
         (
-#line 4283 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4283 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
 #line 17056 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17059,7 +17059,7 @@ n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) &&
         (
-#line 4272 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4272 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
 #line 17065 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17070,7 +17070,7 @@ n->as_Vector()->length() == 8 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMF0) &&
         (
-#line 3699 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3699 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8
 #line 17076 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17081,7 +17081,7 @@ n->as_Vector()->length() == 8
     }
     if( STATE__VALID_CHILD(_kids[0], IMMF0) &&
         (
-#line 3689 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3689 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 17087 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17090,7 +17090,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], IMMF0) &&
         (
-#line 3679 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3679 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 17096 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17099,7 +17099,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) &&
         (
-#line 3668 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3668 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 17105 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17110,7 +17110,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) &&
         (
-#line 3658 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3658 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 17116 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17121,7 +17121,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADF_MEMORY_) &&
         (
-#line 3301 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3301 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
 #line 17127 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17132,7 +17132,7 @@ n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], REGF) &&
         (
-#line 3289 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3289 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
 #line 17138 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17143,7 +17143,7 @@ n->as_Vector()->length() == 8 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADF_MEMORY_) &&
         (
-#line 3279 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3279 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && UseAVX > 0 && !VM_Version::supports_avx512vl()
 #line 17149 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17154,7 +17154,7 @@ n->as_Vector()->length() == 4 && UseAVX > 0 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADF_MEMORY_) &&
         (
-#line 3269 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3269 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2 && UseAVX > 0 && !VM_Version::supports_avx512vl()
 #line 17160 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17167,7 +17167,7 @@ n->as_Vector()->length() == 2 && UseAVX > 0 && !VM_Version::supports_avx512vl()
 void  State::_sub_Op_ReplicateD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], IMMD0) &&
         (
-#line 4371 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4371 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && UseAVX > 2
 #line 17173 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17176,7 +17176,7 @@ n->as_Vector()->length() == 8 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADD_MEMORY_) &&
         (
-#line 4360 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4360 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && UseAVX > 2
 #line 17182 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17187,7 +17187,7 @@ n->as_Vector()->length() == 8 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) &&
         (
-#line 4349 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4349 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 8 && UseAVX > 2
 #line 17193 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17198,7 +17198,7 @@ n->as_Vector()->length() == 8 && UseAVX > 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADD_MEMORY_) &&
         (
-#line 4338 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4338 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
 #line 17204 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17207,7 +17207,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) &&
         (
-#line 4327 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 4327 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
 #line 17213 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17218,7 +17218,7 @@ n->as_Vector()->length() == 4 && VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], IMMD0) &&
         (
-#line 3732 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3732 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4
 #line 17224 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17229,7 +17229,7 @@ n->as_Vector()->length() == 4
     }
     if( STATE__VALID_CHILD(_kids[0], IMMD0) &&
         (
-#line 3722 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3722 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 17235 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17238,7 +17238,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) &&
         (
-#line 3711 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3711 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2
 #line 17244 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17249,7 +17249,7 @@ n->as_Vector()->length() == 2
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADD_MEMORY_) &&
         (
-#line 3335 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3335 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
 #line 17255 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17260,7 +17260,7 @@ n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], REGD) &&
         (
-#line 3323 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3323 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
 #line 17266 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -17271,7 +17271,7 @@ n->as_Vector()->length() == 4 && !VM_Version::supports_avx512vl()
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADD_MEMORY_) &&
         (
-#line 3313 "/home/mrjantz/projects/memcolor/hotspot/src/cpu/x86/vm/x86.ad"
+#line 3313 "/root/hotspot/src/cpu/x86/vm/x86.ad"
 n->as_Vector()->length() == 2 && UseAVX > 0 && !VM_Version::supports_avx512vl()
 #line 17277 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {

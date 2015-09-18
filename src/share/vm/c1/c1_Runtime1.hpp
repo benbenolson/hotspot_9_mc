@@ -102,9 +102,13 @@ class Runtime1: public AllStatic {
   static int _arraycopy_checkcast_cnt;
   static int _arraycopy_checkcast_attempt_cnt;
   static int _new_type_array_slowcase_cnt;
+  static int _new_type_array_unknown_color_cnt;
   static int _new_object_array_slowcase_cnt;
+  static int _new_object_array_unknown_color_cnt;
   static int _new_instance_slowcase_cnt;
+  static int _new_instance_unknown_color_cnt;
   static int _new_multi_array_slowcase_cnt;
+  static int _new_multi_array_unknown_color_cnt;
   static int _monitorenter_slowcase_cnt;
   static int _monitorexit_slowcase_cnt;
   static int _patch_code_slowcase_cnt;
@@ -134,10 +138,14 @@ class Runtime1: public AllStatic {
                                        Register arg1 = noreg, Register arg2 = noreg, Register arg3 = noreg);
 
   // runtime entry points
-  static void new_instance    (JavaThread* thread, Klass* klass);
+  static void new_instance         (JavaThread* thread, Klass* klass);
+  static void new_colored_instance (JavaThread* thread, Klass* klass, Method *method, int bci);
   static void new_type_array  (JavaThread* thread, Klass* klass, jint length);
+  static void new_colored_type_array  (JavaThread* thread, Klass* klass, jint length, Method *method, int bci);
   static void new_object_array(JavaThread* thread, Klass* klass, jint length);
+  static void new_colored_object_array(JavaThread* thread, Klass* klass, jint length, Method *method, int bci);
   static void new_multi_array (JavaThread* thread, Klass* klass, int rank, jint* dims);
+  static void new_colored_multi_array (JavaThread* thread, Klass* klass, int rank, jint* dims, Method *method, int bci);
 
   static address counter_overflow(JavaThread* thread, int bci, Method* method);
 

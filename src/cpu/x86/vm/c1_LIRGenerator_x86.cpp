@@ -1087,14 +1087,15 @@ void LIRGenerator::do_Convert(Convert* x) {
 void LIRGenerator::do_NewInstance(NewInstance* x) {
   print_if_not_loaded(x);
 
+  //tty->print_cr("klass: %p method: %p, bci: %d", x->klass()->mj_get_Klass(),
+  //  x->method()->get_Method(), x->bci());
   CodeEmitInfo* info = state_for(x, x->state());
   LIR_Opr reg = result_register_for(x->type());
-  new_instance(reg, x->klass(), x->is_unresolved(),
-                       FrameMap::rcx_oop_opr,
-                       FrameMap::rdi_oop_opr,
-                       FrameMap::rsi_oop_opr,
-                       LIR_OprFact::illegalOpr,
-                       FrameMap::rdx_metadata_opr, info);
+
+  new_instance(reg, x->klass(), x->method(), x->bci(), x->is_unresolved(),
+               FrameMap::rax_oop_opr, FrameMap::rdi_oop_opr,
+               FrameMap::rsi_oop_opr, LIR_OprFact::illegalOpr,
+               FrameMap::rdx_metadata_opr, FrameMap::rax_metadata_opr, info);
   LIR_Opr result = rlock_result(x);
   __ move(reg, result);
 }
@@ -1111,13 +1112,15 @@ void LIRGenerator::do_NewTypeArray(NewTypeArray* x) {
   LIR_Opr tmp2 = FrameMap::rsi_oop_opr;
   LIR_Opr tmp3 = FrameMap::rdi_oop_opr;
   LIR_Opr tmp4 = reg;
-  LIR_Opr klass_reg = FrameMap::rdx_metadata_opr;
+  LIR_Opr klass_reg  = FrameMap::rdx_metadata_opr;
+  LIR_Opr method_reg = FrameMap::rcx_metadata_opr;
   LIR_Opr len = length.result();
   BasicType elem_type = x->elt_type();
 
   __ metadata2reg(ciTypeArrayKlass::make(elem_type)->constant_encoding(), klass_reg);
+  __ metadata2reg(x->method()->constant_encoding(), method_reg);
 
-  CodeStub* slow_path = new NewTypeArrayStub(klass_reg, len, reg, info);
+  CodeStub* slow_path = new NewTypeArrayStub(klass_reg, len, reg, method_reg, x->bci(), info);
   __ allocate_array(reg, len, tmp1, tmp2, tmp3, tmp4, elem_type, klass_reg, slow_path);
 
   LIR_Opr result = rlock_result(x);
@@ -1142,16 +1145,23 @@ void LIRGenerator::do_NewObjectArray(NewObjectArray* x) {
   LIR_Opr tmp3 = FrameMap::rdi_oop_opr;
   LIR_Opr tmp4 = reg;
   LIR_Opr klass_reg = FrameMap::rdx_metadata_opr;
+  LIR_Opr method_reg = FrameMap::rcx_metadata_opr;
 
   length.load_item_force(FrameMap::rbx_opr);
   LIR_Opr len = length.result();
 
-  CodeStub* slow_path = new NewObjectArrayStub(klass_reg, len, reg, info);
+  CodeStub* slow_path = new NewObjectArrayStub(klass_reg, len, reg,
+                                                method_reg, x->bci(), info);
   ciKlass* obj = (ciKlass*) ciObjArrayKlass::make(x->klass());
   if (obj == ciEnv::unloaded_ciobjarrayklass()) {
     BAILOUT("encountered unloaded_ciobjarrayklass due to out of memory error");
   }
+
+  //tty->print_cr("klass: %p method: %p, bci: %d",
+  //  obj->mj_get_Klass(), x->method()->get_Method(), x->bci());
+
   klass2reg_with_patching(klass_reg, obj, patching_info);
+  __ metadata2reg(x->method()->constant_encoding(), method_reg);
   __ allocate_array(reg, len, tmp1, tmp2, tmp3, tmp4, T_OBJECT, klass_reg, slow_path);
 
   LIR_Opr result = rlock_result(x);
@@ -1191,6 +1201,11 @@ void LIRGenerator::do_NewMultiArray(NewMultiArray* x) {
 
   LIR_Opr klass_reg = FrameMap::rax_metadata_opr;
   klass2reg_with_patching(klass_reg, x->klass(), patching_info);
+
+  LIR_Opr method_reg = FrameMap::rdx_metadata_opr;
+  __ metadata2reg(x->method()->constant_encoding(), method_reg);
+  //tty->print_cr("klass: %p method: %p, bci: %d",
+  //  x->klass()->mj_get_Klass(), x->method()->get_Method(), x->bci());
 
   LIR_Opr rank = FrameMap::rbx_opr;
   __ move(LIR_OprFact::intConst(x->rank()), rank);

@@ -100,6 +100,8 @@ class StubAssembler: public C1_MacroAssembler {
   int call_RT(Register oop_result1, Register metadata_result, address entry, Register arg1);
   int call_RT(Register oop_result1, Register metadata_result, address entry, Register arg1, Register arg2);
   int call_RT(Register oop_result1, Register metadata_result, address entry, Register arg1, Register arg2, Register arg3);
+  int call_RT(Register oop_result1, Register metadata_result, address entry, Register arg1, Register arg2, Register arg3, Register arg4);
+  int call_RT(Register oop_result1, Register metadata_result, address entry, Register arg1, Register arg2, Register arg3, Register arg4, Register arg5);
 };
 
 #endif // SHARE_VM_C1_C1_MACROASSEMBLER_HPP

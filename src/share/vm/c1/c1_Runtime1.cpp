@@ -111,9 +111,13 @@ int Runtime1::_arraycopy_slowcase_cnt = 0;
 int Runtime1::_arraycopy_checkcast_cnt = 0;
 int Runtime1::_arraycopy_checkcast_attempt_cnt = 0;
 int Runtime1::_new_type_array_slowcase_cnt = 0;
+int Runtime1::_new_type_array_unknown_color_cnt = 0;
 int Runtime1::_new_object_array_slowcase_cnt = 0;
+int Runtime1::_new_object_array_unknown_color_cnt = 0;
 int Runtime1::_new_instance_slowcase_cnt = 0;
+int Runtime1::_new_instance_unknown_color_cnt = 0;
 int Runtime1::_new_multi_array_slowcase_cnt = 0;
+int Runtime1::_new_multi_array_unknown_color_cnt = 0;
 int Runtime1::_monitorenter_slowcase_cnt = 0;
 int Runtime1::_monitorexit_slowcase_cnt = 0;
 int Runtime1::_patch_code_slowcase_cnt = 0;
@@ -338,6 +342,41 @@ JRT_ENTRY(void, Runtime1::new_instance(JavaThread* thread, Klass* klass))
   thread->set_vm_result(obj);
 JRT_END
 
+JRT_ENTRY(void, Runtime1::new_colored_instance(JavaThread* thread,
+  Klass* klass, Method *method, int bci))
+  NOT_PRODUCT(_new_instance_slowcase_cnt++;)
+
+  //tty->print_cr("instance: __klass: %p __method: %p __bci: %d %d", klass, method,
+  //  bci, _new_instance_slowcase_cnt);
+  CollectedHeap *heap = Universe::heap();
+  HeapColor color;
+  if (method != NULL && Metaspace::contains(method)) {
+    if (HotMethodAllocate && HotKlassAllocate) {
+      color = (method->is_hot() || klass->is_hot()) ? HC_RED : HC_BLUE;
+    }
+    else if (HotMethodAllocate) {
+      color = method->is_hot() ? HC_RED : HC_BLUE;
+    }
+    else if (HotKlassAllocate) {
+      color = klass->is_hot() ? HC_RED : HC_BLUE;
+    } else {
+      color = method->get_ap_color(bci, UnknownAPHeapColor);
+    }
+  } else {
+    color = UnknownAPHeapColor;
+    NOT_PRODUCT(_new_instance_unknown_color_cnt++;)
+  }
+
+  assert(klass->is_klass(), "not a class");
+  instanceKlassHandle h(thread, klass);
+  h->check_valid_for_instantiation(true, CHECK);
+  // make sure klass is initialized
+  h->initialize(CHECK);
+  // allocate instance and return via TLS
+  oop obj = h->allocate_instance(color, CHECK);
+  thread->set_vm_result(obj);
+JRT_END
+
 
 JRT_ENTRY(void, Runtime1::new_type_array(JavaThread* thread, Klass* klass, jint length))
   NOT_PRODUCT(_new_type_array_slowcase_cnt++;)
@@ -347,6 +386,47 @@ JRT_ENTRY(void, Runtime1::new_type_array(JavaThread* thread, Klass* klass, jint 
   assert(klass->is_klass(), "not a class");
   BasicType elt_type = TypeArrayKlass::cast(klass)->element_type();
   oop obj = oopFactory::new_typeArray(elt_type, length, CHECK);
+  thread->set_vm_result(obj);
+  // This is pretty rare but this runtime patch is stressful to deoptimization
+  // if we deoptimize here so force a deopt to stress the path.
+  if (DeoptimizeALot) {
+    deopt_caller();
+  }
+
+JRT_END
+
+JRT_ENTRY(void, Runtime1::new_colored_type_array(JavaThread* thread, Klass* klass, jint length,
+  Method *method, int bci))
+  NOT_PRODUCT(_new_type_array_slowcase_cnt++;)
+  // Note: no handle for klass needed since they are not used
+  //       anymore after new_typeArray() and no GC can happen before.
+  //       (This may have to change if this code changes!)
+  assert(klass->is_klass(), "not a class");
+
+  //tty->print_cr("__klass: %p __method: %p __bci: %d %d", klass, method,
+  //  bci, _new_type_array_slowcase_cnt);
+
+  CollectedHeap *heap = Universe::heap();
+  HeapColor color;
+  if (method != NULL && Metaspace::contains(method)) {
+    if (HotMethodAllocate && HotKlassAllocate) {
+      color = (method->is_hot() || klass->is_hot()) ? HC_RED : HC_BLUE;
+    }
+    else if (HotMethodAllocate) {
+      color = method->is_hot() ? HC_RED : HC_BLUE;
+    }
+    else if (HotKlassAllocate) {
+      color = klass->is_hot() ? HC_RED : HC_BLUE;
+    } else {
+      color = method->get_ap_color(bci, UnknownAPHeapColor);
+    }
+  } else {
+    color = UnknownAPHeapColor;
+    NOT_PRODUCT(_new_type_array_unknown_color_cnt++;)
+  }
+
+  BasicType elt_type = TypeArrayKlass::cast(klass)->element_type();
+  oop obj = oopFactory::new_typeArray(elt_type, length, color, CHECK);
   thread->set_vm_result(obj);
   // This is pretty rare but this runtime patch is stressful to deoptimization
   // if we deoptimize here so force a deopt to stress the path.
@@ -374,6 +454,49 @@ JRT_ENTRY(void, Runtime1::new_object_array(JavaThread* thread, Klass* array_klas
   }
 JRT_END
 
+JRT_ENTRY(void, Runtime1::new_colored_object_array(JavaThread* thread, Klass* array_klass,
+  jint length, Method *method, int bci))
+  NOT_PRODUCT(_new_object_array_slowcase_cnt++;)
+
+  // Note: no handle for klass needed since they are not used
+  //       anymore after new_objArray() and no GC can happen before.
+  //       (This may have to change if this code changes!)
+  assert(array_klass->is_klass(), "not a class");
+
+  //tty->print_cr("__klass: %p __method: %p __bci: %d %d", array_klass, method,
+  //  bci, _new_object_array_slowcase_cnt);
+
+  CollectedHeap *heap = Universe::heap();
+  HeapColor color;
+  if (method != NULL && Metaspace::contains(method)) {
+    if (HotMethodAllocate && HotKlassAllocate) {
+      color = (method->is_hot() || array_klass->is_hot()) ? HC_RED : HC_BLUE;
+    }
+    else if (HotMethodAllocate) {
+      color = method->is_hot() ? HC_RED : HC_BLUE;
+    }
+    else if (HotKlassAllocate) {
+      color = array_klass->is_hot() ? HC_RED : HC_BLUE;
+    } else {
+      color = method->get_ap_color(bci, UnknownAPHeapColor);
+    }
+  } else {
+    //tty->print_cr("__klass: %p __method: %p __bci: %d %d", klass, method,
+    //  bci, _new_instance_slowcase_cnt);
+    color = UnknownAPHeapColor;
+    NOT_PRODUCT(_new_object_array_unknown_color_cnt++;)
+  }
+
+  Klass* elem_klass = ObjArrayKlass::cast(array_klass)->element_klass();
+  objArrayOop obj = oopFactory::new_objArray(elem_klass, length, color, CHECK);
+  thread->set_vm_result(obj);
+  // This is pretty rare but this runtime patch is stressful to deoptimization
+  // if we deoptimize here so force a deopt to stress the path.
+  if (DeoptimizeALot) {
+    deopt_caller();
+  }
+JRT_END
+
 
 JRT_ENTRY(void, Runtime1::new_multi_array(JavaThread* thread, Klass* klass, int rank, jint* dims))
   NOT_PRODUCT(_new_multi_array_slowcase_cnt++;)
@@ -381,6 +504,41 @@ JRT_ENTRY(void, Runtime1::new_multi_array(JavaThread* thread, Klass* klass, int 
   assert(klass->is_klass(), "not a class");
   assert(rank >= 1, "rank must be nonzero");
   oop obj = ArrayKlass::cast(klass)->multi_allocate(rank, dims, CHECK);
+  thread->set_vm_result(obj);
+JRT_END
+
+JRT_ENTRY(void, Runtime1::new_colored_multi_array(JavaThread* thread,
+  Klass* klass, int rank, jint* dims, Method* method, int bci))
+  NOT_PRODUCT(_new_multi_array_slowcase_cnt++;)
+
+  assert(klass->is_klass(), "not a class");
+
+  //tty->print_cr("__klass: %p __method: %p __bci: %d %d", klass, method,
+  //  bci, _new_multi_array_slowcase_cnt);
+
+  CollectedHeap *heap = Universe::heap();
+  HeapColor color;
+  if (method != NULL && Metaspace::contains(method)) {
+    if (HotMethodAllocate && HotKlassAllocate) {
+      color = (method->is_hot() || klass->is_hot()) ? HC_RED : HC_BLUE;
+    }
+    else if (HotMethodAllocate) {
+      color = method->is_hot() ? HC_RED : HC_BLUE;
+    }
+    else if (HotKlassAllocate) {
+      color = klass->is_hot() ? HC_RED : HC_BLUE;
+    } else {
+      color = method->get_ap_color(bci, UnknownAPHeapColor);
+    }
+  } else {
+    //tty->print_cr("__klass: %p __method: %p __bci: %d %d", klass, method,
+    //  bci, _new_instance_slowcase_cnt);
+    color = UnknownAPHeapColor;
+    NOT_PRODUCT(_new_multi_array_unknown_color_cnt++;)
+  }
+
+  assert(rank >= 1, "rank must be nonzero");
+  oop obj = ArrayKlass::cast(klass)->multi_allocate(rank, dims, color, CHECK);
   thread->set_vm_result(obj);
 JRT_END
 
@@ -1542,13 +1700,16 @@ void Runtime1::print_statistics() {
   tty->print_cr(" _arraycopy_checkcast_cnt:        %d", _arraycopy_checkcast_cnt);
   tty->print_cr(" _arraycopy_checkcast_attempt_cnt:%d", _arraycopy_checkcast_attempt_cnt);
 
-  tty->print_cr(" _new_type_array_slowcase_cnt:    %d", _new_type_array_slowcase_cnt);
-  tty->print_cr(" _new_object_array_slowcase_cnt:  %d", _new_object_array_slowcase_cnt);
-  tty->print_cr(" _new_instance_slowcase_cnt:      %d", _new_instance_slowcase_cnt);
-  tty->print_cr(" _new_multi_array_slowcase_cnt:   %d", _new_multi_array_slowcase_cnt);
-  tty->print_cr(" _monitorenter_slowcase_cnt:      %d", _monitorenter_slowcase_cnt);
-  tty->print_cr(" _monitorexit_slowcase_cnt:       %d", _monitorexit_slowcase_cnt);
-  tty->print_cr(" _patch_code_slowcase_cnt:        %d", _patch_code_slowcase_cnt);
+  tty->print_cr(" _new_type_array_slowcase_cnt:        %d", _new_type_array_slowcase_cnt);
+  tty->print_cr(" _new_type_array_unknown_color_cnt:   %d", _new_type_array_unknown_color_cnt);
+  tty->print_cr(" _new_object_array_slowcase_cnt:      %d", _new_object_array_slowcase_cnt);
+  tty->print_cr(" _new_object_array_unknown_color_cnt: %d", _new_object_array_unknown_color_cnt);
+  tty->print_cr(" _new_instance_slowcase_cnt:          %d", _new_instance_slowcase_cnt);
+  tty->print_cr(" _new_instance_unknown_color_cnt:     %d", _new_instance_unknown_color_cnt);
+  tty->print_cr(" _new_multi_array_slowcase_cnt:       %d", _new_multi_array_slowcase_cnt);
+  tty->print_cr(" _monitorenter_slowcase_cnt:          %d", _monitorenter_slowcase_cnt);
+  tty->print_cr(" _monitorexit_slowcase_cnt:           %d", _monitorexit_slowcase_cnt);
+  tty->print_cr(" _patch_code_slowcase_cnt:            %d", _patch_code_slowcase_cnt);
 
   tty->print_cr(" _throw_range_check_exception_count:            %d:", _throw_range_check_exception_count);
   tty->print_cr(" _throw_index_exception_count:                  %d:", _throw_index_exception_count);

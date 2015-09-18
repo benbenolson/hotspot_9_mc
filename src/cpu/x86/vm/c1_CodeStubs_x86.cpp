@@ -154,10 +154,12 @@ void DivByZeroStub::emit_code(LIR_Assembler* ce) {
 
 // Implementation of NewInstanceStub
 
-NewInstanceStub::NewInstanceStub(LIR_Opr klass_reg, LIR_Opr result, ciInstanceKlass* klass, CodeEmitInfo* info, Runtime1::StubID stub_id) {
+NewInstanceStub::NewInstanceStub(LIR_Opr klass_reg, LIR_Opr method_reg, int bci,
+  LIR_Opr result, CodeEmitInfo* info, Runtime1::StubID stub_id) {
   _result = result;
-  _klass = klass;
   _klass_reg = klass_reg;
+  _method_reg = method_reg;
+  _bci = bci;
   _info = new CodeEmitInfo(info);
   assert(stub_id == Runtime1::new_instance_id                 ||
          stub_id == Runtime1::fast_new_instance_id            ||
@@ -171,6 +173,8 @@ void NewInstanceStub::emit_code(LIR_Assembler* ce) {
   assert(__ rsp_offset() == 0, "frame size should be fixed");
   __ bind(_entry);
   __ movptr(rdx, _klass_reg->as_register());
+  __ movptr(rax, _method_reg->as_register());
+  ce->store_parameter(_bci, 0);
   __ call(RuntimeAddress(Runtime1::entry_for(_stub_id)));
   ce->add_call_info_here(_info);
   ce->verify_oop_map(_info);
@@ -181,10 +185,13 @@ void NewInstanceStub::emit_code(LIR_Assembler* ce) {
 
 // Implementation of NewTypeArrayStub
 
-NewTypeArrayStub::NewTypeArrayStub(LIR_Opr klass_reg, LIR_Opr length, LIR_Opr result, CodeEmitInfo* info) {
+NewTypeArrayStub::NewTypeArrayStub(LIR_Opr klass_reg, LIR_Opr length,
+  LIR_Opr result, LIR_Opr method_reg, int bci, CodeEmitInfo* info) {
   _klass_reg = klass_reg;
   _length = length;
   _result = result;
+  _method_reg = method_reg;
+  _bci = bci;
   _info = new CodeEmitInfo(info);
 }
 
@@ -194,6 +201,7 @@ void NewTypeArrayStub::emit_code(LIR_Assembler* ce) {
   __ bind(_entry);
   assert(_length->as_register() == rbx, "length must in rbx,");
   assert(_klass_reg->as_register() == rdx, "klass_reg must in rdx");
+  ce->store_parameter(_bci, 0);
   __ call(RuntimeAddress(Runtime1::entry_for(Runtime1::new_type_array_id)));
   ce->add_call_info_here(_info);
   ce->verify_oop_map(_info);
@@ -204,10 +212,13 @@ void NewTypeArrayStub::emit_code(LIR_Assembler* ce) {
 
 // Implementation of NewObjectArrayStub
 
-NewObjectArrayStub::NewObjectArrayStub(LIR_Opr klass_reg, LIR_Opr length, LIR_Opr result, CodeEmitInfo* info) {
+NewObjectArrayStub::NewObjectArrayStub(LIR_Opr klass_reg, LIR_Opr length,
+  LIR_Opr result, LIR_Opr method_reg, int bci, CodeEmitInfo* info) {
   _klass_reg = klass_reg;
   _result = result;
   _length = length;
+  _method_reg = method_reg;
+  _bci = bci;
   _info = new CodeEmitInfo(info);
 }
 
@@ -217,6 +228,7 @@ void NewObjectArrayStub::emit_code(LIR_Assembler* ce) {
   __ bind(_entry);
   assert(_length->as_register() == rbx, "length must in rbx,");
   assert(_klass_reg->as_register() == rdx, "klass_reg must in rdx");
+  ce->store_parameter(_bci, 0);
   __ call(RuntimeAddress(Runtime1::entry_for(Runtime1::new_object_array_id)));
   ce->add_call_info_here(_info);
   ce->verify_oop_map(_info);

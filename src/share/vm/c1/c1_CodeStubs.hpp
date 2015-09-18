@@ -232,14 +232,16 @@ class ImplicitNullCheckStub: public CodeStub {
 
 class NewInstanceStub: public CodeStub {
  private:
-  ciInstanceKlass* _klass;
   LIR_Opr          _klass_reg;
+  LIR_Opr          _method_reg;
+  int              _bci;
   LIR_Opr          _result;
   CodeEmitInfo*    _info;
   Runtime1::StubID _stub_id;
 
  public:
-  NewInstanceStub(LIR_Opr klass_reg, LIR_Opr result, ciInstanceKlass* klass, CodeEmitInfo* info, Runtime1::StubID stub_id);
+  NewInstanceStub(LIR_Opr klass_reg, LIR_Opr method_reg, int bci,
+    LIR_Opr result, CodeEmitInfo* info, Runtime1::StubID stub_id);
   virtual void emit_code(LIR_Assembler* e);
   virtual CodeEmitInfo* info() const             { return _info; }
   virtual void visit(LIR_OpVisitState* visitor) {
@@ -258,10 +260,13 @@ class NewTypeArrayStub: public CodeStub {
   LIR_Opr       _klass_reg;
   LIR_Opr       _length;
   LIR_Opr       _result;
+  LIR_Opr       _method_reg;
+  int           _bci;
   CodeEmitInfo* _info;
 
  public:
-  NewTypeArrayStub(LIR_Opr klass_reg, LIR_Opr length, LIR_Opr result, CodeEmitInfo* info);
+  NewTypeArrayStub(LIR_Opr klass_reg, LIR_Opr length, LIR_Opr result,
+                   LIR_Opr method_reg, int bci, CodeEmitInfo* info);
   virtual void emit_code(LIR_Assembler* e);
   virtual CodeEmitInfo* info() const             { return _info; }
   virtual void visit(LIR_OpVisitState* visitor) {
@@ -281,10 +286,13 @@ class NewObjectArrayStub: public CodeStub {
   LIR_Opr        _klass_reg;
   LIR_Opr        _length;
   LIR_Opr        _result;
+  LIR_Opr        _method_reg;
+  int            _bci;
   CodeEmitInfo*  _info;
 
  public:
-  NewObjectArrayStub(LIR_Opr klass_reg, LIR_Opr length, LIR_Opr result, CodeEmitInfo* info);
+  NewObjectArrayStub(LIR_Opr klass_reg, LIR_Opr length, LIR_Opr result,
+                     LIR_Opr method_reg, int bci, CodeEmitInfo* info);
   virtual void emit_code(LIR_Assembler* e);
   virtual CodeEmitInfo* info() const             { return _info; }
   virtual void visit(LIR_OpVisitState* visitor) {

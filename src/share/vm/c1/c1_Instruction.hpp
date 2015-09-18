@@ -1285,18 +1285,22 @@ LEAF(Invoke, StateSplit)
 
 LEAF(NewInstance, StateSplit)
  private:
+  ciMethod* _method;
   ciInstanceKlass* _klass;
+  int _bci;
   bool _is_unresolved;
 
  public:
   // creation
-  NewInstance(ciInstanceKlass* klass, ValueStack* state_before, bool is_unresolved)
+  NewInstance(ciInstanceKlass* klass, ciMethod* method, int bci, ValueStack* state_before, bool is_unresolved)
   : StateSplit(instanceType, state_before)
-  , _klass(klass), _is_unresolved(is_unresolved)
+  , _klass(klass), _method(method), _bci(bci), _is_unresolved(is_unresolved)
   {}
 
   // accessors
-  ciInstanceKlass* klass() const                 { return _klass; }
+  ciInstanceKlass* klass() const                 { return _klass;  }
+  ciMethod* method() const                       { return _method; }
+  int bci() const                                { return _bci;    }
   bool is_unresolved() const                     { return _is_unresolved; }
 
   virtual bool needs_exception_state() const     { return false; }
@@ -1338,13 +1342,19 @@ BASE(NewArray, StateSplit)
 LEAF(NewTypeArray, NewArray)
  private:
   BasicType _elt_type;
+  ciMethod *_method;
+  int _bci;
 
  public:
   // creation
-  NewTypeArray(Value length, BasicType elt_type, ValueStack* state_before)
+  NewTypeArray(Value length, BasicType elt_type, ciMethod *method,
+               int bci, ValueStack* state_before)
   : NewArray(length, state_before)
-  , _elt_type(elt_type)
+  , _elt_type(elt_type), _method(method), _bci(bci)
   {}
+
+  ciMethod* method() const                       { return _method; }
+  int bci() const                                { return _bci;    }
 
   // accessors
   BasicType elt_type() const                     { return _elt_type; }
@@ -1355,13 +1365,19 @@ LEAF(NewTypeArray, NewArray)
 LEAF(NewObjectArray, NewArray)
  private:
   ciKlass* _klass;
+  ciMethod *_method;
+  int _bci;
 
  public:
   // creation
-  NewObjectArray(ciKlass* klass, Value length, ValueStack* state_before) : NewArray(length, state_before), _klass(klass) {}
+  NewObjectArray(ciKlass* klass, Value length, ciMethod *method, int bci,
+                 ValueStack* state_before) : NewArray(length, state_before),
+                 _klass(klass), _method(method), _bci(bci) {}
 
   // accessors
-  ciKlass* klass() const                         { return _klass; }
+  ciKlass* klass() const                         { return _klass;  }
+  ciMethod* method() const                       { return _method; }
+  int bci() const                                { return _bci;    }
   ciType* exact_type() const;
 };
 
@@ -1370,10 +1386,14 @@ LEAF(NewMultiArray, NewArray)
  private:
   ciKlass* _klass;
   Values*  _dims;
+  ciMethod *_method;
+  int _bci;
 
  public:
   // creation
-  NewMultiArray(ciKlass* klass, Values* dims, ValueStack* state_before) : NewArray(NULL, state_before), _klass(klass), _dims(dims) {
+  NewMultiArray(ciKlass* klass, Values* dims, ciMethod *method, int bci,
+    ValueStack* state_before) : NewArray(NULL, state_before), _klass(klass),
+    _dims(dims), _method(method), _bci(bci) {
     ASSERT_VALUES
   }
 
@@ -1381,6 +1401,8 @@ LEAF(NewMultiArray, NewArray)
   ciKlass* klass() const                         { return _klass; }
   Values* dims() const                           { return _dims; }
   int rank() const                               { return dims()->length(); }
+  ciMethod* method() const                       { return _method; }
+  int bci() const                                { return _bci;    }
 
   // generic
   virtual void input_values_do(ValueVisitor* f) {

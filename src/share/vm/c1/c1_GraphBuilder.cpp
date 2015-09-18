@@ -2065,9 +2065,12 @@ void GraphBuilder::invoke(Bytecodes::Code code) {
 void GraphBuilder::new_instance(int klass_index) {
   ValueStack* state_before = copy_state_exhandling();
   bool will_link;
+  ciSignature* declared_signature = NULL;
   ciKlass* klass = stream()->get_klass(will_link);
   assert(klass->is_instance_klass(), "must be an instance klass");
-  NewInstance* new_instance = new NewInstance(klass->as_instance_klass(), state_before, stream()->is_unresolved_klass());
+  Value bci_value = append(new Constant(new IntConstant(bci())));
+  NewInstance* new_instance = new NewInstance(klass->as_instance_klass(),
+    stream()->method(), bci(), state_before, stream()->is_unresolved_klass());
   _memory->new_instance(new_instance);
   apush(append_split(new_instance));
 }
@@ -2075,7 +2078,8 @@ void GraphBuilder::new_instance(int klass_index) {
 
 void GraphBuilder::new_type_array() {
   ValueStack* state_before = copy_state_exhandling();
-  apush(append_split(new NewTypeArray(ipop(), (BasicType)stream()->get_index(), state_before)));
+  apush(append_split(new NewTypeArray(ipop(), (BasicType)stream()->get_index(),
+                                      stream()->method(), bci(), state_before)));
 }
 
 
@@ -2083,7 +2087,8 @@ void GraphBuilder::new_object_array() {
   bool will_link;
   ciKlass* klass = stream()->get_klass(will_link);
   ValueStack* state_before = !klass->is_loaded() || PatchALot ? copy_state_before() : copy_state_exhandling();
-  NewArray* n = new NewObjectArray(klass, ipop(), state_before);
+  NewArray* n = new NewObjectArray(klass, ipop(), stream()->method(), bci(),
+                                   state_before);
   apush(append_split(n));
 }
 
@@ -2171,7 +2176,8 @@ void GraphBuilder::new_multi_array(int dimensions) {
   int i = dimensions;
   while (i-- > 0) dims->at_put(i, ipop());
   // create array
-  NewArray* n = new NewMultiArray(klass, dims, state_before);
+  NewArray* n = new NewMultiArray(klass, dims, stream()->method(),
+                                  bci(), state_before);
   apush(append_split(n));
 }
 
