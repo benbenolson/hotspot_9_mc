@@ -47,7 +47,7 @@ enum heap_space {
   HS_EDEN_SPACE,
   HS_SURVIVOR_SPACE,
   HS_TENURED_SPACE,
-  HS_PERM_SPACE,
+  //HS_PERM_SPACE,
   HS_NR_SPACES
 };
 
@@ -1204,6 +1204,7 @@ class ObjectAddressInfoTable : public CHeapObj<mtInternal> {
     return false;
   }
 
+  /*
   bool is_perm(intptr_t addr) {
     if ( addr >= heap_boundaries[HS_PERM_SPACE][BOTTOM_ADDR] &&
          addr <  heap_boundaries[HS_PERM_SPACE][END_ADDR] ) {
@@ -1211,6 +1212,7 @@ class ObjectAddressInfoTable : public CHeapObj<mtInternal> {
       }
     return false;
   }
+  */
 
   bool allocation_failed() { return _buckets == NULL; }
 };

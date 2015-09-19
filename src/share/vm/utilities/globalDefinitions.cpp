@@ -107,7 +107,7 @@ char* genColorStr(PSGenType gen_type, HeapColor color, char *buf) {
   switch (gen_type) {
     case YOUNG_GEN: strcpy(gen_buf, "young"); break;
     case OLD_GEN:   strcpy(gen_buf, "old");   break;
-    case PERM_GEN:  strcpy(gen_buf, "perm");  break;
+    //case PERM_GEN:  strcpy(gen_buf, "perm");  break;
     case ALL_GENS:  strcpy(gen_buf, "*");   break;
     default:        ShouldNotReachHere();
   }

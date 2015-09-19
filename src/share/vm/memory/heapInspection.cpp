@@ -1507,7 +1507,7 @@ void ObjectInfoCollection::print_young_collection_stats(outputStream *out)
 {
   int i, g;
   out->print_cr("  young collection stats");
-  for (g=0; g < PERM_GEN; g++) {
+  for (g=0; g < OLD_GEN; g++) {
     out->print_cr("  lives (to %5s)",
                   ((PSGenType)g) == OLD_GEN ? "old" : "young");
 #if 1
@@ -1528,7 +1528,7 @@ void ObjectInfoCollection::print_young_collection_stats(outputStream *out)
 #endif
   }
 #if 1
-  for (g=0; g < PERM_GEN; g++) {
+  for (g=0; g < OLD_GEN; g++) {
     out->print_cr("   hots (to %5s)", 
                   ((PSGenType)g) == OLD_GEN ? "old" : "young");
     for (i=0; i < HC_ENUM_TOTAL; i++) {
@@ -1693,13 +1693,13 @@ void ObjectInfoCollection::collect_alloc_point_info(bool only_unmarked)
   if (UseColoredSpaces) {
     HeapColor color;
     int g, c;
-    for (g = 0; g < PERM_GEN; g++) {
+    for (g = 0; g < OLD_GEN; g++) {
       for (c = 0; c < HC_TOTAL; c++) {
         collect_gen_color_alloc_point_info(only_unmarked, (PSGenType)g, (HeapColor)c);
       }
     }
     // do the perm gen
-    collect_gen_color_alloc_point_info(only_unmarked, PERM_GEN, HC_NOT_COLORED);
+    collect_gen_color_alloc_point_info(only_unmarked, OLD_GEN, HC_NOT_COLORED);
   } else {
     collect_gen_color_alloc_point_info(only_unmarked, ALL_GENS, HC_NOT_COLORED);
   }
@@ -1780,14 +1780,14 @@ void ObjectInfoCollection::print_object_info(outputStream *objlog,
   if (UseColoredSpaces) {
     HeapColor color;
     int g, c;
-    for (g = 0; g < PERM_GEN; g++) {
+    for (g = 0; g < OLD_GEN; g++) {
       for (c = 0; c < HC_TOTAL; c++) {
         print_gen_color_object_info(objlog, ref, (PSGenType)g,
                                     (HeapColor)c, header_only, post_gc);
       }
     }
-    // do the perm gen
-    print_gen_color_object_info(objlog, ref, PERM_GEN, HC_NOT_COLORED,
+    // do the old gen
+    print_gen_color_object_info(objlog, ref, OLD_GEN, HC_NOT_COLORED,
                                 header_only, post_gc);
   } else {
     print_gen_color_object_info(objlog, ref, ALL_GENS, HC_NOT_COLORED,
@@ -3854,9 +3854,11 @@ void ObjectAddressInfoEntry::print_bin_on(FILE *binout, outputStream *textout)
   int type      = (int)  (_value->type());
 
   ObjectAddressInfoTable *oait = Universe::object_address_info_table();
+  /*
   if (oait->is_perm(addr)) {
     return;
   }
+  */
 
   jlong ref_cnt  = 0l;
   if (((enum obj_type)type) == VM_OBJECT) {
@@ -3915,8 +3917,7 @@ void ObjectAddressInfoBucket::empty_spaces(bool do_old_space,
   ObjectAddressInfoEntry* prev = NULL;
 
   while (cur != NULL) {
-    if (!(oait->is_perm(cur->value()->addr())) && 
-         (do_old_space || oait->is_young(cur->value()->addr())) ) {
+    if ( (do_old_space || oait->is_young(cur->value()->addr())) ) {
       ObjectAddressInfoEntry* next = cur->next();
 
       if (prev == NULL) {
@@ -4383,7 +4384,7 @@ void ObjectAddressInfoTable::print_header(outputStream *textout,
   print_heap_stats(textout, "eden",     HS_EDEN_SPACE);
   print_heap_stats(textout, "survivor", HS_SURVIVOR_SPACE);
   print_heap_stats(textout, "tenured",  HS_TENURED_SPACE);
-  print_heap_stats(textout, "perm",     HS_PERM_SPACE);
+  /*print_heap_stats(textout, "perm",     HS_PERM_SPACE);*/
 
   textout->print("\n");
 }
@@ -4439,9 +4440,11 @@ enum heap_space ObjectAddressInfoTable::get_space(intptr_t addr)
   } else if (addr >= heap_boundaries[HS_TENURED_SPACE][BOTTOM_ADDR]   &&
              addr <  heap_boundaries[HS_TENURED_SPACE][END_ADDR]) {
     return HS_TENURED_SPACE;
+  /*
   } else if (addr >= heap_boundaries[HS_PERM_SPACE][BOTTOM_ADDR]      &&
              addr <  heap_boundaries[HS_PERM_SPACE][END_ADDR]) {
     return HS_PERM_SPACE;
+  */
   }
 
   return HS_INVALID_SPACE;

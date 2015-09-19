@@ -658,7 +658,7 @@ extern enum obj_type kt2ot(enum klass_type kt);
 enum PSGenType {
   YOUNG_GEN,
   OLD_GEN,
-  PERM_GEN,
+  //PERM_GEN,
   ALL_GENS,
 };
 
