@@ -141,6 +141,7 @@ extern Mutex*   UnsafeJlong_lock;                // provides Unsafe atomic updat
 #endif
 
 extern Mutex*   AllocPointInfoTable_lock;        // a lock on the AllocPointInfoTable
+extern Mutex*   KlassRecordTable_lock;           // a lock on the KlassRecordTable
 #ifdef PROFILE_OBJECT_INFO
 extern Mutex*   ObjectInfoTable_lock;            // a lock on the PersistentObjectInfoTable
 #endif

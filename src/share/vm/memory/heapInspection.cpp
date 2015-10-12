@@ -4085,12 +4085,14 @@ ObjectAddressInfo *ObjectAddressInfoTable::mark_alloc(oop obj,
   char kname[MAXPATHLEN];
   KlassRecordTable::get_klass_name(kname, klass);
   if ((strcmp(kname, oai->klass_record()->klass_name())) != 0) {
+    KlassRecordTable_lock->lock_without_safepoint_check();
     kr = _krt->lookup(klass);
 
     if (!kr) {
       kr = _krt->insert(klass, obj_size, ktype);
       guarantee(kr != NULL, "bad klass record insert");
     }
+    KlassRecordTable_lock->unlock();
 
     oai->set_klass_record(kr);
   }
