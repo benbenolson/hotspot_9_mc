@@ -173,7 +173,7 @@ void NewInstanceStub::emit_code(LIR_Assembler* ce) {
   assert(__ rsp_offset() == 0, "frame size should be fixed");
   __ bind(_entry);
   __ movptr(rdx, _klass_reg->as_register());
-  __ movptr(rax, _method_reg->as_register());
+  __ movptr(rcx, _method_reg->as_register());
   ce->store_parameter(_bci, 0);
   __ call(RuntimeAddress(Runtime1::entry_for(_stub_id)));
   ce->add_call_info_here(_info);
