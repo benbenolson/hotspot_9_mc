@@ -266,6 +266,12 @@ void print_method_sample_data() {
   }
 }
 
+void print_bandwidth_data() {
+  tty->cr();
+  tty->print_cr("Bandwidth data:");
+  tty->cr();
+}
+
 void print_klass_access_lists() {
   ResourceMark rm;
   HandleMark hm;
@@ -317,6 +323,10 @@ void print_statistics() {
     HotMethodSampler::disengage();
   }
 
+  if (SampleBandwidthAtInterval) {
+    HotMethodSampler::disengage();
+  }
+
   if (CITime) {
     CompileBroker::print_times();
   }
@@ -365,6 +375,9 @@ void print_statistics() {
   }
   if (SampleCallStacksAtInterval || SampleCallStacksContinuous) {
     print_method_sample_data();
+  }
+  if (SampleBandwidthAtInterval) {
+    print_bandwidth_data();
   }
   if (PrintKlassAccessLists) {
     print_klass_access_lists();

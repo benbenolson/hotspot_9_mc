@@ -67,6 +67,7 @@
 #include "runtime/jniPeriodicChecker.hpp"
 #include "runtime/memprofiler.hpp"
 #include "runtime/hotMethodSampler.hpp"
+#include "runtime/bandwidthSampler.hpp"
 #include "runtime/mutexLocker.hpp"
 #include "runtime/objectMonitor.hpp"
 #include "runtime/orderAccess.inline.hpp"
@@ -4049,6 +4050,7 @@ jint Threads::create_vm(JavaVMInitArgs* args, bool* canTryAgain) {
   if (Arguments::has_profile())       FlatProfiler::engage(main_thread, true);
   if (MemProfiling)                   MemProfiler::engage();
   if (SampleCallStacksAtInterval)     HotMethodSampler::engage();
+  if (SampleBandwidthAtInterval)      BandwidthSampler::engage();
   StatSampler::engage();
   if (CheckJNICalls)                  JniPeriodicChecker::engage();
 #ifdef PROFILE_OBJECT_INFO

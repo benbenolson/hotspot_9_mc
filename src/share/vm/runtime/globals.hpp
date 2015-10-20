@@ -4412,10 +4412,16 @@ public:
   develop(bool, SampleCallStacksAtInterval, false,                          \
              "Use a periodic task to sample hot methods")                   \
                                                                             \
+  develop(bool, SampleBandwidthAtInterval, false,                           \
+             "Use a periodic task to sample bandwidth")                     \
+                                                                            \
   develop(bool, SampleCallStacksContinuous, false,                          \
              "Use a dedicated thread to sample hot methods")                \
                                                                             \
   develop(intx, CallStackSampleInterval, 10,                                \
+            "interval to sample hot methods")                               \
+                                                                            \
+  develop(intx, BandwidthSampleInterval, 10,                                \
             "interval to sample hot methods")                               \
                                                                             \
   develop(double, StackSampleCutoff, 99.5,                                  \

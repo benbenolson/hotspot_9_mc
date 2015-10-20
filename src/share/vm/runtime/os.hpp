@@ -98,9 +98,9 @@ const bool ExecMem = true;
 // Typedef for structured exception handling support
 typedef void (*java_call_t)(JavaValue* value, methodHandle* method, JavaCallArguments* args, Thread* thread);
 
-#define NR_TRAYS 8
+#define NR_TRAYS 16
 #define VALID_TRAY_START 0
-#define VALID_TRAY_END 7
+#define VALID_TRAY_END 15
 typedef uint64_t traymask_t;
 
 class MallocTracker;
