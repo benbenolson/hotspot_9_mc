@@ -1187,7 +1187,7 @@ int StubAssembler::call_RT(Register oop_result1, Register metadata_result, addre
           }
 
           if (ColorObjectAllocations) {
-            Register method = rax, bci = rbx;
+            Register method = rcx, bci = rbx;
             __ enter();
             OopMap* map = save_live_registers(sasm, 4);
             // retrieve bci -- method is already in the register
@@ -1385,7 +1385,7 @@ int StubAssembler::call_RT(Register oop_result1, Register metadata_result, addre
         if (ColorObjectAllocations) {
           OopMap* map = save_live_registers(sasm, 6);
           __ movl(rdi, Address(rbp, 2*BytesPerWord));
-          int call_offset = __ call_RT(rax, noreg, CAST_FROM_FN_PTR(address, new_multi_array), rax, rbx, rcx, rdx, rdi);
+          int call_offset = __ call_RT(rax, noreg, CAST_FROM_FN_PTR(address, new_colored_multi_array), rax, rbx, rcx, rdx, rdi);
           oop_maps = new OopMapSet();
           oop_maps->add_gc_map(call_offset, map);
           restore_live_registers_except_rax(sasm);

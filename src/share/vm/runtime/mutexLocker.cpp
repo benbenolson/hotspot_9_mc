@@ -129,6 +129,7 @@ Mutex*   Management_lock              = NULL;
 Monitor* Service_lock                 = NULL;
 
 Mutex*   AllocPointInfoTable_lock     = NULL;
+Mutex*   KlassRecordTable_lock        = NULL;
 #ifdef PROFILE_OBJECT_INFO
 Mutex*   ObjectInfoTable_lock         = NULL;
 #endif
@@ -290,6 +291,7 @@ void mutex_init() {
   def(ProfileVM_lock               , Monitor, special,     false, Monitor::_safepoint_check_never);      // used for profiling of the VMThread
   def(CompileThread_lock           , Monitor, nonleaf+5,   false, Monitor::_safepoint_check_always);
   def(AllocPointInfoTable_lock     , Mutex  , leaf,        true,  Monitor::_safepoint_check_never );
+  def(KlassRecordTable_lock        , Mutex  , leaf,        true,  Monitor::_safepoint_check_never );
 #ifdef PROFILE_OBJECT_INFO
   def(ObjectInfoTable_lock         , Mutex  , leaf,        true,  Monitor::_safepoint_check_never );
 #endif

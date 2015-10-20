@@ -2069,6 +2069,8 @@ void GraphBuilder::new_instance(int klass_index) {
   ciKlass* klass = stream()->get_klass(will_link);
   assert(klass->is_instance_klass(), "must be an instance klass");
   Value bci_value = append(new Constant(new IntConstant(bci())));
+  //tty->print_cr("GraphBuilder: klass: %p, method: %p bci: %d", klass->mj_get_Klass(),
+  //              stream()->method()->get_Method(), bci());
   NewInstance* new_instance = new NewInstance(klass->as_instance_klass(),
     stream()->method(), bci(), state_before, stream()->is_unresolved_klass());
   _memory->new_instance(new_instance);
@@ -2078,6 +2080,8 @@ void GraphBuilder::new_instance(int klass_index) {
 
 void GraphBuilder::new_type_array() {
   ValueStack* state_before = copy_state_exhandling();
+  //tty->print_cr("GraphBuilder: method: %p bci: %d",
+  //              stream()->method()->get_Method(), bci());
   apush(append_split(new NewTypeArray(ipop(), (BasicType)stream()->get_index(),
                                       stream()->method(), bci(), state_before)));
 }
@@ -2087,6 +2091,8 @@ void GraphBuilder::new_object_array() {
   bool will_link;
   ciKlass* klass = stream()->get_klass(will_link);
   ValueStack* state_before = !klass->is_loaded() || PatchALot ? copy_state_before() : copy_state_exhandling();
+  //tty->print_cr("GraphBuilder: method: %p bci: %d",
+  //              stream()->method()->get_Method(), bci());
   NewArray* n = new NewObjectArray(klass, ipop(), stream()->method(), bci(),
                                    state_before);
   apush(append_split(n));

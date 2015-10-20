@@ -1092,10 +1092,18 @@ void LIRGenerator::do_NewInstance(NewInstance* x) {
   CodeEmitInfo* info = state_for(x, x->state());
   LIR_Opr reg = result_register_for(x->type());
 
+  /*
+   * this version is broken on brazil
   new_instance(reg, x->klass(), x->method(), x->bci(), x->is_unresolved(),
                FrameMap::rax_oop_opr, FrameMap::rdi_oop_opr,
                FrameMap::rsi_oop_opr, LIR_OprFact::illegalOpr,
                FrameMap::rdx_metadata_opr, FrameMap::rax_metadata_opr, info);
+  */
+  /* this version works on brazil -- but I have not tested yet on ecuador */
+  new_instance(reg, x->klass(), x->method(), x->bci(), x->is_unresolved(),
+               FrameMap::rcx_oop_opr, FrameMap::rdi_oop_opr,
+               FrameMap::rsi_oop_opr, LIR_OprFact::illegalOpr,
+               FrameMap::rdx_metadata_opr, FrameMap::rcx_metadata_opr, info);
   LIR_Opr result = rlock_result(x);
   __ move(reg, result);
 }
