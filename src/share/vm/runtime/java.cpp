@@ -53,6 +53,7 @@
 #include "runtime/java.hpp"
 #include "runtime/memprofiler.hpp"
 #include "runtime/hotMethodSampler.hpp"
+#include "runtime/bandwidthSampler.hpp"
 #include "runtime/sharedRuntime.hpp"
 #include "runtime/statSampler.hpp"
 #include "runtime/sweeper.hpp"
