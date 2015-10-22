@@ -324,7 +324,7 @@ void print_statistics() {
   }
 
   if (SampleBandwidthAtInterval) {
-    HotMethodSampler::disengage();
+    BandwidthSampler::disengage();
   }
 
   if (CITime) {

@@ -694,6 +694,7 @@ void* Arena::internal_malloc_4(size_t x) {
 
 static void * zero = (void *) 0;
 
+#if 0
 void* operator new(size_t size) /* throw(std::bad_alloc) */ {
   fatal("Should not call global operator new");
   return zero;
@@ -721,6 +722,8 @@ void operator delete(void* p) throw() {
 void operator delete [](void* p) throw() {
   fatal("Should not call global delete []");
 }
+#endif
+
 
 void AllocatedObj::print() const       { print_on(tty); }
 void AllocatedObj::print_value() const { print_value_on(tty); }
