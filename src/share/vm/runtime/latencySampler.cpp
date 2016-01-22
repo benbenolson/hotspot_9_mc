@@ -1,3 +1,4 @@
+#if 0
 #include "precompiled.hpp"
 #include "classfile/systemDictionary.hpp"
 #include "code/codeCache.hpp"
@@ -263,4 +264,5 @@ void LatencySampler::disengage() {
   _task = NULL;
 }
 
+#endif
 #endif

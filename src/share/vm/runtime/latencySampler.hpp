@@ -1,3 +1,4 @@
+#if 0
 #ifndef SHARE_VM_RUNTIME_LATENCYSAMPLER_HPP
 #define SHARE_VM_RUNTIME_LATENCYSAMPLER_HPP
 
@@ -92,3 +93,4 @@ class LatencySampler : AllStatic {
 
 
 #endif // SHARE_VM_RUNTIME_LATENCYSAMPLER_HPP
+#endif
