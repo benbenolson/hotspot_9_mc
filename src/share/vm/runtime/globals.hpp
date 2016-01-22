@@ -4415,6 +4415,9 @@ public:
   develop(bool, SampleBandwidthAtInterval, false,                           \
              "Use a periodic task to sample bandwidth")                     \
                                                                             \
+  develop(bool, SampleLatencyAtInterval, false,                             \
+             "Use a periodic task to sample latency using CBo counters")    \
+                                                                            \
   develop(bool, SampleCallStacksContinuous, false,                          \
              "Use a dedicated thread to sample hot methods")                \
                                                                             \
@@ -4422,7 +4425,10 @@ public:
             "interval to sample hot methods")                               \
                                                                             \
   develop(intx, BandwidthSampleInterval, 10,                                \
-            "interval to sample hot methods")                               \
+            "interval to sample bandwidth")                                 \
+                                                                            \
+  develop(intx, LatencySampleInterval, 10,                                  \
+            "interval to sample memory latency")                            \
                                                                             \
   develop(double, StackSampleCutoff, 99.5,                                  \
           "cutoff for stack sample data")                                   \

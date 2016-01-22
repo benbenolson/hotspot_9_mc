@@ -219,7 +219,11 @@ void get_mcolor_attr(mcolor color, mcolor_attr *attr) {
         //attr->tray_mask = (uint64_t)0x0300;
         attr->tray_mask = *(Arguments::red_memory_tray_mask());
       } else {
-        attr->policy = MC_POLICY_BIND;
+        if(RedMemoryPrefer) {
+          attr->policy = MC_POLICY_PREFER;
+        } else {
+          attr->policy = MC_POLICY_BIND;
+        }
         //attr->tray_mask = (uint64_t)0x0300;
         attr->tray_mask = *(Arguments::red_memory_tray_mask());
       }
@@ -230,7 +234,11 @@ void get_mcolor_attr(mcolor color, mcolor_attr *attr) {
         //attr->tray_mask = (uint64_t)0xfc00;
         attr->tray_mask = *(Arguments::blue_memory_tray_mask());
       } else {
-        attr->policy = MC_POLICY_BIND;
+        if(BlueMemoryPrefer) {
+          attr->policy = MC_POLICY_PREFER;
+        } else {
+          attr->policy = MC_POLICY_BIND;
+        }
         //attr->tray_mask = (uint64_t)0xfc00;
         attr->tray_mask = *(Arguments::blue_memory_tray_mask());
       }

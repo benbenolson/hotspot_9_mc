@@ -48,7 +48,12 @@
           "Load DLLs with executable-stack attribute in the VM Thread") \
                                                                         \
   product(bool, UseSHM, false,                                          \
-          "Use SYSV shared memory for large pages")
+          "Use SYSV shared memory for large pages")                     \
+                                                                        \
+  product(bool, RedMemoryPrefer, false,                                 \
+          "Use the MC_POLICY_PREFER option for blue memory coloring.")  \
+  product(bool, BlueMemoryPrefer, false,                                \
+          "Use the MC_POLICY_PREFER option for blue memory coloring.")
 
 //
 // Defines Linux-specific default values. The flags are available on all

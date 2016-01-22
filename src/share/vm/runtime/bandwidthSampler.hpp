@@ -1,19 +1,21 @@
 #ifndef SHARE_VM_RUNTIME_BANDWIDTHSAMPLER_HPP
 #define SHARE_VM_RUNTIME_BANDWIDTHSAMPLER_HPP
 
-#include <unistd.h>
-#include <iostream>
-#include <sys/time.h>
-#include <fcntl.h>
-#include <cstdio>
-#include <cstring>
-#include <cmath>
+//#include <unistd.h>
+//#include <iostream>
+//#include <sys/time.h>
+//#include <fcntl.h>
+//#include <cstdio>
+//#include <cstring>
+//#include <cmath>
 #include <map>
-#include <vector>
-#include <sstream>
-#include <stdlib.h>
+//#include <vector>
+#include "utilities/growableArray.hpp"
+//#include <sstream>
+//#include <stdlib.h>
 #include <sys/mman.h>
-#include <iomanip>
+#include <string>
+//#include <iomanip>
 #include "runtime/vm_operations.hpp"
 
 /* Samples the bandwidth on the system in an attempt
@@ -158,14 +160,6 @@ struct MCFGRecord
   unsigned char startBusNumber;
   unsigned char endBusNumber;
   char reserved[4];
-  void print()
-  {
-    std::cout << "BaseAddress=" << (std::hex) << 
-                 "0x" << baseAddress <<
-                 " PCISegmentGroupNumber=0x" << PCISegmentGroupNumber << 
-                 " startBusNumber=0x" << (unsigned)startBusNumber <<
-                 " endBusNumber=0x" << (unsigned)endBusNumber << std::endl;
-  }
 };
 
 struct MCFGHeader
@@ -185,11 +179,6 @@ struct MCFGHeader
   {
     return (length - sizeof(MCFGHeader))/sizeof(MCFGRecord);
   }
-
-  void print()
-  {
-    std::cout << "Header: length="<<length<< " nrecords="<< nrecords() << std::endl;
-  }
 };
 
 /**********************************
@@ -207,11 +196,13 @@ class PciHandleMM
   uint64 base_addr; 
 
   static MCFGHeader mcfgHeader;
-  static std::vector<MCFGRecord> mcfgRecords;
+  //static std::vector<MCFGRecord> mcfgRecords;
+  static GrowableArray<MCFGRecord*>* mcfgRecords;
   static void readMCFG();
 
   public:
-    static const std::vector<MCFGRecord> & getMCFGRecords();
+    //static const std::vector<MCFGRecord> & getMCFGRecords();
+    static const GrowableArray<MCFGRecord*>* getMCFGRecords();
     int32 read64(uint64 offset, uint64 * value);
     int32 read32(uint64 offset, uint32 * value);
     static bool exists(uint32 bus_, uint32 device_, uint32 function_);
@@ -256,7 +247,8 @@ class ServerPCICFGUncore
   int bus, groupnr;
   PciHandleM ** imcHandles;
   uint32 num_imc_channels;
-  static std::vector<std::pair<uint32,uint32> > socket2bus;
+  //static std::vector<std::pair<uint32,uint32> > socket2bus;
+  static GrowableArray< std::pair<uint32, uint32>* >* socket2bus;
   void initSocket2Bus();
 
   uint32 MCX_CHY_REGISTER_DEV_ADDR[2][4];
@@ -264,7 +256,6 @@ class ServerPCICFGUncore
 
   public:
     uint32 getNumMCChannels() const { 
-      printf("There are %d imc channels.\n", num_imc_channels);
       return num_imc_channels;
     }
     ServerPCICFGUncore(uint32 socket_, PCM * pcm);
@@ -284,7 +275,8 @@ union PCM_CPUID_INFO
 class INTELPCM_API PCM
 {
   int32 cpu_model;
-  std::vector<TopologyEntry> topology;
+ // std::vector<TopologyEntry> topology;
+  TopologyEntry topology[24];
   ServerPCICFGUncore ** server_pcicfg_uncore;
   static PCM * instance;
   uint64 nominal_frequency;
@@ -292,7 +284,8 @@ class INTELPCM_API PCM
   int32 num_cores;
   int32 num_phys_cores_per_socket;
   SafeMsrHandle ** MSR;
-  std::vector<int32> socketRefCore;
+  //std::vector<int32> socketRefCore;
+  int32 *socketRefCore;
 
   public:
     enum SupportedCPUModels

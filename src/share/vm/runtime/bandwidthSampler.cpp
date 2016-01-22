@@ -65,6 +65,7 @@ void pcm_cpuid(int leaf, PCM_CPUID_INFO & info)
                         "a" (leaf));
 }
 
+/*
 std::string PCM::getCPUBrandString()
 {
   char buffer[sizeof(int)*4*3+1];
@@ -82,6 +83,7 @@ std::string PCM::getCPUBrandString()
   while((i=result.find("  "))!=std::string::npos) result.replace(i,2," "); // remove duplicate spaces
   return result;
 }
+*/
 
 void PCM::initUncoreObjects()
 {
@@ -146,22 +148,23 @@ uint64 PCM::getTickCount()
 
 bool PCM::discoverSystemTopology()
 {
-  std::map<uint32, uint32> socketIdMap;
+  ResourceMark rm;
+  GrowableArray<uint32>* socketIdMap = new GrowableArray<uint32>(1);
   int32 socket;
   char buffer[1024];
   TopologyEntry entry;
-  int i;
+  int32 i = 0;
 
   /* Get num_cores */
   FILE * f_presentcpus = fopen("/sys/devices/system/cpu/present", "r");
   if (!f_presentcpus)
   {
-      std::cerr << "Can not open /sys/devices/system/cpu/present file." << std::endl;
+      fprintf(stderr, "Can not open /sys/devices/system/cpu/present file.\n");
       return false;
   }
   if(NULL == fgets(buffer, 1024, f_presentcpus))
   {
-      std::cerr << "Can not read /sys/devices/system/cpu/present." << std::endl;
+      fprintf(stderr, "Can not read /sys/devices/system/cpu/present.\n");
       return false;
   }
   fclose(f_presentcpus);
@@ -173,7 +176,7 @@ bool PCM::discoverSystemTopology()
   }
   if(num_cores == -1)
   {
-    std::cerr << "Can not read number of present cores" << std::endl;
+    fprintf(stderr, "Can not read number of present cores\n");
     return false;
   }
   ++num_cores;
@@ -184,7 +187,8 @@ bool PCM::discoverSystemTopology()
       fprintf(stderr, "Can not open /proc/cpuinfo file.\n");
       return false;
   }
-
+  
+  /*
   topology.resize(num_cores);
   while (0 != fgets(buffer, 1024, f_cpuinfo)) {
     if (strncmp(buffer, "processor", sizeof("processor") - 1) == 0) {
@@ -211,22 +215,69 @@ bool PCM::discoverSystemTopology()
       topology[entry.os_id] = entry;
     }
   }
-  num_sockets = (std::max)(socketIdMap.size(), (size_t)1);
+  */
+  printf("Opening cpuinfo\n");
+  fflush(stdout);
+  while (0 != fgets(buffer, 1024, f_cpuinfo)) {
+    printf("Reading a line.\n");
+    fflush(stdout);
+    if (strncmp(buffer, "processor", sizeof("processor") - 1) == 0) {
+      if (entry.os_id >= 0) {
+        printf("Putting a new processor.\n");
+        fflush(stdout);
+        topology[entry.os_id] = entry;
+      }
+      sscanf(buffer, "processor\t: %d", &entry.os_id);
+      continue;
+    }
+    if (strncmp(buffer, "physical id", sizeof("physical id") - 1) == 0) {
+      sscanf(buffer, "physical id\t: %d", &entry.socket);
+      if(socketIdMap->find(entry.socket) == -1) {
+        printf("Putting a new socketIdMap entry.\n");
+        fflush(stdout);
+        socketIdMap->at_put_grow(i, entry.socket, 0);
+        ++i;
+      }
+      continue;
+    }
+    if (strncmp(buffer, "core id", sizeof("core id") - 1) == 0) {
+      sscanf(buffer, "core id\t: %d", &entry.core_id);
+      continue;
+    }
+    if (strncmp(buffer, "cpu cores", sizeof("cpu cores") - 1) == 0) {
+      sscanf(buffer, "cpu cores\t: %d", &num_phys_cores_per_socket);
+      continue;
+    }
+    if (entry.os_id >= 0) {
+      printf("Putting the entry in topology\n");
+      topology[entry.os_id] = entry;
+    }
+  }
+  if(socketIdMap->length() < 1) {
+    num_sockets = 1;
+  } else {
+    num_sockets = socketIdMap->length();
+  }
   fclose(f_cpuinfo);
 
+  /*
   socketRefCore.resize(num_sockets);
+  */
+  socketRefCore = (int32 *) malloc(sizeof(int32) * num_sockets);
   for(i = 0; i < num_cores; ++i) {
     if(isCoreOnline(i)) {
       socketRefCore[topology[i].socket] = i;
     }
   }
   
+  printf("Finished growing socketRefCore.\n");
   return true;
 }
 
 bool PCM::isCoreOnline(int32 os_core_id) const
 {
   return (topology[os_core_id].os_id != -1) && (topology[os_core_id].core_id != -1) && (topology[os_core_id].socket != -1);
+  return true;
 }
 
 
@@ -243,11 +294,21 @@ PCM::PCM() :
   cpu_model(-1)
 {
   uint32 retval = 0;
-
+  
+  printf("Initializing PCM\n");
+  fflush(stdout);
   if(!detectModel()) return;
+  printf("Finished detecting model.\n");
+  fflush(stdout);
   if(!discoverSystemTopology()) return;
+  printf("Finished discovering system topology.\n");
+  fflush(stdout);
   initMSR();
+  printf("Finished initializing MSR.\n");
+  fflush(stdout);
   if(!detectNominalFrequency()) return;
+  printf("Finished getting nominal frequency.\n");
+  fflush(stdout);
   initUncoreObjects();
 }
 
@@ -256,6 +317,7 @@ uint32 PCM::getNumSockets()
   return num_sockets;
 }
 
+/*
 uint64 get_frequency_from_cpuid()
 {
   double speed=0;
@@ -280,8 +342,8 @@ uint64 get_frequency_from_cpuid()
     }
   }
   return (uint64)speed * 1000ULL * 1000ULL;
-
 }
+*/
 
 bool PCM::detectNominalFrequency()
 {
@@ -299,11 +361,12 @@ bool PCM::detectNominalFrequency()
     
     nominal_frequency = ((freq >> 8) & 255) * bus_freq;
     
+    /*
     if(!nominal_frequency)
       nominal_frequency = get_frequency_from_cpuid();
-
+    */
     if(!nominal_frequency) {
-      std::cerr << "Error: Can not detect core frequency." << std::endl;
+      fprintf(stderr, "Error: Can not detect core frequency. freq = %Lu, bus_freq = %Lu\n", freq, bus_freq);
       return false;
     }
   }
@@ -339,7 +402,7 @@ PciHandleMM::PciHandleMM(uint32 groupnr_, uint32 bus_, uint32 device_, uint32 fu
 {
   int handle = ::open("/dev/mem", O_RDWR);
   if (handle < 0) {
-    std::cerr << "Can't mmap things.\n" << std::endl;
+    fprintf(stderr, "Can't mmap things.\n");
     exit(1);
   }
   fd = handle;
@@ -347,6 +410,7 @@ PciHandleMM::PciHandleMM(uint32 groupnr_, uint32 bus_, uint32 device_, uint32 fu
   readMCFG();
 
   unsigned segment = 0;
+  /*
   for(; segment < mcfgRecords.size(); ++segment)
   {
     if(   mcfgRecords[segment].PCISegmentGroupNumber == groupnr_
@@ -355,62 +419,80 @@ PciHandleMM::PciHandleMM(uint32 groupnr_, uint32 bus_, uint32 device_, uint32 fu
       break;
   }
   if(segment == mcfgRecords.size()) {
-    std::cerr << "PCM Error: (group " << groupnr_ << ", bus " << bus_ << ") not found in the MCFG table." << std::endl;
+    fprintf(stderr, "PCM Error: (group %u, bus %u) not found in the MCFG table.\n", groupnr_, bus_);
     exit(1);
   }
 
 
   base_addr = mcfgRecords[segment].baseAddress;
+  */
   base_addr += (bus * 1024 * 1024 + device * 32 * 1024 + function * 4 * 1024);
   mmapAddr = (char*) mmap(NULL, 4096, PROT_READ| PROT_WRITE, MAP_SHARED , fd, base_addr);
 
   if(mmapAddr == MAP_FAILED) {
-    std::cerr << "Failed to mmap things.\n" << std::endl;
+    fprintf(stderr, "Failed to mmap things.\n");
     exit(1);
   }
 
 }
 
 MCFGHeader PciHandleMM::mcfgHeader;
-std::vector<MCFGRecord> PciHandleMM::mcfgRecords;
+//std::vector<MCFGRecord> PciHandleMM::mcfgRecords;
+GrowableArray<MCFGRecord*>* PciHandleMM::mcfgRecords = NULL;
 
+/*
 const std::vector<MCFGRecord> & PciHandleMM::getMCFGRecords()
 {
   readMCFG();
   return mcfgRecords;
 }          
+*/
+const GrowableArray<MCFGRecord*>* PciHandleMM::getMCFGRecords()
+{
+  readMCFG();
+  return mcfgRecords;
+}
 
 void PciHandleMM::readMCFG()
 {
+  /*
   if(mcfgRecords.size() > 0 )
     return; // already initialized
+    */
+  if(mcfgRecords != NULL)
+    return;
+
+  mcfgRecords = new GrowableArray<MCFGRecord*>(1);
 
   const char * path = "/sys/firmware/acpi/tables/MCFG";
   int mcfg_handle = ::open(path, O_RDONLY);
 
   if (mcfg_handle < 0) {
-    std::cerr << "PCM Error: Cannot open " << path << std::endl;
+    fprintf(stderr, "PCM Error: Cannot open \n");
     exit(1);
   }
 
   ssize_t read_bytes = ::read(mcfg_handle, (void *)&mcfgHeader, sizeof(MCFGHeader));
 
   if(read_bytes == 0) {
-    std::cerr << "PCM Error: Cannot read " << path << std::endl;
+    fprintf(stderr, "PCM Error: Cannot read\n");
     exit(1);
   }
 
   const unsigned segments = mcfgHeader.nrecords();
 
   for(unsigned int i=0; i<segments;++i) {
-    MCFGRecord record;
-    read_bytes = ::read(mcfg_handle, (void *)&record, sizeof(MCFGRecord));
+    MCFGRecord *record = new MCFGRecord;
+    read_bytes = ::read(mcfg_handle, (void *)record, sizeof(MCFGRecord));
     if(read_bytes == 0) {
-      std::cerr << "PCM Error: Cannot read " << path << " (2)" << std::endl;
+      fprintf(stderr, "PCM Error: Cannot read \n");
       exit(1);
     }
+    /*
     mcfgRecords.push_back(record);
-    record.print();
+    */
+    mcfgRecords->append(record);
+    //record.print();
   }
   
   ::close(mcfg_handle);
@@ -450,14 +532,17 @@ bool PciHandleMM::exists(uint32 bus_, uint32 device_, uint32 function_)
 /***********************************
  *      ServerPCICFGUncore         *
  **********************************/
-std::vector<std::pair<uint32,uint32> > ServerPCICFGUncore::socket2bus;
+//std::vector<std::pair<uint32,uint32> > ServerPCICFGUncore::socket2bus;
+GrowableArray< std::pair<uint32, uint32>* >* ServerPCICFGUncore::socket2bus = NULL;
 
 void ServerPCICFGUncore::initSocket2Bus()
 {
-  if(!socket2bus.empty()) return;
+  //if(!socket2bus.empty()) return;
+  if(socket2bus != NULL) return;
 
-  const std::vector<MCFGRecord> & mcfg = PciHandleMM::getMCFGRecords();
-
+  //const std::vector<MCFGRecord> & mcfg = PciHandleMM::getMCFGRecords();
+  const GrowableArray<MCFGRecord*>* mcfg = PciHandleMM::getMCFGRecords();
+  /*
   for(uint32 s = 0; s < mcfg.size(); ++s)
   for(uint32 bus = mcfg[s].startBusNumber; bus <= mcfg[s].endBusNumber; ++bus) {
     uint32 value = 0;
@@ -476,6 +561,26 @@ void ServerPCICFGUncore::initSocket2Bus()
       }
     }
   }
+  */
+  /*
+  for(uint32 s = 0; s < mcfg->length(); ++s) {
+    for(uint32 bus = mcfg->at(s).startBusNumber; bus <= mcfg->at(s).endBusNumber; ++bus) {
+      uint32 value = 0;
+      PciHandleMM h(mcfg->at(s).PCISegmentGroupNumber, bus, MCX_CHY_REGISTER_DEV_ADDR[0][0], MCX_CHY_REGISTER_FUNC_ADDR[0][0]);
+      h.read32(0, &value);
+      const uint32 vendor_id = value & 0xffff;
+      const uint32 device_id = (value >> 16) & 0xffff;
+      if(vendor_id != PCM_INTEL_PCI_VENDOR_ID)
+        continue;
+      for(uint32 i = 0; i < sizeof(IMC_DEV_IDS)/sizeof(IMC_DEV_IDS[0]); ++i) {
+        if(IMC_DEV_IDS[i] == device_id) {
+          socket2bus->append(std::make_pair(mcfg->at(s).PCISegmentGroupNumber, bus));
+          break;
+        }
+      }
+    }
+  }
+  */
 }
 
 int getBusFromSocket(const uint32 socket)
@@ -534,13 +639,14 @@ ServerPCICFGUncore::ServerPCICFGUncore(uint32 socket_, PCM * pcm) :
   }
   else
   {
-    std::cerr << "Not using the right processor types.\n" << std::endl;
+    fprintf(stderr, "Not using the right processor types.\n");
     exit(1);
   }
 
   initSocket2Bus();
   const uint32 total_sockets_ = pcm->getNumSockets();
   
+  /*
   if(total_sockets_ == socket2bus.size())
   {
     groupnr = socket2bus[socket_].first;
@@ -550,19 +656,14 @@ ServerPCICFGUncore::ServerPCICFGUncore(uint32 socket_, PCM * pcm) :
     bus = getBusFromSocket(socket_);
     if(bus < 0)
     {
-      std::cerr << "Cannot find bus for socket "<< socket_ <<" on system with "<< total_sockets_ << " sockets."<< std::endl;
       exit(1);
-    }
-    else
-    {
-        std::cerr << "PCM Warning: the bus for socket "<< socket_ <<" on system with "<< total_sockets_ << " sockets could not find via PCI bus scan. Using cpubusno register. Bus = "<< bus << std::endl;
     }
   }
   else
   {
-    std::cerr << "Cannot find bus for socket "<< socket_ <<" on system with "<< total_sockets_ << " sockets."<< std::endl;
     exit(1);
   }
+  */
   
   imcHandles = new PciHandleMM * [8];
   
@@ -662,7 +763,7 @@ MsrHandle::MsrHandle(uint32 cpu) :
   }
   delete[] path;
   if (handle < 0) {
-    std::cerr << "Can't get msrhandle.\n" << std::endl;
+    fprintf(stderr, "Can't get msrhandle.\n");
     exit(1);
   }
   fd = handle;
@@ -680,53 +781,18 @@ void display_bandwidth(float *iMC_Rd_socket_chan, float *iMC_Wr_socket_chan, flo
 {
   float sysRead = 0.0, sysWrite = 0.0;
   uint32 skt = 0;
-  std::cout.setf(std::ios::fixed);
-  std::cout.precision(2);
+//  std::cout.setf(std::ios::fixed);
+//  std::cout.precision(2);
 
   while(skt < numSockets)
   {
     if(!(skt % 2) && ((skt+1) < numSockets)) //This is even socket, and it has at least one more socket which can be displayed together
     {
-      std::cout << "\
-          \r---------------------------------------||---------------------------------------\n\
-          \r--             Socket "<<skt<<"              --||--             Socket "<<skt+1<<"              --\n\
-          \r---------------------------------------||---------------------------------------\n\
-          \r---------------------------------------||---------------------------------------\n\
-          \r---------------------------------------||---------------------------------------\n\
-          \r--   Memory Performance Monitoring   --||--   Memory Performance Monitoring   --\n\
-          \r---------------------------------------||---------------------------------------\n\
-          \r";
       for(uint64 channel = 0; channel < num_imc_channels; ++channel)
       {
         if(iMC_Rd_socket_chan[skt*num_imc_channels+channel] < 0.0 && iMC_Wr_socket_chan[skt*num_imc_channels+channel] < 0.0) //If the channel read neg. value, the channel is not working; skip it.
             continue;
-        std::cout << "\r--  Mem Ch "
-            <<channel
-            <<": Reads (MB/s):"
-            <<std::setw(8)
-            <<iMC_Rd_socket_chan[skt*num_imc_channels+channel];
-        std::cout <<"  --||--  Mem Ch "
-            <<channel
-            <<": Reads (MB/s):"
-            <<std::setw(8)
-            <<iMC_Rd_socket_chan[(skt+1)*num_imc_channels+channel]
-            <<"  --"
-            <<std::endl;
-        std::cout << "\r--            Writes(MB/s):"
-            <<std::setw(8)
-            <<iMC_Wr_socket_chan[skt*num_imc_channels+channel];
-        std::cout <<"  --||--            Writes(MB/s):"
-            <<std::setw(8)
-            <<iMC_Wr_socket_chan[(skt+1)*num_imc_channels+channel]
-            <<"  --"
-            <<std::endl;
       }
-      std::cout << "\
-          \r-- NODE"<<skt<<" Mem Read (MB/s):  "<<std::setw(8)<<iMC_Rd_socket[skt]<<"  --||-- NODE"<<skt+1<<" Mem Read (MB/s):  "<<std::setw(8)<<iMC_Rd_socket[skt+1]<<"  --\n\
-          \r-- NODE"<<skt<<" Mem Write (MB/s): "<<std::setw(8)<<iMC_Wr_socket[skt]<<"  --||-- NODE"<<skt+1<<" Mem Write (MB/s): "<<std::setw(8)<<iMC_Wr_socket[skt+1]<<"  --\n\
-          \r-- NODE"<<skt<<" P. Write (T/s) :"<<std::dec<<std::setw(10)<<partial_write[skt]<<"  --||-- NODE"<<skt+1<<" P. Write (T/s): "<<std::dec<<std::setw(10)<<partial_write[skt+1]<<"  --\n\
-          \r-- NODE"<<skt<<" Memory (MB/s): "<<std::setw(11)<<std::right<<iMC_Rd_socket[skt]+iMC_Wr_socket[skt]<<"  --||-- NODE"<<skt+1<<" Memory (MB/s): "<<std::setw(11)<<iMC_Rd_socket[skt+1]+iMC_Wr_socket[skt+1]<<"  --\n\
-          \r";
      sysRead += iMC_Rd_socket[skt];
      sysRead += iMC_Rd_socket[skt+1];
      sysWrite += iMC_Wr_socket[skt];
@@ -735,48 +801,17 @@ void display_bandwidth(float *iMC_Rd_socket_chan, float *iMC_Wr_socket_chan, flo
     }
     else //Display one socket in this row
     {
-      std::cout << "\
-          \r---------------------------------------|\n\
-          \r--             Socket "<<skt<<"              --|\n\
-          \r---------------------------------------|\n\
-          \r---------------------------------------|\n\
-          \r---------------------------------------|\n\
-          \r--   Memory Performance Monitoring   --|\n\
-          \r---------------------------------------|\n\
-          \r";
       for(uint64 channel = 0; channel < num_imc_channels; ++channel)
       {
         if(iMC_Rd_socket_chan[skt*num_imc_channels+channel] < 0.0 && iMC_Wr_socket_chan[skt*num_imc_channels+channel] < 0.0) //If the channel read neg. value, the channel is not working; skip it.
             continue;
-        std::cout << "--  Mem Ch "
-            <<channel
-            <<": Reads (MB/s):"
-            <<std::setw(8)
-            <<iMC_Rd_socket_chan[skt*num_imc_channels+channel]
-            <<"  --|\n--            Writes(MB/s):"
-            <<std::setw(8)
-            <<iMC_Wr_socket_chan[skt*num_imc_channels+channel]
-            <<"  --|\n";
-
       }
-      std::cout << "\
-          \r-- NODE"<<skt<<" Mem Read (MB/s):  "<<std::setw(8)<<iMC_Rd_socket[skt]<<"  --|\n\
-          \r-- NODE"<<skt<<" Mem Write (MB/s) :"<<std::setw(8)<<iMC_Wr_socket[skt]<<"  --|\n\
-          \r-- NODE"<<skt<<" P. Write (T/s) :"<<std::setw(10)<<std::dec<<partial_write[skt]<<"  --|\n\
-          \r-- NODE"<<skt<<" Memory (MB/s): "<<std::setw(8)<<iMC_Rd_socket[skt]+iMC_Wr_socket[skt]<<"     --|\n\
-          \r";
-
       sysRead += iMC_Rd_socket[skt];
       sysWrite += iMC_Wr_socket[skt];
       skt += 1;
     }
   }
-  std::cout << "\
-      \r---------------------------------------||---------------------------------------\n\
-      \r--                   System Read Throughput(MB/s):"<<std::setw(10)<<sysRead<<"                  --\n\
-      \r--                  System Write Throughput(MB/s):"<<std::setw(10)<<sysWrite<<"                  --\n\
-      \r--                 System Memory Throughput(MB/s):"<<std::setw(10)<<sysRead+sysWrite<<"                  --\n\
-      \r---------------------------------------||---------------------------------------" << std::endl;
+  printf("%f %f\n", sysRead, sysWrite);
 }
 
 /*******************************
@@ -829,6 +864,9 @@ PCM * PCM::instance = NULL;
 
 void BandwidthSamplerTask::calculate_bandwidth(PCM *m, const ServerUncorePowerState uncState1[], const ServerUncorePowerState uncState2[], uint64 elapsedTime)
 {
+  float sysRead = 0.0;
+  uint32 skt = 0;
+
   for(uint32 skt = 0; skt < m->getNumSockets(); ++skt) {
     iMC_Rd_socket[skt] = 0.0;
     iMC_Wr_socket[skt] = 0.0;
@@ -851,10 +889,11 @@ void BandwidthSamplerTask::calculate_bandwidth(PCM *m, const ServerUncorePowerSt
 
       partial_write[skt] += (uint64) (getMCCounter(channel,PARTIAL,uncState1[skt],uncState2[skt]) /
                                                   (elapsedTime/1000.0));
-
+      
+      }
       display_bandwidth(iMC_Rd_socket_chan[0], iMC_Wr_socket_chan[0], iMC_Rd_socket, iMC_Wr_socket, m->getNumSockets(), max_imc_channels, partial_write);
-    }
   }
+  printf("There are %u channels.\n", max_imc_channels);
 }
 
 void BandwidthSamplerTask::task() 
@@ -863,7 +902,9 @@ void BandwidthSamplerTask::task()
   for(uint32 i=0; i<m->getNumSockets(); ++i) {
     AfterState[i] = m->getServerUncorePowerState(i);
   }
-
+  
+  printf("Calculating bandwidth.\n");
+  fflush(stdout);
   calculate_bandwidth(m, BeforeState, AfterState, AfterTime - BeforeTime);
 
   swap(BeforeTime, AfterTime);
@@ -877,7 +918,8 @@ bool BandwidthSampler::is_active() {
 void BandwidthSampler::engage() {
   if (!is_active()) {
     _task = new BandwidthSamplerTask(BandwidthSampleInterval);
-
+    
+    printf("Initializing variables.\n");
     // Initialize variables
     _task->m = PCM::getInstance();
     _task->calibrated = PCM_CALIBRATION_INTERVAL - 2;
