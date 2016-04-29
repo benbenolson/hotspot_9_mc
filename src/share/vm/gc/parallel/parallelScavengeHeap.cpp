@@ -121,7 +121,7 @@ jint ParallelScavengeHeap::initialize() {
 
     PersistentObjectInfoTable *poit = new PersistentObjectInfoTable(
       PersistentObjectInfoTable::oit_size,
-      _perm_gen->object_space()->used_region().start());
+      _old_gen->object_space()->used_region().start());
     guarantee(!poit->allocation_failed(), "poit allocation failed");
     Universe::set_persistent_object_info_table(poit);
   }

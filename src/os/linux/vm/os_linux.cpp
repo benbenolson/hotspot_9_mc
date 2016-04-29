@@ -2872,15 +2872,15 @@ void os::color_memory(char *addr, size_t bytes, HeapColor hcolor) {
   color = heapColor2mcolor(hcolor);
   get_mcolor_attr(color, &attr);
 
-  tty->print_cr("mcolor(%p, %llu, %s)", addr, (unsigned long long)bytes,
-                 mcolor2str(color));
   if (MColorColoredSpacePages) {
-    syscall(__NR_mcolor, addr, bytes, color);
+    tty->print_cr("mcolor(%p, %llu, %s)", addr, (unsigned long long)bytes,
+                   mcolor2str(color));
+    syscall(__NR_mcolor, addr, bytes, color, 0);
   }
 
-  tty->print_cr("set_mcolor_attr(%s,{%d,0x%lx})", mcolor2str(color),
-                attr.policy, attr.tray_mask);
   if (MColorColoredSpacePages) {
+    tty->print_cr("set_mcolor_attr(%s,{%d,0x%lx})", mcolor2str(color),
+                  attr.policy, attr.tray_mask);
     syscall(__NR_set_mcolor_attr, color, &attr);
   }
 }
@@ -2919,7 +2919,7 @@ if(MColorNUMA) {
     attr.tray_mask = lgrp_hint ? 0x1 : 0x2;
 
     tty->print_cr("mcolor(%p, %s)", addr, mcolor2str(color));
-    syscall(__NR_mcolor, addr, color);
+    syscall(__NR_mcolor, addr, color, 0);
 
     tty->print_cr("set_mcolor_attr(%s,{%d,0x%lx)", mcolor2str(color),
                   attr.policy, attr.tray_mask);

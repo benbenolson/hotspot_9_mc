@@ -2395,15 +2395,30 @@ Node* GraphKit::make_runtime_call(int flags,
   }
 
   // Hook each parm in order.  Stop looking at the first NULL.
-  if (parm0 != NULL) { call->init_req(TypeFunc::Parms+0, parm0);
-  if (parm1 != NULL) { call->init_req(TypeFunc::Parms+1, parm1);
-  if (parm2 != NULL) { call->init_req(TypeFunc::Parms+2, parm2);
-  if (parm3 != NULL) { call->init_req(TypeFunc::Parms+3, parm3);
-  if (parm4 != NULL) { call->init_req(TypeFunc::Parms+4, parm4);
-  if (parm5 != NULL) { call->init_req(TypeFunc::Parms+5, parm5);
-  if (parm6 != NULL) { call->init_req(TypeFunc::Parms+6, parm6);
-  if (parm7 != NULL) { call->init_req(TypeFunc::Parms+7, parm7);
-    /* close each nested if ===> */  } } } } } } } }
+  if (parm0 != NULL) {
+    call->init_req(TypeFunc::Parms+0, parm0);
+    if (parm1 != NULL) {
+      call->init_req(TypeFunc::Parms+1, parm1);
+      if (parm2 != NULL) {
+        call->init_req(TypeFunc::Parms+2, parm2);
+        if (parm3 != NULL) {
+          call->init_req(TypeFunc::Parms+3, parm3);
+          if (parm4 != NULL) {
+            call->init_req(TypeFunc::Parms+4, parm4);
+            if (parm5 != NULL) {
+              call->init_req(TypeFunc::Parms+5, parm5);
+              if (parm6 != NULL) {
+                call->init_req(TypeFunc::Parms+6, parm6);
+                if (parm7 != NULL) {
+                  call->init_req(TypeFunc::Parms+7, parm7);
+                }
+              } 
+            }
+          }
+        }
+      }
+    }
+  }
   assert(call->in(call->req()-1) != NULL, "must initialize all parms");
 
   if (!is_leaf) {

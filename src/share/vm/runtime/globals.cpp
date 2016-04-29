@@ -83,6 +83,9 @@ ARCH_FLAGS(MATERIALIZE_DEVELOPER_FLAG, \
 
 MATERIALIZE_FLAGS_EXT
 
+int pre_vm_indicator_reached = 0;
+int post_vm_indicator_reached = 0;
+
 static bool is_product_build() {
 #ifdef PRODUCT
   return true;

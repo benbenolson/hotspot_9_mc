@@ -185,7 +185,7 @@ VARIANTARCH = $(subst i386,i486,$(ZERO_LIBARCH))
 
 # This target list needs to be coordinated with the usage message
 # in the build.sh script:
-TARGETS           = debug fastdebug optimized product coloredtlabs objaddr
+TARGETS           = debug fastdebug optimized product coloredtlabs objaddr objprofile2
 
 ifeq ($(findstring true, $(JVM_VARIANT_ZERO) $(JVM_VARIANT_ZEROSHARK)), true)
   SUBDIR_DOCS     = $(OSNAME)_$(VARIANTARCH)_docs

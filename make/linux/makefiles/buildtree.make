@@ -121,7 +121,7 @@ SIMPLE_DIRS	= \
 	$(PLATFORM_DIR)/generated/tracefiles \
 	$(PLATFORM_DIR)/generated/extensions
 
-TARGETS      = debug fastdebug optimized product coloredtlabs objaddr
+TARGETS      = debug fastdebug optimized product coloredtlabs objaddr objprofile2
 SUBMAKE_DIRS = $(addprefix $(PLATFORM_DIR)/,$(TARGETS))
 
 # For dependencies and recursive makes.

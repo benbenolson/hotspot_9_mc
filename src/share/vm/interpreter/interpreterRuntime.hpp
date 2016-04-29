@@ -187,6 +187,8 @@ class InterpreterRuntime: AllStatic {
 # include "interpreterRT_aarch64.hpp"
 #endif
 
+  static nmethod* Process_VMIndication(JavaThread* thread);
+
   // optional normalization of fingerprints to reduce the number of adapters
   static uint64_t normalize_fast_native_fingerprint(uint64_t fingerprint);
 
@@ -200,7 +202,7 @@ class InterpreterRuntime: AllStatic {
 #ifdef ASSERT
   static void    verify_mdp(Method* method, address bcp, address mdp);
 #endif // ASSERT
-  static MethodCounters* build_method_counters(JavaThread* thread, Method* m);
+ static MethodCounters* build_method_counters(JavaThread* thread, Method* m);
 };
 
 

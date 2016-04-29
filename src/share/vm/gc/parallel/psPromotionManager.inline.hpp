@@ -105,14 +105,14 @@ inline void PSPromotionManager::profile_object_copy(oop obj, HeapColor to_color,
   bool tenured) {
 
   unsigned long refs, size;
-  if (!obj_is_initialized(obj)) {
+  if (!PSScavenge::obj_is_initialized(obj)) {
     return;
   }
 
   HeapColor from_color = get_current_color((HeapWord*)obj);
   PSGenType gen = tenured ? OLD_GEN : YOUNG_GEN;
 
-  refs = obj_refs(obj);
+  refs = PSScavenge::obj_refs(obj);
   size = (unsigned long) obj->size();
 
   if (from_color == HC_RED) {
@@ -120,7 +120,7 @@ inline void PSPromotionManager::profile_object_copy(oop obj, HeapColor to_color,
       _live_objects[gen][RED_TO_RED]    += 1;
       _live_size[gen][RED_TO_RED]       += size;
       _live_refs[gen][RED_TO_RED]       += refs;
-      if (obj_is_hot(obj)) {
+      if (PSScavenge::obj_is_hot(obj)) {
         _hot_objects[gen][RED_TO_RED]   += 1;
         _hot_size[gen][RED_TO_RED]      += size;
         _hot_refs[gen][RED_TO_RED]      += refs;
@@ -129,7 +129,7 @@ inline void PSPromotionManager::profile_object_copy(oop obj, HeapColor to_color,
       _live_objects[gen][RED_TO_BLUE]   += 1;
       _live_size[gen][RED_TO_BLUE]      += size;
       _live_refs[gen][RED_TO_BLUE]      += refs;
-      if (obj_is_hot(obj)) {
+      if (PSScavenge::obj_is_hot(obj)) {
         _hot_objects[gen][RED_TO_BLUE]  += 1;
         _hot_size[gen][RED_TO_BLUE]     += size;
         _hot_refs[gen][RED_TO_BLUE]     += refs;
@@ -140,7 +140,7 @@ inline void PSPromotionManager::profile_object_copy(oop obj, HeapColor to_color,
       _live_objects[gen][BLUE_TO_RED]   += 1;
       _live_size[gen][BLUE_TO_RED]      += size;
       _live_refs[gen][BLUE_TO_RED]      += refs;
-      if (obj_is_hot(obj)) {
+      if (PSScavenge::obj_is_hot(obj)) {
         _hot_objects[gen][BLUE_TO_RED]  += 1;
         _hot_size[gen][BLUE_TO_RED]     += size;
         _hot_refs[gen][BLUE_TO_RED]     += refs;
@@ -149,7 +149,7 @@ inline void PSPromotionManager::profile_object_copy(oop obj, HeapColor to_color,
       _live_objects[gen][BLUE_TO_BLUE]  += 1;
       _live_size[gen][BLUE_TO_BLUE]     += size;
       _live_refs[gen][BLUE_TO_BLUE]     += refs;
-      if (obj_is_hot(obj)) {
+      if (PSScavenge::obj_is_hot(obj)) {
         _hot_objects[gen][BLUE_TO_BLUE] += 1;
         _hot_size[gen][BLUE_TO_BLUE]    += size;
         _hot_refs[gen][BLUE_TO_BLUE]    += refs;
@@ -170,7 +170,7 @@ inline oop PSPromotionManager::copy_to_survivor_space(oop o) {
 
 #ifdef PROFILE_OBJECT_INFO
   if (ProfileObjectInfo) {
-    if (o->blueprint()->oop_is_instance() || o->blueprint()->oop_is_array()) {
+    if (o->is_instance() || o->is_array()) {
       if (!(PSScavenge::obj_is_initialized(o))) {
         PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
         PersistentObjectInfo* poi = poit->append_instance(o, o->size(), o->klass());
@@ -372,7 +372,7 @@ inline oop PSPromotionManager::copy_to_colored_space(oop o, HeapColor color) {
 
 #ifdef PROFILE_OBJECT_INFO
   if (ProfileObjectInfo) {
-    if (o->blueprint()->oop_is_instance() || o->blueprint()->oop_is_array()) {
+    if (o->is_instance() || o->is_array()) {
       if (!(PSScavenge::obj_is_initialized(o))) {
         PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
         PersistentObjectInfo* poi = poit->append_instance(o, o->size(), o->klass());

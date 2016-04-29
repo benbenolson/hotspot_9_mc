@@ -260,7 +260,7 @@ class PSPromotionManager VALUE_OBJ_CLASS_SPEC {
   inline static void reset_object_copy_profile() {
     int g,i;
     //objinfo_log->print_cr("resetting object copy profile");
-    for (g=0; g < PERM_GEN; g++) {
+    for (g=0; g < ALL_GENS; g++) {
       for (i=0; i < HC_ENUM_TOTAL; i++) {
         _live_objects[g][i] = 0;
         _live_size[g][i]    = 0;

@@ -307,8 +307,8 @@ class SharedRuntime: AllStatic {
 
 #ifdef PROFILE_OBJECT_INFO
 #if PROFILE_OBJECT_INFO
-  static void mark_alloc_point(oopDesc* o, methodOopDesc *method, address bcp);
-  static void profile_object_alloc(oopDesc* o, int size, klassOop klass);
+  static void mark_alloc_point(oopDesc* o, Method *method, address bcp);
+  static void profile_object_alloc(oopDesc* o, int size, Klass *klass);
 #endif
 #endif
 #ifdef PROFILE_OBJECT_ADDRESS_INFO

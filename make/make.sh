@@ -10,4 +10,4 @@ export HOTSPOT_BUILD_JOBS=8
 export ARCH_DATA_MODEL=64
 
 #make clean
-make coloredtlabs #objaddr
+make objprofile2 #debug coloredtlabs optimized coloredtlabs objaddr objprofile2

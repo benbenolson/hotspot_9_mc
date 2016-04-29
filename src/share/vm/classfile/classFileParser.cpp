@@ -2530,6 +2530,18 @@ methodHandle ClassFileParser::parse_method(bool is_interface,
     m->set_klass_access_list(NULL);
   }
 
+  m->set_VMIndicator(0);
+  char buf[fixed_buffer_size], *bytes;
+  bytes = name->as_utf8_flexible_buffer(THREAD, buf, fixed_buffer_size);
+  if (strcmp(bytes, "ah_pre_VM_indicator") == 0) {
+    tty->print_cr("Pre VM Indicator Parsed.");
+    m->set_VMIndicator(1);
+  }
+  if (strcmp(bytes, "ah_post_VM_indicator") == 0) {
+    tty->print_cr("Post VM Indicator Parsed.");
+    m->set_VMIndicator(2);
+  }
+
   return m;
 }
 

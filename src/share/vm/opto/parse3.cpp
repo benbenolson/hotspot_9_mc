@@ -493,6 +493,13 @@ void Parse::do_multianewarray() {
                   OptoRuntime::multianewarray5_Java();
                 break;
   };
+#if 0
+  case 2: fun = OptoRuntime::multianewarray2_Java(); break;
+  case 3: fun = OptoRuntime::multianewarray3_Java(); break;
+  case 4: fun = OptoRuntime::multianewarray4_Java(); break;
+  case 5: fun = OptoRuntime::multianewarray5_Java(); break;
+  };
+#endif
   Node* c = NULL;
 
   if (fun != NULL) {
@@ -502,12 +509,12 @@ void Parse::do_multianewarray() {
                             fun, NULL, TypeRawPtr::BOTTOM,
                             makecon(TypeKlassPtr::make(array_klass)),
                             length[0], length[1], length[2],
-                            (ndimensions > 2) ? length[3] : NULL,
-                            (ndimensions > 3) ? length[4] : NULL,
-                            (ndimensions > 4) ? length[5] : NULL,
-                            (ndimensions > 5) ? length[6] : NULL);
-
+                            length[3], length[4],
+                            (ndimensions > 2) ? length[5] : NULL,
+                            (ndimensions > 3) ? length[6] : NULL);
     } else {
+      printf("Running uncolored runtime_call\n");
+      fflush(stdout);
       c = make_runtime_call(RC_NO_LEAF | RC_NO_IO,
                             OptoRuntime::multianewarray_Type(ndimensions),
                             fun, NULL, TypeRawPtr::BOTTOM,

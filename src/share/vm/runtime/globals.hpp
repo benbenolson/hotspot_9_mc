@@ -4560,6 +4560,9 @@ ARCH_FLAGS(DECLARE_DEVELOPER_FLAG, \
            IGNORE_RANGE, \
            IGNORE_CONSTRAINT)
 
+extern "C" int pre_vm_indicator_reached;
+extern "C" int post_vm_indicator_reached;
+
 // Extensions
 
 #include "runtime/globals_ext.hpp"

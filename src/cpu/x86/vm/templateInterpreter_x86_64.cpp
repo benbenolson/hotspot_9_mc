@@ -301,6 +301,15 @@ void InterpreterGenerator::generate_counter_incr(
   const Address our_invocation_counter(rbx,
                                        Method::our_invocation_counter_offset() +
                                        InvocationCounter::counter_offset());
+
+  const Address VMInd_addr  (rbx, Method::VMIndicator_offset());
+
+  Label SkipVMIndication;
+  __ cmpl(VMInd_addr, 0);
+  __ jcc(Assembler::equal, SkipVMIndication);
+  __ call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::Process_VMIndication));
+  __ bind(SkipVMIndication);
+
   // Note: In tiered we increment either counters in Method* or in MDO depending if we're profiling or not.
   if (TieredCompilation) {
     int increment = InvocationCounter::count_increment;

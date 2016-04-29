@@ -972,6 +972,20 @@ IRT_END
 
 //------------------------------------------------------------------------------------------------------------------------
 // Miscellaneous
+nmethod* InterpreterRuntime::Process_VMIndication(JavaThread* thread) { 
+  frame fr = thread->last_frame();
+  Method* method =  fr.interpreter_frame_method();
+
+  if (method->VMIndicator() == 1) {
+    pre_vm_indicator_reached++; 
+    tty->print_cr("iter %d start: %llu", pre_vm_indicator_reached, os::javaTimeNanos() / 1000);
+  } else if (method->VMIndicator() == 2) {
+    post_vm_indicator_reached++; 
+    tty->print_cr("iter %d end: %llu", post_vm_indicator_reached, os::javaTimeNanos() / 1000);
+  } else {
+    ShouldNotReachHere();
+  }
+}
 
 
 nmethod* InterpreterRuntime::frequency_counter_overflow(JavaThread* thread, address branch_bcp) {

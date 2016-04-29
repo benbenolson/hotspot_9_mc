@@ -54,6 +54,10 @@
 #include "utilities/events.hpp"
 #include "utilities/vmError.hpp"
 
+#ifdef PROFILE_OBJECT_INFO
+#include "memory/profileObjectInfo.hpp"
+#endif
+
 // put OS-includes here
 # include <sys/types.h>
 # include <sys/mman.h>

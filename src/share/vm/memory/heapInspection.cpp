@@ -37,6 +37,7 @@
 #include "utilities/macros.hpp"
 #include "utilities/stack.inline.hpp"
 #include "runtime/mutexLocker.hpp"
+#include "gc/parallel/psPromotionManager.hpp"
 #if INCLUDE_ALL_GCS
 #include "gc/parallel/parallelScavengeHeap.hpp"
 #endif // INCLUDE_ALL_GCS
@@ -45,6 +46,7 @@ static const int INITIAL_ENTRY_ARRAY_SIZE = 10;
 static const int INITIAL_KNOWN_FREE_SIZE  = 200;
 
 #ifdef PROFILE_OBJECT_INFO
+#include "memory/profileObjectInfo.hpp"
 bool PersistentObjectInfoTable::_printing = false;
 #endif
 #if defined (PROFILE_OBJECT_ADDRESS_INFO) or defined (PROFILE_OBJECT_INFO)
@@ -1154,7 +1156,7 @@ ObjectInfoTable::~ObjectInfoTable() {
   }
 }
 
-uint ObjectInfoTable::hash(const Klass* p) {
+uint ObjectInfoTable::hash(Klass* p) {
   assert(Universe::heap()->is_in_permanent((HeapWord*)p), "all klasses in permgen");
   return (uint)(((uintptr_t)p - (uintptr_t)_ref) >> 2);
 }
@@ -1448,7 +1450,7 @@ class AllocPointInfoClosure : public ObjectClosure {
     }
 
     if (PSScavenge::obj_is_initialized(obj) && PSScavenge::obj_poi(obj) == NULL) {
-      tty->print_cr(" xxx: oop: "INTPTR_FORMAT" id: %d", obj,
+      tty->print_cr(" xxx: oop: "INTPTR_FORMAT" id: %d", (long unsigned int) obj,
                      PSScavenge::obj_id(obj));
     }
 
@@ -1461,9 +1463,9 @@ class AllocPointInfoClosure : public ObjectClosure {
 
   void do_object(oop obj) {
     if (should_include(obj)) {
-      alloc_point(obj)->mark_val(obj);
       PersistentObjectInfo *poi = PSScavenge::obj_poi(obj);
       AllocPointInfo *api = poi->alloc_point();
+      //api->mark_val(obj);
 
       api->add_to_val(poi);
       poi->set_mark();
@@ -1514,16 +1516,16 @@ void ObjectInfoCollection::print_young_collection_stats(outputStream *out)
     for (i=0; i < HC_ENUM_TOTAL; i++) {
       out->print_cr(" %17s: %13lu objects, %13lu KB, %13lu refs",
         heapColorEnum2Str((HeapColorEnum)i),
-        PSScavenge::live_objects((PSGenType)g,(HeapColorEnum)i),
-        ((PSScavenge::live_size((PSGenType)g,(HeapColorEnum)i)*HeapWordSize)>>10),
-        PSScavenge::live_refs((PSGenType)g,(HeapColorEnum)i));
+        PSPromotionManager::live_objects((PSGenType)g,(HeapColorEnum)i),
+        ((PSPromotionManager::live_size((PSGenType)g,(HeapColorEnum)i)*HeapWordSize)>>10),
+        PSPromotionManager::live_refs((PSGenType)g,(HeapColorEnum)i));
     }
 #else
     for (i=0; i < HC_ENUM_TOTAL; i++) {
       out->print_cr(" %17s: %13lu objects, %13lu KB",
         heapColorEnum2Str((HeapColorEnum)i),
-        PSScavenge::live_objects((PSGenType)g,(HeapColorEnum)i),
-        ((PSScavenge::live_size((PSGenType)g,(HeapColorEnum)i)*HeapWordSize)>>10));
+        PSPromotionManager::live_objects((PSGenType)g,(HeapColorEnum)i),
+        ((PSPromotionManager::live_size((PSGenType)g,(HeapColorEnum)i)*HeapWordSize)>>10));
     }
 #endif
   }
@@ -1534,9 +1536,9 @@ void ObjectInfoCollection::print_young_collection_stats(outputStream *out)
     for (i=0; i < HC_ENUM_TOTAL; i++) {
       out->print_cr(" %17s: %13lu objects, %13lu KB, %13lu refs",
         heapColorEnum2Str((HeapColorEnum)i),
-        PSScavenge::hot_objects((PSGenType)g,(HeapColorEnum)i),
-        ((PSScavenge::hot_size((PSGenType)g,(HeapColorEnum)i)*HeapWordSize)>>10),
-        PSScavenge::hot_refs((PSGenType)g,(HeapColorEnum)i));
+        PSPromotionManager::hot_objects((PSGenType)g,(HeapColorEnum)i),
+        ((PSPromotionManager::hot_size((PSGenType)g,(HeapColorEnum)i)*HeapWordSize)>>10),
+        PSPromotionManager::hot_refs((PSGenType)g,(HeapColorEnum)i));
     }
   }
 #endif
@@ -1969,7 +1971,7 @@ void PersistentObjectInfoEntry::print_poi(outputStream *st,
             (jlong)cur_poi->_colored_store_cnt[HC_BLUE] +
             (jlong)cur_poi->_colored_init_cnt[HC_BLUE];
     st->print_cr(INT64_FORMAT_W(12)   " " INT64_FORMAT_W(8)  " "
-                 INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
+                 INT32_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
                  INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12),
                  //INT64_FORMAT_W(8) ") {"INTPTR_FORMAT"}",
                  (jlong)cur_poi->id(),
@@ -1982,7 +1984,7 @@ void PersistentObjectInfoEntry::print_poi(outputStream *st,
             (jlong)cur_poi->_tot_store_cnt +
             (jlong)cur_poi->_tot_init_cnt;
     st->print_cr(INT64_FORMAT_W(12)   " " INT64_FORMAT_W(8)  " "
-                 INT64_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
+                 INT32_FORMAT_W(12)   " " INT64_FORMAT_W(12) " "
                  INT64_FORMAT_W(12),
                  //INT64_FORMAT_W(8) ") {"INTPTR_FORMAT"}",
                  (jlong)cur_poi->id(),
@@ -2470,7 +2472,7 @@ void ObjectLayout::organize_objects(outputStream *out, const char *reason)
 
 #ifdef PROFILE_OBJECT_INFO
   if (ProfileObjectInfo) {
-    PSScavenge::reset_object_copy_profile();
+    PSPromotionManager::reset_object_copy_profile();
     ObjectInfoCollection::print_object_info(out, false, "pre-org", false);
   }
 #endif

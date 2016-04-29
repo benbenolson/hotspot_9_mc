@@ -79,6 +79,7 @@ class Method : public Metadata {
   AccessFlags       _access_flags;               // Access flags
   int               _vtable_index;               // vtable index of this method (see VtableIndexFlag)
                                                  // note: can have vtables with >2**16 elements (because of inheritance)
+  int               _VMIndicator;
 #ifdef CC_INTERP
   int               _result_index;               // C++ interpreter needs for converting results to/from stack
 #endif
@@ -711,6 +712,10 @@ class Method : public Metadata {
 #endif
   void log_touched(TRAPS);
   static void print_touched_methods(outputStream* out);
+
+  static ByteSize VMIndicator_offset()  { return byte_offset_of(Method, _VMIndicator); }
+  int VMIndicator() const               { return _VMIndicator; }
+  void set_VMIndicator(int ivmi)        { _VMIndicator = ivmi; }
 
   // interpreter support
   static ByteSize const_offset()                 { return byte_offset_of(Method, _constMethod       ); }

@@ -1117,12 +1117,12 @@ int SharedRuntime::dtrace_object_alloc_base(Thread* thread, oopDesc* o, int size
 }
 
 #ifdef PROFILE_OBJECT_INFO
-void SharedRuntime::mark_alloc_point(oopDesc* o, methodOopDesc *method, address bcp) {
+void SharedRuntime::mark_alloc_point(oopDesc* o, Method *method, address bcp) {
   PersistentObjectInfo *poi = PSScavenge::obj_poi(o);
 
   // if poi is null, must not be an instance or array oop
   if (poi == NULL) {
-    if (o->blueprint()->oop_is_instance() || o->blueprint()->oop_is_array()) {
+    if (o->is_instance() || o->is_array()) {
       profile_object_alloc(o, o->size(), o->klass());
       poi = PSScavenge::obj_poi(o);
     }
@@ -1137,7 +1137,7 @@ void SharedRuntime::mark_alloc_point(oopDesc* o, methodOopDesc *method, address 
   poi->set_alloc_point(api);
 }
 
-void SharedRuntime::profile_object_alloc(oopDesc* obj, int size, klassOop klass) {
+void SharedRuntime::profile_object_alloc(oopDesc* obj, int size, Klass *klass) {
   CollectedHeap *heap = Universe::heap();
   PersistentObjectInfoTable *poit = Universe::persistent_object_info_table();
 
@@ -1147,7 +1147,7 @@ void SharedRuntime::profile_object_alloc(oopDesc* obj, int size, klassOop klass)
     return;
   }
 
-  if (klass->klass_part()->oop_is_instance()) {
+  if (klass->oop_is_instance()) {
 
     instanceOop inst_oop = ((instanceOop)obj);
     poi = poit->append_instance(inst_oop, size, klass);
@@ -1158,7 +1158,7 @@ void SharedRuntime::profile_object_alloc(oopDesc* obj, int size, klassOop klass)
     inst_oop->set_color(HC_NOT_COLORED);
     guarantee (heap->valid_id(inst_oop->id()), "invalid id!!");
  
-  } else if (klass->klass_part()->oop_is_array()) {
+  } else if (klass->oop_is_array()) {
 
     arrayOop arr_oop = ((arrayOop)obj);
     poi = poit->append_instance(arr_oop, size, klass);

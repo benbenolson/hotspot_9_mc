@@ -61,6 +61,7 @@ enum heap_space {
 
 class AllocPointInfoCollectionTask;
 class ObjectAddressInfo;
+class ObjectAddressInfoTable;
 class PersistentObjectInfo;
 
 struct klass_record_record {
@@ -603,7 +604,7 @@ class ObjectInfoBucket: public CHeapObj<mtInternal> {
   ObjectInfoEntry* list()           { return _list; }
   void set_list(ObjectInfoEntry* l) { _list = l; }
  public:
-  ObjectInfoEntry* lookup(const Klass* k);
+  ObjectInfoEntry* lookup(Klass* k);
   void initialize() { _list = NULL; }
   void empty();
   void iterate(ObjectInfoClosure* cic);
@@ -611,6 +612,13 @@ class ObjectInfoBucket: public CHeapObj<mtInternal> {
 
 #define MAX_AGE 6
 #define AGE_TABLE_SIZE MAX_AGE+1
+#define OAR_MARKER 0xDEFECA7E
+#define EMPTY_MARKER -0xDEADBEEF
+#define PAGE_SHIFT 12
+#define PAGE_SIZE (1<<PAGE_SHIFT)
+#define MARK_OOP_SIZE 8
+#define KLASS_OOP_SIZE (UseCompressedOops ? 4 : 8)
+#define OOP_HEADER_SIZE (MARK_OOP_SIZE + KLASS_OOP_SIZE)
 
 class ObjectInfoTable: public StackObj {
  private:
@@ -623,7 +631,7 @@ class ObjectInfoTable: public StackObj {
 
   ObjectInfoBucket* _buckets;
   uint hash(Klass* p);
-  ObjectInfoEntry* lookup(const Klass* k);
+  ObjectInfoEntry* lookup(Klass* k);
   jint _live_object_age_table[AGE_TABLE_SIZE];
   jint _live_size_age_table[AGE_TABLE_SIZE];
   jint _hot_object_age_table[AGE_TABLE_SIZE];
@@ -835,7 +843,7 @@ class PersistentObjectInfoBucket: public CHeapObj<mtInternal> {
   PersistentObjectInfoEntry* list()           { return _list; }
   void set_list(PersistentObjectInfoEntry* l) { _list = l; }
  public:
-  PersistentObjectInfoEntry* lookup(const Klass* k);
+  PersistentObjectInfoEntry* lookup(Klass* k);
   void initialize() { _list = NULL; }
   void empty();
   void iterate(PersistentObjectInfoClosure* cic);
@@ -854,7 +862,7 @@ class PersistentObjectInfoTable: public CHeapObj<mtInternal> {
 
   PersistentObjectInfoBucket* _buckets;
   uint hash(Klass* p);
-  PersistentObjectInfoEntry* lookup(const Klass* k);
+  PersistentObjectInfoEntry* lookup(Klass* k);
 
    public:
   // Table size
@@ -899,20 +907,20 @@ class MinorDeadInstanceClosure : public ObjectClosure {
                            MutableSpace *tenured_space) :
     _live_space(live_space), _tenured_space(tenured_space) {}
   void do_object(oop obj) {
-    if (obj->blueprint()->oop_is_instance()) {
+    if (obj->is_instance()) {
       instanceOop inst_oop = (instanceOop)obj;
       if (inst_oop->is_initialized()) {
         if (!(_live_space->contains(inst_oop->forwardee()) ||
               _tenured_space->contains(inst_oop->forwardee())) ) {
-          deadobj_log->print_cr("  " INT64_FORMAT_W(12), inst_oop->id());
+          deadobj_log->print_cr("  " INT32_FORMAT_W(12), inst_oop->id());
         }
       }
-    } else if (obj->blueprint()->oop_is_array()) {
+    } else if (obj->is_array()) {
       arrayOop arr_oop = (arrayOop)obj;
       if (arr_oop->is_initialized()) {
         if (!(_live_space->contains(arr_oop->forwardee()) ||
               _tenured_space->contains(arr_oop->forwardee())) ) {
-          deadobj_log->print_cr("  " INT64_FORMAT_W(12), arr_oop->id());
+          deadobj_log->print_cr("  " INT32_FORMAT_W(12), arr_oop->id());
         }
       }
     }
@@ -923,25 +931,25 @@ class MajorDeadInstanceClosure : public ObjectClosure {
  public:
   MajorDeadInstanceClosure() {}
   void do_object(oop obj) {
-    if (obj->blueprint()->oop_is_instance()) {
+    if (obj->is_instance()) {
       instanceOop inst_oop = (instanceOop)obj;
       if (inst_oop->is_initialized()) {
         if (!inst_oop->is_gc_marked()) {
-          deadobj_log->print_cr("  " INT64_FORMAT_W(12), inst_oop->id());
+          deadobj_log->print_cr("  " INT32_FORMAT_W(12), inst_oop->id());
         }
       }
-    } else if (obj->blueprint()->oop_is_array()) {
+    } else if (obj->is_array()) {
       arrayOop arr_oop = (arrayOop)obj;
       if (arr_oop->is_initialized()) {
         if (!arr_oop->is_gc_marked()) {
-          deadobj_log->print_cr("  " INT64_FORMAT_W(12), arr_oop->id());
+          deadobj_log->print_cr("  " INT32_FORMAT_W(12), arr_oop->id());
         }
       }
     }
   }
 };
 #endif // PROFILE_OBJECT_INFO
-#ifdef PROFILE_OBJECT_ADDRESS_INFO
+#if defined(PROFILE_OBJECT_ADDRESS_INFO) || defined(PROFILE_OBJECT_INFO)
 class ObjectAddressInfoCollectionTask;
 
 class ObjectAddressInfoCollection : public AllStatic

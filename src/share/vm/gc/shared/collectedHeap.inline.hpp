@@ -71,7 +71,7 @@ void CollectedHeap::post_allocation_install_obj_klass(KlassHandle klass,
    * cpCacheKlass.cpp
    */
   if (ProfileObjectInfo) {
-    SharedRuntime::profile_object_alloc((oop)obj, size, klass());
+    SharedRuntime::profile_object_alloc((oop)obj, obj->size(), klass());
   }
 #endif
   assert(!Universe::is_fully_initialized() || obj->klass() != NULL,

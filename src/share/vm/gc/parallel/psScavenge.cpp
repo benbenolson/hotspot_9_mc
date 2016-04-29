@@ -91,12 +91,12 @@ Stack<markOop, mtGC>       PSScavenge::_preserved_mark_stack;
 Stack<oop, mtGC>           PSScavenge::_preserved_oop_stack;
 CollectorCounters*         PSScavenge::_counters = NULL;
 #ifdef PROFILE_OBJECT_INFO
-unsigned long              PSScavenge::_live_objects[][HC_ENUM_TOTAL] = {{0,0,0,0},{0,0,0,0}};
-unsigned long              PSScavenge::_live_size[][HC_ENUM_TOTAL]    = {{0,0,0,0},{0,0,0,0}};
-unsigned long              PSScavenge::_live_refs[][HC_ENUM_TOTAL]    = {{0,0,0,0},{0,0,0,0}};
-unsigned long              PSScavenge::_hot_objects[][HC_ENUM_TOTAL]  = {{0,0,0,0},{0,0,0,0}};
-unsigned long              PSScavenge::_hot_size[][HC_ENUM_TOTAL]     = {{0,0,0,0},{0,0,0,0}};
-unsigned long              PSScavenge::_hot_refs[][HC_ENUM_TOTAL]     = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSPromotionManager::_live_objects[][HC_ENUM_TOTAL] = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSPromotionManager::_live_size[][HC_ENUM_TOTAL]    = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSPromotionManager::_live_refs[][HC_ENUM_TOTAL]    = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSPromotionManager::_hot_objects[][HC_ENUM_TOTAL]  = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSPromotionManager::_hot_size[][HC_ENUM_TOTAL]     = {{0,0,0,0},{0,0,0,0}};
+unsigned long              PSPromotionManager::_hot_refs[][HC_ENUM_TOTAL]     = {{0,0,0,0},{0,0,0,0}};
 #endif
 
 
